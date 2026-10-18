@@ -32,7 +32,15 @@ brew install --cask docker       # Docker Desktop (daarna één keer openen)
 flutter upgrade                  # als je Flutter ouder is dan 3.44
 ```
 
-## 2. Eenmalig: Flutter-platformbestanden aanmaken
+## 2. Repository ophalen
+
+```bash
+cd ~/Projects
+git clone https://github.com/ShakeelB58/Garantie-Bewaker.git garantiebewaker
+cd garantiebewaker
+```
+
+## 3. Eenmalig: Flutter-platformbestanden aanmaken
 
 De Dart-code staat al klaar. De Android- en iOS-projectbestanden maak je één keer aan.
 `flutter create` overschrijft bestaande bestanden niet.
@@ -43,14 +51,14 @@ flutter create --org nl.garantiebewaker --project-name garantiebewaker --platfor
 flutter pub get
 ```
 
-## 3. Git starten
+De nieuwe bestanden in `mobile/android` en `mobile/ios` commit je daarna:
 
 ```bash
 cd ~/Projects/garantiebewaker
-git init
-git add .
 git status            # controleer: géén .env in de lijst
-git commit -m "Fase 1: projectbasis"
+git add mobile
+git commit -m "Flutter-platformbestanden voor Android en iOS"
+git push
 ```
 
 ## 4. Backend
