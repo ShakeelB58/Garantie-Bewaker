@@ -16,21 +16,30 @@ Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums loka
 Voer dit uit in Terminal:
 
 ```bash
-java -version        # moet 21 of hoger zijn
-mvn -v               # Apache Maven 3.9+
-flutter --version    # Flutter 3.44+ aanbevolen
-flutter doctor       # controleert Xcode, Android Studio en de simulators
-docker --version     # optioneel, nodig voor de lokale database en integratietests
+java -version
+mvn -v
+flutter --version
+flutter doctor
+docker --version
 ```
+
+Verwacht: Java 21 of hoger, Maven 3.9+, Flutter 3.44+ (aanbevolen). Docker is nodig voor de
+lokale database en de integratietests.
+
+> Let op: plak in zsh (de standaard-shell op macOS) geen regels met `# opmerking` erachter.
+> zsh ziet dat niet als commentaar.
 
 Ontbreekt er iets? Installeer het met [Homebrew](https://brew.sh):
 
 ```bash
-brew install --cask temurin@21   # Java 21
-brew install maven               # Maven
-brew install --cask docker       # Docker Desktop (daarna één keer openen)
-flutter upgrade                  # als je Flutter ouder is dan 3.44
+brew install --cask temurin@21
+brew install maven
+brew install --cask docker
+flutter upgrade
 ```
+
+Na het installeren van Docker Desktop open je de app één keer. `flutter upgrade` is alleen nodig
+als je Flutter ouder is dan 3.44.
 
 ## 2. Repository ophalen
 
@@ -55,7 +64,12 @@ De nieuwe bestanden in `mobile/android` en `mobile/ios` commit je daarna:
 
 ```bash
 cd ~/Projects/garantiebewaker
-git status            # controleer: géén .env in de lijst
+git status
+```
+
+Controleer dat `.env` **niet** in de lijst staat. Daarna:
+
+```bash
 git add mobile
 git commit -m "Flutter-platformbestanden voor Android en iOS"
 git push
@@ -68,10 +82,21 @@ git push
 ```bash
 cd ~/Projects/garantiebewaker
 cp .env.example .env
-open -e .env          # kies een eigen waarde voor POSTGRES_PASSWORD en sla op
-docker compose up -d
-docker compose ps     # status moet "healthy" zijn
+open -e .env
 ```
+
+Kies in het geopende bestand een eigen waarde voor `POSTGRES_PASSWORD` en sla op. Start daarna:
+
+```bash
+docker compose up -d
+docker compose ps
+```
+
+De status moet `healthy` zijn.
+
+> Wachtwoord later wijzigen? PostgreSQL gebruikt het wachtwoord van de eerste start. Na een
+> wijziging in `.env` moet je de lokale database leegmaken met `docker compose down -v` en
+> opnieuw `docker compose up -d` uitvoeren. Daarbij gaan alle lokale testgegevens verloren.
 
 ### Tests uitvoeren
 
@@ -123,9 +148,11 @@ reverse proxy of het hostingplatform.
 
 ```bash
 cd ~/Projects/garantiebewaker/mobile
-flutter analyze       # verwacht: "No issues found!"
-flutter test          # verwacht: "All tests passed!"
+flutter analyze
+flutter test
 ```
+
+Verwacht: `No issues found!` en `All tests passed!`.
 
 ### Starten op de iOS-simulator
 
@@ -137,7 +164,12 @@ flutter run
 ### Starten op een Android-emulator
 
 ```bash
-flutter emulators                       # toont beschikbare emulators
+flutter emulators
+```
+
+Kies een emulator-id uit de lijst en start die:
+
+```bash
 flutter emulators --launch <emulator-id>
 flutter run
 ```
