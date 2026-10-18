@@ -1,0 +1,50 @@
+# Gemeenschappelijke instellingen voor alle profielen.
+# Profielspecifieke waarden staan in application-local.yml en application-prod.yml.
+
+spring:
+  application:
+    name: garantiebewaker-backend
+  profiles:
+    # Zonder expliciet profiel draait de app lokaal. Productie zet SPRING_PROFILES_ACTIVE=prod.
+    default: local
+  jpa:
+    # Nooit automatische schemawijzigingen: het schema komt uitsluitend uit Flyway-migraties.
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  mvc:
+    # Foutantwoorden in het standaardformaat RFC 9457 (application/problem+json).
+    problemdetails:
+      enabled: true
+
+server:
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-binding-errors: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  # Wordt bij het bouwen ingevuld met de versie uit pom.xml.
+  version: "@project.version@"

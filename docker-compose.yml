@@ -1,0 +1,27 @@
+# Lokale ontwikkeldatabase voor de backend.
+# Gebruik: kopieer .env.example naar .env, vul POSTGRES_PASSWORD in en start met:
+#   docker compose up -d
+# De mobiele app gebruikt deze database NIET (die werkt volledig lokaal met SQLite).
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: garantiebewaker-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-garantiebewaker}
+      POSTGRES_USER: ${POSTGRES_USER:-garantiebewaker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Zet POSTGRES_PASSWORD in het bestand .env}
+    ports:
+      # Alleen bereikbaar vanaf je eigen computer, niet vanaf het netwerk.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - garantiebewaker-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  garantiebewaker-pgdata:

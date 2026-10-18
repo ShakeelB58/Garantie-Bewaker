@@ -1,0 +1,19 @@
+# Productie. Alle gevoelige waarden komen uit omgevingsvariabelen of een secret manager.
+# Er zijn bewust geen standaardwaarden: ontbreekt er iets, dan start de applicatie niet.
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+server:
+  # Achter een reverse proxy / load balancer die TLS afhandelt.
+  forward-headers-strategy: framework
+
+springdoc:
+  # Geen interactieve API-documentatie in productie.
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false

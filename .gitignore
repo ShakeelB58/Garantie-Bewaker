@@ -1,0 +1,29 @@
+# Geheimen en lokale configuratie
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+key.properties
+GoogleService-Info.plist
+google-services.json
+
+# Echte aankoopbewijzen en persoonsgegevens horen nooit in Git
+private-testdata/
+*.receipt.jpg
+
+# Besturingssysteem en editors
+.DS_Store
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Backend (Maven)
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Mobile (aanvullend op mobile/.gitignore die door Flutter wordt aangemaakt)
+mobile/build/
+mobile/.dart_tool/
+mobile/coverage/

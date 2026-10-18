@@ -1,0 +1,17 @@
+# Lokale ontwikkeling.
+# Leest optioneel het .env-bestand in de hoofdmap van de repository (één map hoger dan backend/),
+# zodat Docker Compose en Spring Boot dezelfde databasegegevens gebruiken.
+# .env staat in .gitignore en wordt nooit gecommit.
+
+spring:
+  config:
+    import: "optional:file:../.env[.properties]"
+  datasource:
+    url: jdbc:postgresql://localhost:${POSTGRES_PORT:5432}/${POSTGRES_DB:garantiebewaker}
+    username: ${POSTGRES_USER:garantiebewaker}
+    # Geen standaardwachtwoord in code: zet POSTGRES_PASSWORD in .env.
+    password: ${POSTGRES_PASSWORD}
+
+springdoc:
+  swagger-ui:
+    enabled: true

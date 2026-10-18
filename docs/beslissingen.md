@@ -1,0 +1,59 @@
+# Technische beslissingen
+
+Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoegen.
+
+## B1: Spring Boot 4.1.1 met Java 21 (2026-10-18)
+
+- **Keuze:** Spring Boot 4.1.1 (laatste stabiele versie op Maven Central), Java 21 LTS.
+- **Reden:** de 3.x-lijn krijgt sinds medio 2026 geen gratis ondersteuning meer.
+  Spring Boot 4 vereist minimaal Java 17, dus Java 21 past.
+- **Gevolgen van Spring Boot 4:**
+  - starter heet `spring-boot-starter-webmvc` (was `-web`)
+  - Flyway heeft `spring-boot-starter-flyway` nodig
+  - tests gebruiken `spring-boot-starter-webmvc-test`
+  - `@WebMvcTest` en `@AutoConfigureMockMvc` staan in `org.springframework.boot.webmvc.test.autoconfigure`
+  - Jackson 3 (`tools.jackson`)
+- **springdoc-openapi 3.1.1:** de 3.1-lijn is gebouwd op Spring Boot 4.1.
+- **Testcontainers 2.x** (versie beheerd door Spring Boot): artefacten `testcontainers-postgresql`
+  en `testcontainers-junit-jupiter`, klasse `org.testcontainers.postgresql.PostgreSQLContainer`.
+
+## B2: Nog geen Maven Wrapper (2026-10-18)
+
+- **Keuze:** fase 1 gebruikt een lokaal geïnstalleerde Maven (`brew install maven`).
+- **Reden:** de werkomgeving waarin de code is geschreven had geen toegang tot Maven Central,
+  dus de wrapper kon niet worden gegenereerd. Zodra Maven lokaal werkt, maak je hem met
+  `mvn -N wrapper:wrapper` (zie README). Daarna kan iedereen `./mvnw` gebruiken.
+
+## B3: Material uit de Flutter-SDK, nog niet `material_ui` (2026-10-18)
+
+- **Context:** sinds Flutter 3.44 is Material in de SDK bevroren. Vanaf 3.47 bestaat het losse
+  pakket `material_ui`. De SDK-versie is nog niet officieel deprecated.
+- **Keuze:** voorlopig `package:flutter/material.dart`.
+- **Reden:** veel plugins die we nodig hebben (camera, bestandskiezer, OCR, PDF) gebruiken nog de
+  SDK-variant. Als je beide mengt, krijg je typeconflicten (bijvoorbeeld `ColorScheme`).
+- **Vervolg:** migreren wanneer de SDK-variant deprecated wordt en de gekozen plugins zijn
+  overgestapt. Herbeoordelen in fase 6.
+
+## B4: Riverpod 3 en go_router (2026-10-18)
+
+- `flutter_riverpod: ^3.0.0`
+- `go_router: ">=17.0.0 <19.0.0"`: versie 18 vereist Flutter 3.44+. Met dit bereik werkt het
+  project ook op een iets oudere Flutter, en pub kiest automatisch de hoogste versie die past.
+- Freezed en json_serializable worden pas toegevoegd als modellen ze nodig hebben (fase 2).
+  Dio wordt pas toegevoegd als de app met de backend praat; dat gebeurt in de MVP niet.
+
+## B5: Lokale database: drift (gepland voor fase 2)
+
+- **Voorstel:** `drift` (SQLite met getypeerde queries, migraties en tests in het geheugen).
+- **Alternatief:** `sqflite` is eenvoudiger, maar zonder typecontrole en met handgeschreven migraties.
+- Wordt aan het begin van fase 2 bevestigd na een compatibiliteitscontrole.
+
+## Openstaande risico's
+
+| Risico | Aanpak |
+|--------|--------|
+| ML Kit-tekstherkenning draait waarschijnlijk niet op de iOS-simulator van Apple Silicon-Macs | OCR testen op een echte iPhone. Alternatief: Apple Vision via platform channels. Beslissing in fase 4. |
+| Weinig gratis PDF-bibliotheken die zowel tekst lezen als pagina's renderen | Onderzoek aan het begin van fase 4. Licenties (bijv. Syncfusion) expliciet beoordelen. |
+| "Delen met app" vanuit Mail vraagt native configuratie (iOS Share Extension, Android intent-filters) | Apart onderdeel in fase 3, op beide platformen handmatig testen. |
+| iOS staat maximaal 64 geplande meldingen toe; Android 12+ vraagt aparte toestemming voor exacte alarmen | Niet-exacte meldingen gebruiken, alleen de eerstvolgende plannen en bij het opstarten opnieuw plannen (fase 5). |
+| De bundel-ID `nl.garantiebewaker.garantiebewaker` is een tijdelijke keuze | Vóór de eerste publicatie wijzigen naar een domein dat je zelf bezit. |
