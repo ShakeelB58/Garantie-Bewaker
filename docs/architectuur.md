@@ -46,7 +46,7 @@ mobile/lib/
       application/          DocumentService: controleren, opslaan, koppelen, opruimen
       presentation/         Foto controleren, documentkeuze, documentenlijst, viewer
     settings/presentation/
-    (documents/, receipt_scanner/, pdf_import/, reminders/ volgen in fase 3–5)
+    (ocr/, reminders/ volgen in fase 4–5)
 ```
 
 Laagindeling per feature:
