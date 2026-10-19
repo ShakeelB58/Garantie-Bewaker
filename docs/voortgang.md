@@ -39,7 +39,55 @@
 - Docker Desktop moet draaien voordat je de backend start.
 - Er is nog niet handmatig gecontroleerd hoe de app eruitziet met grote systeemletters (fase 6).
 
-### Volgende stap
+## Fase 2: Lokale productfunctionaliteit ✅ afgerond (2026-10-19)
 
-Fase 2: lokale SQLite-database (drift), het datamodel voor Product, Document en Reminder,
-productbeheer (toevoegen, bewerken, zoeken, filteren, sorteren, verwijderen) en een dashboard met echte gegevens.
+### Opgeleverd
+
+- **Lokale database** (SQLite via `sqflite`, zie beslissing B5):
+  - tabellen `products`, `documents` en `reminders`
+  - foreign keys met `ON DELETE CASCADE`
+  - migratiesysteem
+- **Domein**:
+  - Product en ProductCategory
+  - ProductInput met ProductValidator: Nederlandse foutmeldingen
+  - ProductQuery: zoeken (zonder hoofdletter- en accentgevoeligheid), filteren op categorie, drie sorteringen
+- **Nederlandse invoer en notatie**:
+  - bedragen zoals `1.299,00` en `12,50`, opgeslagen in centen
+  - datums zoals `19 oktober 2026`
+- **Schermen**:
+  - dashboard met aantal, naderende datums (30 dagen) en recent toegevoegd
+  - productoverzicht met zoeken, filters en sorteren
+  - productdetail met bewerken en met verwijderen na bevestiging
+  - formulier voor toevoegen en bewerken met validatie, en een bevestiging bij niet-opgeslagen wijzigingen
+- **Centrale foutafhandeling** met begrijpelijke Nederlandse meldingen.
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| `flutter analyze` | No issues found |
+| `flutter test` | 94 tests geslaagd (unit, repository tegen echte SQLite, notifier, widgets) |
+| Handmatig op toestel | Toevoegen, zoeken, filteren, bewerken, verwijderen: werkt |
+| Terug met niet-opgeslagen wijzigingen | Vraagt bevestiging via AppBar-pijl, Android-terugknop/gebaar en iOS-veeggebaar |
+| App herstarten | Producten blijven bewaard |
+
+### Gevonden en opgelost tijdens het testen
+
+- Hero-conflict: twee zwevende knoppen hadden dezelfde tag in de tabbladen.
+- De standaard terugknop omzeilde de bevestiging bij niet-opgeslagen wijzigingen. Het formulier heeft nu een eigen terugknop.
+
+### Bekende beperkingen
+
+- De herinneringsdatum wordt bewaard, maar er gaan nog geen meldingen af (fase 5).
+- Er kunnen nog geen documenten aan een product worden gekoppeld (fase 3).
+- Scannen en importeren tonen nog "nog in ontwikkeling" (fase 3 en 4).
+
+## Volgende stap
+
+Fase 3: documentbeheer.
+- cameratoegang en bestanden importeren
+- documenten opslaan in de app-private opslag
+- documentviewer
+- controle op bestandstype en -grootte
+- foutafhandeling
+- delen vanuit andere apps (iOS Share Extension, Android intent-filters)
