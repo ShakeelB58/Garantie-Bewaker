@@ -6,8 +6,9 @@ Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums loka
 - `backend/`: Spring Boot REST API (fase 1: alleen een healthcheck)
 - `docs/`: [architectuur](docs/architectuur.md), [beslissingen](docs/beslissingen.md), [API-overzicht](docs/api-overzicht.md)
 
-> **Status: fase 1 (projectbasis).** De app heeft navigatie, een design system en lege schermen.
-> Producten opslaan, scannen, PDF-import en herinneringen volgen in fase 2–5.
+> **Status: fase 1 afgerond (projectbasis).** De app heeft navigatie, een design system en lege schermen,
+> en draait op iOS en Android. Producten opslaan, scannen, PDF-import en herinneringen volgen in fase 2–5.
+> Zie [docs/voortgang.md](docs/voortgang.md).
 
 ---
 
