@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:garantiebewaker/app/app.dart';
 
-Future<void> _startApp(WidgetTester tester) async {
-  await tester.pumpWidget(const ProviderScope(child: GarantieBewakerApp()));
-  await tester.pumpAndSettle();
-}
+import 'helpers/test_app.dart';
 
+/// Navigatie en algemene schermen.
 void main() {
   testWidgets('start op het dashboard met een lege toestand', (tester) async {
-    await _startApp(tester);
+    await pumpApp(tester);
 
     expect(find.text('GarantieBewaker'), findsOneWidget);
     expect(find.text('Nog geen aankopen'), findsOneWidget);
@@ -21,7 +17,7 @@ void main() {
   testWidgets('navigeert via de onderste balk naar Producten en Instellingen', (
     tester,
   ) async {
-    await _startApp(tester);
+    await pumpApp(tester);
 
     await tester.tap(find.text('Producten'));
     await tester.pumpAndSettle();
@@ -40,7 +36,7 @@ void main() {
   testWidgets('Aankoop toevoegen toont drie opties zonder navigatiebalk', (
     tester,
   ) async {
-    await _startApp(tester);
+    await pumpApp(tester);
 
     await tester.tap(find.text('Aankoop toevoegen'));
     await tester.pumpAndSettle();
@@ -52,19 +48,21 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
   });
 
-  testWidgets('nog niet gebouwde functies melden dat eerlijk', (tester) async {
-    await _startApp(tester);
+  testWidgets('scannen meldt eerlijk dat het nog niet beschikbaar is', (
+    tester,
+  ) async {
+    await pumpApp(tester);
 
     await tester.tap(find.text('Aankoop toevoegen'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Handmatig invoeren'));
+    await tester.tap(find.text('Kassabon scannen'));
     await tester.pump();
 
-    expect(find.text('Deze functie is nog in ontwikkeling.'), findsOneWidget);
+    expect(find.textContaining('nog in ontwikkeling'), findsOneWidget);
   });
 
   testWidgets('privacyinformatie opent en sluit', (tester) async {
-    await _startApp(tester);
+    await pumpApp(tester);
 
     await tester.tap(find.text('Instellingen'));
     await tester.pumpAndSettle();

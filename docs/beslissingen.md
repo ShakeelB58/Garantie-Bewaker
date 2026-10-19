@@ -39,14 +39,40 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - `flutter_riverpod: ^3.0.0`
 - `go_router: ">=17.0.0 <19.0.0"`: versie 18 vereist Flutter 3.44+. Met dit bereik werkt het
   project ook op een iets oudere Flutter, en pub kiest automatisch de hoogste versie die past.
-- Freezed en json_serializable worden pas toegevoegd als modellen ze nodig hebben (fase 2).
-  Dio wordt pas toegevoegd als de app met de backend praat; dat gebeurt in de MVP niet.
+- Freezed en json_serializable zijn in fase 2 bewust niet gebruikt: de modellen zijn klein en met de hand geschreven, zonder codegeneratie (zie B5). Opnieuw bekijken bij JSON-export (fase 5).
+- Dio wordt pas toegevoegd als de app met de backend praat; dat gebeurt in de MVP niet.
 
-## B5: Lokale database: drift (gepland voor fase 2)
+## B5: Lokale database: sqflite in plaats van drift (2026-10-19)
 
-- **Voorstel:** `drift` (SQLite met getypeerde queries, migraties en tests in het geheugen).
-- **Alternatief:** `sqflite` is eenvoudiger, maar zonder typecontrole en met handgeschreven migraties.
-- Wordt aan het begin van fase 2 bevestigd na een compatibiliteitscontrole.
+- **Keuze:** `sqflite` 2.4 met handgeschreven SQL en eigen migraties (`lib/core/storage/migrations.dart`).
+  Voor tests op de computer: `sqflite_common_ffi`.
+- **Oorspronkelijk voorstel:** `drift`.
+- **Reden van de wijziging:**
+  - drift vereist codegeneratie (`build_runner`), dus een extra stap na elke schemawijziging
+  - de code wordt geschreven in een omgeving zonder Flutter, waar gegenereerde code niet te controleren is
+  - met gewone SQL is elke regel leesbaar en direct te testen
+- **Gevolgen:**
+  - typeveiligheid zit in de repository-laag (`SqfliteProductRepository`), niet in gegenereerde code
+  - repository-tests draaien tegen echte SQLite
+- **Regels:**
+  - een uitgebrachte migratie wordt nooit gewijzigd
+  - `ON DELETE CASCADE` met `PRAGMA foreign_keys = ON`
+  - nooit `INSERT OR REPLACE` op `products`, want dat verwijdert via de cascade ook gekoppelde documenten
+
+## B6: Opslagformaten lokaal (2026-10-19)
+
+- Datums (aankoop, garantie-einde): `yyyy-MM-dd`.
+- Tijdstippen (`created_at`, `updated_at`): ISO 8601 in UTC.
+- `reminders.trigger_at`: lokale wandkloktijd zonder tijdzone (`2027-06-01T09:00:00`).
+  Een herinnering moet om 09:00 in de tijdzone van de gebruiker afgaan, ook na een verhuizing of zomertijd.
+- Bedragen in gehele centen. Valuta als ISO 4217-code.
+- Categorieën als vaste sleutels (`household`, `phone_tablet`, …). Een onbekende sleutel wordt "Overig".
+
+## B7: Eén product per document, voorlopig (2026-10-19)
+
+- `documents.product_id` koppelt een document aan precies één product, zoals in het datamodel van de masterprompt.
+- Een bon met meerdere producten (masterprompt §5) vraagt mogelijk later een koppeltabel `product_documents`.
+  Dat wordt in fase 3/4 beslist en dan met een nieuwe migratie toegevoegd.
 
 ## Openstaande risico's
 

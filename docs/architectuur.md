@@ -28,19 +28,27 @@ mobile/lib/
     shell_scaffold.dart     Onderste navigatiebalk
     theme/                  Design system (kleuren, afstanden, Material 3-thema)
   core/
-    widgets/                Herbruikbare componenten (bijv. EmptyState)
-    (errors/, storage/, notifications/, security/, utils/ volgen per fase)
+    errors/                 Nederlandse foutmeldingen (userMessageFor)
+    storage/                SQLite-database, migraties, klok- en id-providers
+    utils/                  Datums en geldbedragen
+    widgets/                Herbruikbare componenten (EmptyState, ErrorView)
+    (notifications/, security/ volgen in fase 5)
   features/
-    dashboard/presentation/
-    products/presentation/
+    dashboard/              application/ (DashboardSummary), presentation/
+    products/
+      domain/               Product, ProductCategory, ProductInput + ProductValidator, ProductQuery
+      data/                 ProductRepository (interface) + SqfliteProductRepository
+      application/          Riverpod-providers (productsProvider, productQueryProvider)
+      presentation/         Overzicht, detail, formulier, widgets
     settings/presentation/
     (documents/, receipt_scanner/, pdf_import/, reminders/ volgen in fase 3–5)
 ```
 
-Laagindeling per feature, vanaf fase 2:
+Laagindeling per feature:
 
 - `presentation/`: widgets en Riverpod-providers voor schermstatus
 - `domain/`: modellen en validatieregels, zonder Flutter-afhankelijkheden
+- `application/`: Riverpod-providers die domein en data verbinden
 - `data/`: repositories die SQLite en bestandsopslag afschermen van de UI
 
 OCR, PDF-extractie en parsing worden losse services achter interfaces

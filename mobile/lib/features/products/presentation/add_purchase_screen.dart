@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../app/router.dart';
 import '../../../app/theme/app_theme.dart';
 
 /// Scherm "Aankoop toevoegen" met de drie invoermogelijkheden.
 ///
-/// FASE 1: de opties zijn zichtbaar maar nog niet werkend. Ze tonen een
-/// duidelijke melding in plaats van te doen alsof er iets gebeurt.
-/// - Handmatig invoeren: fase 2
-/// - PDF of afbeelding importeren: fase 3 en 4
-/// - Kassabon scannen: fase 3 en 4
+/// - Handmatig invoeren: werkt (fase 2)
+/// - PDF of afbeelding importeren: nog niet beschikbaar (fase 3 en 4)
+/// - Kassabon scannen: nog niet beschikbaar (fase 3 en 4)
 class AddPurchaseScreen extends StatelessWidget {
   const AddPurchaseScreen({super.key});
 
@@ -17,7 +17,10 @@ class AddPurchaseScreen extends StatelessWidget {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         const SnackBar(
-          content: Text('Deze functie is nog in ontwikkeling.'),
+          content: Text(
+            'Deze functie is nog in ontwikkeling. '
+            'Je kunt het product wel handmatig invoeren.',
+          ),
         ),
       );
   }
@@ -54,7 +57,7 @@ class AddPurchaseScreen extends StatelessWidget {
             icon: Icons.edit_outlined,
             title: 'Handmatig invoeren',
             description: 'Vul de gegevens zelf in.',
-            onTap: () => _notYetAvailable(context),
+            onTap: () => context.pushReplacement(AppRoutes.newProduct),
           ),
         ],
       ),

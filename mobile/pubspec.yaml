@@ -7,8 +7,7 @@ version: 0.1.0+1
 environment:
   sdk: ^3.8.0
 
-# Fase 1 bevat alleen wat nu echt gebruikt wordt.
-# SQLite (drift), camera, bestandskiezer, OCR, PDF en notificaties volgen in fase 2–5.
+# Alleen wat echt gebruikt wordt. Camera, bestandskiezer, OCR, PDF en notificaties volgen in fase 3–5.
 # Dio wordt pas toegevoegd wanneer de app daadwerkelijk met de backend praat (niet nodig voor de MVP).
 dependencies:
   flutter:
@@ -19,11 +18,21 @@ dependencies:
   flutter_riverpod: ^3.0.0
   # 17 werkt vanaf oudere Flutter-versies, 18 vereist Flutter 3.44+. Pub kiest automatisch.
   go_router: ">=17.0.0 <19.0.0"
+  # Lokale SQLite-database (iOS en Android).
+  sqflite: ^2.4.4
+  # Bestandspaden samenstellen.
+  path: ^1.9.0
+  # UUID's voor entiteiten.
+  uuid: ^4.5.0
+  # Datum- en bedragnotatie. Versie wordt vastgelegd door flutter_localizations.
+  intl: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  # SQLite op de computer, zodat repository-tests zonder telefoon kunnen draaien.
+  sqflite_common_ffi: ^2.4.0
 
 flutter:
   uses-material-design: true
