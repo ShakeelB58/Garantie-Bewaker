@@ -45,8 +45,13 @@ mobile/lib/
       data/                 DocumentRepository (SQLite), DocumentFileStore (bestanden), DocumentPicker (camera/kiezer)
       application/          DocumentService: controleren, opslaan, koppelen, opruimen
       presentation/         Foto controleren, documentkeuze, documentenlijst, viewer
+    recognition/
+      domain/               ParsedReceipt, ReceiptParser (regels), TextLayout (tekstblokken → regels)
+      data/                 TextRecognizer (OCR op het toestel), PdfPageSource (PDF-tekst en -afbeeldingen)
+      application/          TextExtractionService, RecognitionService
+      presentation/         Voortgangsvenster tijdens het herkennen
     settings/presentation/
-    (ocr/, reminders/ volgen in fase 4–5)
+    (reminders/ volgt in fase 5)
 ```
 
 Laagindeling per feature:
@@ -56,9 +61,21 @@ Laagindeling per feature:
 - `application/`: Riverpod-providers die domein en data verbinden
 - `data/`: repositories die SQLite en bestandsopslag afschermen van de UI
 
-OCR, PDF-extractie en parsing worden losse services achter interfaces
-(`ReceiptOcrService`, `PdfTextExtractionService`, `ReceiptParsingService`), zodat de parser
-zonder telefoon te testen is.
+### Herkenning (fase 4)
+
+```
+document ──▶ TextExtractionService ──▶ platte tekst ──▶ ReceiptParser ──▶ ParsedReceipt ──▶ formulier
+              │ afbeelding: OCR (TextRecognizer)
+              │ PDF: tekstlaag per pagina (pdfrx); pagina zonder tekst → renderen → OCR
+```
+
+- `TextRecognizer` en `PdfPageSource` zijn interfaces. De echte versies gebruiken
+  `text_sight` (Apple Vision op iOS, ML Kit op Android) en `pdfrx`. In tests worden ze vervangen.
+- `ReceiptParser` is pure Dart en geeft per veld een waarde én een zekerheid
+  (hoog, gemiddeld, laag, onbekend).
+- De herkende tekst bestaat alleen in het geheugen. Alleen wat de gebruiker in het formulier
+  bevestigt en opslaat, komt in de database (zie B11).
+- Mislukt herkennen, dan opent het formulier gewoon leeg met het document erbij.
 
 ## Backend (Spring Boot)
 

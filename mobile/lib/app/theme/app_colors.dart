@@ -28,4 +28,7 @@ abstract final class AppColors {
 
   /// Waarschuwingen en destructieve acties.
   static const error = Color(0xFFB3261E);
+
+  /// Onzeker herkende velden. Contrast op wit: 6,3:1.
+  static const warning = Color(0xFF8A5300);
 }

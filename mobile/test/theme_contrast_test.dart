@@ -45,6 +45,13 @@ void main() {
       );
     });
 
+    test('waarschuwingskleur op wit (onzeker herkende velden)', () {
+      expect(
+        contrastRatio(AppColors.warning, AppColors.surface),
+        greaterThanOrEqualTo(minimumNormalText),
+      );
+    });
+
     test('tekst op lichte accentachtergrond', () {
       expect(
         contrastRatio(AppColors.navy, AppColors.tealContainer),

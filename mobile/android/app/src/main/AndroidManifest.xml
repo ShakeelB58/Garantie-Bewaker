@@ -1,4 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Geen cameratoestemming: foto's worden gemaakt met de camera-app van het
+         systeem. text_sight (live-scanner, niet gebruikt) zou deze anders
+         via de manifest-merge toevoegen. -->
+    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
     <application
         android:label="GarantieBewaker"
         android:name="${applicationName}"

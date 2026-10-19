@@ -5,10 +5,12 @@ import 'package:garantiebewaker/app/app.dart';
 import 'package:garantiebewaker/core/storage/storage_providers.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
+import 'package:garantiebewaker/features/recognition/application/recognition_service.dart';
 
 import 'document_fakes.dart';
 import 'fixtures.dart';
 import 'in_memory_product_repository.dart';
+import 'recognition_fakes.dart';
 
 /// Start de volledige app met opslag in het geheugen en een vaste klok.
 ///
@@ -20,6 +22,8 @@ Future<InMemoryProductRepository> pumpApp(
   InMemoryDocumentFileStore? fileStore,
   FakeDocumentPicker? picker,
   FakeIncomingFileSource? incoming,
+  FakeTextRecognizer? recognizer,
+  FakePdfPageSource? pdfPages,
 }) async {
   // Een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = const Size(800, 1800);
@@ -45,6 +49,12 @@ Future<InMemoryProductRepository> pumpApp(
         ),
         incomingFileSourceProvider.overrideWithValue(
           incoming ?? FakeIncomingFileSource(),
+        ),
+        textRecognizerProvider.overrideWithValue(
+          recognizer ?? FakeTextRecognizer(),
+        ),
+        pdfPageSourceProvider.overrideWithValue(
+          pdfPages ?? FakePdfPageSource(),
         ),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),

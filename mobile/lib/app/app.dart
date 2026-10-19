@@ -8,6 +8,9 @@ import '../core/errors/user_message.dart';
 import '../features/documents/application/document_service.dart';
 import '../features/documents/data/document_picker.dart';
 import '../features/documents/data/incoming_files.dart';
+import '../features/products/presentation/new_product_args.dart';
+import '../features/recognition/application/recognition_service.dart';
+import '../features/recognition/presentation/recognize_document.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 
@@ -64,13 +67,28 @@ class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
     final fileStore = ref.read(documentFileStoreProvider);
     final source = ref.read(incomingFileSourceProvider);
     final router = ref.read(routerProvider);
+    final recognitionService = ref.read(recognitionServiceProvider);
     try {
       final staged = await service.stage(
         PickedFile(path: file.path, originalName: file.name),
       );
       // Bij een koude start eerst het eerste scherm laten opbouwen.
       await WidgetsBinding.instance.endOfFrame;
-      unawaited(router.push(AppRoutes.newProduct, extra: staged));
+      final navigator = router.routerDelegate.navigatorKey.currentState;
+      final recognition = navigator == null
+          ? null
+          : await recognizeWithProgress(
+              navigator: navigator,
+              messenger: _messengerKey.currentState,
+              service: recognitionService,
+              document: staged,
+            );
+      unawaited(
+        router.push(
+          AppRoutes.newProduct,
+          extra: NewProductArgs(documents: [staged], recognition: recognition),
+        ),
+      );
     } catch (error) {
       _showError(error);
     } finally {

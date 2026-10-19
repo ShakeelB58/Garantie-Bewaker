@@ -7,7 +7,7 @@ version: 0.1.0+1
 environment:
   sdk: ^3.8.0
 
-# Alleen wat echt gebruikt wordt. OCR, PDF-tekstextractie en notificaties volgen in fase 4–5.
+# Alleen wat echt gebruikt wordt. Notificaties volgen in fase 5.
 # Dio wordt pas toegevoegd wanneer de app daadwerkelijk met de backend praat (niet nodig voor de MVP).
 dependencies:
   flutter:
@@ -37,6 +37,10 @@ dependencies:
   # Bestanden ontvangen via "Openen met" (iOS) en "Delen"/"Openen met" (Android),
   # zonder iOS Share Extension.
   open_file_handler: ^3.0.0
+  # Tekstherkenning op het toestel: Apple Vision (iOS) en ML Kit (Android).
+  text_sight: ^1.0.0
+  # Gescande PDF-pagina's omzetten naar JPEG voor OCR (ook gebruikt door pdfrx).
+  image: ^4.8.0
 
 dev_dependencies:
   flutter_test:

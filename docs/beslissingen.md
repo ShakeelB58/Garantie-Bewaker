@@ -123,12 +123,48 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Later mogelijk:** een Share Extension (optie B), als blijkt dat gebruikers die nodig hebben.
   Daarvoor zijn een betaald Apple Developer-account en App Groups nodig.
 
+## B10: Tekstherkenning en PDF-tekst op het toestel (2026-10-19)
+
+- **OCR:** het pakket `text_sight` 1.x.
+  - iOS: Apple Vision (ingebouwd in iOS, geen extra download).
+  - Android: ML Kit Text Recognition (Latijns schrift). Het model wordt bij het eerste gebruik
+    door Google Play-services gedownload; daarna werkt het offline.
+  - Gekozen boven `google_mlkit_text_recognition` omdat dat op iOS CocoaPods en een
+    arm64-simulator-uitzondering vereist. Dit project gebruikt Swift Package Manager.
+  - **Risico:** klein pakket met één onderhouder. Daarom zit het achter de interface
+    `TextRecognizer`; vervangen raakt alleen `text_recognizer.dart`.
+- **PDF:** `pdfrx` (al in gebruik voor de viewer, MIT-licentie).
+  - Eerst de tekstlaag lezen (digitale facturen: snel en nauwkeurig).
+  - Een pagina met minder dan 20 letters geldt als gescand: die wordt als afbeelding
+    gerenderd (pakket `image` voor JPEG) en door OCR gehaald.
+  - Maximaal 10 pagina's, om geheugen en tijd te beperken.
+- **Parser:** eigen regels in pure Dart (`ReceiptParser`), geen AI en geen clouddienst.
+  - Zoekt winkel, aankoopdatum, totaalbedrag, productregels en btw.
+  - Een datum in de toekomst, vóór 2000 of naast woorden als "vervaldatum" of
+    "garantie tot" wordt nooit als aankoopdatum voorgesteld.
+  - De garantie-einddatum wordt nooit uit het document afgeleid.
+  - Bij meerdere producten kiest de gebruiker zelf; het totaalbedrag wordt niet aan
+    een los product gekoppeld.
+- **Camera-toestemming:** ML Kit voegt op Android `CAMERA` toe aan het manifest. Die wordt
+  verwijderd (`tools:node="remove"`), want de app gebruikt de camera-app van het systeem.
+- **Android minSdk:** minimaal 24 (vereist door ML Kit).
+
+## B11: Ruwe OCR-tekst wordt niet opgeslagen (2026-10-19)
+
+- De herkende tekst blijft alleen in het geheugen tijdens het herkennen en wordt daarna weggegooid.
+- De tabel `OcrResult` uit het oorspronkelijke datamodel wordt in de MVP niet gebruikt.
+- Reden: privacy (een bon kan namen, adressen en kaartgegevens bevatten) en
+  "geen ruwe OCR-tekst langer bewaren dan nodig".
+- Gevolg: opnieuw herkennen kan alleen door het document opnieuw toe te voegen.
+  Dat is acceptabel, omdat de gebruiker de gegevens toch zelf controleert.
+- Herkende gegevens worden pas opgeslagen als de gebruiker op "Opslaan" tikt.
+- Logs bevatten alleen het fouttype, nooit tekst uit het document.
+
 ## Openstaande risico's
 
 | Risico | Aanpak |
 |--------|--------|
-| ML Kit-tekstherkenning draait waarschijnlijk niet op de iOS-simulator van Apple Silicon-Macs | OCR testen op een echte iPhone. Alternatief: Apple Vision via platform channels. Beslissing in fase 4. |
-| Weinig gratis PDF-bibliotheken die zowel tekst lezen als pagina's renderen | Onderzoek aan het begin van fase 4. Licenties (bijv. Syncfusion) expliciet beoordelen. |
+| `text_sight` is een klein pakket met één onderhouder | Zit achter de interface `TextRecognizer`; vervangbaar zonder de rest te wijzigen (B10). |
 | "Delen met app" vanuit Mail vraagt native configuratie (iOS Share Extension, Android intent-filters) | Apart onderdeel in fase 3, op beide platformen handmatig testen. |
 | iOS staat maximaal 64 geplande meldingen toe; Android 12+ vraagt aparte toestemming voor exacte alarmen | Niet-exacte meldingen gebruiken, alleen de eerstvolgende plannen en bij het opstarten opnieuw plannen (fase 5). |
 | De bundel-ID `nl.garantiebewaker.garantiebewaker` is een tijdelijke keuze | Vóór de eerste publicatie wijzigen naar een domein dat je zelf bezit. |

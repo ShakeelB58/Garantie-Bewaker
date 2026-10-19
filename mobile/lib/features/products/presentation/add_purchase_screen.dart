@@ -7,12 +7,15 @@ import '../../../app/theme/app_theme.dart';
 import '../../documents/data/document_picker.dart';
 import '../../documents/domain/document.dart';
 import '../../documents/presentation/document_capture.dart';
+import '../../recognition/application/recognition_service.dart';
+import '../../recognition/presentation/recognize_document.dart';
+import 'new_product_args.dart';
 
 /// Scherm "Aankoop toevoegen" met de drie invoermogelijkheden.
 ///
-/// Scannen en importeren slaan het document veilig op en openen daarna het
-/// formulier. Automatische herkenning (OCR) volgt in fase 4; tot die tijd
-/// vult de gebruiker de gegevens zelf in.
+/// Scannen en importeren slaan het document veilig op, herkennen daarna de
+/// gegevens op het toestel en openen het formulier met die gegevens als
+/// voorstel. Lukt herkennen niet, dan vult de gebruiker alles zelf in.
 class AddPurchaseScreen extends ConsumerWidget {
   const AddPurchaseScreen({super.key});
 
@@ -23,7 +26,7 @@ class AddPurchaseScreen extends ConsumerWidget {
       DocumentSource.camera,
       type: DocumentType.receipt,
     );
-    if (staged != null && context.mounted) _openForm(context, staged);
+    if (staged != null && context.mounted) await _openForm(context, ref, staged);
   }
 
   Future<void> _import(BuildContext context, WidgetRef ref) async {
@@ -33,11 +36,25 @@ class AddPurchaseScreen extends ConsumerWidget {
     );
     if (source == null || !context.mounted) return;
     final staged = await acquireDocument(context, ref, source);
-    if (staged != null && context.mounted) _openForm(context, staged);
+    if (staged != null && context.mounted) await _openForm(context, ref, staged);
   }
 
-  void _openForm(BuildContext context, StagedDocument staged) {
-    context.pushReplacement(AppRoutes.newProduct, extra: staged);
+  Future<void> _openForm(
+    BuildContext context,
+    WidgetRef ref,
+    StagedDocument staged,
+  ) async {
+    final recognition = await recognizeWithProgress(
+      navigator: Navigator.of(context, rootNavigator: true),
+      messenger: ScaffoldMessenger.maybeOf(context),
+      service: ref.read(recognitionServiceProvider),
+      document: staged,
+    );
+    if (!context.mounted) return;
+    context.pushReplacement(
+      AppRoutes.newProduct,
+      extra: NewProductArgs(documents: [staged], recognition: recognition),
+    );
   }
 
   @override

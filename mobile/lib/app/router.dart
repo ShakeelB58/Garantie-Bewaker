@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/dashboard/presentation/dashboard_screen.dart';
-import '../features/documents/domain/document.dart';
 import '../features/documents/presentation/document_viewer_screen.dart';
 import '../features/products/presentation/add_purchase_screen.dart';
+import '../features/products/presentation/new_product_args.dart';
 import '../features/products/presentation/product_detail_screen.dart';
 import '../features/products/presentation/product_form_screen.dart';
 import '../features/products/presentation/products_screen.dart';
@@ -71,12 +71,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.newProduct,
         parentNavigatorKey: rootNavigatorKey,
-        // Optioneel: een document dat al is gescand of geïmporteerd.
-        builder: (context, state) => ProductFormScreen(
-          initialDocuments: [
-            if (state.extra case final StagedDocument staged) staged,
-          ],
-        ),
+        // Optioneel: al gescande documenten en herkende gegevens.
+        builder: (context, state) {
+          final args = state.extra is NewProductArgs
+              ? state.extra! as NewProductArgs
+              : const NewProductArgs();
+          return ProductFormScreen(
+            initialDocuments: args.documents,
+            recognition: args.recognition,
+          );
+        },
       ),
       GoRoute(
         path: '/product/:id',
