@@ -6,8 +6,9 @@ Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums loka
 - `backend/`: Spring Boot REST API (fase 1: alleen een healthcheck)
 - `docs/`: [architectuur](docs/architectuur.md), [beslissingen](docs/beslissingen.md), [API-overzicht](docs/api-overzicht.md)
 
-> **Status: fase 2 afgerond.** Producten handmatig toevoegen, bewerken, zoeken, filteren en verwijderen
-> werkt lokaal op iOS en Android. Documenten, scannen, PDF-import en meldingen volgen in fase 3–5.
+> **Status: fase 3a afgerond.** Producten beheren, kassabonnen fotograferen, PDF's en afbeeldingen
+> importeren en bekijken werkt lokaal op iOS en Android. Delen vanuit andere apps (3b), OCR (4) en
+> meldingen (5) volgen.
 > Zie [docs/voortgang.md](docs/voortgang.md).
 
 ---
@@ -153,7 +154,7 @@ flutter analyze
 flutter test
 ```
 
-Verwacht: `No issues found!` en `All tests passed!` (94 tests na fase 2).
+Verwacht: `No issues found!` en `All tests passed!` (145 tests na fase 3a).
 
 ### Starten op de iOS-simulator
 

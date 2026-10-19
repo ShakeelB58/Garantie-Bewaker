@@ -82,12 +82,47 @@
 - Er kunnen nog geen documenten aan een product worden gekoppeld (fase 3).
 - Scannen en importeren tonen nog "nog in ontwikkeling" (fase 3 en 4).
 
+## Fase 3a: Documentbeheer ✅ afgerond (2026-10-19)
+
+### Opgeleverd
+
+- **Kassabon scannen**: camera, daarna controleren met "Gebruiken" of "Opnieuw".
+- **Importeren**: PDF of afbeelding uit Bestanden/Downloads of uit de fotobibliotheek.
+- **Veilige opslag** in de app-private map (Application Support).
+  - In de database staat alleen het relatieve pad.
+  - Het type wordt herkend aan de inhoud; maximaal 25 MB.
+  - Paden worden streng gecontroleerd (geen path traversal).
+- **Tijdelijke bestanden** van camera en kiezer worden direct verwijderd. Losse bestanden worden bij het opstarten opgeruimd.
+- **Documenten per product**:
+  - toevoegen bij een nieuw product (in het formulier) of bij een bestaand product (op het detailscherm)
+  - bekijken: PDF via pdfrx, afbeeldingen met zoom
+  - soort wijzigen
+  - verwijderen na bevestiging
+- **Product verwijderen** verwijdert ook alle documentbestanden.
+- **iOS**: Nederlandse toestemmingsteksten voor camera en fotobibliotheek; ontwikkeltaal `nl`. De appnaam is "GarantieBewaker".
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| `flutter analyze` | No issues found |
+| `flutter test` | 145 tests geslaagd (o.a. bestandsopslag op echt bestandssysteem, repository tegen echte SQLite, volledige scan- en importstroom) |
+| Kassabon scannen (Samsung) | Werkt, inclusief "Opnieuw" |
+| PDF importeren | Werkt |
+| Document openen (PDF en foto) | Werkt |
+| Product met document verwijderen | Werkt |
+
+### Opmerkingen
+
+- **Cameratoestemming op Android**: de app vraagt geen cameratoestemming. `image_picker` gebruikt de camera-app van het systeem, dus er is niets in te stellen. Dat is zo bedoeld en goed voor de privacy.
+- **Nog te testen op een echte iPhone**: de melding als cameratoegang is geweigerd. De simulator heeft geen camera.
+
+### Bekende beperkingen
+
+- Foto's kunnen nog niet worden bijgesneden of rechtgezet. Dat wordt in fase 4 beoordeeld, samen met OCR.
+- Android kan de app afsluiten terwijl de camera open is (bij weinig geheugen). In dat geval gaat de foto verloren en moet de gebruiker opnieuw scannen.
+- Delen vanuit andere apps volgt in fase 3b.
+
 ## Volgende stap
 
-Fase 3: documentbeheer.
-- cameratoegang en bestanden importeren
-- documenten opslaan in de app-private opslag
-- documentviewer
-- controle op bestandstype en -grootte
-- foutafhandeling
-- delen vanuit andere apps (iOS Share Extension, Android intent-filters)
+Fase 3b: een PDF of afbeelding delen vanuit Mail, Bestanden of Foto's naar GarantieBewaker, via een iOS Share Extension en Android intent-filters.
