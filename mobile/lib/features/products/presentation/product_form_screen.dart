@@ -180,6 +180,14 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       ..showSnackBar(const SnackBar(content: Text('Product opgeslagen.')));
   }
 
+  void _handleBack() {
+    if (_dirty && !_saving && !_allowPop) {
+      _confirmDiscard();
+    } else {
+      context.pop();
+    }
+  }
+
   Future<void> _confirmDiscard() async {
     final discard = await showDialog<bool>(
       context: context,
@@ -221,6 +229,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       },
       child: Scaffold(
         appBar: AppBar(
+          // Eigen terugknop: zo vraagt de app altijd om bevestiging bij
+          // niet-opgeslagen wijzigingen, ongeacht hoe de router het
+          // terugnavigeren afhandelt. PopScope hierboven vangt de
+          // systeem-terugknop (Android) en veeggebaren (iOS) af.
+          leading: BackButton(onPressed: _handleBack),
           title: Text(_isEdit ? 'Product bewerken' : 'Product toevoegen'),
         ),
         body: ListView(
