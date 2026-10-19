@@ -19,6 +19,7 @@ Future<InMemoryProductRepository> pumpApp(
   InMemoryDocumentRepository? documents,
   InMemoryDocumentFileStore? fileStore,
   FakeDocumentPicker? picker,
+  FakeIncomingFileSource? incoming,
 }) async {
   // Een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = const Size(800, 1800);
@@ -41,6 +42,9 @@ Future<InMemoryProductRepository> pumpApp(
         ),
         documentPickerProvider.overrideWithValue(
           picker ?? FakeDocumentPicker(),
+        ),
+        incomingFileSourceProvider.overrideWithValue(
+          incoming ?? FakeIncomingFileSource(),
         ),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),

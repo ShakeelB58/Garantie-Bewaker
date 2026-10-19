@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../../core/errors/user_message.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../data/document_file_store.dart';
+import '../data/incoming_files.dart';
 import '../data/document_picker.dart';
 import '../data/document_repository.dart';
 import '../domain/document.dart';
@@ -156,7 +160,15 @@ final documentFileStoreProvider = Provider<DocumentFileStore>((ref) {
   return LocalDocumentFileStore(
     // Application Support: app-privé, niet zichtbaar in de Bestanden-app.
     baseDirectory: getApplicationSupportDirectory,
-    temporaryDirectory: getTemporaryDirectory,
+    temporaryDirectories: () async {
+      final documents = await getApplicationDocumentsDirectory();
+      return [
+        await getTemporaryDirectory(),
+        await getApplicationCacheDirectory(),
+        // iOS zet bestanden die via "Openen met" binnenkomen in Documents/Inbox.
+        Directory(p.join(documents.path, 'Inbox')),
+      ];
+    },
   );
 });
 
@@ -188,4 +200,11 @@ final documentByIdProvider = FutureProvider.family<Document?, String>((
   id,
 ) {
   return ref.watch(documentRepositoryProvider).getById(id);
+});
+
+/// Bestanden die via "Openen met" of "Delen" binnenkomen.
+final incomingFileSourceProvider = Provider<IncomingFileSource>((ref) {
+  final source = OpenFileHandlerSource();
+  ref.onDispose(source.dispose);
+  return source;
 });

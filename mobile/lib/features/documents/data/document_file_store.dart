@@ -40,7 +40,7 @@ abstract interface class DocumentFileStore {
   Future<Map<String, DateTime>> listStored();
 
   /// Verwijdert een tijdelijk bronbestand (bijv. een camerafoto in de cache),
-  /// maar alleen als het in de tijdelijke map van de app staat. Originelen
+  /// maar alleen als het in een tijdelijke map van de app staat. Originelen
   /// van de gebruiker worden nooit aangeraakt.
   Future<void> deleteIfTemporary(String sourcePath);
 }
@@ -49,9 +49,9 @@ abstract interface class DocumentFileStore {
 class LocalDocumentFileStore implements DocumentFileStore {
   LocalDocumentFileStore({
     required Future<Directory> Function() baseDirectory,
-    required Future<Directory> Function() temporaryDirectory,
+    required Future<List<Directory>> Function() temporaryDirectories,
   }) : _baseDirectory = baseDirectory,
-       _temporaryDirectory = temporaryDirectory;
+       _temporaryDirectories = temporaryDirectories;
 
   static const folder = 'documents';
 
@@ -62,7 +62,9 @@ class LocalDocumentFileStore implements DocumentFileStore {
   );
 
   final Future<Directory> Function() _baseDirectory;
-  final Future<Directory> Function() _temporaryDirectory;
+  /// Mappen waarin de app zelf tijdelijke kopieën maakt of ontvangt
+  /// (cache, tmp, iOS `Documents/Inbox`).
+  final Future<List<Directory>> Function() _temporaryDirectories;
 
   static bool isValidRelativePath(String relativePath) =>
       _validPath.hasMatch(relativePath);
@@ -141,9 +143,12 @@ class LocalDocumentFileStore implements DocumentFileStore {
 
   @override
   Future<void> deleteIfTemporary(String sourcePath) async {
-    final temp = await _temporaryDirectory();
     final normalized = p.normalize(p.absolute(sourcePath));
-    if (!p.isWithin(p.normalize(temp.path), normalized)) return;
+    final roots = await _temporaryDirectories();
+    final isTemporary = roots.any(
+      (root) => p.isWithin(p.normalize(root.path), normalized),
+    );
+    if (!isTemporary) return;
     final file = File(normalized);
     if (await file.exists()) await file.delete();
   }

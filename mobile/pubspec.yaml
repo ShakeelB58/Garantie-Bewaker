@@ -34,6 +34,9 @@ dependencies:
   file_picker: ^13.1.0
   # PDF-weergave (PDFium). Ook bruikbaar voor tekstextractie in fase 4.
   pdfrx: ^2.6.5
+  # Bestanden ontvangen via "Openen met" (iOS) en "Delen"/"Openen met" (Android),
+  # zonder iOS Share Extension.
+  open_file_handler: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -5,6 +6,7 @@ import 'dart:typed_data';
 import 'package:garantiebewaker/features/documents/data/document_file_store.dart';
 import 'package:garantiebewaker/features/documents/data/document_picker.dart';
 import 'package:garantiebewaker/features/documents/data/document_repository.dart';
+import 'package:garantiebewaker/features/documents/data/incoming_files.dart';
 import 'package:garantiebewaker/features/documents/domain/document.dart';
 import 'package:garantiebewaker/features/documents/domain/document_validation.dart';
 
@@ -175,4 +177,24 @@ class FakeDocumentPicker implements DocumentPicker {
     }
     return results.isEmpty ? null : results.removeAt(0);
   }
+}
+
+/// Nabootsing van "Openen met" / "Delen" vanuit een andere app.
+class FakeIncomingFileSource implements IncomingFileSource {
+  final StreamController<IncomingFile> controller =
+      StreamController<IncomingFile>.broadcast();
+  int releaseCount = 0;
+
+  void send(IncomingFile file) => controller.add(file);
+
+  @override
+  Stream<IncomingFile> get files => controller.stream;
+
+  @override
+  Future<void> release() async {
+    releaseCount++;
+  }
+
+  @override
+  void dispose() => controller.close();
 }

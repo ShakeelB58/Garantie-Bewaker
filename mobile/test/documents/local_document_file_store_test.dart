@@ -22,7 +22,7 @@ void main() {
     outside = await Directory(p.join(root.path, 'gebruiker')).create();
     store = LocalDocumentFileStore(
       baseDirectory: () async => base,
-      temporaryDirectory: () async => temp,
+      temporaryDirectories: () async => [temp],
     );
   });
 
@@ -107,6 +107,22 @@ void main() {
 
     final listed = await store.listStored();
     expect(listed.keys, ['documents/d1.pdf']);
+  });
+
+  test('deleteIfTemporary werkt voor alle tijdelijke mappen', () async {
+    final inbox = await Directory(p.join(root.path, 'Inbox')).create();
+    final multi = LocalDocumentFileStore(
+      baseDirectory: () async => base,
+      temporaryDirectories: () async => [temp, inbox],
+    );
+    final shared = await writeFile(inbox, 'factuur.pdf', pdfBytes);
+    final cached = await writeFile(temp, 'kopie.pdf', pdfBytes);
+
+    await multi.deleteIfTemporary(shared.path);
+    await multi.deleteIfTemporary(cached.path);
+
+    expect(await shared.exists(), isFalse);
+    expect(await cached.exists(), isFalse);
   });
 
   test('deleteIfTemporary raakt alleen bestanden in de tijdelijke map', () async {

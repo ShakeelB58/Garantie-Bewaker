@@ -100,6 +100,29 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
   - Bijsnijden of perspectief corrigeren van foto's. Een documentscanner wordt in fase 4 samen met OCR beoordeeld.
   - Delen vanuit andere apps volgt als apart onderdeel (fase 3b).
 
+## B9: Bestanden ontvangen uit andere apps zonder Share Extension (2026-10-19)
+
+- **Keuze:** optie A, "Openen met" / "Delen", via het pakket `open_file_handler` 3.0.
+  Gekozen door de product-eigenaar, met het oog op publicatie in App Store en Play Store.
+- **iOS:**
+  - `CFBundleDocumentTypes` voor PDF, JPEG, PNG en HEIC
+  - rol "Viewer", rang "Alternate": GarantieBewaker wordt nooit de standaard-app voor deze bestanden
+  - `LSSupportsOpeningDocumentsInPlace = false`: iOS levert een kopie aan, het origineel blijft onaangeroerd
+  - de `SceneDelegate` geeft binnenkomende URL's door, bij een koude start en terwijl de app draait
+  - geen Share Extension en geen App Groups nodig
+- **Android:**
+  - intent-filters voor `VIEW` (Openen met) en `SEND` (Delen), met dezelfde vier MIME-types
+  - `launchMode="singleTask"`, zodat een nieuw bestand naar de draaiende app gaat
+  - `MainActivity` kopieert het bestand naar de cache (`alwaysCopy = true`)
+- **Verwerking in Flutter:** hetzelfde pad als bij importeren (`DocumentService.stage`).
+  - controle op inhoud en grootte
+  - opslaan in de app-private map
+  - het formulier "Product toevoegen" opent met het document erbij
+- **Opruimen:** de kopie in de cache en, op iOS, het bestand in `Documents/Inbox` worden na verwerking verwijderd.
+  Daarna worden de iOS-toegangsrechten vrijgegeven (`releaseIosURIs`).
+- **Later mogelijk:** een Share Extension (optie B), als blijkt dat gebruikers die nodig hebben.
+  Daarvoor zijn een betaald Apple Developer-account en App Groups nodig.
+
 ## Openstaande risico's
 
 | Risico | Aanpak |
