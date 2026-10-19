@@ -89,6 +89,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
               ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'fab-products',
         onPressed: () => context.push(AppRoutes.addPurchase),
         icon: const Icon(Icons.add),
         label: const Text('Toevoegen'),

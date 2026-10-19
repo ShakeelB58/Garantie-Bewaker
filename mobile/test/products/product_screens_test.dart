@@ -53,8 +53,7 @@ void main() {
       expect(saved.purchaseDate, DateTime(2026, 10, 19));
 
       // Terug naar het dashboard: product en aantal zichtbaar.
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tapBack(tester);
       expect(find.text('Nog geen aankopen'), findsNothing);
       expect(find.text('geregistreerd product'), findsOneWidget);
       expect(find.text('Wasmachine'), findsOneWidget);
@@ -122,16 +121,14 @@ void main() {
       await _openNewProductForm(tester);
 
       await tester.enterText(_field('name'), 'Laptop');
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tapBack(tester);
       expect(find.text('Wijzigingen weggooien?'), findsOneWidget);
 
       await tester.tap(find.text('Verder bewerken'));
       await tester.pumpAndSettle();
       expect(find.text('Product toevoegen'), findsOneWidget);
 
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      await tapBack(tester);
       await tester.tap(find.text('Weggooien'));
       await tester.pumpAndSettle();
       expect(find.text('Product toevoegen'), findsNothing);

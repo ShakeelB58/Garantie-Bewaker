@@ -42,6 +42,10 @@ class DashboardScreen extends ConsumerWidget {
       floatingActionButton: summary.value?.totalProducts == 0
           ? null
           : FloatingActionButton.extended(
+              // Elke knop een eigen tag: beide tabbladen staan tegelijk in
+              // de boom (IndexedStack) en een gedeelde tag geeft een
+              // Hero-conflict bij het openen van een nieuw scherm.
+              heroTag: 'fab-dashboard',
               onPressed: () => context.push(AppRoutes.addPurchase),
               icon: const Icon(Icons.add),
               label: const Text('Aankoop toevoegen'),
@@ -116,7 +120,7 @@ class _DashboardContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
-        _SectionHeader(
+        const _SectionHeader(
           title: 'Binnenkort',
           subtitle:
               'Ingestelde datums in de komende '

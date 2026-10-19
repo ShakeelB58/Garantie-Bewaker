@@ -34,3 +34,14 @@ Future<InMemoryProductRepository> pumpApp(
   await tester.pumpAndSettle();
   return repo;
 }
+
+/// Tikt op de terugknop in de AppBar.
+///
+/// `tester.pageBack()` zoekt naar de Engelse tooltip "Back"; deze app is
+/// Nederlandstalig, dus zoeken we de tooltip via de lokalisatie op.
+Future<void> tapBack(WidgetTester tester) async {
+  final context = tester.element(find.byType(Scaffold).last);
+  final tooltip = MaterialLocalizations.of(context).backButtonTooltip;
+  await tester.tap(find.byTooltip(tooltip).last);
+  await tester.pumpAndSettle();
+}
