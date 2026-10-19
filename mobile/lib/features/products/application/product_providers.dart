@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/storage_providers.dart';
+import '../../documents/application/document_service.dart';
 import '../data/product_repository.dart';
 import '../data/sqflite_product_repository.dart';
 import '../domain/product.dart';
@@ -38,8 +39,15 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
     state = AsyncData(await _repository.getAll());
   }
 
+  /// Verwijdert het product. Documentrecords en herinneringen verdwijnen via
+  /// ON DELETE CASCADE; daarna worden ook de documentbestanden verwijderd.
   Future<void> delete(String id) async {
+    final documents = await ref
+        .read(documentRepositoryProvider)
+        .getForProduct(id);
     await _repository.delete(id);
+    await ref.read(documentServiceProvider).deleteFiles(documents);
+    ref.invalidate(documentsForProductProvider(id));
     state = AsyncData(await _repository.getAll());
   }
 }

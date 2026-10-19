@@ -1,32 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../documents/data/document_picker.dart';
+import '../../documents/domain/document.dart';
+import '../../documents/presentation/document_capture.dart';
 
 /// Scherm "Aankoop toevoegen" met de drie invoermogelijkheden.
 ///
-/// - Handmatig invoeren: werkt (fase 2)
-/// - PDF of afbeelding importeren: nog niet beschikbaar (fase 3 en 4)
-/// - Kassabon scannen: nog niet beschikbaar (fase 3 en 4)
-class AddPurchaseScreen extends StatelessWidget {
+/// Scannen en importeren slaan het document veilig op en openen daarna het
+/// formulier. Automatische herkenning (OCR) volgt in fase 4; tot die tijd
+/// vult de gebruiker de gegevens zelf in.
+class AddPurchaseScreen extends ConsumerWidget {
   const AddPurchaseScreen({super.key});
 
-  void _notYetAvailable(BuildContext context) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Deze functie is nog in ontwikkeling. '
-            'Je kunt het product wel handmatig invoeren.',
-          ),
-        ),
-      );
+  Future<void> _scan(BuildContext context, WidgetRef ref) async {
+    final staged = await acquireDocument(
+      context,
+      ref,
+      DocumentSource.camera,
+      type: DocumentType.receipt,
+    );
+    if (staged != null && context.mounted) _openForm(context, staged);
+  }
+
+  Future<void> _import(BuildContext context, WidgetRef ref) async {
+    final source = await showDocumentSourceSheet(
+      context,
+      sources: const [DocumentSource.files, DocumentSource.gallery],
+    );
+    if (source == null || !context.mounted) return;
+    final staged = await acquireDocument(context, ref, source);
+    if (staged != null && context.mounted) _openForm(context, staged);
+  }
+
+  void _openForm(BuildContext context, StagedDocument staged) {
+    context.pushReplacement(AppRoutes.newProduct, extra: staged);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -43,14 +58,15 @@ class AddPurchaseScreen extends StatelessWidget {
             icon: Icons.photo_camera_outlined,
             title: 'Kassabon scannen',
             description: 'Maak een foto van een papieren bon.',
-            onTap: () => _notYetAvailable(context),
+            onTap: () => _scan(context, ref),
           ),
           const SizedBox(height: AppSpacing.sm),
           _OptionCard(
             icon: Icons.picture_as_pdf_outlined,
             title: 'PDF of afbeelding importeren',
-            description: 'Kies een factuur uit je bestanden of e-mail.',
-            onTap: () => _notYetAvailable(context),
+            description:
+                'Kies een factuur uit je bestanden, downloads of foto\'s.',
+            onTap: () => _import(context, ref),
           ),
           const SizedBox(height: AppSpacing.sm),
           _OptionCard(

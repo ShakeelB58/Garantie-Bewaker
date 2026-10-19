@@ -1,18 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 
+import '../helpers/document_fakes.dart';
 import '../helpers/fixtures.dart';
 import '../helpers/in_memory_product_repository.dart';
 
 void main() {
   late InMemoryProductRepository repo;
+  late InMemoryDocumentRepository documents;
+  late InMemoryDocumentFileStore fileStore;
   late ProviderContainer container;
 
   setUp(() {
     repo = InMemoryProductRepository();
+    documents = InMemoryDocumentRepository();
+    fileStore = InMemoryDocumentFileStore();
+    repo.onDelete = documents.removeForProduct;
     container = ProviderContainer(
-      overrides: [productRepositoryProvider.overrideWithValue(repo)],
+      overrides: [
+        productRepositoryProvider.overrideWithValue(repo),
+        documentRepositoryProvider.overrideWithValue(documents),
+        documentFileStoreProvider.overrideWithValue(fileStore),
+      ],
     );
     addTearDown(container.dispose);
   });
@@ -41,6 +52,21 @@ void main() {
 
     expect(container.read(productsProvider).value, isEmpty);
     expect(repo.all, isEmpty);
+  });
+
+  test('verwijderen ruimt ook de documentbestanden op', () async {
+    await repo.save(makeProduct());
+    await documents.insert(makeDocument());
+    fileStore.addStored('documents/d1.pdf', pdfBytes);
+    await repo.save(makeProduct(id: 'p2'));
+    await documents.insert(makeDocument(id: 'd2', productId: 'p2'));
+    fileStore.addStored('documents/d2.pdf', pdfBytes);
+    await container.read(productsProvider.future);
+
+    await container.read(productsProvider.notifier).delete('p1');
+
+    expect(documents.all.map((d) => d.id), ['d2']);
+    expect(fileStore.stored.keys, ['documents/d2.pdf']);
   });
 
   test('een opslagfout wordt doorgegeven en de lijst blijft staan', () async {

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/dashboard/presentation/dashboard_screen.dart';
+import '../features/documents/domain/document.dart';
+import '../features/documents/presentation/document_viewer_screen.dart';
 import '../features/products/presentation/add_purchase_screen.dart';
 import '../features/products/presentation/product_detail_screen.dart';
 import '../features/products/presentation/product_form_screen.dart';
@@ -20,6 +22,7 @@ abstract final class AppRoutes {
 
   static String productDetail(String id) => '/product/$id';
   static String editProduct(String id) => '/product/$id/edit';
+  static String document(String id) => '/document/$id';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -68,7 +71,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.newProduct,
         parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => const ProductFormScreen(),
+        // Optioneel: een document dat al is gescand of geïmporteerd.
+        builder: (context, state) => ProductFormScreen(
+          initialDocuments: [
+            if (state.extra case final StagedDocument staged) staged,
+          ],
+        ),
       ),
       GoRoute(
         path: '/product/:id',
@@ -83,6 +91,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ProductFormScreen(productId: state.pathParameters['id']),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/document/:id',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) =>
+            DocumentViewerScreen(documentId: state.pathParameters['id']!),
       ),
     ],
   );

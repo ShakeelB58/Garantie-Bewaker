@@ -40,6 +40,11 @@ mobile/lib/
       data/                 ProductRepository (interface) + SqfliteProductRepository
       application/          Riverpod-providers (productsProvider, productQueryProvider)
       presentation/         Overzicht, detail, formulier, widgets
+    documents/
+      domain/               Document, DocumentType, DocumentFormat, DocumentValidation
+      data/                 DocumentRepository (SQLite), DocumentFileStore (bestanden), DocumentPicker (camera/kiezer)
+      application/          DocumentService: controleren, opslaan, koppelen, opruimen
+      presentation/         Foto controleren, documentkeuze, documentenlijst, viewer
     settings/presentation/
     (documents/, receipt_scanner/, pdf_import/, reminders/ volgen in fase 3–5)
 ```

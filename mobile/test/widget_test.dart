@@ -48,17 +48,16 @@ void main() {
     expect(find.byType(NavigationBar), findsNothing);
   });
 
-  testWidgets('scannen meldt eerlijk dat het nog niet beschikbaar is', (
-    tester,
-  ) async {
+  testWidgets('scannen annuleren laat je op het keuzescherm', (tester) async {
     await pumpApp(tester);
 
     await tester.tap(find.text('Aankoop toevoegen'));
     await tester.pumpAndSettle();
+    // De nep-camera geeft niets terug, net als bij annuleren.
     await tester.tap(find.text('Kassabon scannen'));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.textContaining('nog in ontwikkeling'), findsOneWidget);
+    expect(find.text('Hoe wil je je aankoop toevoegen?'), findsOneWidget);
   });
 
   testWidgets('privacyinformatie opent en sluit', (tester) async {

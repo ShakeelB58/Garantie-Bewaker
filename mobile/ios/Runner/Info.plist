@@ -5,9 +5,13 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>nl</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>nl</string>
+	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Garantiebewaker</string>
+	<string>GarantieBewaker</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,6 +30,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>GarantieBewaker gebruikt de camera om kassabonnen te fotograferen. De foto's blijven op je telefoon.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>GarantieBewaker opent je fotobibliotheek alleen als je zelf een foto van een aankoopbewijs kiest.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

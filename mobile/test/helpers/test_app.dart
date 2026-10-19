@@ -3,15 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:garantiebewaker/app/app.dart';
 import 'package:garantiebewaker/core/storage/storage_providers.dart';
+import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 
+import 'document_fakes.dart';
 import 'fixtures.dart';
 import 'in_memory_product_repository.dart';
 
-/// Start de volledige app met een in-memory database en een vaste klok.
+/// Start de volledige app met opslag in het geheugen en een vaste klok.
+///
+/// Geef eigen nepobjecten mee om ze in de test te kunnen inspecteren.
 Future<InMemoryProductRepository> pumpApp(
   WidgetTester tester, {
   InMemoryProductRepository? repository,
+  InMemoryDocumentRepository? documents,
+  InMemoryDocumentFileStore? fileStore,
+  FakeDocumentPicker? picker,
 }) async {
   // Een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = const Size(800, 1800);
@@ -19,12 +26,22 @@ Future<InMemoryProductRepository> pumpApp(
   addTearDown(tester.view.reset);
 
   final repo = repository ?? InMemoryProductRepository();
+  final documentRepo = documents ?? InMemoryDocumentRepository();
+  // Bootst ON DELETE CASCADE van de echte database na.
+  repo.onDelete = documentRepo.removeForProduct;
   var nextId = 0;
 
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         productRepositoryProvider.overrideWithValue(repo),
+        documentRepositoryProvider.overrideWithValue(documentRepo),
+        documentFileStoreProvider.overrideWithValue(
+          fileStore ?? InMemoryDocumentFileStore(),
+        ),
+        documentPickerProvider.overrideWithValue(
+          picker ?? FakeDocumentPicker(),
+        ),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),
       ],

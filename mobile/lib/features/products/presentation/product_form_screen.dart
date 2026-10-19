@@ -9,6 +9,10 @@ import '../../../core/storage/storage_providers.dart';
 import '../../../core/utils/dates.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/error_view.dart';
+import '../../documents/application/document_service.dart';
+import '../../documents/domain/document.dart';
+import '../../documents/presentation/document_capture.dart';
+import '../../documents/presentation/document_widgets.dart';
 import '../application/product_providers.dart';
 import '../domain/product.dart';
 import '../domain/product_category.dart';
@@ -16,15 +20,25 @@ import '../domain/product_input.dart';
 import 'widgets/date_field.dart';
 
 /// Product toevoegen (zonder [productId]) of bewerken (met [productId]).
+///
+/// Bij toevoegen kunnen [initialDocuments] al gescand of geïmporteerd zijn;
+/// die worden bij het opslaan aan het nieuwe product gekoppeld.
 class ProductFormScreen extends ConsumerWidget {
-  const ProductFormScreen({this.productId, super.key});
+  const ProductFormScreen({
+    this.productId,
+    this.initialDocuments = const [],
+    super.key,
+  });
 
   final String? productId;
+  final List<StagedDocument> initialDocuments;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final id = productId;
-    if (id == null) return const _ProductForm(initial: null);
+    if (id == null) {
+      return _ProductForm(initial: null, initialDocuments: initialDocuments);
+    }
 
     final product = ref.watch(productByIdProvider(id));
     return product.when(
@@ -47,9 +61,14 @@ class ProductFormScreen extends ConsumerWidget {
 }
 
 class _ProductForm extends ConsumerStatefulWidget {
-  const _ProductForm({required this.initial, super.key});
+  const _ProductForm({
+    required this.initial,
+    this.initialDocuments = const [],
+    super.key,
+  });
 
   final Product? initial;
+  final List<StagedDocument> initialDocuments;
 
   @override
   ConsumerState<_ProductForm> createState() => _ProductFormState();
@@ -66,6 +85,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   DateTime? _warrantyEndDate;
   late bool _reminderEnabled;
   DateTime? _reminderDate;
+
+  /// Documenten die al veilig zijn opgeslagen, maar nog niet gekoppeld.
+  late List<StagedDocument> _staged;
 
   Map<ProductField, String> _errors = const {};
   bool _saving = false;
@@ -96,6 +118,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     _warrantyEndDate = input.warrantyEndDate;
     _reminderEnabled = input.reminderEnabled;
     _reminderDate = input.reminderDate;
+    _staged = [...widget.initialDocuments];
+    // Een al gescand document telt als niet-opgeslagen wijziging.
+    _dirty = _staged.isNotEmpty;
   }
 
   @override
@@ -156,6 +181,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       now: now,
     );
 
+    final documentService = ref.read(documentServiceProvider);
+    final container = ProviderScope.containerOf(context);
+
     setState(() => _saving = true);
     try {
       await ref.read(productsProvider.notifier).save(product);
@@ -165,6 +193,20 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       _showMessage(userMessageFor(error));
       return;
     }
+
+    // Documenten koppelen. Mislukt dat, dan blijft het product bewaard en
+    // wordt het losse bestand opgeruimd.
+    var documentFailed = false;
+    for (final staged in _staged) {
+      try {
+        await documentService.attach(staged, product.id);
+      } catch (_) {
+        documentFailed = true;
+        await documentService.discard(staged);
+      }
+    }
+    _staged = [];
+    container.invalidate(documentsForProductProvider(product.id));
     if (!mounted) return;
 
     // Tijdens het opslaan staat _saving op true, waardoor PopScope de
@@ -177,7 +219,35 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     }
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Product opgeslagen.')));
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            documentFailed
+                ? 'Product opgeslagen, maar een document kon niet worden '
+                      'toegevoegd. Probeer het opnieuw via het productscherm.'
+                : 'Product opgeslagen.',
+          ),
+        ),
+      );
+  }
+
+  Future<void> _addDocument() async {
+    final service = ref.read(documentServiceProvider);
+    final source = await showDocumentSourceSheet(context);
+    if (source == null || !mounted) return;
+    final staged = await acquireDocument(context, ref, source);
+    if (staged == null) return;
+    if (!mounted) {
+      // Formulier is intussen gesloten: bestand niet laten slingeren.
+      await service.discard(staged);
+      return;
+    }
+    _changed(null, () => _staged = [..._staged, staged]);
+  }
+
+  void _removeStaged(StagedDocument staged) {
+    ref.read(documentServiceProvider).discard(staged);
+    _changed(null, () => _staged = [..._staged]..remove(staged));
   }
 
   void _handleBack() {
@@ -207,6 +277,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       ),
     );
     if (discard == true && mounted) {
+      final service = ref.read(documentServiceProvider);
+      for (final staged in _staged) {
+        service.discard(staged);
+      }
+      _staged = [];
       setState(() => _allowPop = true);
       // Pas na de volgende opbouw is PopScope vrijgegeven.
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -413,6 +488,35 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                   () => _reminderDate = value,
                 ),
               ),
+            if (!_isEdit) ...[
+              const SizedBox(height: AppSpacing.lg),
+              const _SectionTitle('Aankoopbewijzen'),
+              for (final staged in _staged)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                  child: Card(
+                    child: DocumentTile(
+                      title: staged.type.label,
+                      subtitle: staged.originalFilename ?? 'Nieuw document',
+                      format: staged.format,
+                      trailing: IconButton(
+                        tooltip: 'Document weghalen',
+                        icon: const Icon(Icons.close),
+                        onPressed: () => _removeStaged(staged),
+                      ),
+                    ),
+                  ),
+                ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  key: const Key('productForm.addDocument'),
+                  onPressed: _addDocument,
+                  icon: const Icon(Icons.add),
+                  label: const Text('Document toevoegen'),
+                ),
+              ),
+            ],
             const SizedBox(height: AppSpacing.lg),
             Text(
               '* verplicht',

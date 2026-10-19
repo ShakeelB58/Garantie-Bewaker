@@ -7,7 +7,7 @@ version: 0.1.0+1
 environment:
   sdk: ^3.8.0
 
-# Alleen wat echt gebruikt wordt. Camera, bestandskiezer, OCR, PDF en notificaties volgen in fase 3–5.
+# Alleen wat echt gebruikt wordt. OCR, PDF-tekstextractie en notificaties volgen in fase 4–5.
 # Dio wordt pas toegevoegd wanneer de app daadwerkelijk met de backend praat (niet nodig voor de MVP).
 dependencies:
   flutter:
@@ -26,6 +26,14 @@ dependencies:
   uuid: ^4.5.0
   # Datum- en bedragnotatie. Versie wordt vastgelegd door flutter_localizations.
   intl: any
+  # App-private mappen voor documentopslag.
+  path_provider: ^2.1.6
+  # Camera en fotobibliotheek (officieel Flutter-pakket).
+  image_picker: ^1.2.4
+  # PDF's en afbeeldingen kiezen uit Bestanden / Downloads.
+  file_picker: ^13.1.0
+  # PDF-weergave (PDFium). Ook bruikbaar voor tekstextractie in fase 4.
+  pdfrx: ^2.6.5
 
 dev_dependencies:
   flutter_test:

@@ -74,6 +74,32 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - Een bon met meerdere producten (masterprompt §5) vraagt mogelijk later een koppeltabel `product_documents`.
   Dat wordt in fase 3/4 beslist en dan met een nieuwe migratie toegevoegd.
 
+## B8: Documentbeheer (2026-10-19)
+
+- **Pakketten:**
+  - `image_picker` 1.2: camera en fotobibliotheek. Officieel Flutter-pakket; op Android 13+ gebruikt het de systeem-fotokiezer.
+  - `file_picker` 13: PDF's en afbeeldingen uit Bestanden en Downloads. Vanaf v12 met statische API (`FilePicker.pickFile`).
+  - `pdfrx` 2.6: PDF-weergave via PDFium. Gekozen omdat het in fase 4 ook tekst kan uitlezen en pagina's kan renderen voor OCR.
+    pdfrx gebruikt intern al `material_ui` (zie B3); dat botst niet, zolang we geen Material-typen aan pdfrx doorgeven.
+  - `path_provider` 2.1 voor de app-private map.
+- **Opslaglocatie:** `getApplicationSupportDirectory()/documents/<uuid>.<ext>`.
+  - App-privé en niet zichtbaar in de Bestanden-app. Niet in een publieke map.
+  - In de database staat alleen het **relatieve** pad. Op iOS verandert het absolute pad na app-updates.
+- **Veiligheid:**
+  - Het bestandstype wordt herkend aan de **inhoud** (magic bytes), niet aan de naam.
+  - Maximaal 25 MB per document.
+  - Paden worden gecontroleerd met een strikt patroon (`documents/<id>.(pdf|jpg|png|heic)`), wat path traversal voorkomt.
+  - Bestandsnamen worden opgeschoond voordat ze worden bewaard.
+- **Tijdelijke bestanden:**
+  - Camera- en kiezerkopieën in de cache worden direct na het importeren verwijderd.
+  - Alleen bestanden in de tijdelijke map van de app worden ooit verwijderd, originelen van de gebruiker nooit.
+  - Bij het starten van de app worden losse documentbestanden opgeruimd die ouder zijn dan 1 uur en nergens bij horen.
+- **Volgorde bij het verwijderen:** eerst het databaserecord, daarna het bestand.
+  Mislukt het verwijderen van het bestand, dan ruimt de opstartcontrole het later op.
+- **Nog niet:**
+  - Bijsnijden of perspectief corrigeren van foto's. Een documentscanner wordt in fase 4 samen met OCR beoordeeld.
+  - Delen vanuit andere apps volgt als apart onderdeel (fase 3b).
+
 ## Openstaande risico's
 
 | Risico | Aanpak |

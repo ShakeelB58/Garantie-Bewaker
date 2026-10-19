@@ -8,6 +8,7 @@ import '../../../core/errors/user_message.dart';
 import '../../../core/utils/dates.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/error_view.dart';
+import '../../documents/presentation/product_documents_section.dart';
 import '../application/product_providers.dart';
 import '../domain/product.dart';
 import 'widgets/category_icon.dart';
@@ -28,8 +29,8 @@ class ProductDetailScreen extends ConsumerWidget {
         title: const Text('Product verwijderen?'),
         content: Text(
           '"${product.name}" wordt definitief van deze telefoon verwijderd, '
-          'inclusief gekoppelde herinneringen. Dit kan niet ongedaan worden '
-          'gemaakt.',
+          'inclusief alle aankoopbewijzen en herinneringen. Dit kan niet '
+          'ongedaan worden gemaakt.',
         ),
         actions: [
           TextButton(
@@ -192,16 +193,7 @@ class _ProductDetails extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
-        const Card(
-          child: ListTile(
-            leading: Icon(Icons.description_outlined),
-            title: Text('Aankoopbewijzen'),
-            subtitle: Text(
-              'Documenten toevoegen is beschikbaar in een volgende versie.',
-            ),
-            enabled: false,
-          ),
-        ),
+        ProductDocumentsSection(productId: product.id),
       ],
     );
   }

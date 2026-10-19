@@ -14,6 +14,9 @@ class InMemoryProductRepository implements ProductRepository {
   /// Als ingesteld, gooit de volgende [save] deze fout.
   Object? failNextSaveWith;
 
+  /// Wordt aangeroepen na [delete], bijv. om ON DELETE CASCADE na te bootsen.
+  void Function(String id)? onDelete;
+
   List<Product> get all => _products.values.toList();
 
   @override
@@ -39,5 +42,6 @@ class InMemoryProductRepository implements ProductRepository {
   @override
   Future<void> delete(String id) async {
     _products.remove(id);
+    onDelete?.call(id);
   }
 }
