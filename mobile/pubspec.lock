@@ -509,6 +509,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.5.0"
+  open_file_handler:
+    dependency: "direct main"
+    description:
+      name: open_file_handler
+      sha256: "6590b4a35e618b353a2f750420ceb1cdad3aade59e4a61a3a69f6910085ed0a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   package_config:
     dependency: transitive
     description:

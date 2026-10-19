@@ -121,8 +121,39 @@
 
 - Foto's kunnen nog niet worden bijgesneden of rechtgezet. Dat wordt in fase 4 beoordeeld, samen met OCR.
 - Android kan de app afsluiten terwijl de camera open is (bij weinig geheugen). In dat geval gaat de foto verloren en moet de gebruiker opnieuw scannen.
-- Delen vanuit andere apps volgt in fase 3b.
+- Delen vanuit andere apps: zie fase 3b.
+
+## Fase 3b: Bestanden ontvangen uit andere apps ✅ afgerond (2026-10-19)
+
+### Opgeleverd
+
+- **iOS**: GarantieBewaker staat in het deelmenu bij "Openen met" voor PDF, JPEG, PNG en HEIC.
+  - geen Share Extension nodig (beslissing B9)
+  - nooit de standaard-app voor deze bestanden
+- **Android**: GarantieBewaker verschijnt bij "Delen" en "Openen met", bijvoorbeeld vanuit Mijn bestanden, Galerij en Gmail.
+- **Verwerking**: een binnenkomend bestand wordt gecontroleerd en veilig opgeslagen. Daarna opent "Product toevoegen" met het document erbij.
+- **Opruimen**: tijdelijke kopieën worden verwijderd (cache en iOS `Documents/Inbox`).
+- **Testbestanden**: fictieve factuur (PDF) en kassabon (JPG) in `docs/testbestanden/`.
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| `flutter analyze` / `flutter test` | Geslaagd volgens de gebruiker (uitvoer niet in het verslag opgenomen) |
+| Samsung: delen vanuit Mijn bestanden, Galerij en Gmail | Werkt (bevestigd door de gebruiker) |
+| Samsung: app open en app gesloten | Werkt (bevestigd door de gebruiker) |
+| iPhone-simulator: delen vanuit Bestanden | Werkt (bevestigd door de gebruiker) |
+
+### Bekende beperkingen
+
+- Er wordt één bestand tegelijk ontvangen. Bij delen van meerdere bestanden wordt alleen het eerste gebruikt.
+- iOS Mail is alleen op een echte iPhone te testen.
 
 ## Volgende stap
 
-Fase 3b: een PDF of afbeelding delen vanuit Mail, Bestanden of Foto's naar GarantieBewaker, via een iOS Share Extension en Android intent-filters.
+Fase 4: OCR en PDF-tekstextractie.
+- lokale tekstherkenning: ML Kit op Android, en ML Kit of Apple Vision op iOS
+- tekst rechtstreeks uit digitale PDF's lezen (pdfrx)
+- gescande PDF's pagina voor pagina renderen en daarop OCR uitvoeren
+- een parser voor winkel, datum, totaalbedrag en productregels, met een herkenningsstatus per veld
+- het controleformulier markeert herkende en onzekere velden

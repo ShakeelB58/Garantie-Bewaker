@@ -6,9 +6,9 @@ Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums loka
 - `backend/`: Spring Boot REST API (fase 1: alleen een healthcheck)
 - `docs/`: [architectuur](docs/architectuur.md), [beslissingen](docs/beslissingen.md), [API-overzicht](docs/api-overzicht.md)
 
-> **Status: fase 3a afgerond.** Producten beheren, kassabonnen fotograferen, PDF's en afbeeldingen
-> importeren en bekijken werkt lokaal op iOS en Android. Delen vanuit andere apps (3b), OCR (4) en
-> meldingen (5) volgen.
+> **Status: fase 3 afgerond.** Producten beheren, kassabonnen fotograferen, PDF's en afbeeldingen
+> importeren, bekijken en vanuit andere apps delen werkt lokaal op iOS en Android.
+> Tekstherkenning (fase 4) en meldingen (fase 5) volgen.
 > Zie [docs/voortgang.md](docs/voortgang.md).
 
 ---
