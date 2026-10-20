@@ -206,6 +206,51 @@ TOTAAL 3.49''');
       expect(r.productName.value, 'Pindakaas');
     });
 
+    test('drogisterijbon: totaal onderaan, spaar- en voordeelinfo ertussen', () {
+      final r = parse('''
+KRUIDVAT
+Kruidvat Voorbeeldstad
+Teststraat 1
+1234 AB Voorbeeldstad
+Andrelon shampoo 300ml 3,99
+Kruidvat tandpasta 2 x 1,49 2,98
+1+1 GRATIS -1,49
+Elektrische tandenborstel EB-10 24,99
+Subtotaal 30,47
+Aantal artikelen: 4
+Kruidvat Extra klantenkaart ****1234
+Je voordeel vandaag 1,49
+Totaal voordeel dit jaar 37,50
+Spaarsaldo 120 punten
+Retour binnen 30 dagen met bon
+Kassa 3 Bon 1234 18-10-2026 14:23
+TOTAAL 30,47
+PIN 30,47
+BTW 21% 25,18 5,29
+Terminal 12345678
+Transactie 000123
+Bedrag EUR 30,47
+Datum 18/10/2026 14:23''');
+
+      expect(r.merchant.value, 'Kruidvat');
+      expect(r.merchant.confidence, high);
+      expect(r.purchaseDate.value, DateTime(2026, 10, 18));
+      expect(r.purchaseDate.confidence, high);
+      // Niet het "totaal voordeel" van 37,50.
+      expect(r.totalMinor.value, 3047);
+      expect(r.totalMinor.confidence, high);
+      // Geen voordeel- of spaarregels als product; "Kruidvat" in een
+      // productnaam is geen btw-regel.
+      expect(r.lineItems, const [
+        ParsedLineItem(description: 'Andrelon shampoo 300ml', amountMinor: 399),
+        ParsedLineItem(description: 'Kruidvat tandpasta', amountMinor: 298),
+        ParsedLineItem(
+          description: 'Elektrische tandenborstel EB-10',
+          amountMinor: 2499,
+        ),
+      ]);
+    });
+
     test('tekst zonder bedrag of datum is geen aankoopbewijs', () {
       final r = parse('''
 Nooduitgang

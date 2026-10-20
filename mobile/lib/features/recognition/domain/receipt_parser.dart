@@ -201,7 +201,7 @@ class ReceiptParser {
     (RegExp(r'\b(?:bedrag)\b', caseSensitive: false), 1),
   ];
   static final _totalNegative = RegExp(
-    r'(sub\s?-?\s?totaal|subtotal|excl|korting|wisselgeld|retour|statiegeld|spaar|punten|aantal artikelen|totaal artikelen|art\.|omschrijving|aantal|prijs)',
+    r'(sub\s?-?\s?totaal|subtotal|excl|korting|wisselgeld|retour|statiegeld|spaar|punten|aantal artikelen|totaal artikelen|art\.|omschrijving|aantal|prijs|voordeel|bespaard|besparing|saldo)',
     caseSensitive: false,
   );
   static final _vatWord = RegExp(r'\b(btw|vat)\b', caseSensitive: false);
@@ -362,16 +362,38 @@ class ReceiptParser {
   // Productregels
 
   static final _itemSkip = RegExp(
-    r'(totaal|total|te betalen|btw|vat|\bpin\b|betaald|contant|wisselgeld|korting|subtotaal|datum|factuur|\btel\b|kvk|iban|omschrijving|aantal\b.*bedrag|bedrag$|bonnummer|kassa|statiegeld retour|spaar|zegels|maestro|visa|mastercard|\bbon\b)',
+    r'(totaal|total|te betalen|btw|\bvat\b|\bpin\b|betaald|contant|wisselgeld|korting|subtotaal|datum|factuur|\btel\b|kvk|iban|omschrijving|aantal\b.*bedrag|bedrag$|bonnummer|kassa|statiegeld retour|spaar|zegels|maestro|visa|mastercard|\bbon\b|voordeel|bespaard|besparing|saldo|punten|klantenkaart|klantenpas|terminal|transactie|autorisatie|wisselgeld)',
     caseSensitive: false,
   );
+  /// Einde van de productregels (alleen als er een bedrag bij staat, zodat
+  /// een kolomkop als "Prijs Totaal" niet telt).
+  static final _itemsEnd = RegExp(
+    r'(sub\s?-?\s?totaal|subtotal|\btotaal\b|\btotal\b|te betalen|aantal artikelen|totaal artikelen|aantal producten)',
+    caseSensitive: false,
+  );
+  static final _itemsEndAlways = RegExp(
+    r'(aantal artikelen|totaal artikelen|aantal producten)',
+    caseSensitive: false,
+  );
+
   static final _service = RegExp(
     r'(bezorg|verzend|installatie|servicekosten|statiegeld|tasje|\btas\b|verpakking|administratie)',
     caseSensitive: false,
   );
 
   List<ParsedLineItem> _findItems(List<String> lines, int? stopIndex) {
-    final end = stopIndex ?? lines.length;
+    // Productregels staan boven het (sub)totaal. Alles daaronder is
+    // betaal-, spaar- of voordeelinformatie, ook als het echte totaal pas
+    // helemaal onderaan de bon staat.
+    var end = stopIndex ?? lines.length;
+    for (var i = 0; i < end; i++) {
+      final line = lines[i];
+      if (_itemsEnd.hasMatch(line) &&
+          (amountsIn(line).isNotEmpty || _itemsEndAlways.hasMatch(line))) {
+        end = i;
+        break;
+      }
+    }
     final items = <ParsedLineItem>[];
     for (final line in lines.take(end)) {
       if (_itemSkip.hasMatch(line)) continue;
