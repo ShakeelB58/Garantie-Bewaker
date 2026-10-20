@@ -149,11 +149,54 @@
 - Er wordt één bestand tegelijk ontvangen. Bij delen van meerdere bestanden wordt alleen het eerste gebruikt.
 - iOS Mail is alleen op een echte iPhone te testen.
 
+## Fase 4: Herkenning van bonnen en facturen ✅ afgerond (2026-10-21)
+
+### Opgeleverd
+
+- **Tekst lezen op het toestel**, zonder internet of clouddienst:
+  - foto's via OCR: Apple Vision op iOS, ML Kit op Android (pakket `text_sight`, beslissing B10)
+  - digitale PDF's: de tekstlaag wordt direct gelezen (`pdfrx`)
+  - gescande PDF-pagina's worden als afbeelding door OCR gehaald (maximaal 10 pagina's)
+- **Parser** (`ReceiptParser`, pure Dart) zoekt winkel, aankoopdatum, totaalbedrag, productregels en btw, met een zekerheid per veld.
+- **Controleformulier**:
+  - een kaart "Gegevens overgenomen uit het document" met het totaalbedrag van het document
+  - onder elk overgenomen veld een hint; onzekere velden in oranje met een waarschuwingsicoon
+  - de hint verdwijnt zodra de gebruiker het veld aanpast
+  - bij meerdere producten kiest de gebruiker zelf welk product hij bewaart; het totaalbedrag wordt niet aan één product gekoppeld
+  - lukt herkennen niet of is het geen aankoopbewijs, dan een duidelijke melding en gewoon zelf invullen
+- **Privacy**: de herkende tekst wordt niet opgeslagen (beslissing B11). Alleen wat de gebruiker met "Opslaan" bevestigt, komt in de database.
+- **Platform**: iOS-minimumversie 16.0, Android minSdk 24; de cameratoestemming die ML Kit toevoegt is verwijderd.
+
+### Verbeteringen na testen met een echte bon (Kruidvat)
+
+- Productregels stoppen bij "Subtotaal" of "Aantal artikelen"; voordeel-, spaar- en pinterminalregels zijn geen product of totaal.
+- "Kruidvat" werd als btw-regel gezien (het woord bevat "vat"); opgelost.
+- Een logo dat als losse letter wordt gelezen ("OKRUIDVAT") wordt genegeerd.
+- Naam op de ene regel en "2 x 8,49 per stuk" op de volgende regel worden samengevoegd; de stuksprijs wordt de productprijs.
+- Een foto zonder bedrag of datum geeft "Geen gegevens herkend" in plaats van een gegokte winkelnaam.
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| `flutter analyze` | No issues found |
+| `flutter test` | Alle tests geslaagd (parser met nagemaakte voorbeeldbonnen, tekstopbouw, PDF-/OCR-service, volledige stroom van scannen tot opslaan) |
+| Testfactuur (PDF) en testbon (foto) | Juist herkend (bevestigd door de gebruiker) |
+| Echte Kruidvat-bon op de Samsung | Winkel, producten en stuksprijs juist na de verbeteringen (bevestigd door de gebruiker) |
+| Foto zonder bon | Melding "geen gegevens herkend" |
+| Herkend veld aanpassen | Hint verdwijnt (bevestigd door de gebruiker) |
+
+### Bekende beperkingen
+
+- Herkenning werkt met vaste regels. Bonnen met een ongewone opmaak kunnen deels verkeerd herkend worden; de gebruiker controleert altijd alles voor het opslaan.
+- Op Android wordt het herkenningsmodel bij het eerste gebruik gedownload (eenmalig internet nodig).
+- Foto's worden niet bijgesneden of rechtgezet. Een scheve of gekreukte bon wordt minder goed gelezen.
+- Testen op een echte iPhone lukte nog niet (ondertekening met een gratis Apple-account). Dit volgt bij de publicatievoorbereiding.
+
 ## Volgende stap
 
-Fase 4: OCR en PDF-tekstextractie.
-- lokale tekstherkenning: ML Kit op Android, en ML Kit of Apple Vision op iOS
-- tekst rechtstreeks uit digitale PDF's lezen (pdfrx)
-- gescande PDF's pagina voor pagina renderen en daarop OCR uitvoeren
-- een parser voor winkel, datum, totaalbedrag en productregels, met een herkenningsstatus per veld
-- het controleformulier markeert herkende en onzekere velden
+Fase 5: meldingen, export en privacy.
+- lokale meldingen voor aflopende garanties (Android 13+ en iOS vragen toestemming)
+- export van alle gegevens (CSV en documenten)
+- alle gegevens verwijderen
+- controle op tijdelijke bestanden en logs zonder persoonsgegevens
