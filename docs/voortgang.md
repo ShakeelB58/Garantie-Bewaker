@@ -181,7 +181,8 @@
 |---|---|
 | `flutter analyze` | No issues found |
 | `flutter test` | Alle tests geslaagd (parser met nagemaakte voorbeeldbonnen, tekstopbouw, PDF-/OCR-service, volledige stroom van scannen tot opslaan) |
-| Testfactuur (PDF) en testbon (foto) | Juist herkend (bevestigd door de gebruiker) |
+| Testfactuur (PDF) en testbon (foto) op de Samsung | Juist herkend (bevestigd door de gebruiker) |
+| Testbon (foto) op de iPhone-simulator | Juist herkend met Apple Vision (bevestigd door de gebruiker) |
 | Echte Kruidvat-bon op de Samsung | Winkel, producten en stuksprijs juist na de verbeteringen (bevestigd door de gebruiker) |
 | Foto zonder bon | Melding "geen gegevens herkend" |
 | Herkend veld aanpassen | Hint verdwijnt (bevestigd door de gebruiker) |
@@ -191,6 +192,7 @@
 - Herkenning werkt met vaste regels. Bonnen met een ongewone opmaak kunnen deels verkeerd herkend worden; de gebruiker controleert altijd alles voor het opslaan.
 - Op Android wordt het herkenningsmodel bij het eerste gebruik gedownload (eenmalig internet nodig).
 - Foto's worden niet bijgesneden of rechtgezet. Een scheve of gekreukte bon wordt minder goed gelezen.
+- De PDF-import met herkenning is niet op iOS getest: het lukte niet de testfactuur in de simulator te zetten. Het lezen van PDF's gebeurt op beide platformen met dezelfde code (pdfrx/PDFium) en werkt op Android.
 - Testen op een echte iPhone lukte nog niet (ondertekening met een gratis Apple-account). Dit volgt bij de publicatievoorbereiding.
 
 ## Volgende stap

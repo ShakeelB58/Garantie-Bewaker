@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+  copy_with_extension:
+    dependency: transitive
+    description:
+      name: copy_with_extension
+      sha256: e4fcee1392f7413aa252e408474cf4b3a70ee88cc378600c81f66a422f19814d
+      url: "https://pub.dev"
+    source: hosted
+    version: "17.1.0"
   cross_file:
     dependency: transitive
     description:
@@ -302,7 +310,7 @@ packages:
     source: hosted
     version: "4.1.2"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
       sha256: "89ed75b2f8231fe676808c5564f9590d728024ded7ac782a7ed8474f1c95b72a"
@@ -802,6 +810,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
+  text_sight:
+    dependency: "direct main"
+    description:
+      name: text_sight
+      sha256: "79662ef0b947dd8de7750e008b5f5e80f8d6a104688b7ae5fc9a96d6db07d2e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:
