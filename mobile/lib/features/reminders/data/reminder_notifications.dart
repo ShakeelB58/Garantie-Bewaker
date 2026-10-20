@@ -28,6 +28,9 @@ abstract interface class ReminderNotifications {
 
   /// Plant een testmelding over ongeveer een minuut.
   Future<void> scheduleTest();
+
+  /// Verwijdert alle geplande én al getoonde meldingen van de app.
+  Future<void> cancelAll();
 }
 
 /// [ReminderNotifications] met `flutter_local_notifications`.
@@ -142,6 +145,12 @@ class LocalReminderNotifications implements ReminderNotifications {
         payload: reminder.productId,
       );
     }
+  }
+
+  @override
+  Future<void> cancelAll() async {
+    await _ensureInitialized();
+    await _plugin.cancelAll();
   }
 
   @override

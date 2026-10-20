@@ -51,6 +51,14 @@ class FakeReminderNotifications implements ReminderNotifications {
 
   @override
   Future<void> scheduleTest() async => testsScheduled++;
+
+  int cancelAllCalls = 0;
+
+  @override
+  Future<void> cancelAll() async {
+    cancelAllCalls++;
+    replacements.add(const []);
+  }
 }
 
 class InMemorySettingsRepository implements SettingsRepository {
@@ -61,4 +69,7 @@ class InMemorySettingsRepository implements SettingsRepository {
 
   @override
   Future<void> write(String key, String value) async => values[key] = value;
+
+  @override
+  Future<void> clear() async => values.clear();
 }

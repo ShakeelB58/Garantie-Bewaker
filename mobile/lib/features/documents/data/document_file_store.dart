@@ -33,8 +33,14 @@ abstract interface class DocumentFileStore {
   /// Gooit [ArgumentError] bij een ongeldig of onveilig pad.
   Future<String> resolve(String relativePath);
 
+  /// Inhoud van een opgeslagen document (voor de export).
+  Future<Uint8List> readBytes(String relativePath);
+
   /// Verwijdert een opgeslagen document. Een ontbrekend bestand is geen fout.
   Future<void> delete(String relativePath);
+
+  /// Verwijdert alle opgeslagen documenten (bij "alle gegevens verwijderen").
+  Future<void> deleteAll();
 
   /// Alle opgeslagen documenten met hun laatste wijzigingstijd.
   Future<Map<String, DateTime>> listStored();
@@ -123,6 +129,17 @@ class LocalDocumentFileStore implements DocumentFileStore {
   Future<void> delete(String relativePath) async {
     final file = File(await resolve(relativePath));
     if (await file.exists()) await file.delete();
+  }
+
+  @override
+  Future<Uint8List> readBytes(String relativePath) async =>
+      File(await resolve(relativePath)).readAsBytes();
+
+  @override
+  Future<void> deleteAll() async {
+    final base = await _baseDirectory();
+    final dir = Directory(p.join(base.path, folder));
+    if (await dir.exists()) await dir.delete(recursive: true);
   }
 
   @override

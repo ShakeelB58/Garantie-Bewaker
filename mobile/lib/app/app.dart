@@ -44,6 +44,16 @@ class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
 
     unawaited(_setupReminders());
 
+    // Kopieën die de bestandskiezer in de cache heeft gemaakt.
+    ref
+        .read(documentPickerProvider)
+        .clearTemporaryFiles()
+        .then<void>(
+          (_) {},
+          onError: (Object error) =>
+              debugPrint('Cache opruimen mislukt (${error.runtimeType})'),
+        );
+
     // Bestanden die via "Openen met" of "Delen" binnenkomen.
     _incomingSubscription = ref
         .read(incomingFileSourceProvider)

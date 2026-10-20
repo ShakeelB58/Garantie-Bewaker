@@ -20,6 +20,9 @@ enum DocumentSource { camera, gallery, files }
 abstract interface class DocumentPicker {
   /// `null` als de gebruiker annuleert.
   Future<PickedFile?> pick(DocumentSource source);
+
+  /// Verwijdert kopieën die de bestandskiezer in de cache heeft gemaakt.
+  Future<void> clearTemporaryFiles();
 }
 
 class PlatformDocumentPicker implements DocumentPicker {
@@ -63,6 +66,9 @@ class PlatformDocumentPicker implements DocumentPicker {
       throw AppException(_messageFor(e, source), cause: e);
     }
   }
+
+  @override
+  Future<void> clearTemporaryFiles() => FilePicker.clearTemporaryFiles();
 
   static String _messageFor(PlatformException e, DocumentSource source) {
     if (e.code == 'camera_access_denied') {

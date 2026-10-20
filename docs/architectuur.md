@@ -53,6 +53,10 @@ mobile/lib/
       domain/               ReminderPlanner: welke meldingen wanneer (09:00, max. 50)
       data/                 ReminderNotifications (lokale meldingen)
       application/          ReminderSync: na elke wijziging en bij het starten alles opnieuw inplannen
+    data_management/
+      domain/               ProductsCsv (veilige CSV)
+      data/                 ExportSaver (bewaarvenster van het systeem)
+      application/          ExportService (ZIP), DataWipeService (alles verwijderen)
     settings/
       data/                 SettingsRepository (tabel settings)
       application/          Standaardherinnering (ReminderLead)

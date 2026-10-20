@@ -40,6 +40,15 @@ class InMemoryProductRepository implements ProductRepository {
   }
 
   @override
+  Future<void> deleteAll() async {
+    final ids = _products.keys.toList();
+    _products.clear();
+    for (final id in ids) {
+      onDelete?.call(id);
+    }
+  }
+
+  @override
   Future<void> delete(String id) async {
     _products.remove(id);
     onDelete?.call(id);

@@ -177,6 +177,22 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Privacy:** op het Android-vergrendelscherm wordt de inhoud verborgen (`visibility: private`). Op iOS bepaalt de gebruiker dit zelf ("Toon voorvertoning").
 - **Standaardherinnering:** keuze in Instellingen (1 week tot 3 maanden vóór de garantie-einddatum, standaard 1 maand). Opgeslagen in de nieuwe tabel `settings` (databaseversie 2).
 
+## B13: Export en alles verwijderen (2026-10-21)
+
+- **Export:** één ZIP-bestand met `producten.csv`, de map `documenten/` en `LEESMIJ.txt`.
+  - CSV voor Nederlandse Excel/Numbers: puntkomma als scheidingsteken, UTF-8 met BOM, datums als dd-mm-jjjj, bedragen met komma.
+  - **CSV-injectie voorkomen:** een cel die met `=`, `+`, `-`, `@` of een tab begint, krijgt een apostrof ervoor. Zo wordt een productnaam nooit als formule uitgevoerd.
+  - Documentnamen bevatten alleen veilige tekens (`001-wasmachine-factuur-1.pdf`).
+  - Bewaren via het systeemvenster (`FilePicker.saveFile`): de gebruiker kiest zelf de plek. De app schrijft niets naar gedeelde opslag en maakt geen tijdelijk bestand.
+  - Het ZIP-bestand wordt in het geheugen opgebouwd (pakket `archive`). Bij heel veel grote documenten kan dat zwaar worden; zie de bekende beperkingen.
+  - Vooraf een waarschuwing dat het bestand persoonsgegevens bevat.
+- **Alles verwijderen:** pas na een vinkje "Ik begrijp dat dit niet terug te halen is".
+  - Volgorde: database (producten, documentrecords, herinneringen, voorkeuren), dan alle meldingen, dan de documentmap en de cache van de bestandskiezer.
+  - Mislukt het verwijderen van een bestand, dan ruimt de opstartcontrole het later op (het hoort nergens meer bij).
+- **Logs:** alleen het fouttype (`runtimeType`), nooit productnamen, paden of herkende tekst. Een test controleert dit voor alle `debugPrint`-regels in de app.
+- **Tijdelijke bestanden:** bij elke start ruimt de app de cache van de bestandskiezer op, naast de bestaande opruiming van losse documentbestanden.
+- **App-versie:** via `package_info_plus`, zichtbaar bij "Over GarantieBewaker".
+
 ## Openstaande risico's
 
 | Risico | Aanpak |

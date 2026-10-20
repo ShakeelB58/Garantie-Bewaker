@@ -181,4 +181,27 @@ void main() {
     final loaded = (await repository.getById('p1'))!;
     expect(loaded.category, ProductCategory.other);
   });
+
+  test('alles verwijderen wist producten, documenten en herinneringen',
+      () async {
+    await repository.save(
+      makeProduct(reminderEnabled: true, reminderDate: DateTime(2027, 1, 1)),
+    );
+    await repository.save(makeProduct(id: 'p2'));
+    final db = await appDatabase.database;
+    await db.insert('documents', {
+      'id': 'd1',
+      'product_id': 'p1',
+      'file_path': 'documents/d1.pdf',
+      'document_type': 'invoice',
+      'mime_type': 'application/pdf',
+      'created_at': '2026-10-01T12:00:00.000Z',
+    });
+
+    await repository.deleteAll();
+
+    expect(await repository.getAll(), isEmpty);
+    expect(await db.query('documents'), isEmpty);
+    expect(await db.query('reminders'), isEmpty);
+  });
 }

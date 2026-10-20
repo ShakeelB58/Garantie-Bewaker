@@ -6,6 +6,9 @@ import '../../../core/storage/app_database.dart';
 abstract interface class SettingsRepository {
   Future<String?> read(String key);
   Future<void> write(String key, String value);
+
+  /// Verwijdert alle voorkeuren.
+  Future<void> clear();
 }
 
 class SqfliteSettingsRepository implements SettingsRepository {
@@ -23,6 +26,12 @@ class SqfliteSettingsRepository implements SettingsRepository {
       whereArgs: [key],
     );
     return rows.isEmpty ? null : rows.first['value'] as String?;
+  }
+
+  @override
+  Future<void> clear() async {
+    final db = await _appDatabase.database;
+    await db.delete('settings');
   }
 
   @override

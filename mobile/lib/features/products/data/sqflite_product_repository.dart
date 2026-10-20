@@ -91,6 +91,17 @@ class SqfliteProductRepository implements ProductRepository {
     await db.delete('products', where: 'id = ?', whereArgs: [id]);
   }
 
+  @override
+  Future<void> deleteAll() async {
+    final db = await _appDatabase.database;
+    await db.transaction((txn) async {
+      // Expliciet, ook al zou ON DELETE CASCADE dit al doen.
+      await txn.delete('reminders');
+      await txn.delete('documents');
+      await txn.delete('products');
+    });
+  }
+
   Map<String, Object?> _toRow(Product product) => {
     'id': product.id,
     'name': product.name,
