@@ -11,6 +11,7 @@ import '../features/documents/data/incoming_files.dart';
 import '../features/products/presentation/new_product_args.dart';
 import '../features/recognition/application/recognition_service.dart';
 import '../features/recognition/presentation/recognize_document.dart';
+import '../features/reminders/application/reminder_service.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 
@@ -41,6 +42,8 @@ class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
               debugPrint('Opruimen mislukt (${error.runtimeType})'),
         );
 
+    unawaited(_setupReminders());
+
     // Bestanden die via "Openen met" of "Delen" binnenkomen.
     _incomingSubscription = ref
         .read(incomingFileSourceProvider)
@@ -52,6 +55,27 @@ class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
   void dispose() {
     _incomingSubscription?.cancel();
     super.dispose();
+  }
+
+  /// Meldingen klaarzetten en opnieuw inplannen. Zo kloppen ze ook na een
+  /// herstart van de telefoon, een update of een gewijzigde tijdzone.
+  Future<void> _setupReminders() async {
+    final notifications = ref.read(reminderNotificationsProvider);
+    final router = ref.read(routerProvider);
+    void openProduct(String productId) =>
+        unawaited(router.push(AppRoutes.productDetail(productId)));
+    try {
+      await notifications.initialize(onOpenProduct: openProduct);
+      final launchedFor = await notifications.launchProductId();
+      if (launchedFor != null) {
+        await WidgetsBinding.instance.endOfFrame;
+        openProduct(launchedFor);
+      }
+    } catch (error) {
+      debugPrint('Meldingen starten mislukt (${error.runtimeType})');
+      return;
+    }
+    await ref.read(reminderSyncProvider).syncSafely();
   }
 
   void _showError(Object error) {

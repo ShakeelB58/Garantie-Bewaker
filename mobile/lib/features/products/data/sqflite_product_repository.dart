@@ -1,5 +1,6 @@
 import '../../../core/storage/app_database.dart';
 import '../../../core/utils/dates.dart';
+import '../../reminders/domain/reminder_planner.dart';
 import '../domain/product.dart';
 import '../domain/product_category.dart';
 import 'product_repository.dart';
@@ -17,8 +18,9 @@ class SqfliteProductRepository implements ProductRepository {
   final String Function() _newId;
   final DateTime Function() _clock;
 
-  /// Herinneringen gaan af om 09:00 lokale tijd (planning volgt in fase 5).
-  static const _reminderTime = 'T09:00:00';
+  /// Herinneringen gaan af om 09:00 lokale tijd.
+  static final _reminderTime =
+      'T${ReminderPlanner.hour.toString().padLeft(2, '0')}:00:00';
 
   static const _selectProducts = '''
     SELECT p.*,
@@ -74,7 +76,7 @@ class SqfliteProductRepository implements ProductRepository {
           'id': _newId(),
           'product_id': product.id,
           'trigger_at': '${Dates.toIsoDate(reminderDate)}$_reminderTime',
-          'notification_id': null,
+          'notification_id': ReminderPlanner.notificationIdFor(product.id),
           'enabled': product.reminderEnabled ? 1 : 0,
           'created_at': _clock().toUtc().toIso8601String(),
         });

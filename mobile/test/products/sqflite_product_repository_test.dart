@@ -3,6 +3,7 @@ import 'package:garantiebewaker/core/storage/app_database.dart';
 import 'package:garantiebewaker/core/storage/migrations.dart';
 import 'package:garantiebewaker/features/products/data/sqflite_product_repository.dart';
 import 'package:garantiebewaker/features/products/domain/product_category.dart';
+import 'package:garantiebewaker/features/reminders/domain/reminder_planner.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../helpers/fixtures.dart';
@@ -37,7 +38,7 @@ void main() {
       );
       expect(
         tables.map((t) => t['name']),
-        containsAll(['products', 'documents', 'reminders']),
+        containsAll(['products', 'documents', 'reminders', 'settings']),
       );
       expect(await db.getVersion(), Migrations.latestVersion);
     });
@@ -117,6 +118,10 @@ void main() {
     final reminders = await db.query('reminders');
     expect(reminders, hasLength(1));
     expect(reminders.first['trigger_at'], '2027-06-01T09:00:00');
+    expect(
+      reminders.first['notification_id'],
+      ReminderPlanner.notificationIdFor(original.id),
+    );
   });
 
   test('herinnering uitzetten bewaart de datum, maar niet actief', () async {
