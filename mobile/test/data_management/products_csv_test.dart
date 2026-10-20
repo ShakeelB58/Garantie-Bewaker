@@ -49,7 +49,12 @@ void main() {
     });
 
     test('formules worden nooit uitgevoerd (CSV-injectie)', () {
-      expect(ProductsCsv.escape('=HYPERLINK("x")'), '\'=HYPERLINK("x")');
+      expect(ProductsCsv.escape('=SUM(A1)'), "'=SUM(A1)");
+      // Met aanhalingstekens: apostrof én tussen aanhalingstekens.
+      expect(
+        ProductsCsv.escape('=HYPERLINK("x")'),
+        '"\'=HYPERLINK(""x"")"',
+      );
       expect(ProductsCsv.escape('+31 6'), "'+31 6");
       expect(ProductsCsv.escape('-korting'), "'-korting");
       expect(ProductsCsv.escape('@user'), "'@user");
