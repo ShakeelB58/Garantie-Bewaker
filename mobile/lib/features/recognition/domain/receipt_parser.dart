@@ -47,9 +47,18 @@ class ReceiptParser {
                 : RecognitionConfidence.low,
           );
 
+    final purchaseDate = _findDate(lines, Dates.dateOnly(today));
+
+    // Geen bedrag en geen datum: dit is waarschijnlijk geen aankoopbewijs
+    // (bijv. een foto van een muur of verpakking met wat losse tekst).
+    // Dan ook geen winkelnaam gokken.
+    if (total.value == null && items.isEmpty && purchaseDate.value == null) {
+      return ParsedReceipt.empty;
+    }
+
     return ParsedReceipt(
       merchant: _findMerchant(lines),
-      purchaseDate: _findDate(lines, Dates.dateOnly(today)),
+      purchaseDate: purchaseDate,
       totalMinor: total.value == null
           ? const RecognizedField<int>.unknown()
           : RecognizedField(total.value, totalConfidence),

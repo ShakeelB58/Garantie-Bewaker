@@ -206,6 +206,15 @@ TOTAAL 3.49''');
       expect(r.productName.value, 'Pindakaas');
     });
 
+    test('tekst zonder bedrag of datum is geen aankoopbewijs', () {
+      final r = parse('''
+Nooduitgang
+Niet roken
+Brandblusser''');
+      expect(r.hasAnything, isFalse);
+      expect(r.merchant.value, isNull);
+    });
+
     test('lege of onleesbare tekst', () {
       expect(parse('').hasAnything, isFalse);
       expect(parse('   \n  \n').hasAnything, isFalse);
