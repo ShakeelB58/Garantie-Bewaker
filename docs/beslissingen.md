@@ -148,6 +148,8 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Camera-toestemming:** ML Kit voegt op Android `CAMERA` toe aan het manifest. Die wordt
   verwijderd (`tools:node="remove"`), want de app gebruikt de camera-app van het systeem.
 - **Android minSdk:** minimaal 24 (vereist door ML Kit).
+- **iOS-minimumversie:** 16.0 (vereist door het Swift-pakket van `open_file_handler`).
+  iOS 15 wordt nog maar door een klein deel van de iPhones gebruikt.
 
 ## B11: Ruwe OCR-tekst wordt niet opgeslagen (2026-10-19)
 
