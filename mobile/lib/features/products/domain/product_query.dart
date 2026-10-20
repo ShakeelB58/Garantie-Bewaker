@@ -37,10 +37,9 @@ class ProductQuery {
 
   /// Past zoeken, filteren en sorteren toe. De invoerlijst blijft ongewijzigd.
   List<Product> apply(List<Product> products) {
-    final terms = _normalize(searchText)
-        .split(' ')
-        .where((t) => t.isNotEmpty)
-        .toList();
+    final terms = _normalize(
+      searchText,
+    ).split(' ').where((t) => t.isNotEmpty).toList();
 
     final result = products.where((product) {
       if (category != null && product.category != category) return false;
@@ -77,12 +76,28 @@ class ProductQuery {
 
   static String _normalize(String value) {
     const accents = {
-      'á': 'a', 'à': 'a', 'ä': 'a', 'â': 'a',
-      'é': 'e', 'è': 'e', 'ë': 'e', 'ê': 'e',
-      'í': 'i', 'ì': 'i', 'ï': 'i', 'î': 'i',
-      'ó': 'o', 'ò': 'o', 'ö': 'o', 'ô': 'o',
-      'ú': 'u', 'ù': 'u', 'ü': 'u', 'û': 'u',
-      'ç': 'c', 'ñ': 'n',
+      'á': 'a',
+      'à': 'a',
+      'ä': 'a',
+      'â': 'a',
+      'é': 'e',
+      'è': 'e',
+      'ë': 'e',
+      'ê': 'e',
+      'í': 'i',
+      'ì': 'i',
+      'ï': 'i',
+      'î': 'i',
+      'ó': 'o',
+      'ò': 'o',
+      'ö': 'o',
+      'ô': 'o',
+      'ú': 'u',
+      'ù': 'u',
+      'ü': 'u',
+      'û': 'u',
+      'ç': 'c',
+      'ñ': 'n',
     };
     final lower = value.toLowerCase().trim();
     final buffer = StringBuffer();

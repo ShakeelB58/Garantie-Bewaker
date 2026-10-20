@@ -33,9 +33,7 @@ Future<ParsedReceipt?> recognizeWithProgress({
     if (!result.hasAnything) {
       messenger?.showSnackBar(
         const SnackBar(
-          content: Text(
-            'Er zijn geen gegevens herkend. Vul ze zelf in.',
-          ),
+          content: Text('Er zijn geen gegevens herkend. Vul ze zelf in.'),
         ),
       );
     }

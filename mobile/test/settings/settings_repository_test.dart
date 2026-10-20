@@ -25,43 +25,45 @@ void main() {
     expect(await repository.read('reminder_lead_days'), '60');
   });
 
-  test('bestaande database (versie 1) wordt bijgewerkt zonder dataverlies',
-      () async {
-    final dir = Directory.systemTemp.createTempSync('gb_migratie');
-    addTearDown(() => dir.deleteSync(recursive: true));
-    final path = p.join(dir.path, 'test.db');
+  test(
+    'bestaande database (versie 1) wordt bijgewerkt zonder dataverlies',
+    () async {
+      final dir = Directory.systemTemp.createTempSync('gb_migratie');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final path = p.join(dir.path, 'test.db');
 
-    // Database zoals de app die vóór fase 5 aanmaakte.
-    final old = await databaseFactoryFfi.openDatabase(
-      path,
-      options: OpenDatabaseOptions(
-        version: 1,
-        onCreate: (db, version) => Migrations.migrate(db, 0, 1),
-      ),
-    );
-    await old.insert('products', {
-      'id': 'p1',
-      'name': 'Wasmachine',
-      'category': 'household',
-      'purchase_date': '2026-09-30',
-      'currency': 'EUR',
-      'created_at': '2026-10-01T12:00:00.000Z',
-      'updated_at': '2026-10-01T12:00:00.000Z',
-    });
-    await old.close();
+      // Database zoals de app die vóór fase 5 aanmaakte.
+      final old = await databaseFactoryFfi.openDatabase(
+        path,
+        options: OpenDatabaseOptions(
+          version: 1,
+          onCreate: (db, version) => Migrations.migrate(db, 0, 1),
+        ),
+      );
+      await old.insert('products', {
+        'id': 'p1',
+        'name': 'Wasmachine',
+        'category': 'household',
+        'purchase_date': '2026-09-30',
+        'currency': 'EUR',
+        'created_at': '2026-10-01T12:00:00.000Z',
+        'updated_at': '2026-10-01T12:00:00.000Z',
+      });
+      await old.close();
 
-    final database = AppDatabase(
-      factory: databaseFactoryFfi,
-      pathProvider: () async => path,
-    );
-    addTearDown(database.close);
-    final db = await database.database;
+      final database = AppDatabase(
+        factory: databaseFactoryFfi,
+        pathProvider: () async => path,
+      );
+      addTearDown(database.close);
+      final db = await database.database;
 
-    expect(await db.getVersion(), Migrations.latestVersion);
-    expect(await db.query('products'), hasLength(1));
-    await SqfliteSettingsRepository(database).write('x', 'y');
-    expect(await SqfliteSettingsRepository(database).read('x'), 'y');
-  });
+      expect(await db.getVersion(), Migrations.latestVersion);
+      expect(await db.query('products'), hasLength(1));
+      await SqfliteSettingsRepository(database).write('x', 'y');
+      expect(await SqfliteSettingsRepository(database).read('x'), 'y');
+    },
+  );
 
   test('onbekende of ontbrekende waarde valt terug op 1 maand', () {
     expect(ReminderLead.fromDays(null), ReminderLead.oneMonth);

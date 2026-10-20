@@ -56,7 +56,10 @@ void main() {
           await tapBack(tester);
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
-          await tester.drag(find.byType(Scrollable).first, const Offset(0, -2000));
+          await tester.drag(
+            find.byType(Scrollable).first,
+            const Offset(0, -2000),
+          );
           await tester.pumpAndSettle();
         });
 
@@ -69,7 +72,10 @@ void main() {
           await tester.tap(find.text('Handmatig invoeren'));
           await tester.pumpAndSettle();
           expect(find.text('Product toevoegen'), findsOneWidget);
-          await tester.drag(find.byType(Scrollable).first, const Offset(0, -3000));
+          await tester.drag(
+            find.byType(Scrollable).first,
+            const Offset(0, -3000),
+          );
           await tester.pumpAndSettle();
         });
 

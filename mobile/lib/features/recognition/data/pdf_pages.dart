@@ -21,7 +21,8 @@ abstract interface class PdfPageAccess {
 abstract interface class PdfPageSource {
   Future<void> forEachPage(
     String path,
-    Future<void> Function(PdfPageAccess page, int index, int pageCount) action, {
+    Future<void> Function(PdfPageAccess page, int index, int pageCount)
+    action, {
     int maxPages,
   });
 }
@@ -35,7 +36,8 @@ class PdfrxPageSource implements PdfPageSource {
   @override
   Future<void> forEachPage(
     String path,
-    Future<void> Function(PdfPageAccess page, int index, int pageCount) action, {
+    Future<void> Function(PdfPageAccess page, int index, int pageCount)
+    action, {
     int maxPages = 10,
   }) async {
     final document = await PdfDocument.openFile(path);

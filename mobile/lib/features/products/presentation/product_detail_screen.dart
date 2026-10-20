@@ -75,8 +75,7 @@ class ProductDetailScreen extends ConsumerWidget {
             IconButton(
               tooltip: 'Bewerken',
               icon: const Icon(Icons.edit_outlined),
-              onPressed: () =>
-                  context.push(AppRoutes.editProduct(product.id)),
+              onPressed: () => context.push(AppRoutes.editProduct(product.id)),
             ),
             IconButton(
               tooltip: 'Verwijderen',

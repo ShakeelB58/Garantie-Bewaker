@@ -71,9 +71,7 @@ Future<InMemoryProductRepository> pumpApp(
         settingsRepositoryProvider.overrideWithValue(
           settings ?? InMemorySettingsRepository(),
         ),
-        exportSaverProvider.overrideWithValue(
-          exportSaver ?? FakeExportSaver(),
-        ),
+        exportSaverProvider.overrideWithValue(exportSaver ?? FakeExportSaver()),
         appVersionProvider.overrideWith((ref) async => '0.1.0 (1)'),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),

@@ -29,24 +29,26 @@ void main() {
   });
 
   group('stage', () {
-    test('PDF wordt opgeslagen als factuur en de tijdelijke kopie verdwijnt',
-        () async {
-      fileStore.addSource('/tmp/f.pdf', pdfBytes);
+    test(
+      'PDF wordt opgeslagen als factuur en de tijdelijke kopie verdwijnt',
+      () async {
+        fileStore.addSource('/tmp/f.pdf', pdfBytes);
 
-      final staged = await service.stage(
-        const PickedFile(path: '/tmp/f.pdf', originalName: 'Factuur 12.pdf'),
-      );
+        final staged = await service.stage(
+          const PickedFile(path: '/tmp/f.pdf', originalName: 'Factuur 12.pdf'),
+        );
 
-      expect(staged.filePath, 'documents/doc-0.pdf');
-      expect(staged.format, DocumentFormat.pdf);
-      expect(staged.type, DocumentType.invoice);
-      expect(staged.originalFilename, 'Factuur 12.pdf');
-      expect(staged.sizeBytes, pdfBytes.length);
-      expect(fileStore.stored['documents/doc-0.pdf'], pdfBytes);
-      expect(fileStore.sources, isEmpty);
-      // Nog niet gekoppeld aan een product.
-      expect(repository.all, isEmpty);
-    });
+        expect(staged.filePath, 'documents/doc-0.pdf');
+        expect(staged.format, DocumentFormat.pdf);
+        expect(staged.type, DocumentType.invoice);
+        expect(staged.originalFilename, 'Factuur 12.pdf');
+        expect(staged.sizeBytes, pdfBytes.length);
+        expect(fileStore.stored['documents/doc-0.pdf'], pdfBytes);
+        expect(fileStore.sources, isEmpty);
+        // Nog niet gekoppeld aan een product.
+        expect(repository.all, isEmpty);
+      },
+    );
 
     test('foto wordt kassabon; type kan worden opgegeven', () async {
       fileStore
@@ -70,24 +72,26 @@ void main() {
       expect(fileStore.sources.keys, ['/Downloads/f.pdf']);
     });
 
-    test('niet-ondersteund bestand: duidelijke melding, niets opgeslagen',
-        () async {
-      fileStore.addSource('/tmp/notitie.pdf', textBytes);
+    test(
+      'niet-ondersteund bestand: duidelijke melding, niets opgeslagen',
+      () async {
+        fileStore.addSource('/tmp/notitie.pdf', textBytes);
 
-      await expectLater(
-        service.stage(const PickedFile(path: '/tmp/notitie.pdf')),
-        throwsA(
-          isA<AppException>().having(
-            (e) => e.userMessage,
-            'melding',
-            contains('niet ondersteund'),
+        await expectLater(
+          service.stage(const PickedFile(path: '/tmp/notitie.pdf')),
+          throwsA(
+            isA<AppException>().having(
+              (e) => e.userMessage,
+              'melding',
+              contains('niet ondersteund'),
+            ),
           ),
-        ),
-      );
-      expect(fileStore.stored, isEmpty);
-      // Ook bij een fout wordt de tijdelijke kopie opgeruimd.
-      expect(fileStore.sources, isEmpty);
-    });
+        );
+        expect(fileStore.stored, isEmpty);
+        // Ook bij een fout wordt de tijdelijke kopie opgeruimd.
+        expect(fileStore.sources, isEmpty);
+      },
+    );
 
     test('te groot bestand', () async {
       final big = Uint8List(DocumentValidation.maxSizeBytes + 1)

@@ -132,7 +132,9 @@ class DocumentService {
   /// Ruimt bestanden op die nergens meer bij horen, bijv. als de app werd
   /// afgesloten terwijl een formulier nog open stond. Bestanden jonger dan
   /// [minAge] blijven staan, omdat ze mogelijk nog in gebruik zijn.
-  Future<int> cleanupOrphans({Duration minAge = const Duration(hours: 1)}) async {
+  Future<int> cleanupOrphans({
+    Duration minAge = const Duration(hours: 1),
+  }) async {
     final known = await _repository.allFilePaths();
     final stored = await _fileStore.listStored();
     final cutoff = _clock().subtract(minAge);

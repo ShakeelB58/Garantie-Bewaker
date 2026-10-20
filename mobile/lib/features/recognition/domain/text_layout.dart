@@ -30,10 +30,9 @@ abstract final class TextLayout {
   /// spatie ingevoegd bij een duidelijk gat. `false` voor hele regels/woorden
   /// (OCR); dan komt er altijd een spatie tussen.
   static String assemble(List<TextBox> boxes, {bool characterLevel = false}) {
-    final usable = boxes
-        .where((b) => b.text.trim().isNotEmpty && b.height > 0)
-        .toList()
-      ..sort((a, b) => a.centerY.compareTo(b.centerY));
+    final usable =
+        boxes.where((b) => b.text.trim().isNotEmpty && b.height > 0).toList()
+          ..sort((a, b) => a.centerY.compareTo(b.centerY));
     if (usable.isEmpty) return '';
 
     final rows = <_Row>[];
@@ -61,8 +60,7 @@ class _Row {
 
   /// Zelfde regel als het midden binnen de halve regelhoogte ligt.
   bool accepts(TextBox box) {
-    final tolerance =
-        0.5 * (box.height < _height ? box.height : _height);
+    final tolerance = 0.5 * (box.height < _height ? box.height : _height);
     return (box.centerY - _centerY).abs() <= tolerance;
   }
 

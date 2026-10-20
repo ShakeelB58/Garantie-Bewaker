@@ -78,10 +78,10 @@ void main() {
   test('allFilePaths', () async {
     await documents.insert(makeDocument());
     await documents.insert(makeDocument(id: 'd2', productId: 'p2'));
-    expect(
-      await documents.allFilePaths(),
-      {'documents/d1.pdf', 'documents/d2.pdf'},
-    );
+    expect(await documents.allFilePaths(), {
+      'documents/d1.pdf',
+      'documents/d2.pdf',
+    });
   });
 
   test('product verwijderen verwijdert ook de documentrecords', () async {

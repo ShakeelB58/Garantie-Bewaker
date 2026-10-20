@@ -76,7 +76,10 @@ void main() {
       final repo = await pumpApp(
         tester,
         repository: InMemoryProductRepository([
-          makeProduct(name: 'Koelkast', warrantyEndDate: DateTime(2027, 10, 19)),
+          makeProduct(
+            name: 'Koelkast',
+            warrantyEndDate: DateTime(2027, 10, 19),
+          ),
         ]),
         notifications: notifications,
         settings: settings,
@@ -160,7 +163,9 @@ void main() {
 
       expect(notifications.testsScheduled, 1);
       expect(
-        find.textContaining('Over ongeveer een minuut krijg je een testmelding'),
+        find.textContaining(
+          'Over ongeveer een minuut krijg je een testmelding',
+        ),
         findsOneWidget,
       );
     });

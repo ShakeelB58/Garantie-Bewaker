@@ -38,11 +38,7 @@ class SqfliteDocumentRepository implements DocumentRepository {
   @override
   Future<Document?> getById(String id) async {
     final db = await _appDatabase.database;
-    final rows = await db.query(
-      'documents',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    final rows = await db.query('documents', where: 'id = ?', whereArgs: [id]);
     return rows.isEmpty ? null : _fromRow(rows.first);
   }
 

@@ -82,7 +82,9 @@ void main() {
       contains(ProductField.reminderDate),
     );
     expect(
-      validate(valid(reminderEnabled: true, reminderDate: DateTime(2028, 9, 1))),
+      validate(
+        valid(reminderEnabled: true, reminderDate: DateTime(2028, 9, 1)),
+      ),
       isEmpty,
     );
   });

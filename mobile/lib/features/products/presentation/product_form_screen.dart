@@ -123,9 +123,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     super.initState();
     final initial = widget.initial;
     final input = initial == null
-        ? ProductInput(
-            purchaseDate: Dates.dateOnly(ref.read(clockProvider)()),
-          )
+        ? ProductInput(purchaseDate: Dates.dateOnly(ref.read(clockProvider)()))
         : ProductInput.fromProduct(initial);
 
     _name = TextEditingController(text: input.name);
@@ -196,8 +194,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high ||
-      RecognitionConfidence.medium => 'Herkend uit het document. Controleer dit.',
+      RecognitionConfidence.high || RecognitionConfidence.medium =>
+        'Herkend uit het document. Controleer dit.',
       _ => 'Onzeker herkend. Controleer dit goed.',
     };
   }
@@ -210,9 +208,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         confidence == RecognitionConfidence.low ||
         confidence == RecognitionConfidence.unknown;
     return theme.textTheme.bodySmall?.copyWith(
-      color: uncertain
-          ? AppColors.warning
-          : theme.colorScheme.primary,
+      color: uncertain ? AppColors.warning : theme.colorScheme.primary,
       fontWeight: uncertain ? FontWeight.w600 : null,
     );
   }
@@ -536,8 +532,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               lastDate: today,
               errorText: _errors[ProductField.purchaseDate],
               helperText: _recognitionHint(ProductField.purchaseDate),
-              onChanged: (value) =>
-                  _changed(ProductField.purchaseDate, () => _purchaseDate = value),
+              onChanged: (value) => _changed(
+                ProductField.purchaseDate,
+                () => _purchaseDate = value,
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             Row(
@@ -583,7 +581,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                     ],
                     onChanged: (value) {
                       if (value != null) {
-                        _changed(ProductField.currency, () => _currency = value);
+                        _changed(
+                          ProductField.currency,
+                          () => _currency = value,
+                        );
                       }
                     },
                   ),

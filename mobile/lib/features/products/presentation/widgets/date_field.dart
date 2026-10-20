@@ -44,7 +44,9 @@ class DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final text = value == null ? 'Geen datum gekozen' : Dates.formatLong(value!);
+    final text = value == null
+        ? 'Geen datum gekozen'
+        : Dates.formatLong(value!);
 
     final field = InkWell(
       onTap: () => _pick(context),

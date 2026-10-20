@@ -21,10 +21,7 @@ abstract final class ProductsCsv {
   ];
 
   /// [documentCounts]: aantal documenten per product-id.
-  static String build(
-    List<Product> products,
-    Map<String, int> documentCounts,
-  ) {
+  static String build(List<Product> products, Map<String, int> documentCounts) {
     final buffer = StringBuffer()
       // BOM, zodat Excel de tekst als UTF-8 leest (é, ë, €).
       ..write('﻿')

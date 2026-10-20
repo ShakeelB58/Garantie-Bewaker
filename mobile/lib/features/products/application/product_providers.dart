@@ -20,10 +20,9 @@ final productRepositoryProvider = Provider<ProductRepository>((ref) {
 
 /// Alle producten. Wijzigingen lopen via deze notifier, zodat dashboard,
 /// overzicht en detailscherm automatisch bijwerken.
-final productsProvider =
-    AsyncNotifierProvider<ProductsNotifier, List<Product>>(
-      ProductsNotifier.new,
-    );
+final productsProvider = AsyncNotifierProvider<ProductsNotifier, List<Product>>(
+  ProductsNotifier.new,
+);
 
 class ProductsNotifier extends AsyncNotifier<List<Product>> {
   ProductRepository get _repository => ref.read(productRepositoryProvider);
@@ -70,16 +69,16 @@ final productByIdProvider = Provider.family<AsyncValue<Product?>, String>((
 });
 
 /// Zoek-, filter- en sorteerinstellingen van het productoverzicht.
-final productQueryProvider = NotifierProvider<ProductQueryNotifier, ProductQuery>(
-  ProductQueryNotifier.new,
-);
+final productQueryProvider =
+    NotifierProvider<ProductQueryNotifier, ProductQuery>(
+      ProductQueryNotifier.new,
+    );
 
 class ProductQueryNotifier extends Notifier<ProductQuery> {
   @override
   ProductQuery build() => const ProductQuery();
 
-  void setSearchText(String text) =>
-      state = state.copyWith(searchText: text);
+  void setSearchText(String text) => state = state.copyWith(searchText: text);
 
   void setCategory(ProductCategory? category) =>
       state = state.copyWith(category: () => category);

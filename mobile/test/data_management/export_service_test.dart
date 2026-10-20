@@ -34,7 +34,10 @@ void main() {
 
   test('ZIP met CSV, documenten en uitleg', () async {
     await products.save(
-      makeProduct(name: 'Wasmachine WM-8000', purchaseDate: DateTime(2026, 1, 2)),
+      makeProduct(
+        name: 'Wasmachine WM-8000',
+        purchaseDate: DateTime(2026, 1, 2),
+      ),
     );
     await products.save(
       makeProduct(id: 'p2', name: 'Tv', purchaseDate: DateTime(2026, 5, 6)),
@@ -62,13 +65,16 @@ void main() {
     expect(export.missingDocuments, 0);
 
     final files = unzip(export.bytes);
-    expect(files.keys, containsAll([
-      'producten.csv',
-      'LEESMIJ.txt',
-      'documenten/001-wasmachine-wm-8000-factuur-1.pdf',
-      'documenten/001-wasmachine-wm-8000-kassabon-2.jpg',
-      'documenten/002-tv-factuur-1.pdf',
-    ]));
+    expect(
+      files.keys,
+      containsAll([
+        'producten.csv',
+        'LEESMIJ.txt',
+        'documenten/001-wasmachine-wm-8000-factuur-1.pdf',
+        'documenten/001-wasmachine-wm-8000-kassabon-2.jpg',
+        'documenten/002-tv-factuur-1.pdf',
+      ]),
+    );
     expect(files['documenten/002-tv-factuur-1.pdf'], pdfBytes);
 
     final csv = utf8.decode(files['producten.csv']!);

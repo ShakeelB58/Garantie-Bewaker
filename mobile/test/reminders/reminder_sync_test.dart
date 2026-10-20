@@ -54,7 +54,10 @@ void main() {
     await container
         .read(productsProvider.notifier)
         .save(
-          makeProduct(reminderEnabled: true, reminderDate: DateTime(2027, 1, 5)),
+          makeProduct(
+            reminderEnabled: true,
+            reminderDate: DateTime(2027, 1, 5),
+          ),
         );
 
     expect(notifications.scheduled.single.triggerAt, DateTime(2027, 1, 5, 9));
@@ -108,7 +111,10 @@ void main() {
     await container
         .read(productsProvider.notifier)
         .save(
-          makeProduct(reminderEnabled: true, reminderDate: DateTime(2027, 1, 5)),
+          makeProduct(
+            reminderEnabled: true,
+            reminderDate: DateTime(2027, 1, 5),
+          ),
         );
 
     expect(repo.all, hasLength(1));

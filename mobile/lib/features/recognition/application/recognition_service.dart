@@ -73,7 +73,11 @@ class TextExtractionService {
       if (_letterCount(text) < minLettersForTextLayer) {
         // Geen (bruikbare) tekstlaag: pagina als afbeelding lezen.
         onProgress?.call(
-          RecognitionProgress(page: index + 1, pageCount: count, usingOcr: true),
+          RecognitionProgress(
+            page: index + 1,
+            pageCount: count,
+            usingOcr: true,
+          ),
         );
         text = await _recognizer.recognizeBytes(await page.renderJpeg());
       }
