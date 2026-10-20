@@ -326,7 +326,14 @@ class ReceiptParser {
           '(?<![A-Za-z])${RegExp.escape(name)}(?![A-Za-z])',
           caseSensitive: false,
         );
-        if (pattern.hasMatch(line)) {
+        // Ook als een logo als losse letter ervoor wordt gelezen ("OKRUIDVAT").
+        final withLogo =
+            name.length >= 5 &&
+            RegExp(
+              '^[^A-Za-z]{0,3}[A-Za-z]{1,2}${RegExp.escape(name)}(?![A-Za-z])',
+              caseSensitive: false,
+            ).hasMatch(line);
+        if (pattern.hasMatch(line) || withLogo) {
           return RecognizedField(
             _canonical[name.toLowerCase()] ?? name,
             RecognitionConfidence.high,
@@ -345,6 +352,11 @@ class ReceiptParser {
       }
       var name = line.replaceAll(_legalSuffix, '').trim();
       name = name.replaceAll(RegExp(r'^[\s\-:]+|[\s\-:]+$'), '');
+      // Losse letter of symbool van een logo ervoor ("O Bakkerij Jansen").
+      name = name.replaceFirst(
+        RegExp(r'^(?:[^\sA-Za-z0-9]+|[A-Za-z0-9])\s+(?=\S{3})'),
+        '',
+      );
       if (name.isEmpty) continue;
       final confident = _isUpperCase(line) || _legalSuffix.hasMatch(line);
       if (_isUpperCase(name)) {
@@ -381,6 +393,40 @@ class ReceiptParser {
     caseSensitive: false,
   );
 
+  /// Regel met een aantal of stuksprijs, bijv. "2 x 8,49" of "8,49 per stuk".
+  static final _quantityLine = RegExp(
+    r'(^\s*\d+([.,]\d+)?\s*(x|×|st\.?|stuks?|kg)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s?\d)',
+    caseSensitive: false,
+  );
+  static final _quantityPhrase = RegExp(
+    r'(\b\d+([.,]\d+)?\s*(x|×|st\.?|stuks?)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s*$)',
+    caseSensitive: false,
+  );
+
+  /// Productnaam zonder valuta, aantallen en artikelcodes.
+  static String _cleanDescription(String text) => text
+      .trim()
+      .replaceAll(RegExp(r'(EUR|€)\s*$', caseSensitive: false), '')
+      .trim()
+      .replaceAll(_quantityPhrase, ' ')
+      .trim()
+      .replaceAll(RegExp(r'^\d{4,}\s+'), '')
+      .replaceAll(RegExp(r'\s+\d{1,3}$'), '')
+      .replaceAll(RegExp(r'^\d{1,3}\s+(?=[A-Za-z])'), '')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .replaceAll(RegExp(r'^[\s\-:]+|[\s\-:]+$'), '');
+
+  /// Minstens 3 letters en vooral letters (geen artikelcode of prijsregel).
+  static bool _looksLikeName(String text) {
+    final letters = _letter.allMatches(text).length;
+    final chars = text.replaceAll(RegExp(r'\s'), '').length;
+    return letters >= 3 && chars > 0 && letters / chars >= 0.5;
+  }
+
+  static String _niceCase(String text) => _isUpperCase(text)
+      ? text[0] + text.substring(1).toLowerCase()
+      : text;
+
   List<ParsedLineItem> _findItems(List<String> lines, int? stopIndex) {
     // Productregels staan boven het (sub)totaal. Alles daaronder is
     // betaal-, spaar- of voordeelinformatie, ook als het echte totaal pas
@@ -395,28 +441,44 @@ class ReceiptParser {
       }
     }
     final items = <ParsedLineItem>[];
+    // Naam op een eigen regel, met aantal en prijs op de regel eronder.
+    String? pendingName;
     for (final line in lines.take(end)) {
-      if (_itemSkip.hasMatch(line)) continue;
-      final amounts = amountsIn(line);
-      if (amounts.isEmpty) continue;
-      final value = amounts.last.value;
-      if (value <= 0) continue;
-
-      var description = line.substring(0, amounts.first.start).trim();
-      description = description
-          .replaceAll(RegExp(r'(EUR|€)\s*$', caseSensitive: false), '')
-          .trim()
-          .replaceAll(RegExp(r'\s+\d{1,3}$'), '')
-          .replaceAll(RegExp(r'^\d{1,3}\s*[xX]\s+'), '')
-          .replaceAll(RegExp(r'^\d{1,3}\s+(?=[A-Za-z])'), '')
-          .replaceAll(RegExp(r'\s+\d{1,3}\s*[xX]$'), '')
-          .replaceAll(RegExp(r'^[\s\-:]+|[\s\-:]+$'), '');
-      if (_letter.allMatches(description).length < 2) continue;
-      if (_isUpperCase(description)) {
-        description =
-            description[0] + description.substring(1).toLowerCase();
+      if (_itemSkip.hasMatch(line)) {
+        pendingName = null;
+        continue;
       }
-      items.add(ParsedLineItem(description: description, amountMinor: value));
+      final amounts = amountsIn(line);
+      if (amounts.isEmpty) {
+        final name = _cleanDescription(line);
+        pendingName = _looksLikeName(name) ? name : null;
+        continue;
+      }
+      final value = amounts.last.value;
+      final description = _cleanDescription(
+        line.substring(0, amounts.first.start),
+      );
+      if (!_looksLikeName(description)) {
+        // Regel met alleen aantal en prijs ("2 x 8,49 per stuk 16,98"):
+        // hoort bij de naam erboven. De stuksprijs is de prijs van het product.
+        if (pendingName != null && _quantityLine.hasMatch(line) && value > 0) {
+          final unit = amounts.first.value;
+          items.add(
+            ParsedLineItem(
+              description: _niceCase(pendingName),
+              amountMinor: unit > 0 ? unit : value,
+            ),
+          );
+        }
+        pendingName = null;
+        if (items.length == 50) break;
+        continue;
+      }
+      pendingName = null;
+      if (value <= 0) continue;
+      items.add(
+        ParsedLineItem(description: _niceCase(description), amountMinor: value),
+      );
       if (items.length == 50) break;
     }
     return items;

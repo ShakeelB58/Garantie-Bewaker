@@ -251,6 +251,46 @@ Datum 18/10/2026 14:23''');
       ]);
     });
 
+    test('logo voor de winkelnaam en aantal op een eigen regel', () {
+      final r = parse('''
+OKRUIDVAT
+Kruidvat Voorbeeldstad
+DOVE DEODORANT SPRAY 150ML
+2 x 8,49 per stuk 16,98
+4006381333931 St 8,49
+KRUIDVAT WATTENSCHIJFJES
+1 St à 1,29 1,29
+Philips scheerapparaat S3000 59,99
+Subtotaal 86,76
+TOTAAL 86,76
+PIN 86,76''');
+
+      expect(r.merchant.value, 'Kruidvat');
+      expect(r.merchant.confidence, high);
+      expect(r.totalMinor.value, 8676);
+      // Naam van de regel erboven, stuksprijs; geen cijfers als productnaam.
+      expect(r.lineItems, const [
+        ParsedLineItem(
+          description: 'Dove deodorant spray 150ml',
+          amountMinor: 849,
+        ),
+        ParsedLineItem(
+          description: 'Kruidvat wattenschijfjes',
+          amountMinor: 129,
+        ),
+        ParsedLineItem(
+          description: 'Philips scheerapparaat S3000',
+          amountMinor: 5999,
+        ),
+      ]);
+    });
+
+    test('losse letter van een logo voor een onbekende winkel', () {
+      expect(parse('O Bakkerij Jansen\nBrood 2,50').merchant.value,
+          'Bakkerij Jansen');
+      expect(parse("'t Winkeltje\nBrood 2,50").merchant.value, "'t Winkeltje");
+    });
+
     test('tekst zonder bedrag of datum is geen aankoopbewijs', () {
       final r = parse('''
 Nooduitgang
