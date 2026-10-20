@@ -81,7 +81,10 @@ class _DashboardContent extends StatelessWidget {
       ),
       children: [
         Card(
-          child: InkWell(
+          child: MergeSemantics(
+            child: Semantics(
+              button: true,
+              child: InkWell(
             onTap: () => context.go(AppRoutes.products),
             borderRadius: BorderRadius.circular(AppRadius.card),
             child: Padding(
@@ -116,6 +119,8 @@ class _DashboardContent extends StatelessWidget {
                   const Icon(Icons.chevron_right),
                 ],
               ),
+            ),
+          ),
             ),
           ),
         ),

@@ -38,7 +38,11 @@ class ProductCard extends StatelessWidget {
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
+      // Schermlezers lezen de kaart als één knop voor.
+      child: MergeSemantics(
+        child: Semantics(
+          button: onTap != null,
+          child: InkWell(
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
@@ -104,6 +108,8 @@ class ProductCard extends StatelessWidget {
               ],
             ],
           ),
+        ),
+      ),
         ),
       ),
     );

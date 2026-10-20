@@ -32,6 +32,7 @@ class PhotoReviewScreen extends StatelessWidget {
                 child: Image.file(
                   File(imagePath),
                   fit: BoxFit.contain,
+                  semanticLabel: 'Gemaakte foto. Controleer of de tekst leesbaar is.',
                   errorBuilder: (context, error, stackTrace) => const Text(
                     'Voorbeeld niet beschikbaar',
                     style: TextStyle(color: Colors.white),
