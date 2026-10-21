@@ -237,8 +237,8 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 ## B16: App-ID, alleen iPhone en back-ups (2026-10-21)
 
 - **App-ID `nl.bonvrij.app`** op iOS (bundel-ID) en Android (applicationId en namespace).
-  Na publicatie niet meer te wijzigen. Advies: registreer het domein bonvrij.nl, zodat het
-  ID bij een domein hoort dat je bezit.
+  Na publicatie niet meer te wijzigen. Het domein bonvrij.nl is geregistreerd door de
+  product-eigenaar, dus het ID hoort bij een eigen domein.
   - Gevolg voor testtoestellen: de oude app (`nl.garantiebewaker…`) blijft naast de nieuwe staan
     en moet met de hand verwijderd worden. Testgegevens gaan niet mee.
 - **Alleen iPhone** (`TARGETED_DEVICE_FAMILY = 1`). Op een iPad draait de app als iPhone-app;

@@ -10,7 +10,8 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt | Advies |
 |---|------|--------|
-| ✅ | **App-ID:** `nl.bonvrij.app` (B16). Advies: domein bonvrij.nl registreren. | |
+| ✅ | **App-ID:** `nl.bonvrij.app` (B16). Domein **bonvrij.nl** is geregistreerd (TransIP, 21-10-2026). | |
+| ⬜ | Later: e-mail doorsturen van support@bonvrij.nl naar bonvrij.app@gmail.com (TransIP-pakket "Forwarding", ca. € 6 per jaar). Tot die tijd wordt bonvrij.app@gmail.com gebruikt. | |
 | ✅ | **Alleen iPhone** (B16). | |
 | ✅ | **Back-ups van iCloud/Google blijven aan**, vermeld in de privacyverklaring en de app (B16). | |
 | ✅ | **Naam:** "Bonvrij" (gekozen op 21-10-2026, beslissing B14). Vlak voor het indienen nog controleren in beide stores en in het merkregister (BOIP). | Store-ondertitel, bijv. "Al je bonnen en garanties veilig op je telefoon". |
