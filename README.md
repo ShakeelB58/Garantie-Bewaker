@@ -7,7 +7,8 @@ Alles blijft op de telefoon: geen account, geen server, geen clouddiensten.
 - `backend/`: Spring Boot REST API, voorbereid op latere uitbreidingen (nu alleen een healthcheck)
 - `docs/`: [architectuur](docs/architectuur.md), [beslissingen](docs/beslissingen.md),
   [API-overzicht](docs/api-overzicht.md), [voortgang](docs/voortgang.md),
-  [acceptatietests](docs/acceptatietests.md), [testbestanden](docs/testbestanden/README.md)
+  [acceptatietests](docs/acceptatietests.md), [testbestanden](docs/testbestanden/README.md),
+  [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md)
 
 > **Status: MVP-functionaliteit compleet (fase 1 t/m 5), fase 6 (kwaliteitscontrole) bezig.**
 > Zie [docs/voortgang.md](docs/voortgang.md) voor wat er per fase is getest en de bekende beperkingen.
