@@ -17,9 +17,10 @@ final cameraScannerProvider = Provider<CameraScanner>(
 );
 
 /// Beschikbare camera's. In tests vervangen (daar is geen camera).
-final availableCamerasProvider = Provider<Future<List<CameraDescription>> Function()>(
-  (ref) => availableCameras,
-);
+final availableCamerasProvider =
+    Provider<Future<List<CameraDescription>> Function()>(
+      (ref) => availableCameras,
+    );
 
 class InAppCameraScanner implements CameraScanner {
   @override
