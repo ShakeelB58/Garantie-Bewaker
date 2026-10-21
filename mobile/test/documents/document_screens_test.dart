@@ -264,7 +264,7 @@ void main() {
       final products = await start(tester, repository: seeded());
       await openProduct(tester);
 
-      await tester.tap(find.byTooltip('Verwijderen'));
+      await tester.tap(find.byKey(const Key('product.delete')));
       await tester.pumpAndSettle();
       expect(find.textContaining('alle aankoopbewijzen'), findsOneWidget);
       await tester.tap(find.widgetWithText(TextButton, 'Verwijderen'));

@@ -53,7 +53,7 @@ void main() {
       // Terug naar het dashboard: product en aantal zichtbaar.
       await tapBack(tester);
       expect(find.text('Nog geen producten'), findsNothing);
-      expect(find.text('geregistreerd product'), findsOneWidget);
+      expect(find.text('Je hebt 1 product geregistreerd.'), findsOneWidget);
       expect(find.text('Wasmachine'), findsOneWidget);
     });
 
