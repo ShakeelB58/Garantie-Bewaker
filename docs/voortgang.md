@@ -195,7 +195,7 @@
 - De PDF-import met herkenning is niet op iOS getest: het lukte niet de testfactuur in de simulator te zetten. Het lezen van PDF's gebeurt op beide platformen met dezelfde code (pdfrx/PDFium) en werkt op Android.
 - Testen op een echte iPhone lukte nog niet (ondertekening met een gratis Apple-account). Dit volgt bij de publicatievoorbereiding.
 
-## Fase 5: Herinneringen en privacy ⏳ bijna afgerond (2026-10-21)
+## Fase 5: Herinneringen en privacy ✅ afgerond (2026-10-21)
 
 ### Opgeleverd
 
@@ -221,8 +221,8 @@
 | Meldingen toestaan, testmelding, standaardherinnering, voorstel in formulier | Werkt op Samsung en iPhone-simulator (bevestigd door de gebruiker) |
 | Export maken en ZIP openen | Werkt op beide toestellen (bevestigd door de gebruiker) |
 | Versienummer | Werkt op beide toestellen (bevestigd door de gebruiker) |
-| Melding op de herinneringsdatum zelf | Nog te bevestigen (ingesteld op 22-10-2026, 9:00) |
-| Alle lokale gegevens verwijderen | Nog te testen op de toestellen (wel automatisch getest) |
+| Melding op de herinneringsdatum zelf, product openen via de melding | Werkt (bevestigd door de gebruiker) |
+| Alle lokale gegevens verwijderen | Werkt op beide toestellen (bevestigd door de gebruiker) |
 
 ### Bekende beperkingen
 
@@ -231,7 +231,7 @@
 - De export wordt in het geheugen opgebouwd. Bij honderden grote foto's kan dat traag zijn of te veel geheugen vragen.
 - De app heeft geen eigen back-up. Een export moet de gebruiker zelf bewaren.
 
-## Fase 6: Kwaliteitscontrole ⏳ bezig (2026-10-21)
+## Fase 6: Kwaliteitscontrole ✅ afgerond (2026-10-21)
 
 ### Opgeleverd
 
@@ -257,8 +257,50 @@
 | GitHub Actions: Spring Boot (`mvn verify`) | Geslaagd |
 | Handmatige acceptatietests op de toestellen | Zie [acceptatietests.md](acceptatietests.md) |
 
+### Bekende beperkingen
+
+- Een echte iPhone is nog niet getest (camera, meldingen, "Openen met" vanuit Mail). Dit staat op de publicatiechecklist.
+- De PDF-import is op iOS alleen via dezelfde code als op Android gedekt, niet handmatig op de simulator.
+- Offline gebruik is alleen op de Samsung handmatig getest; de app bevat geen netwerkcode.
+- Gescande en meerpagina-PDF's zijn alleen automatisch getest, niet met een echt bestand op een toestel.
+
+## Fase 7: Voorbereiding op uitbreiding ✅ afgerond (2026-10-21)
+
+### Opgeleverd
+
+- [uitbreidingen.md](uitbreidingen.md): hoe accounts, cloudback-up en synchronisatie, serveropslag van documenten, Plus via in-app-aankopen en AI-herkenning later veilig kunnen worden toegevoegd. Niets daarvan is gebouwd.
+- [publicatie-checklist.md](publicatie-checklist.md): accounts en kosten, technische stappen (app-ID, icoon, ondertekening, target-SDK, privacymanifest), privacyverklaring en store-labels, winkelpagina, TestFlight en de verplichte gesloten test van Google Play (12 testers, 14 dagen).
+
+### Open beslissingen (vóór publicatie)
+
+1. Eigen app-ID (bundel-ID), na publicatie niet meer te wijzigen.
+2. Alleen iPhone of ook iPad.
+3. Back-ups van iCloud en Google aan laten (advies) en vermelden in de privacyverklaring.
+4. Beschikbaarheid van de naam "GarantieBewaker" in beide stores.
+
+## MVP: definitie van klaar
+
+| Eis uit het projectplan | Status |
+|---|---|
+| Flutter-app werkt op iOS en Android | ✅ Samsung (Android 16) en iPhone-simulator (iOS 27) |
+| Producten lokaal beheren | ✅ |
+| Kassabonnen fotograferen en met OCR verwerken | ✅ |
+| PDF-facturen importeren en verwerken | ✅ |
+| Herkende gegevens corrigeren | ✅ |
+| Originele documenten veilig lokaal bewaren | ✅ |
+| Lokale herinneringen instellen | ✅ |
+| Verwijderen en foutafhandeling betrouwbaar | ✅ |
+| Zonder internet bruikbaar | ✅ (eerste ML Kit-download op Android uitgezonderd) |
+| Spring Boot-backend start, healthcheck werkt | ✅ |
+| Databaseconfiguratie en migraties gedocumenteerd en getest | ✅ Flyway + Testcontainers |
+| Geautomatiseerde tests slagen | ✅ lokaal en in GitHub Actions |
+| Bekende beperkingen vermeld | ✅ per fase hierboven |
+| Instructies om te starten en te testen | ✅ README |
+
 ## Volgende stap
 
-1. Fase 5 afronden: melding op de herinneringsdatum en "alles verwijderen" op de toestellen controleren.
-2. Fase 6 afronden: de open punten in [acceptatietests.md](acceptatietests.md) nalopen (grote tekst, schermlezer, offline, herstarten, meerdere documenten).
-3. Fase 7: uitbreidingen documenteren (accounts, back-up, Plus, AI-herkenning) en een publicatiechecklist voor App Store en Play Store.
+De MVP is af. Volgende stappen, wanneer je wilt:
+
+1. De vier open beslissingen hierboven nemen.
+2. De technische punten uit de [publicatiechecklist](publicatie-checklist.md) laten uitvoeren (app-ID, icoon, meldingsicoon, privacymanifest, ondertekening).
+3. Testen met een paar mensen via TestFlight en de gesloten test van Google Play.

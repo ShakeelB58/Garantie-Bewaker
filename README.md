@@ -10,7 +10,7 @@ Alles blijft op de telefoon: geen account, geen server, geen clouddiensten.
   [acceptatietests](docs/acceptatietests.md), [testbestanden](docs/testbestanden/README.md),
   [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md)
 
-> **Status: MVP-functionaliteit compleet (fase 1 t/m 5), fase 6 (kwaliteitscontrole) bezig.**
+> **Status: MVP af (fase 0 t/m 7).** Volgende stap: publicatie voorbereiden met de [publicatiechecklist](docs/publicatie-checklist.md).
 > Zie [docs/voortgang.md](docs/voortgang.md) voor wat er per fase is getest en de bekende beperkingen.
 
 ## Wat de app kan
