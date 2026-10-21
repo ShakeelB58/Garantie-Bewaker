@@ -209,6 +209,31 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Nog te doen vóór publicatie:** beschikbaarheid in App Store, Play Store en merkregister (BOIP)
   controleren, en bij voorkeur het domein bonvrij.nl vastleggen.
 
+## B15: Nieuw ontwerp en camera in de app (2026-10-21)
+
+- **Aanleiding:** een ontwerp (mockup) van de product-eigenaar. Overgenomen:
+  - onderbalk met Home, Producten, een ronde plusknop, Documenten en Instellingen
+  - Home met begroeting en tegels
+  - productkaarten met categorie-icoon en "Over N dagen"
+  - productdetails met labels en knoppen onderaan
+  - herkenningsscherm met voortgangsbalk en stappen
+  - welkomstscherm, tabblad Documenten en scherm Herinneringen
+- **Bewust anders dan het ontwerp:**
+  - "Winkel" en "Aankoopprijs" blijven optioneel
+  - de melding zegt niet "je garantie verloopt bijna", want de app weet dat niet zeker
+  - productfoto's worden categorie-iconen (keuze van de product-eigenaar)
+- **Hoofdschakelaar herinneringen** (instelling `reminders_enabled`): uit betekent dat er niets
+  wordt ingepland. De datums per product blijven bewaard.
+- **Camera in de app** (pakket `camera`, keuze van de product-eigenaar), in plaats van de
+  camera-app van het systeem:
+  - De app vraagt nu wél cameratoestemming (Android `CAMERA`; iOS-tekst stond er al).
+  - Geen microfoon: `enableAudio: false` en `RECORD_AUDIO` verwijderd uit het manifest.
+  - Zonder camera (iOS-simulator) of zonder toestemming toont de scanner een melding en de
+    knop "Kiezen uit foto's".
+  - Na de foto blijft het controlescherm "Gebruiken / Opnieuw" bestaan.
+- **Welkomstscherm:** één keer, opgeslagen als `onboarding_done`. Na "alles verwijderen"
+  verschijnt het bij de volgende start opnieuw.
+
 ## Openstaande risico's
 
 | Risico | Aanpak |

@@ -40,3 +40,14 @@ Extra (fase 6, toegankelijkheid):
 | Donkere modus van het systeem: app blijft leesbaar (app gebruikt altijd licht thema) | ⬜ | ⬜ |
 
 Opmerking grote tekst iOS: de knop "Aankoop toevoegen" viel deels buiten beeld; opgelost in fase 6 en opnieuw gecontroleerd door de gebruiker.
+
+Nieuw ontwerp (B15):
+
+| Test | Android | iOS |
+|------|---------|-----|
+| Welkomstscherm één keer, daarna Home | ⬜ | ⬜ |
+| Onderbalk en plusknop | ⬜ | ⬜ |
+| Tabblad Documenten | ⬜ | ⬜ |
+| Herinneringen: lijst en hoofdschakelaar | ⬜ | ⬜ |
+| Camera in de app: foto maken, flitser, opnieuw | ⬜ | n.v.t. (simulator heeft geen camera) |
+| Camera geweigerd: melding en "Kiezen uit foto's" | ⬜ | ⬜ |
