@@ -559,7 +559,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                       border: const OutlineInputBorder(),
                     ),
                     onChanged: (_) => _changed(ProductField.price, () {}),
-                  ),,
+                  ),
               second: DropdownButtonFormField<String>(
                     isExpanded: true,
                     key: const Key('productForm.currency'),
@@ -581,7 +581,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                         );
                       }
                     },
-                  ),,
+                  ),
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SectionTitle('Garantie en herinnering'),
