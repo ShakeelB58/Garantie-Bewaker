@@ -55,7 +55,12 @@ void main() {
           expect(find.byTooltip('Bewerken'), findsOneWidget);
 
           await tapBack(tester);
-          await _scrollTo(tester, find.textContaining('Combimagnetron').first);
+          // Terug naar boven: deze kaart staat bovenaan de lijst.
+          await _scrollTo(
+            tester,
+            find.textContaining('Combimagnetron').first,
+            delta: -150,
+          );
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
           await tester.drag(
@@ -108,11 +113,15 @@ void main() {
 }
 
 /// Scrolt in de zichtbare lijst tot [finder] in beeld is.
-Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
+Future<void> _scrollTo(
+  WidgetTester tester,
+  Finder finder, {
+  double delta = 150,
+}) async {
   try {
     await tester.scrollUntilVisible(
       finder,
-      150,
+      delta,
       // De verticale lijst, niet bijv. de horizontale filterknoppen.
       scrollable: find
           .byWidgetPredicate(
@@ -121,9 +130,10 @@ Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
           .first,
     );
   } catch (error) {
-    final texts = tester
-        .widgetList<Text>(find.byType(Text))
-        .map((t) => t.data ?? t.textSpan?.toPlainText())
+    final texts = find
+        .byType(Text)
+        .evaluate()
+        .map((e) => (e.widget as Text).data ?? '')
         .join(' | ');
     final scrollables = find.byType(Scrollable).evaluate().length;
     fail(
