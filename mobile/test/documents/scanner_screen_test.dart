@@ -17,7 +17,10 @@ void main() {
     final navigatorKey = GlobalKey<NavigatorState>();
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [documentPickerProvider.overrideWithValue(picker)],
+        overrides: [
+          documentPickerProvider.overrideWithValue(picker),
+          availableCamerasProvider.overrideWithValue(() async => []),
+        ],
         child: MaterialApp(
           navigatorKey: navigatorKey,
           home: const SizedBox.shrink(),
@@ -29,7 +32,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Kassabon scannen'), findsOneWidget);
-    expect(find.text('De camera kon niet worden gestart.'), findsOneWidget);
+    expect(
+      find.text('Er is geen camera beschikbaar op dit toestel.'),
+      findsOneWidget,
+    );
 
     await tester.tap(find.widgetWithText(FilledButton, 'Kiezen uit foto\'s'));
     await tester.pumpAndSettle();
@@ -46,6 +52,7 @@ void main() {
       ProviderScope(
         overrides: [
           documentPickerProvider.overrideWithValue(FakeDocumentPicker()),
+          availableCamerasProvider.overrideWithValue(() async => []),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,

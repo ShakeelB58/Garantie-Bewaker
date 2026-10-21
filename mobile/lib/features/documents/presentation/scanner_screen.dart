@@ -16,6 +16,11 @@ final cameraScannerProvider = Provider<CameraScanner>(
   (ref) => InAppCameraScanner(),
 );
 
+/// Beschikbare camera's. In tests vervangen (daar is geen camera).
+final availableCamerasProvider = Provider<Future<List<CameraDescription>> Function()>(
+  (ref) => availableCameras,
+);
+
 class InAppCameraScanner implements CameraScanner {
   @override
   Future<ScanResult?> scan(NavigatorState navigator) =>
@@ -70,7 +75,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
 
   Future<void> _start() async {
     try {
-      final cameras = await availableCameras();
+      final cameras = await ref.read(availableCamerasProvider)();
       if (cameras.isEmpty) {
         _fail('Er is geen camera beschikbaar op dit toestel.');
         return;
