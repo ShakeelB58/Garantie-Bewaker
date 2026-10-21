@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_theme.dart';
+import '../../core/widgets/bonvrij_logo.dart';
 import '../settings/application/settings_providers.dart';
 
 /// Of het welkomstscherm al is gezien.
@@ -31,6 +32,7 @@ class WelcomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
@@ -44,13 +46,9 @@ class WelcomeScreen extends ConsumerWidget {
                 children: [
                   Column(
                     children: [
-                      const SizedBox(height: AppSpacing.xl),
-                      const Icon(
-                        Icons.verified_user,
-                        size: 72,
-                        color: AppColors.teal,
-                      ),
-                      const SizedBox(height: AppSpacing.md),
+                      const SizedBox(height: AppSpacing.xl * 1.5),
+                      const BonvrijLogo(size: 84),
+                      const SizedBox(height: AppSpacing.lg),
                       Semantics(
                         header: true,
                         label: 'Bonvrij',
@@ -67,19 +65,20 @@ class WelcomeScreen extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            style: theme.textTheme.headlineMedium?.copyWith(
-                              fontWeight: FontWeight.w800,
+                            style: theme.textTheme.headlineLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
                               color: AppColors.navy,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.sm),
+                      const SizedBox(height: AppSpacing.sm + 4),
                       Text(
-                        'Al je aankopen, garanties en documenten op één plek.',
+                        'Al je aankopen, garanties\nen documenten op één plek.',
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
+                          height: 1.5,
                         ),
                       ),
                     ],
@@ -88,36 +87,18 @@ class WelcomeScreen extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
                     child: _Illustration(),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const _Point(
-                        icon: Icons.lock_outline,
-                        text:
-                            'Alles blijft op je telefoon. Geen account nodig.',
+                  FilledButton(
+                    key: const Key('welcome.start'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.navy,
+                      minimumSize: const Size.fromHeight(56),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      const _Point(
-                        icon: Icons.document_scanner_outlined,
-                        text: 'Scan een bon of importeer een factuur.',
-                      ),
-                      const _Point(
-                        icon: Icons.notifications_none,
-                        text:
-                            'Krijg een herinnering op de datum die jij kiest.',
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      FilledButton(
-                        key: const Key('welcome.start'),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.navy,
-                          minimumSize: const Size.fromHeight(52),
-                        ),
-                        onPressed: () => ref
-                            .read(onboardingDoneProvider.notifier)
-                            .complete(),
-                        child: const Text('Aan de slag'),
-                      ),
-                    ],
+                    ),
+                    onPressed: () =>
+                        ref.read(onboardingDoneProvider.notifier).complete(),
+                    child: const Text('Aan de slag'),
                   ),
                 ],
               ),
@@ -129,29 +110,8 @@ class WelcomeScreen extends ConsumerWidget {
   }
 }
 
-class _Point extends StatelessWidget {
-  const _Point({required this.icon, required this.text});
-
-  final IconData icon;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: theme.colorScheme.primary),
-          const SizedBox(width: AppSpacing.sm + 4),
-          Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
-        ],
-      ),
-    );
-  }
-}
-
-/// Eenvoudige illustratie: een bon met een schild ervoor.
+/// Illustratie zoals in het ontwerp: documenten met een schild ervoor op
+/// een lichte, ronde achtergrond.
 class _Illustration extends StatelessWidget {
   const _Illustration();
 
@@ -159,56 +119,110 @@ class _Illustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExcludeSemantics(
       child: SizedBox(
-        width: 180,
-        height: 140,
+        width: 240,
+        height: 190,
         child: Stack(
-          alignment: Alignment.center,
           children: [
-            Container(
-              width: 170,
-              height: 130,
-              decoration: const BoxDecoration(
-                color: AppColors.tealContainer,
-                shape: BoxShape.circle,
+            Positioned(
+              left: 10,
+              right: 10,
+              top: 20,
+              bottom: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.tealContainer,
+                  borderRadius: BorderRadius.all(Radius.elliptical(120, 90)),
+                ),
               ),
             ),
             Positioned(
-              left: 30,
-              top: 10,
-              child: Container(
-                width: 80,
-                height: 104,
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: const Icon(
-                  Icons.receipt_long_outlined,
-                  size: 44,
-                  color: AppColors.textMuted,
-                ),
+              left: 36,
+              top: 8,
+              child: Transform.rotate(
+                angle: -0.12,
+                child: const _Paper(width: 96, height: 122),
               ),
+            ),
+            Positioned(
+              left: 70,
+              top: 26,
+              child: const _Paper(width: 96, height: 122),
             ),
             Positioned(
               right: 30,
-              bottom: 8,
+              bottom: 14,
               child: Container(
-                width: 64,
-                height: 72,
+                width: 92,
+                height: 110,
                 decoration: BoxDecoration(
                   color: AppColors.teal,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x33000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
                 ),
-                child: const Icon(
-                  Icons.verified_user_outlined,
-                  size: 36,
+                alignment: Alignment.center,
+                child: const BonvrijLogo(
+                  size: 54,
                   color: Colors.white,
+                  checkColor: AppColors.teal,
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Paper extends StatelessWidget {
+  const _Paper({required this.width, required this.height});
+
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.border),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final f in const [0.6, 0.9, 0.75, 0.9, 0.5])
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: f,
+                child: Container(
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: AppColors.border,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

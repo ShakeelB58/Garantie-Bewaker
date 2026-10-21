@@ -247,7 +247,12 @@ void main() {
       ]),
     );
 
-    expect(find.text('Binnenkort'), findsOneWidget);
-    expect(find.textContaining('Herinnering op 25 okt'), findsWidgets);
+    // Tegel met het aantal naderende herinneringen.
+    expect(find.text('Binnenkort een herinnering'), findsOneWidget);
+    final tile = find.byKey(const Key('dashboard.reminderCount'));
+    expect(
+      find.descendant(of: tile, matching: find.text('1')),
+      findsOneWidget,
+    );
   });
 }

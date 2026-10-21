@@ -45,7 +45,7 @@ void main() {
 
         testWidgets('overzicht, producten en details', (tester) async {
           await start(tester);
-          await _scrollTo(tester, find.text('Binnenkort'));
+          await _scrollTo(tester, find.text('Recent toegevoegd'));
           await tester.drag(_verticalList(), const Offset(0, 5000));
           await tester.pumpAndSettle();
 

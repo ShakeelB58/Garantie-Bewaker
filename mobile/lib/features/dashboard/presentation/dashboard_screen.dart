@@ -9,11 +9,11 @@ import '../../../core/utils/dates.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../products/application/product_providers.dart';
-import '../../products/presentation/widgets/product_card.dart';
+import '../../products/domain/product.dart';
+import '../../products/presentation/widgets/category_icon.dart';
 import '../application/dashboard_summary.dart';
 
-/// Home: begroeting, tegels met aantallen, naderende datums en recente
-/// aankopen.
+/// Home: begroeting, tegels met aantallen en recente aankopen.
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
@@ -60,14 +60,6 @@ class _DashboardContent extends StatelessWidget {
 
   final DashboardSummary summary;
   final DateTime now;
-
-  String _upcomingText(UpcomingItem item) {
-    final date = Dates.formatShort(item.date);
-    return switch (item.kind) {
-      UpcomingKind.reminder => 'Herinnering op $date',
-      UpcomingKind.warrantyEnd => 'Garantie tot $date (zelf ingevuld)',
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,25 +140,6 @@ class _DashboardContent extends StatelessWidget {
             ],
           ),
         ),
-        if (summary.upcoming.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.lg),
-          const _SectionHeader(
-            title: 'Binnenkort',
-            subtitle:
-                'Ingestelde datums in de komende '
-                '${DashboardSummary.upcomingWindowDays} dagen',
-          ),
-          for (final item in summary.upcoming)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: ProductCard(
-                product: item.product,
-                highlight: _upcomingText(item),
-                onTap: () =>
-                    context.push(AppRoutes.productDetail(item.product.id)),
-              ),
-            ),
-        ],
         const SizedBox(height: AppSpacing.lg),
         _SectionHeader(
           title: 'Recent toegevoegd',
@@ -175,15 +148,59 @@ class _DashboardContent extends StatelessWidget {
             child: const Text('Toon alles'),
           ),
         ),
-        for (final product in summary.recent)
-          Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: ProductCard(
-              product: product,
-              onTap: () => context.push(AppRoutes.productDetail(product.id)),
-            ),
+        Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              for (var i = 0; i < summary.recent.length; i++) ...[
+                if (i > 0) const Divider(height: 1, indent: 76),
+                _RecentRow(product: summary.recent[i]),
+              ],
+            ],
           ),
+        ),
       ],
+    );
+  }
+}
+
+/// Eén regel in "Recent toegevoegd": icoon, naam, winkel · datum.
+class _RecentRow extends StatelessWidget {
+  const _RecentRow({required this.product});
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final subtitle = [
+      ?product.merchant,
+      Dates.formatShort(product.purchaseDate),
+    ].join(' · ');
+    return MergeSemantics(
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        leading: CategoryTile(category: product.category, size: 44),
+        title: Text(
+          product.name,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(AppRoutes.productDetail(product.id)),
+      ),
     );
   }
 }

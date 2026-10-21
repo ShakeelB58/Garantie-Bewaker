@@ -42,6 +42,7 @@ abstract final class AppTheme {
 
     final base = ThemeData(
       useMaterial3: true,
+      fontFamily: 'Poppins',
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart' show Color;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -49,6 +50,7 @@ class LocalReminderNotifications implements ReminderNotifications {
       channelDescription: 'Herinneringen op door jou ingestelde datums',
       // Op het vergrendelscherm geen productnaam tonen.
       visibility: NotificationVisibility.private,
+      color: Color(0xFF0B7A75),
     ),
     iOS: DarwinNotificationDetails(),
   );
@@ -64,7 +66,7 @@ class LocalReminderNotifications implements ReminderNotifications {
   Future<void> _ensureInitialized() => _initialized ??= _plugin
       .initialize(
         settings: const InitializationSettings(
-          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          android: AndroidInitializationSettings('@drawable/ic_notification'),
           // Geen toestemmingsvraag bij het starten; pas als de gebruiker een
           // herinnering instelt.
           iOS: DarwinInitializationSettings(
