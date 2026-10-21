@@ -246,6 +246,7 @@
   - formulier: "Aankoopprijs" en "Valuta" passen niet naast elkaar bij grote tekst; nu onder elkaar
   - keuzelijsten (categorie, valuta) kapten tekst niet netjes af
   - vensters konden bij grote tekst niet helemaal getoond worden; ze scrollen nu
+  - de knop "Aankoop toevoegen" viel bij de grootste iOS-tekst (310%) deels buiten beeld (gevonden door de gebruiker op de iPhone-simulator). Het label groeit nu tot maximaal 150%; past het dan nog niet, dan wordt het een ronde plusknop met tooltip
 - **Documentatie:** README herschreven, [handmatige acceptatietests](acceptatietests.md) toegevoegd.
 
 ### Getest
