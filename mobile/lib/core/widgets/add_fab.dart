@@ -23,11 +23,27 @@ class AddFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scale = MediaQuery.textScalerOf(context).scale(10) / 10;
+    final theme = Theme.of(context);
     final width = MediaQuery.sizeOf(context).width;
-    // Geschatte breedte van de knop met label (icoon, marges, tekst).
-    final labelScale = scale.clamp(1.0, maxTextScale);
-    final estimated = 80 + label.length * 9.5 * labelScale;
+    final textScaler = MediaQuery.textScalerOf(
+      context,
+    ).clamp(maxScaleFactor: maxTextScale);
+    // Breedte van het label meten zoals het getekend wordt.
+    final painter = TextPainter(
+      text: TextSpan(
+        text: label,
+        style:
+            theme.floatingActionButtonTheme.extendedTextStyle ??
+            theme.textTheme.labelLarge,
+      ),
+      textScaler: textScaler,
+      textDirection: Directionality.of(context),
+      maxLines: 1,
+    )..layout();
+    // Icoon, tussenruimte en binnenmarges van een uitgebreide knop.
+    final estimated = painter.width + 72;
+    painter.dispose();
+    // 16 marge aan beide kanten van het scherm.
     if (estimated > width - 32) {
       return FloatingActionButton(
         heroTag: heroTag,
