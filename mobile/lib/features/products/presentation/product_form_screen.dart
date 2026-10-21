@@ -541,47 +541,44 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             const SizedBox(height: AppSpacing.md),
             _FieldPair(
               first: TextField(
-                    key: const Key('productForm.price'),
-                    controller: _price,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      labelText: 'Aankoopprijs (optioneel)',
-                      hintText: 'bijv. 1.299,00',
-                      errorText: _errors[ProductField.price],
-                      errorMaxLines: 2,
-                      helperText: _recognitionHint(ProductField.price),
-                      helperStyle: _hintStyle(ProductField.price),
-                      helperMaxLines: 2,
-                      suffixIcon: _recognitionIcon(ProductField.price),
-                      border: const OutlineInputBorder(),
-                    ),
-                    onChanged: (_) => _changed(ProductField.price, () {}),
-                  ),
+                key: const Key('productForm.price'),
+                controller: _price,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  labelText: 'Aankoopprijs (optioneel)',
+                  hintText: 'bijv. 1.299,00',
+                  errorText: _errors[ProductField.price],
+                  errorMaxLines: 2,
+                  helperText: _recognitionHint(ProductField.price),
+                  helperStyle: _hintStyle(ProductField.price),
+                  helperMaxLines: 2,
+                  suffixIcon: _recognitionIcon(ProductField.price),
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: (_) => _changed(ProductField.price, () {}),
+              ),
               second: DropdownButtonFormField<String>(
-                    isExpanded: true,
-                    key: const Key('productForm.currency'),
-                    initialValue: _currency,
-                    decoration: InputDecoration(
-                      labelText: 'Valuta',
-                      errorText: _errors[ProductField.currency],
-                      border: const OutlineInputBorder(),
-                    ),
-                    items: [
-                      for (final code in Money.supportedCurrencies)
-                        DropdownMenuItem(value: code, child: Text(code)),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        _changed(
-                          ProductField.currency,
-                          () => _currency = value,
-                        );
-                      }
-                    },
-                  ),
+                isExpanded: true,
+                key: const Key('productForm.currency'),
+                initialValue: _currency,
+                decoration: InputDecoration(
+                  labelText: 'Valuta',
+                  errorText: _errors[ProductField.currency],
+                  border: const OutlineInputBorder(),
+                ),
+                items: [
+                  for (final code in Money.supportedCurrencies)
+                    DropdownMenuItem(value: code, child: Text(code)),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    _changed(ProductField.currency, () => _currency = value);
+                  }
+                },
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SectionTitle('Garantie en herinnering'),
@@ -870,7 +867,11 @@ class _FieldPair extends StatelessWidget {
     if (largeText || narrow) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [first, const SizedBox(height: AppSpacing.md), second],
+        children: [
+          first,
+          const SizedBox(height: AppSpacing.md),
+          second,
+        ],
       );
     }
     return Row(
