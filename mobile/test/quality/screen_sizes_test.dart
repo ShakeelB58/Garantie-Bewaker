@@ -58,7 +58,9 @@ void main() {
           // Terug naar boven: deze kaart staat bovenaan de lijst.
           await tester.drag(_verticalList(), const Offset(0, 5000));
           await tester.pumpAndSettle();
-          await tester.ensureVisible(find.textContaining('Combimagnetron').first);
+          await tester.ensureVisible(
+            find.textContaining('Combimagnetron').first,
+          );
           await tester.pumpAndSettle();
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
