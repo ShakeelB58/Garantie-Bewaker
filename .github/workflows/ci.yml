@@ -54,11 +54,10 @@ jobs:
           status=$?
           tail -n 5 test.txt
           if [ $status -ne 0 ]; then
-            # Foutmeldingen (EXCEPTION CAUGHT-blokken) en de mislukte tests.
-            awk '/EXCEPTION CAUGHT BY/{p=1;n=0} p{print; n++} p&&n>45{p=0} /\[E\]$/{print}' test.txt \
-              | grep -v '^\s*$' | head -c 60000 > failures.txt
-            msg=$(sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g' failures.txt)
-            echo "::error title=flutter test::$msg"
+            python3 ../.github/scripts/test_failures.py test.txt
+            grep -E '\[E\]$' test.txt | sed 's#^.*mobile/test/#test/#' | sort -u | head -40 > failed.txt
+            msg=$(sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' failed.txt)
+            echo "::error title=Mislukte tests::$msg"
           fi
           exit $status
 
