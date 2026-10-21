@@ -1,4 +1,4 @@
-package nl.garantiebewaker.garantiebewaker
+package nl.bonvrij.app
 
 import android.content.Intent
 import android.net.Uri

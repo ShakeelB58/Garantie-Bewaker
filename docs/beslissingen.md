@@ -234,10 +234,24 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Welkomstscherm:** één keer, opgeslagen als `onboarding_done`. Na "alles verwijderen"
   verschijnt het bij de volgende start opnieuw.
 
+## B16: App-ID, alleen iPhone en back-ups (2026-10-21)
+
+- **App-ID `nl.bonvrij.app`** op iOS (bundel-ID) en Android (applicationId en namespace).
+  Na publicatie niet meer te wijzigen. Advies: registreer het domein bonvrij.nl, zodat het
+  ID bij een domein hoort dat je bezit.
+  - Gevolg voor testtoestellen: de oude app (`nl.garantiebewaker…`) blijft naast de nieuwe staan
+    en moet met de hand verwijderd worden. Testgegevens gaan niet mee.
+- **Alleen iPhone** (`TARGETED_DEVICE_FAMILY = 1`). Op een iPad draait de app als iPhone-app;
+  iPad-schermafbeeldingen zijn niet nodig.
+- **Back-ups van het besturingssysteem blijven aan** (iCloud en Google), versleuteld en onder
+  het account van de gebruiker. Vermeld in de privacyverklaring en in de app.
+- **Versie 1.0.0+1.** `ITSAppUsesNonExemptEncryption = false`: geen exportdocumentatie nodig.
+- **Android-ondertekening:** `android/key.properties` (nooit in Git). Zonder dat bestand wordt
+  met de debug-sleutel getekend.
+
 ## Openstaande risico's
 
 | Risico | Aanpak |
 |--------|--------|
 | `text_sight` is een klein pakket met één onderhouder | Zit achter de interface `TextRecognizer`; vervangbaar zonder de rest te wijzigen (B10). |
 | "Delen met app" vanuit Mail vraagt native configuratie (iOS Share Extension, Android intent-filters) | Apart onderdeel in fase 3, op beide platformen handmatig testen. |
-| De bundel-ID `nl.garantiebewaker.garantiebewaker` is een tijdelijke keuze | Vóór de eerste publicatie wijzigen naar een domein dat je zelf bezit. |

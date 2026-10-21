@@ -2,7 +2,7 @@ name: garantiebewaker
 description: "GarantieBewaker: bewaar aankoopbewijzen en garantiedatums lokaal op je telefoon."
 publish_to: "none"
 
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ^3.8.0

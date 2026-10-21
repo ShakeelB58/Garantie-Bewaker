@@ -311,9 +311,11 @@ class SettingsScreen extends ConsumerWidget {
           '• Meldingen worden door je telefoon zelf getoond, zonder '
           'server. Op het vergrendelscherm van Android wordt de '
           'productnaam verborgen.\n'
-          '• Bonvrij heeft zelf geen back-upfunctie. Verwijder je '
-          'de app, dan verdwijnen ook de gegevens die erin zijn opgeslagen. '
-          'Met "Gegevens exporteren" maak je zelf een kopie.\n'
+          '• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen '
+          'back-up (iCloud of Google), versleuteld en onder jouw account. '
+          'Zo komen ze terug op een nieuwe telefoon.\n'
+          '• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je '
+          'de app, dan verdwijnen de gegevens van je telefoon.\n'
           '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
           'keer.',
         ),
