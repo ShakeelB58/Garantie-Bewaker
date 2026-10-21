@@ -16,11 +16,11 @@ Legenda: ✅ getest en goed · ⚠️ deels getest · ⬜ nog te testen
 | 4 | Een PDF met tekst importeren | ✅ | ⚠️ | Op iOS niet gelukt de PDF in de simulator te zetten; zelfde code als Android |
 | 5 | Een gescande PDF verwerken | ⬜ | ⬜ | Automatisch getest (nep-PDF); geen gescand testbestand op het toestel |
 | 6 | Meerdere pagina's verwerken | ⬜ | ⬜ | Automatisch getest (max. 10 pagina's) |
-| 7 | Een product met meerdere documenten bewaren | ⬜ | ⬜ | |
-| 8 | Een herinnering instellen en wijzigen | ⚠️ | ⚠️ | Instellen en testmelding getest; melding op de dag zelf nog te bevestigen |
+| 7 | Een product met meerdere documenten bewaren | ✅ | ✅ | Fase 6 |
+| 8 | Een herinnering instellen en wijzigen | ✅ | ✅ | Melding kwam op de ingestelde dag; tikken opent het product |
 | 9 | Een product en documenten verwijderen | ✅ | ✅ | Fase 3a |
-| 10 | De app offline gebruiken | ⬜ | ⬜ | Vliegtuigmodus; alleen het eerste ML Kit-model op Android vraagt internet |
-| 11 | De app opnieuw starten en opgeslagen gegevens controleren | ⬜ | ⬜ | App volledig afsluiten en opnieuw openen |
+| 10 | De app offline gebruiken | ✅ | ⬜ | Samsung in vliegtuigmodus getest. Op de simulator niet te testen; de app bevat geen netwerkcode (alleen het eerste ML Kit-model op Android vraagt internet) |
+| 11 | De app opnieuw starten en opgeslagen gegevens controleren | ✅ | ✅ | Fase 6 |
 | 12 | De app testen op iOS en Android | ✅ | ✅ | Simulator en Samsung |
 
 Extra (fase 5):
@@ -28,13 +28,15 @@ Extra (fase 5):
 | Test | Android | iOS |
 |------|---------|-----|
 | Gegevens exporteren en ZIP openen | ✅ | ✅ |
-| Alle lokale gegevens verwijderen | ⬜ | ⬜ |
+| Alle lokale gegevens verwijderen | ✅ | ✅ |
 | Versienummer bij "Over GarantieBewaker" | ✅ | ✅ |
 
 Extra (fase 6, toegankelijkheid):
 
 | Test | Android | iOS |
 |------|---------|-----|
-| Grote tekst (systeeminstelling op maximaal): niets valt weg of overlapt | ⬜ | ⬜ |
-| Schermlezer (TalkBack / VoiceOver): productkaart wordt als één knop voorgelezen | ⬜ | ⬜ |
+| Grote tekst (systeeminstelling op maximaal): niets valt weg of overlapt | ✅ | ✅ |
+| Schermlezer (TalkBack / VoiceOver): productkaart wordt als één knop voorgelezen | ✅ | ⬜ |
 | Donkere modus van het systeem: app blijft leesbaar (app gebruikt altijd licht thema) | ⬜ | ⬜ |
+
+Opmerking grote tekst iOS: de knop "Aankoop toevoegen" viel deels buiten beeld; opgelost in fase 6 en opnieuw gecontroleerd door de gebruiker.

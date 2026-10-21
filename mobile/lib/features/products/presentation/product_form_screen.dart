@@ -388,6 +388,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final discard = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         title: const Text('Wijzigingen weggooien?'),
         content: const Text('Je wijzigingen worden niet opgeslagen.'),
         actions: [

@@ -55,7 +55,13 @@ void main() {
           expect(find.byTooltip('Bewerken'), findsOneWidget);
 
           await tapBack(tester);
-          await _scrollTo(tester, find.textContaining('Combimagnetron').first);
+          // Terug naar boven: deze kaart staat bovenaan de lijst.
+          await tester.drag(_verticalList(), const Offset(0, 5000));
+          await tester.pumpAndSettle();
+          await tester.ensureVisible(
+            find.textContaining('Combimagnetron').first,
+          );
+          await tester.pumpAndSettle();
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
           await tester.drag(
@@ -105,20 +111,56 @@ void main() {
       });
     }
   }
+
+  _maxTextFabTests();
+}
+
+/// iOS gaat met "Grotere tekst" (toegankelijkheid) tot ongeveer 310%.
+void _maxTextFabTests() {
+  for (final size in const [Size(402, 874), Size(320, 568)]) {
+    testWidgets('knop "Aankoop toevoegen" past bij 310% tekst op '
+        '${size.width.toInt()} breed', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 3.1;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        repository: InMemoryProductRepository([makeProduct()]),
+        screenSize: size,
+      );
+
+      final fab = find.byType(FloatingActionButton);
+      expect(fab, findsOneWidget);
+      final rect = tester.getRect(fab);
+      expect(rect.left, greaterThanOrEqualTo(0));
+      expect(rect.right, lessThanOrEqualTo(size.width));
+
+      // Ook op het productentabblad.
+      await tester.tap(find.byIcon(Icons.inventory_2_outlined).last);
+      await tester.pumpAndSettle();
+      final productsFab = tester.getRect(find.byType(FloatingActionButton));
+      expect(productsFab.right, lessThanOrEqualTo(size.width));
+    });
+  }
 }
 
 /// Scrolt in de zichtbare lijst tot [finder] in beeld is.
-Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
+Future<void> _scrollTo(
+  WidgetTester tester,
+  Finder finder, {
+  double delta = 150,
+}) async {
   try {
     await tester.scrollUntilVisible(
       finder,
-      150,
-      scrollable: find.byType(Scrollable).first,
+      delta,
+      // De verticale lijst, niet bijv. de horizontale filterknoppen.
+      scrollable: _verticalList(),
     );
   } catch (error) {
-    final texts = tester
-        .widgetList<Text>(find.byType(Text))
-        .map((t) => t.data ?? t.textSpan?.toPlainText())
+    final texts = find
+        .byType(Text)
+        .evaluate()
+        .map((e) => (e.widget as Text).data ?? '')
         .join(' | ');
     final scrollables = find.byType(Scrollable).evaluate().length;
     fail(
@@ -128,3 +170,9 @@ Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
   }
   await tester.pumpAndSettle();
 }
+
+Finder _verticalList() => find
+    .byWidgetPredicate(
+      (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
+    )
+    .first;

@@ -26,6 +26,8 @@ class ProductDetailScreen extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         title: const Text('Product verwijderen?'),
         content: Text(
           '"${product.name}" wordt definitief van deze telefoon verwijderd, '
