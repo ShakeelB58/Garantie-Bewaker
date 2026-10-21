@@ -272,7 +272,8 @@ class _SectionHeader extends StatelessWidget {
               child: Text(title, style: theme.textTheme.titleMedium),
             ),
           ),
-          ?action,
+          // Flexible: bij heel grote tekst mag "Toon alles" afbreken.
+          if (action != null) Flexible(child: action!),
         ],
       ),
     );
