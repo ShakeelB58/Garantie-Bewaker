@@ -5,11 +5,15 @@ import re
 import sys
 
 text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
-blocks = re.findall(r"══╡ EXCEPTION CAUGHT BY (.*?)╞═+\n(.*?)\n═{20,}", text, re.S)
+test_line = re.compile(r"^\d+:\d+ \+\d+.*?: (?:.*/mobile/)?(test/.*?)(?: \[E\])?$", re.M)
+block_re = re.compile(r"══╡ EXCEPTION CAUGHT BY (.*?)╞═+\n(.*?)\n═{20,}", re.S)
 
 seen = set()
 count = 0
-for source, body in blocks:
+for match in block_re.finditer(text):
+    source, body = match.group(1), match.group(2)
+    tests = test_line.findall(text, 0, match.start())
+    current = tests[-1] if tests else "?"
     lines = [l.strip() for l in body.splitlines()]
     keep = []
     extra = 0
@@ -23,15 +27,14 @@ for source, body in blocks:
             extra = 2
         elif s.startswith("The relevant error-causing widget was"):
             extra = 1
-        elif s.startswith("creator:"):
-            keep.append(s[:400])
-            extra = 2
+        elif s.startswith(("constraints:", "size:")):
+            keep.append(s[:200])
+        elif s.startswith("creator:") and "DEFUNCT" not in s:
+            keep.append(s[:300])
         elif "/mobile/lib/" in s or "/mobile/test/" in s:
             keep.append(re.sub(r"file:///.*/mobile/", "", s)[:300])
-        elif s.startswith("The test description was"):
-            extra = 1
-    msg = f"[{source.strip()}] " + "\n".join(dict.fromkeys(keep))
-    key = re.sub(r"#\w+|\d+(\.\d+)? pixels", "", msg)
+    msg = f"[{source.strip()}] in {current}\n" + "\n".join(dict.fromkeys(keep))
+    key = re.sub(r"in test/.*\n|#\w+|\d+(\.\d+)? pixels", "", msg)
     if key in seen:
         continue
     seen.add(key)

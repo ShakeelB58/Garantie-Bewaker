@@ -489,6 +489,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             ),
             const SizedBox(height: AppSpacing.md),
             DropdownButtonFormField<ProductCategory>(
+              isExpanded: true,
               key: const Key('productForm.category'),
               initialValue: _category,
               decoration: const InputDecoration(
@@ -538,12 +539,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: TextField(
+            _FieldPair(
+              first: TextField(
                     key: const Key('productForm.price'),
                     controller: _price,
                     keyboardType: const TextInputType.numberWithOptions(
@@ -562,12 +559,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                       border: const OutlineInputBorder(),
                     ),
                     onChanged: (_) => _changed(ProductField.price, () {}),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField<String>(
+                  ),,
+              second: DropdownButtonFormField<String>(
+                    isExpanded: true,
                     key: const Key('productForm.currency'),
                     initialValue: _currency,
                     decoration: InputDecoration(
@@ -587,9 +581,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                         );
                       }
                     },
-                  ),
-                ),
-              ],
+                  ),,
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SectionTitle('Garantie en herinnering'),
@@ -858,6 +850,35 @@ class _ProductChoice extends StatelessWidget {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// Twee velden naast elkaar (3:2), of onder elkaar bij grote tekst of een
+/// smal scherm, zodat niets wordt afgekapt.
+class _FieldPair extends StatelessWidget {
+  const _FieldPair({required this.first, required this.second});
+
+  final Widget first;
+  final Widget second;
+
+  @override
+  Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(10) > 13;
+    final narrow = MediaQuery.sizeOf(context).width < 360;
+    if (largeText || narrow) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [first, const SizedBox(height: AppSpacing.md), second],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex: 3, child: first),
+        const SizedBox(width: AppSpacing.sm),
+        Expanded(flex: 2, child: second),
       ],
     );
   }

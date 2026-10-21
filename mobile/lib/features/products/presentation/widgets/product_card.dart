@@ -99,13 +99,21 @@ class ProductCard extends StatelessWidget {
                   ),
                   if (product.purchasePriceMinor != null) ...[
                     const SizedBox(width: AppSpacing.sm),
-                    Text(
-                      Money.format(
-                        product.purchasePriceMinor!,
-                        product.currency,
+                    // Bij grote tekst of een smal scherm mag de prijs
+                    // hoogstens een derde van de breedte innemen.
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.sizeOf(context).width / 3,
                       ),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                      child: Text(
+                        Money.format(
+                          product.purchasePriceMinor!,
+                          product.currency,
+                        ),
+                        textAlign: TextAlign.end,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

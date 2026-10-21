@@ -109,10 +109,22 @@ void main() {
 
 /// Scrolt in de zichtbare lijst tot [finder] in beeld is.
 Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
-  await tester.scrollUntilVisible(
-    finder,
-    150,
-    scrollable: find.byType(Scrollable).first,
-  );
+  try {
+    await tester.scrollUntilVisible(
+      finder,
+      150,
+      scrollable: find.byType(Scrollable).first,
+    );
+  } catch (error) {
+    final texts = tester
+        .widgetList<Text>(find.byType(Text))
+        .map((t) => t.data ?? t.textSpan?.toPlainText())
+        .join(' | ');
+    final scrollables = find.byType(Scrollable).evaluate().length;
+    fail(
+      'Niet gevonden: $finder ($error). Scrollables: $scrollables. '
+      'Zichtbare teksten: $texts',
+    );
+  }
   await tester.pumpAndSettle();
 }
