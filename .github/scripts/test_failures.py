@@ -47,3 +47,10 @@ for match in matches:
     count += 1
     if count == 9:
         break
+
+
+# Waarschuwingen van tap() die niet raakten: laten zien wat er wél geraakt werd.
+warn = re.search(r"Warning: A call to tap\(\).*?(?:\n\s*\n|$)", text, re.S)
+if warn:
+    msg = warn.group(0)[:3800].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+    print(f"::error title=Tik mist::{msg}")
