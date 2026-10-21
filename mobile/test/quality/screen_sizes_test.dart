@@ -49,11 +49,13 @@ void main() {
 
           await tester.tap(find.text('Producten'));
           await tester.pumpAndSettle();
+          await _scrollTo(tester, find.text('Tv'));
           await tester.tap(find.text('Tv'));
           await tester.pumpAndSettle();
           expect(find.byTooltip('Bewerken'), findsOneWidget);
 
           await tapBack(tester);
+          await _scrollTo(tester, find.textContaining('Combimagnetron').first);
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
           await tester.drag(
@@ -67,7 +69,7 @@ void main() {
           await start(tester);
           await tester.tap(find.byType(FloatingActionButton).first);
           await tester.pumpAndSettle();
-          expect(find.text('Handmatig invoeren'), findsOneWidget);
+          await _scrollTo(tester, find.text('Handmatig invoeren'));
 
           await tester.tap(find.text('Handmatig invoeren'));
           await tester.pumpAndSettle();
@@ -86,20 +88,31 @@ void main() {
 
           await tester.tap(find.byKey(const Key('settings.reminderLead')));
           await tester.pumpAndSettle();
+          await tester.ensureVisible(find.byKey(const Key('settings.lead.14')));
+          await tester.pumpAndSettle();
           await tester.tap(find.byKey(const Key('settings.lead.14')));
           await tester.pumpAndSettle();
 
-          await tester.scrollUntilVisible(
-            find.byKey(const Key('settings.deleteAll')),
-            200,
-          );
+          await _scrollTo(tester, find.byKey(const Key('settings.deleteAll')));
           await tester.tap(find.byKey(const Key('settings.deleteAll')));
           await tester.pumpAndSettle();
           expect(find.text('Alle gegevens verwijderen?'), findsOneWidget);
+          await tester.ensureVisible(find.text('Annuleren'));
+          await tester.pumpAndSettle();
           await tester.tap(find.text('Annuleren'));
           await tester.pumpAndSettle();
         });
       });
     }
   }
+}
+
+/// Scrolt in de zichtbare lijst tot [finder] in beeld is.
+Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
+  await tester.scrollUntilVisible(
+    finder,
+    150,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.pumpAndSettle();
 }

@@ -26,8 +26,9 @@ class AddPurchaseScreen extends ConsumerWidget {
       DocumentSource.camera,
       type: DocumentType.receipt,
     );
-    if (staged != null && context.mounted)
+    if (staged != null && context.mounted) {
       await _openForm(context, ref, staged);
+    }
   }
 
   Future<void> _import(BuildContext context, WidgetRef ref) async {
@@ -37,8 +38,9 @@ class AddPurchaseScreen extends ConsumerWidget {
     );
     if (source == null || !context.mounted) return;
     final staged = await acquireDocument(context, ref, source);
-    if (staged != null && context.mounted)
+    if (staged != null && context.mounted) {
       await _openForm(context, ref, staged);
+    }
   }
 
   Future<void> _openForm(
