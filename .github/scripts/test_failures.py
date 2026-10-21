@@ -1,5 +1,5 @@
 """Zet foutmeldingen uit `flutter test --reporter expanded` om naar
-GitHub-annotaties (maximaal 10, elk compact), zodat ze zonder logbestand
+GitHub-annotaties (maximaal 9, elk compact), zodat ze zonder logbestand
 leesbaar zijn."""
 import re
 import sys
@@ -10,27 +10,28 @@ blocks = re.findall(r"══╡ EXCEPTION CAUGHT BY (.*?)╞═+\n(.*?)\n═{20,
 seen = set()
 count = 0
 for source, body in blocks:
+    lines = [l.strip() for l in body.splitlines()]
     keep = []
-    for line in body.splitlines():
-        s = line.strip()
-        if (
-            s.startswith("The following")
-            or "overflowed" in s
-            or s.startswith("creator:")
-            or "Expected:" in s
-            or "Actual:" in s
-            or "Which:" in s
-            or s.startswith("Bad state")
-            or s.startswith("The finder")
-            or re.search(r"\(file:///.*/mobile/(lib|test)/", s)
-            or s.startswith("The test description was")
-            or (keep and keep[-1].startswith("The test description was"))
-        ):
-            keep.append(s[:1500])
-    if not keep:
-        keep = [l.strip()[:300] for l in body.splitlines()[:15]]
-    msg = f"[{source.strip()}] " + "\n".join(keep)
-    key = re.sub(r"#\d+|RenderFlex#\w+|\d+(\.\d+)? pixels", "", msg)
+    extra = 0
+    for s in lines:
+        if extra > 0 and s:
+            keep.append(s[:400])
+            extra -= 1
+            continue
+        if s.startswith("The following"):
+            keep.append(s)
+            extra = 2
+        elif s.startswith("The relevant error-causing widget was"):
+            extra = 1
+        elif s.startswith("creator:"):
+            keep.append(s[:400])
+            extra = 2
+        elif "/mobile/lib/" in s or "/mobile/test/" in s:
+            keep.append(re.sub(r"file:///.*/mobile/", "", s)[:300])
+        elif s.startswith("The test description was"):
+            extra = 1
+    msg = f"[{source.strip()}] " + "\n".join(dict.fromkeys(keep))
+    key = re.sub(r"#\w+|\d+(\.\d+)? pixels", "", msg)
     if key in seen:
         continue
     seen.add(key)
