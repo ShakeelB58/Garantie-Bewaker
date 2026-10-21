@@ -165,10 +165,7 @@ class _ProductDetails extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            product.name,
-                            style: theme.textTheme.titleLarge,
-                          ),
+                          Text(product.name, style: theme.textTheme.titleLarge),
                           if (subtitle.isNotEmpty)
                             Text(
                               subtitle,
@@ -289,7 +286,9 @@ class _Pill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: active ? theme.colorScheme.primaryContainer : AppColors.background,
+        color: active
+            ? theme.colorScheme.primaryContainer
+            : AppColors.background,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(

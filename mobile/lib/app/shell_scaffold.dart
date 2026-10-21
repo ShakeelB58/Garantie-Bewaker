@@ -24,7 +24,11 @@ class ShellScaffold extends StatelessWidget {
       selected: Icons.description,
       label: 'Documenten',
     ),
-    (icon: Icons.settings_outlined, selected: Icons.settings, label: 'Instellingen'),
+    (
+      icon: Icons.settings_outlined,
+      selected: Icons.settings,
+      label: 'Instellingen',
+    ),
   ];
 
   void _select(int index) => navigationShell.goBranch(

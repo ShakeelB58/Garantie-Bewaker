@@ -753,8 +753,7 @@ class _RecognitionBanner extends StatelessWidget {
       recognition.totalMinor,
     ];
     final good =
-        fields.every((f) => f.isFound) &&
-        !fields.any((f) => f.needsAttention);
+        fields.every((f) => f.isFound) && !fields.any((f) => f.needsAttention);
     final summary = [
       ?recognition.merchant.value,
       if (recognition.purchaseDate.value != null)

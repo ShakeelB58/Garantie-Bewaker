@@ -6,8 +6,9 @@ import '../../app/theme/app_theme.dart';
 import '../settings/application/settings_providers.dart';
 
 /// Of het welkomstscherm al is gezien.
-final onboardingDoneProvider =
-    AsyncNotifierProvider<OnboardingNotifier, bool>(OnboardingNotifier.new);
+final onboardingDoneProvider = AsyncNotifierProvider<OnboardingNotifier, bool>(
+  OnboardingNotifier.new,
+);
 
 class OnboardingNotifier extends AsyncNotifier<bool> {
   static const key = 'onboarding_done';
@@ -92,7 +93,8 @@ class WelcomeScreen extends ConsumerWidget {
                     children: [
                       const _Point(
                         icon: Icons.lock_outline,
-                        text: 'Alles blijft op je telefoon. Geen account nodig.',
+                        text:
+                            'Alles blijft op je telefoon. Geen account nodig.',
                       ),
                       const _Point(
                         icon: Icons.document_scanner_outlined,
@@ -100,7 +102,8 @@ class WelcomeScreen extends ConsumerWidget {
                       ),
                       const _Point(
                         icon: Icons.notifications_none,
-                        text: 'Krijg een herinnering op de datum die jij kiest.',
+                        text:
+                            'Krijg een herinnering op de datum die jij kiest.',
                       ),
                       const SizedBox(height: AppSpacing.lg),
                       FilledButton(
@@ -109,8 +112,9 @@ class WelcomeScreen extends ConsumerWidget {
                           backgroundColor: AppColors.navy,
                           minimumSize: const Size.fromHeight(52),
                         ),
-                        onPressed: () =>
-                            ref.read(onboardingDoneProvider.notifier).complete(),
+                        onPressed: () => ref
+                            .read(onboardingDoneProvider.notifier)
+                            .complete(),
                         child: const Text('Aan de slag'),
                       ),
                     ],

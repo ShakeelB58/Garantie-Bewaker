@@ -72,13 +72,10 @@ class ProductDocumentsSection extends ConsumerWidget {
               AppSpacing.md,
               AppSpacing.xs,
             ),
-            child: Text(
-              switch (documents) {
-                AsyncData(:final value) => 'Documenten (${value.length})',
-                _ => 'Documenten',
-              },
-              style: theme.textTheme.titleMedium,
-            ),
+            child: Text(switch (documents) {
+              AsyncData(:final value) => 'Documenten (${value.length})',
+              _ => 'Documenten',
+            }, style: theme.textTheme.titleMedium),
           ),
           documents.when(
             loading: () => const Padding(

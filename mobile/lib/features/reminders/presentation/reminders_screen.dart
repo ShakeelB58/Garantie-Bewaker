@@ -143,9 +143,8 @@ class RemindersScreen extends ConsumerWidget {
                                 ? theme.colorScheme.primary
                                 : theme.colorScheme.onSurfaceVariant,
                           ),
-                          onTap: () => context.push(
-                            AppRoutes.productDetail(product.id),
-                          ),
+                          onTap: () =>
+                              context.push(AppRoutes.productDetail(product.id)),
                         ),
                       ),
                     ),
