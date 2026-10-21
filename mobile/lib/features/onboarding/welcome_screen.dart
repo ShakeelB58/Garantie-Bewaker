@@ -143,10 +143,10 @@ class _Illustration extends StatelessWidget {
                 child: const _Paper(width: 96, height: 122),
               ),
             ),
-            Positioned(
+            const Positioned(
               left: 70,
               top: 26,
-              child: const _Paper(width: 96, height: 122),
+              child: _Paper(width: 96, height: 122),
             ),
             Positioned(
               right: 30,

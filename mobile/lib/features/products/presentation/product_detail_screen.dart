@@ -94,33 +94,27 @@ class ProductDetailScreen extends ConsumerWidget {
                   AppSpacing.md,
                   AppSpacing.sm,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        key: const Key('product.edit'),
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(64, 48),
-                        ),
-                        icon: const Icon(Icons.edit_outlined),
-                        label: const Text('Bewerken'),
-                        onPressed: () =>
-                            context.push(AppRoutes.editProduct(product.id)),
-                      ),
+                child: _ActionButtons(
+                  edit: OutlinedButton.icon(
+                    key: const Key('product.edit'),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(64, 48),
                     ),
-                    const SizedBox(width: AppSpacing.sm + 4),
-                    Expanded(
-                      child: FilledButton.icon(
-                        key: const Key('product.delete'),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.error,
-                        ),
-                        icon: const Icon(Icons.delete_outline),
-                        label: const Text('Verwijderen'),
-                        onPressed: () => _delete(context, ref, product),
-                      ),
+                    icon: const Icon(Icons.edit_outlined),
+                    label: const Text('Bewerken'),
+                    onPressed: () =>
+                        context.push(AppRoutes.editProduct(product.id)),
+                  ),
+                  delete: FilledButton.icon(
+                    key: const Key('product.delete'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.error,
+                      minimumSize: const Size(64, 48),
                     ),
-                  ],
+                    icon: const Icon(Icons.delete_outline),
+                    label: const Text('Verwijderen'),
+                    onPressed: () => _delete(context, ref, product),
+                  ),
                 ),
               ),
             ),
@@ -355,6 +349,34 @@ class _DetailRow extends StatelessWidget {
           ),
         ),
         if (!isLast) const Divider(height: 1),
+      ],
+    );
+  }
+}
+
+/// Bewerken en Verwijderen naast elkaar, of onder elkaar bij grote tekst
+/// (anders past "Verwijderen" niet op een halve schermbreedte).
+class _ActionButtons extends StatelessWidget {
+  const _ActionButtons({required this.edit, required this.delete});
+
+  final Widget edit;
+  final Widget delete;
+
+  @override
+  Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(10) > 13;
+    if (largeText) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [edit, const SizedBox(height: AppSpacing.sm), delete],
+      );
+    }
+    return Row(
+      children: [
+        Expanded(child: edit),
+        const SizedBox(width: AppSpacing.sm + 4),
+        Expanded(child: delete),
       ],
     );
   }

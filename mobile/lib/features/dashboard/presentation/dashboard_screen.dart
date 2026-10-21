@@ -254,10 +254,9 @@ class _StatTile extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, this.subtitle, this.action});
+  const _SectionHeader({required this.title, this.action});
 
   final String title;
-  final String? subtitle;
   final Widget? action;
 
   @override
@@ -268,21 +267,9 @@ class _SectionHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Semantics(
-                  header: true,
-                  child: Text(title, style: theme.textTheme.titleMedium),
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-              ],
+            child: Semantics(
+              header: true,
+              child: Text(title, style: theme.textTheme.titleMedium),
             ),
           ),
           ?action,

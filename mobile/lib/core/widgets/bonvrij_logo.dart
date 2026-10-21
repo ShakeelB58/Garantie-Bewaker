@@ -40,7 +40,7 @@ class _ShieldPainter extends CustomPainter {
     final h = size.height;
     final cx = w / 2;
     final cy = h / 2;
-    final top = 0.0;
+    const top = 0.0;
     final bottom = h;
     final shield = Path()
       ..moveTo(cx, top)
