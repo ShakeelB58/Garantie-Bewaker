@@ -8,7 +8,7 @@ void main() {
   testWidgets('start op het dashboard met een lege toestand', (tester) async {
     await pumpApp(tester);
 
-    expect(find.text('GarantieBewaker'), findsOneWidget);
+    expect(find.text('Bonvrij'), findsOneWidget);
     expect(find.text('Nog geen aankopen'), findsOneWidget);
     expect(find.text('Aankoop toevoegen'), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);

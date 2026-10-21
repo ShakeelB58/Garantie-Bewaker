@@ -7,7 +7,7 @@
     <!-- Geplande meldingen opnieuw inplannen na het herstarten van de telefoon. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
-        android:label="GarantieBewaker"
+        android:label="Bonvrij"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -30,7 +30,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!-- "Openen met GarantieBewaker" (bijv. vanuit Bestanden of een mailbijlage). -->
+            <!-- "Openen met Bonvrij" (bijv. vanuit Bestanden of een mailbijlage). -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -40,7 +40,7 @@
                 <data android:mimeType="image/png"/>
                 <data android:mimeType="image/heic"/>
             </intent-filter>
-            <!-- "Delen" naar GarantieBewaker vanuit andere apps. -->
+            <!-- "Delen" naar Bonvrij vanuit andere apps. -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>

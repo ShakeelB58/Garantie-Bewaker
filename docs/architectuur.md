@@ -1,4 +1,4 @@
-# Architectuur GarantieBewaker
+# Architectuur Bonvrij
 
 ## Overzicht
 

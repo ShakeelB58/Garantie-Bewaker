@@ -11,5 +11,5 @@ Future<void> main() async {
   await initializeDateFormatting('nl');
   // Nodig om PDF's te lezen buiten de PDF-viewer (tekstextractie).
   await pdfrxFlutterInitialize();
-  runApp(const ProviderScope(child: GarantieBewakerApp()));
+  runApp(const ProviderScope(child: BonvrijApp()));
 }

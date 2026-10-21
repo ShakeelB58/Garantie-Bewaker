@@ -1,6 +1,6 @@
 # Publicatiechecklist: App Store en Google Play
 
-Doel: GarantieBewaker eerst aan een paar testers geven, en daarna publiceren.
+Doel: Bonvrij eerst aan een paar testers geven, en daarna publiceren.
 Regels van Apple en Google veranderen geregeld. **Controleer elk punt opnieuw vlak voor het
 indienen**; de bedragen en termijnen hieronder gelden per oktober 2026.
 
@@ -10,10 +10,10 @@ Legenda: ⬜ te doen · ✅ klaar · ❓ beslissing nodig
 
 | | Punt | Advies |
 |---|------|--------|
-| ❓ | **Eigen app-ID (bundel-ID).** Nu `nl.garantiebewaker.garantiebewaker`, tijdelijk en niet van jou. Na publicatie is dit **nooit meer te wijzigen**. | Kies een omgekeerd domein dat je bezit, bijv. `nl.jouwdomein.garantiebewaker`. Heb je geen domein, dan kan iets unieks met je naam. |
+| ❓ | **Eigen app-ID (bundel-ID).** Nu `nl.garantiebewaker.garantiebewaker`, tijdelijk en niet van jou. Na publicatie is dit **nooit meer te wijzigen**. | Kies een omgekeerd domein dat je bezit, bijv. `nl.bonvrij.app` als je bonvrij.nl bezit. Heb je geen domein, dan kan iets unieks met je naam. |
 | ❓ | **iPad.** De app staat nu ingesteld voor iPhone én iPad (`TARGETED_DEVICE_FAMILY = "1,2"`). Dan vraagt Apple ook iPad-schermafbeeldingen en wordt de app op iPad beoordeeld. | Eerst alleen iPhone (`"1"`). iPad kan later. |
 | ❓ | **Back-ups van het besturingssysteem.** iCloud-back-up (iOS) en Google-back-up (Android) nemen de database en documenten van de app standaard mee, versleuteld. Voordeel: gegevens komen terug op een nieuwe telefoon. Nadeel: "alles blijft op je telefoon" is dan niet helemaal waar. | Aan laten (de app heeft geen eigen back-up) en dit eerlijk vermelden in de privacyverklaring en in de app. |
-| ❓ | **Naam in de stores.** "GarantieBewaker" moet nog vrij zijn in beide stores. | Zoek de naam op in de App Store en Play Store. |
+| ✅ | **Naam:** "Bonvrij" (gekozen op 21-10-2026, beslissing B14). Vlak voor het indienen nog controleren in beide stores en in het merkregister (BOIP). | Store-ondertitel, bijv. "Al je bonnen en garanties veilig op je telefoon". |
 
 ## 2. Accounts en kosten
 
@@ -50,7 +50,7 @@ Legenda: ⬜ te doen · ✅ klaar · ❓ beslissing nodig
 | ⬜ | **App Store-privacylabel:** waarschijnlijk "Geen gegevens verzameld", omdat er niets naar de ontwikkelaar of derden gaat. |
 | ⬜ | **Google Play-gegevensveiligheid:** "Geen gegevens verzameld of gedeeld", plus een vermelding dat gebruikers alles zelf kunnen verwijderen. |
 | ⬜ | Leeftijdsclassificatie invullen in beide stores; zou "voor iedereen" moeten zijn. |
-| ✅ | In de app staat dat GarantieBewaker geen juridisch advies geeft en geen garantietermijnen berekent. |
+| ✅ | In de app staat dat Bonvrij geen juridisch advies geeft en geen garantietermijnen berekent. |
 
 ## 5. Winkelpagina
 

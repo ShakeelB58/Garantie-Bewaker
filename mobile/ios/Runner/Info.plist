@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>GarantieBewaker</string>
+	<string>Bonvrij</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -62,9 +62,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>GarantieBewaker gebruikt de camera om kassabonnen te fotograferen. De foto's blijven op je telefoon.</string>
+	<string>Bonvrij gebruikt de camera om kassabonnen te fotograferen. De foto's blijven op je telefoon.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>GarantieBewaker opent je fotobibliotheek alleen als je zelf een foto van een aankoopbewijs kiest.</string>
+	<string>Bonvrij opent je fotobibliotheek alleen als je zelf een foto van een aankoopbewijs kiest.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

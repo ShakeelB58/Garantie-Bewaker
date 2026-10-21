@@ -17,7 +17,7 @@ abstract final class AppRadius {
   static const button = 12.0;
 }
 
-/// Design system van GarantieBewaker op basis van Material 3.
+/// Design system van Bonvrij op basis van Material 3.
 abstract final class AppTheme {
   static ThemeData light() {
     final colorScheme =

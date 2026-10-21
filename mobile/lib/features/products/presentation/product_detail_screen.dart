@@ -187,7 +187,7 @@ class _ProductDetails extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         Text(
-          'GarantieBewaker controleert niet of je recht hebt op garantie. '
+          'Bonvrij controleert niet of je recht hebt op garantie. '
           'De datums hierboven heb je zelf ingevuld.',
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,

@@ -29,7 +29,7 @@ Extra (fase 5):
 |------|---------|-----|
 | Gegevens exporteren en ZIP openen | ✅ | ✅ |
 | Alle lokale gegevens verwijderen | ✅ | ✅ |
-| Versienummer bij "Over GarantieBewaker" | ✅ | ✅ |
+| Versienummer bij "Over Bonvrij" | ✅ | ✅ |
 
 Extra (fase 6, toegankelijkheid):
 

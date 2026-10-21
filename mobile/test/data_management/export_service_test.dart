@@ -59,7 +59,7 @@ void main() {
 
     final export = await service.build();
 
-    expect(export.fileName, 'garantiebewaker-export-2026-10-19.zip');
+    expect(export.fileName, 'bonvrij-export-2026-10-19.zip');
     expect(export.productCount, 2);
     expect(export.documentCount, 3);
     expect(export.missingDocuments, 0);

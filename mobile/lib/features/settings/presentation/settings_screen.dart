@@ -61,7 +61,7 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.lock_outline),
             title: const Text('Privacy'),
-            subtitle: const Text('Hoe GarantieBewaker met je gegevens omgaat'),
+            subtitle: const Text('Hoe Bonvrij met je gegevens omgaat'),
             onTap: () => _showPrivacy(context),
           ),
           ListTile(
@@ -89,16 +89,16 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             key: const Key('settings.about'),
             leading: const Icon(Icons.info_outline),
-            title: const Text('Over GarantieBewaker'),
+            title: const Text('Over Bonvrij'),
             subtitle: Text(
               'Versie ${ref.watch(appVersionProvider).value ?? '…'}',
             ),
             onTap: () => showAboutDialog(
               context: context,
-              applicationName: 'GarantieBewaker',
+              applicationName: 'Bonvrij',
               applicationVersion: ref.read(appVersionProvider).value,
               applicationLegalese:
-                  'GarantieBewaker geeft geen juridisch advies. Door jou '
+                  'Bonvrij geeft geen juridisch advies. Door jou '
                   'ingestelde datums zijn herinneringen, geen vastgestelde '
                   'garantietermijnen.',
             ),
@@ -169,7 +169,7 @@ class SettingsScreen extends ConsumerWidget {
       _message(
         context,
         'Meldingen staan uit. Zet ze aan in de instellingen van je telefoon, '
-        'bij GarantieBewaker.',
+        'bij Bonvrij.',
       );
     }
     return granted;
@@ -311,7 +311,7 @@ class SettingsScreen extends ConsumerWidget {
           '• Meldingen worden door je telefoon zelf getoond, zonder '
           'server. Op het vergrendelscherm van Android wordt de '
           'productnaam verborgen.\n'
-          '• GarantieBewaker heeft zelf geen back-upfunctie. Verwijder je '
+          '• Bonvrij heeft zelf geen back-upfunctie. Verwijder je '
           'de app, dan verdwijnen ook de gegevens die erin zijn opgeslagen. '
           'Met "Gegevens exporteren" maak je zelf een kopie.\n'
           '• Met "Alle lokale gegevens verwijderen" wis je alles in één '

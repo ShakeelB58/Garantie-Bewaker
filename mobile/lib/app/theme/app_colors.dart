@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
-/// Kleurenpalet van GarantieBewaker.
+/// Kleurenpalet van Bonvrij.
 ///
 /// Contrastverhoudingen (WCAG 2.x) zijn gecontroleerd in
 /// `test/theme_contrast_test.dart`; minimaal 4,5:1 voor gewone tekst.

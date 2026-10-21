@@ -106,7 +106,7 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
   Gekozen door de product-eigenaar, met het oog op publicatie in App Store en Play Store.
 - **iOS:**
   - `CFBundleDocumentTypes` voor PDF, JPEG, PNG en HEIC
-  - rol "Viewer", rang "Alternate": GarantieBewaker wordt nooit de standaard-app voor deze bestanden
+  - rol "Viewer", rang "Alternate": Bonvrij wordt nooit de standaard-app voor deze bestanden
   - `LSSupportsOpeningDocumentsInPlace = false`: iOS levert een kopie aan, het origineel blijft onaangeroerd
   - de `SceneDelegate` geeft binnenkomende URL's door, bij een koude start en terwijl de app draait
   - geen Share Extension en geen App Groups nodig
@@ -191,7 +191,23 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
   - Mislukt het verwijderen van een bestand, dan ruimt de opstartcontrole het later op (het hoort nergens meer bij).
 - **Logs:** alleen het fouttype (`runtimeType`), nooit productnamen, paden of herkende tekst. Een test controleert dit voor alle `debugPrint`-regels in de app.
 - **Tijdelijke bestanden:** bij elke start ruimt de app de cache van de bestandskiezer op, naast de bestaande opruiming van losse documentbestanden.
-- **App-versie:** via `package_info_plus`, zichtbaar bij "Over GarantieBewaker".
+- **App-versie:** via `package_info_plus`, zichtbaar bij "Over Bonvrij".
+
+## B14: Appnaam "Bonvrij" (2026-10-21)
+
+- **Keuze:** de app heet voortaan **Bonvrij** (was GarantieBewaker). Gekozen door de product-eigenaar.
+  Garantiekluis en Bonnetje bleken al bezet.
+- **Waarom:** kort (past onder het app-icoon), makkelijk te onthouden, en de naam dekt bonnen,
+  facturen en garanties.
+- **Gewijzigd:** alle teksten in de app, de appnaam op iOS en Android, toestemmingsteksten,
+  meldingen, de exportbestandsnaam (`bonvrij-export-<datum>.zip`) en de documentatie.
+- **Bewust niet gewijzigd** (intern, onzichtbaar voor gebruikers):
+  - het Dart-pakket `garantiebewaker`, de repository en de mapnamen
+  - de databasebestandsnaam `garantiebewaker.db`: wijzigen zou bestaande gegevens onvindbaar maken
+  - het tijdelijke app-ID `nl.garantiebewaker.garantiebewaker`: dat wordt vóór publicatie in één keer
+    vervangen door een ID op basis van een eigen domein (zie de publicatiechecklist)
+- **Nog te doen vóór publicatie:** beschikbaarheid in App Store, Play Store en merkregister (BOIP)
+  controleren, en bij voorkeur het domein bonvrij.nl vastleggen.
 
 ## Openstaande risico's
 

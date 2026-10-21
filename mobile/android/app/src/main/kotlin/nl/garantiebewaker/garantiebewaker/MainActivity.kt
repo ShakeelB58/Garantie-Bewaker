@@ -7,7 +7,7 @@ import com.fluttercavalry.open_file_handler.OpenFileHandlerPlugin
 import io.flutter.embedding.android.FlutterActivity
 
 /**
- * Ontvangt bestanden die met GarantieBewaker worden geopend of gedeeld
+ * Ontvangt bestanden die met Bonvrij worden geopend of gedeeld
  * (PDF, JPEG, PNG, HEIC) en geeft ze door aan Flutter via open_file_handler.
  * Het bestand wordt naar de cache van de app gekopieerd; Flutter controleert
  * het daarna en ruimt de kopie op.

@@ -275,7 +275,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     }
     if (!granted && mounted) {
       _showMessage(
-        'Meldingen staan uit voor GarantieBewaker. De herinnering wordt wel '
+        'Meldingen staan uit voor Bonvrij. De herinnering wordt wel '
         'bewaard. Zet meldingen aan in de instellingen van je telefoon.',
       );
     }

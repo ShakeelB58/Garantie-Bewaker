@@ -76,7 +76,7 @@ Future<InMemoryProductRepository> pumpApp(
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),
       ],
-      child: const GarantieBewakerApp(),
+      child: const BonvrijApp(),
     ),
   );
   await tester.pumpAndSettle();

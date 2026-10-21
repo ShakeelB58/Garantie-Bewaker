@@ -21,7 +21,7 @@ class DashboardScreen extends ConsumerWidget {
     final summary = ref.watch(dashboardSummaryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('GarantieBewaker')),
+      appBar: AppBar(title: const Text('Bonvrij')),
       body: summary.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => ErrorView(

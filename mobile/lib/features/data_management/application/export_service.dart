@@ -94,7 +94,7 @@ class ExportService {
       ..addFile(ArchiveFile.string('LEESMIJ.txt', _readme()));
 
     return ExportFile(
-      fileName: 'garantiebewaker-export-${Dates.toIsoDate(_clock())}.zip',
+      fileName: 'bonvrij-export-${Dates.toIsoDate(_clock())}.zip',
       bytes: ZipEncoder().encodeBytes(archive),
       productCount: products.length,
       documentCount: documentCount,
@@ -130,7 +130,7 @@ class ExportService {
   }
 
   String _readme() =>
-      'Export van GarantieBewaker\r\n'
+      'Export van Bonvrij\r\n'
       'Gemaakt op ${Dates.formatLong(_clock())}.\r\n'
       '\r\n'
       'producten.csv\r\n'
@@ -145,6 +145,6 @@ class ExportService {
       'veilige plek en deel het alleen met mensen die je vertrouwt.\r\n'
       '\r\n'
       'Garantie-einddatums en herinneringen zijn door jou ingevuld. '
-      'GarantieBewaker berekent geen garantietermijnen en geeft geen '
+      'Bonvrij berekent geen garantietermijnen en geeft geen '
       'juridisch advies.\r\n';
 }

@@ -160,7 +160,7 @@ class LocalReminderNotifications implements ReminderNotifications {
       id: ReminderPlanner.testNotificationId,
       at: DateTime.now().add(const Duration(minutes: 1)),
       title: 'Testmelding',
-      body: 'Meldingen van GarantieBewaker werken.',
+      body: 'Meldingen van Bonvrij werken.',
     );
   }
 

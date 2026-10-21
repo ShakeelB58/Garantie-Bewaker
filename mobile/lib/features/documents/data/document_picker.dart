@@ -72,11 +72,11 @@ class PlatformDocumentPicker implements DocumentPicker {
 
   static String _messageFor(PlatformException e, DocumentSource source) {
     if (e.code == 'camera_access_denied') {
-      return 'GarantieBewaker heeft geen toegang tot de camera. '
+      return 'Bonvrij heeft geen toegang tot de camera. '
           'Je kunt dit aanzetten in de instellingen van je telefoon.';
     }
     if (e.code == 'photo_access_denied') {
-      return 'GarantieBewaker heeft geen toegang tot je foto\'s. '
+      return 'Bonvrij heeft geen toegang tot je foto\'s. '
           'Je kunt dit aanzetten in de instellingen van je telefoon.';
     }
     if (e.code == 'no_available_camera') {

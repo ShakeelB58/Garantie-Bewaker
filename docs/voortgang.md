@@ -1,4 +1,4 @@
-# Voortgang GarantieBewaker
+# Voortgang Bonvrij
 
 ## Fase 1: Projectbasis ✅ afgerond (2026-10-19)
 
@@ -99,7 +99,7 @@
   - soort wijzigen
   - verwijderen na bevestiging
 - **Product verwijderen** verwijdert ook alle documentbestanden.
-- **iOS**: Nederlandse toestemmingsteksten voor camera en fotobibliotheek; ontwikkeltaal `nl`. De appnaam is "GarantieBewaker".
+- **iOS**: Nederlandse toestemmingsteksten voor camera en fotobibliotheek; ontwikkeltaal `nl`. De appnaam is "Bonvrij".
 
 ### Getest
 
@@ -127,10 +127,10 @@
 
 ### Opgeleverd
 
-- **iOS**: GarantieBewaker staat in het deelmenu bij "Openen met" voor PDF, JPEG, PNG en HEIC.
+- **iOS**: Bonvrij staat in het deelmenu bij "Openen met" voor PDF, JPEG, PNG en HEIC.
   - geen Share Extension nodig (beslissing B9)
   - nooit de standaard-app voor deze bestanden
-- **Android**: GarantieBewaker verschijnt bij "Delen" en "Openen met", bijvoorbeeld vanuit Mijn bestanden, Galerij en Gmail.
+- **Android**: Bonvrij verschijnt bij "Delen" en "Openen met", bijvoorbeeld vanuit Mijn bestanden, Galerij en Gmail.
 - **Verwerking**: een binnenkomend bestand wordt gecontroleerd en veilig opgeslagen. Daarna opent "Product toevoegen" met het document erbij.
 - **Opruimen**: tijdelijke kopieën worden verwijderd (cache en iOS `Documents/Inbox`).
 - **Testbestanden**: fictieve factuur (PDF) en kassabon (JPG) in `docs/testbestanden/`.
@@ -211,7 +211,7 @@
   - alle lokale gegevens verwijderen, pas na een bevestigingsvinkje
   - cache van de bestandskiezer wordt bij elke start opgeruimd
   - test die afdwingt dat logregels alleen het fouttype bevatten
-  - app-versie bij "Over GarantieBewaker"
+  - app-versie bij "Over Bonvrij"
 
 ### Getest
 
@@ -276,7 +276,7 @@
 1. Eigen app-ID (bundel-ID), na publicatie niet meer te wijzigen.
 2. Alleen iPhone of ook iPad.
 3. Back-ups van iCloud en Google aan laten (advies) en vermelden in de privacyverklaring.
-4. Beschikbaarheid van de naam "GarantieBewaker" in beide stores.
+4. Beschikbaarheid van de naam "Bonvrij" in beide stores.
 
 ## MVP: definitie van klaar
 

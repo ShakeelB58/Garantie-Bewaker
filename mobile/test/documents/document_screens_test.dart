@@ -106,7 +106,7 @@ void main() {
       tester,
     ) async {
       picker.error = const AppException(
-        'GarantieBewaker heeft geen toegang tot de camera.',
+        'Bonvrij heeft geen toegang tot de camera.',
       );
       await start(tester);
 
@@ -115,7 +115,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.text('GarantieBewaker heeft geen toegang tot de camera.'),
+        find.text('Bonvrij heeft geen toegang tot de camera.'),
         findsOneWidget,
       );
       // Handmatig invoeren blijft altijd mogelijk.

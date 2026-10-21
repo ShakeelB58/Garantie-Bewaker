@@ -91,7 +91,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.textContaining('Meldingen staan uit voor GarantieBewaker'),
+        find.textContaining('Meldingen staan uit voor Bonvrij'),
         findsOneWidget,
       );
       // Standaard 1 maand vóór de einddatum.

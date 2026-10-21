@@ -1,4 +1,4 @@
-# GarantieBewaker
+# Bonvrij
 
 Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums lokaal te bewaren.
 Alles blijft op de telefoon: geen account, geen server, geen clouddiensten.

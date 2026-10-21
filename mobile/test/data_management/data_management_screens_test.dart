@@ -66,7 +66,7 @@ void main() {
       await tester.tap(find.text('Exporteren'));
       await tester.pumpAndSettle();
 
-      expect(saver.fileName, 'garantiebewaker-export-2026-10-19.zip');
+      expect(saver.fileName, 'bonvrij-export-2026-10-19.zip');
       expect(saver.mimeType, 'application/zip');
       final names = ZipDecoder()
           .decodeBytes(saver.bytes!)
@@ -136,7 +136,7 @@ void main() {
     });
   });
 
-  testWidgets('versienummer staat bij "Over GarantieBewaker"', (tester) async {
+  testWidgets('versienummer staat bij "Over Bonvrij"', (tester) async {
     await start(tester);
     expect(find.text('Versie 0.1.0 (1)'), findsOneWidget);
   });

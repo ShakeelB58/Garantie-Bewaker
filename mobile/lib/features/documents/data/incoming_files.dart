@@ -5,7 +5,7 @@ import 'package:open_file_handler/open_file_handler.dart';
 
 import '../../../core/errors/user_message.dart';
 
-/// Een bestand dat vanuit een andere app naar GarantieBewaker is gestuurd.
+/// Een bestand dat vanuit een andere app naar Bonvrij is gestuurd.
 class IncomingFile {
   const IncomingFile({required this.path, this.name, this.originalPath});
 

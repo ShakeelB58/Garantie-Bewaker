@@ -15,14 +15,14 @@ import '../features/reminders/application/reminder_service.dart';
 import 'router.dart';
 import 'theme/app_theme.dart';
 
-class GarantieBewakerApp extends ConsumerStatefulWidget {
-  const GarantieBewakerApp({super.key});
+class BonvrijApp extends ConsumerStatefulWidget {
+  const BonvrijApp({super.key});
 
   @override
-  ConsumerState<GarantieBewakerApp> createState() => _GarantieBewakerAppState();
+  ConsumerState<BonvrijApp> createState() => _BonvrijAppState();
 }
 
-class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
+class _BonvrijAppState extends ConsumerState<BonvrijApp> {
   /// Meldingen tonen vanaf app-niveau (bijv. bij een gedeeld bestand).
   final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   StreamSubscription<IncomingFile>? _incomingSubscription;
@@ -137,7 +137,7 @@ class _GarantieBewakerAppState extends ConsumerState<GarantieBewakerApp> {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'GarantieBewaker',
+      title: 'Bonvrij',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       routerConfig: router,

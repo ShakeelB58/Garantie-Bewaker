@@ -6,7 +6,7 @@ import '../../products/data/product_repository.dart';
 import '../../reminders/data/reminder_notifications.dart';
 import '../../settings/data/settings_repository.dart';
 
-/// Verwijdert alle gegevens die GarantieBewaker op het toestel heeft
+/// Verwijdert alle gegevens die Bonvrij op het toestel heeft
 /// opgeslagen. Er is geen server, dus daarna is er nergens meer een kopie
 /// (behalve een export die de gebruiker zelf heeft bewaard).
 class DataWipeService {

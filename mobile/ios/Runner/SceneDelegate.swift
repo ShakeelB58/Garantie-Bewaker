@@ -3,7 +3,7 @@ import UIKit
 import open_file_handler
 
 /// Ontvangt bestanden die via "Openen met" of het deelmenu naar
-/// GarantieBewaker worden gestuurd, zowel bij een koude start als wanneer de
+/// Bonvrij worden gestuurd, zowel bij een koude start als wanneer de
 /// app al draait. Het bestand wordt gekopieerd; Flutter controleert het daarna
 /// en ruimt de kopie op.
 class SceneDelegate: FlutterSceneDelegate {
