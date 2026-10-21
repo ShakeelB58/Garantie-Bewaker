@@ -48,7 +48,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⏳ | **Privacyverklaring** staat online op https://bonvrij.nl/privacy/ (GitHub Pages, bron `docs/privacyverklaring.md`). Nog invullen vóór indienen: naam van de verantwoordelijke. |
+| ✅ | **Privacyverklaring** staat online op https://bonvrij.nl/privacy/ (bron `docs/privacyverklaring.md`), met de naam van de verantwoordelijke. |
 | ⬜ | **App Store-privacylabel:** waarschijnlijk "Geen gegevens verzameld", omdat er niets naar de ontwikkelaar of derden gaat. |
 | ⬜ | **Google Play-gegevensveiligheid:** "Geen gegevens verzameld of gedeeld", plus een vermelding dat gebruikers alles zelf kunnen verwijderen. |
 | ⬜ | Leeftijdsclassificatie invullen in beide stores; zou "voor iedereen" moeten zijn. |

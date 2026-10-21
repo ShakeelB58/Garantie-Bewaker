@@ -8,11 +8,9 @@ eigen telefoon. Wij ontvangen niets.**
 
 ## Wie zijn wij
 
-Bonvrij is een app van [naam ontwikkelaar].
+Bonvrij is een app van Shakeel Bechan.
 Contact: bonvrij.app@gmail.com
 
-> Nog in te vullen vóór publicatie: bij "[naam ontwikkelaar]" de naam van de
-> verantwoordelijke (jouw naam, of later je bedrijfsnaam). Dat vraagt de privacywet (AVG).
 
 ## Welke gegevens de app bewaart
 
