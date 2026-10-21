@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 import 'package:garantiebewaker/features/reminders/application/reminder_service.dart';
+import 'package:garantiebewaker/features/settings/application/settings_providers.dart';
 
 import '../helpers/document_fakes.dart';
 import '../helpers/fixtures.dart';
@@ -25,6 +26,9 @@ void main() {
         productRepositoryProvider.overrideWithValue(repo),
         documentRepositoryProvider.overrideWithValue(documents),
         documentFileStoreProvider.overrideWithValue(fileStore),
+        settingsRepositoryProvider.overrideWithValue(
+          InMemorySettingsRepository(),
+        ),
         reminderNotificationsProvider.overrideWithValue(
           FakeReminderNotifications(),
         ),

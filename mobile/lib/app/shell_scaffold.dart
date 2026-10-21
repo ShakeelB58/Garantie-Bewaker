@@ -13,16 +13,18 @@ class ShellScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   static const _tabs = [
-    (icon: Icons.home_outlined, selected: Icons.home, label: 'Home'),
+    (icon: Icons.home_outlined, selected: Icons.home, label: 'Home', key: 'home'),
     (
       icon: Icons.inventory_2_outlined,
       selected: Icons.inventory_2,
       label: 'Producten',
+      key: 'products',
     ),
     (
       icon: Icons.description_outlined,
       selected: Icons.description,
       label: 'Documenten',
+      key: 'documents',
     ),
     (
       icon: Icons.settings_outlined,
@@ -43,6 +45,7 @@ class ShellScaffold extends StatelessWidget {
       final t = _tabs[index];
       return Expanded(
         child: _TabItem(
+          key: Key('nav.${t.key}'),
           icon: t.icon,
           selectedIcon: t.selected,
           label: t.label,
@@ -97,6 +100,7 @@ class _TabItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    super.key,
   });
 
   final IconData icon;

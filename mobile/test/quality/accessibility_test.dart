@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/fixtures.dart';
@@ -42,7 +43,7 @@ void main() {
   testWidgets('productenlijst', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpApp(tester, repository: products());
-    await tester.tap(find.text('Producten'));
+    await tester.tap(find.byKey(const Key('nav.products')));
     await tester.pumpAndSettle();
     await checkScreen(tester);
     handle.dispose();
@@ -51,7 +52,7 @@ void main() {
   testWidgets('productdetails', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpApp(tester, repository: products());
-    await tester.tap(find.text('Producten'));
+    await tester.tap(find.byKey(const Key('nav.products')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Koelkast'));
     await tester.pumpAndSettle();
@@ -91,7 +92,7 @@ void main() {
   testWidgets('productkaart wordt als één knop voorgelezen', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpApp(tester, repository: products());
-    await tester.tap(find.text('Producten'));
+    await tester.tap(find.byKey(const Key('nav.products')));
     await tester.pumpAndSettle();
 
     final node = tester.getSemantics(find.text('Koelkast'));

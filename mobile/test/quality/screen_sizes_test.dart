@@ -45,9 +45,11 @@ void main() {
 
         testWidgets('overzicht, producten en details', (tester) async {
           await start(tester);
-          expect(find.text('Binnenkort'), findsOneWidget);
+          await _scrollTo(tester, find.text('Binnenkort'));
+          await tester.drag(_verticalList(), const Offset(0, 5000));
+          await tester.pumpAndSettle();
 
-          await tester.tap(find.text('Producten'));
+          await tester.tap(find.byKey(const Key('nav.products')));
           await tester.pumpAndSettle();
           await _scrollTo(tester, find.text('Tv'));
           await tester.tap(find.text('Tv'));

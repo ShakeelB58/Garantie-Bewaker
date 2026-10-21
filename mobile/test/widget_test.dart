@@ -22,7 +22,7 @@ void main() {
   ) async {
     await pumpApp(tester);
 
-    await tester.tap(find.text('Producten'));
+    await tester.tap(find.byKey(const Key('nav.products')));
     await tester.pumpAndSettle();
     expect(find.text('Nog geen producten'), findsOneWidget);
 

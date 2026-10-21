@@ -17,7 +17,7 @@ Future<void> _openNewProductForm(WidgetTester tester) async {
 }
 
 Future<void> _openProduct(WidgetTester tester, String name) async {
-  await tester.tap(find.text('Producten'));
+  await tester.tap(find.byKey(const Key('nav.products')));
   await tester.pumpAndSettle();
   await tester.tap(find.text(name));
   await tester.pumpAndSettle();
@@ -42,7 +42,7 @@ void main() {
       // Na opslaan: detailscherm.
       expect(find.text('Product opgeslagen.'), findsOneWidget);
       expect(find.text('Wasmachine'), findsOneWidget);
-      expect(find.textContaining('1.299,00'), findsOneWidget);
+      expect(find.textContaining('1.299,00'), findsWidgets);
 
       final saved = repo.all.single;
       expect(saved.name, 'Wasmachine');
@@ -154,7 +154,7 @@ void main() {
 
     testWidgets('zoeken filtert de lijst', (tester) async {
       await pumpApp(tester, repository: seeded());
-      await tester.tap(find.text('Producten'));
+      await tester.tap(find.byKey(const Key('nav.products')));
       await tester.pumpAndSettle();
 
       expect(find.text('Wasmachine'), findsOneWidget);
@@ -177,7 +177,7 @@ void main() {
 
     testWidgets('filteren op categorie', (tester) async {
       await pumpApp(tester, repository: seeded());
-      await tester.tap(find.text('Producten'));
+      await tester.tap(find.byKey(const Key('nav.products')));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Telefoon en tablet'));

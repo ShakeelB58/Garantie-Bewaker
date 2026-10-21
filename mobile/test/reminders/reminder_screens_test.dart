@@ -9,7 +9,7 @@ import '../helpers/test_app.dart';
 Finder _field(String key) => find.byKey(Key('productForm.$key'));
 
 Future<void> _editProduct(WidgetTester tester, String name) async {
-  await tester.tap(find.text('Producten'));
+  await tester.tap(find.byKey(const Key('nav.products')));
   await tester.pumpAndSettle();
   await tester.tap(find.text(name));
   await tester.pumpAndSettle();

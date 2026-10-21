@@ -444,7 +444,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
           title: Text(
             _isEdit
                 ? 'Product bewerken'
-                : widget.recognition != null
+                : widget.recognition?.hasAnything ?? false
                 ? 'Gegevens controleren'
                 : 'Product toevoegen',
           ),

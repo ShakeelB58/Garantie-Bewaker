@@ -4,6 +4,7 @@ import 'package:garantiebewaker/core/storage/storage_providers.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 import 'package:garantiebewaker/features/reminders/application/reminder_service.dart';
+import 'package:garantiebewaker/features/settings/application/settings_providers.dart';
 import 'package:garantiebewaker/features/reminders/data/reminder_notifications.dart';
 import 'package:garantiebewaker/features/reminders/domain/reminder_planner.dart';
 
@@ -31,6 +32,9 @@ void main() {
         ),
         documentFileStoreProvider.overrideWithValue(
           InMemoryDocumentFileStore(),
+        ),
+        settingsRepositoryProvider.overrideWithValue(
+          InMemorySettingsRepository(),
         ),
         reminderNotificationsProvider.overrideWithValue(
           override ?? notifications,

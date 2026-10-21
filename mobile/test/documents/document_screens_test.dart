@@ -192,7 +192,7 @@ void main() {
         InMemoryProductRepository([makeProduct(name: 'Wasmachine')]);
 
     Future<void> openProduct(WidgetTester tester) async {
-      await tester.tap(find.text('Producten'));
+      await tester.tap(find.byKey(const Key('nav.products')));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Wasmachine'));
       await tester.pumpAndSettle();
