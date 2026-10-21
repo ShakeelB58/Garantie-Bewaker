@@ -70,7 +70,9 @@ class ShellScaffold extends StatelessWidget {
                   tab(0),
                   tab(1),
                   Expanded(
+                    // heightFactor: anders wordt de balk zo hoog als het scherm.
                     child: Center(
+                      heightFactor: 1,
                       child: _AddButton(
                         onPressed: () => context.push(AppRoutes.addPurchase),
                       ),
