@@ -141,6 +141,8 @@ class _ProgressDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         content: Row(
           children: [
             const SizedBox(

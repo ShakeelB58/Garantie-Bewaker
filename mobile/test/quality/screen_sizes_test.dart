@@ -113,7 +113,12 @@ Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
     await tester.scrollUntilVisible(
       finder,
       150,
-      scrollable: find.byType(Scrollable).first,
+      // De verticale lijst, niet bijv. de horizontale filterknoppen.
+      scrollable: find
+          .byWidgetPredicate(
+            (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
+          )
+          .first,
     );
   } catch (error) {
     final texts = tester

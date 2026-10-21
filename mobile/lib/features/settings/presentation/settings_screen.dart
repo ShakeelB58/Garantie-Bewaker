@@ -197,6 +197,8 @@ class SettingsScreen extends ConsumerWidget {
     final go = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         title: const Text('Gegevens exporteren'),
         content: const Text(
           'Je krijgt één ZIP-bestand met al je producten (als CSV, te openen '
@@ -295,9 +297,10 @@ class SettingsScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         title: const Text('Privacy'),
-        content: const SingleChildScrollView(
-          child: Text(
+        content: const Text(
             '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon '
             'opgeslagen.\n'
             '• Er is geen account nodig en er wordt niets naar een server '
@@ -313,7 +316,6 @@ class SettingsScreen extends ConsumerWidget {
             'Met "Gegevens exporteren" maak je zelf een kopie.\n'
             '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
             'keer.',
-          ),
         ),
         actions: [
           TextButton(
@@ -362,6 +364,8 @@ class _BusyDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: AlertDialog(
+        // Bij grote tekst kan het hele venster scrollen.
+        scrollable: true,
         content: Row(
           children: [
             const SizedBox(
@@ -392,9 +396,10 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      // Bij grote tekst kan het hele venster scrollen.
+      scrollable: true,
       title: const Text('Alle gegevens verwijderen?'),
-      content: SingleChildScrollView(
-        child: Column(
+      content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -419,7 +424,6 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
             ),
           ],
         ),
-      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
