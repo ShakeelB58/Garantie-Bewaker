@@ -115,7 +115,6 @@ void main() {
   _maxTextFabTests();
 }
 
-
 /// iOS gaat met "Grotere tekst" (toegankelijkheid) tot ongeveer 310%.
 void _maxTextFabTests() {
   for (final size in const [Size(402, 874), Size(320, 568)]) {
