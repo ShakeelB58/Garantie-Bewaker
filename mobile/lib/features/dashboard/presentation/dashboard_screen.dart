@@ -150,7 +150,7 @@ class _DashboardContent extends StatelessWidget {
         ),
         if (summary.upcoming.isNotEmpty) ...[
           const SizedBox(height: AppSpacing.lg),
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Binnenkort',
             subtitle:
                 'Ingestelde datums in de komende '

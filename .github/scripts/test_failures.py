@@ -10,7 +10,11 @@ block_re = re.compile(r"══╡ EXCEPTION CAUGHT BY (.*?)╞═+\n(.*?)\n═{2
 
 seen = set()
 count = 0
-for match in block_re.finditer(text):
+matches = list(block_re.finditer(text))
+# Fouten uit de app zelf (layout, widgets) eerst: die zijn meestal de oorzaak
+# van mislukte zoekopdrachten in tests.
+matches.sort(key=lambda m: "FLUTTER TEST FRAMEWORK" in m.group(1))
+for match in matches:
     source, body = match.group(1), match.group(2)
     tests = test_line.findall(text, 0, match.start())
     current = tests[-1] if tests else "?"
