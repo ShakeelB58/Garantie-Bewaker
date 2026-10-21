@@ -13,4 +13,7 @@ abstract interface class ProductRepository {
 
   /// Verwijdert het product met gekoppelde documentrecords en herinneringen.
   Future<void> delete(String id);
+
+  /// Verwijdert alle producten, documentrecords en herinneringen.
+  Future<void> deleteAll();
 }

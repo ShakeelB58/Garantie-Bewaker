@@ -162,11 +162,41 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - Herkende gegevens worden pas opgeslagen als de gebruiker op "Opslaan" tikt.
 - Logs bevatten alleen het fouttype, nooit tekst uit het document.
 
+## B12: Herinneringen als lokale meldingen (2026-10-21)
+
+- **Pakket:** `flutter_local_notifications` 22.x (Swift Package Manager op iOS). Geen pushserver, geen Firebase: het besturingssysteem toont de melding zelf.
+- **Tijdstip:** rond 09:00 lokale tijd op de herinneringsdatum.
+  - Het tijdstip wordt met de tijdzoneregels van het toestel naar UTC omgerekend (inclusief zomer- en wintertijd). Daardoor is het pakket `flutter_timezone` niet nodig.
+  - Android: niet-exact inplannen (`inexactAllowWhileIdle`). Er is geen toestemming voor exacte alarmen nodig; Android mag de melding iets later tonen. De app belooft daarom nergens een exact tijdstip.
+- **Inplannen:** na elke wijziging en bij elke start van de app wordt alles opnieuw ingepland vanuit de database.
+  - Zo blijven er nooit meldingen achter voor verwijderde of gewijzigde producten.
+  - Alleen de eerstvolgende 50 herinneringen worden ingepland (iOS staat er maximaal 64 toe). De rest volgt bij een latere start.
+  - Na een herstart van een Android-telefoon plant de plug-in de meldingen opnieuw in (`RECEIVE_BOOT_COMPLETED`).
+- **Meldingsnummer:** vast per product (hash van het product-id), opgeslagen in `reminders.notification_id`. Nummer 0 is voor de testmelding.
+- **Toestemming:** pas gevraagd als de gebruiker een herinnering aanzet, of via Instellingen. Zonder toestemming blijft de herinnering bewaard en zichtbaar in de app.
+- **Privacy:** op het Android-vergrendelscherm wordt de inhoud verborgen (`visibility: private`). Op iOS bepaalt de gebruiker dit zelf ("Toon voorvertoning").
+- **Standaardherinnering:** keuze in Instellingen (1 week tot 3 maanden vóór de garantie-einddatum, standaard 1 maand). Opgeslagen in de nieuwe tabel `settings` (databaseversie 2).
+
+## B13: Export en alles verwijderen (2026-10-21)
+
+- **Export:** één ZIP-bestand met `producten.csv`, de map `documenten/` en `LEESMIJ.txt`.
+  - CSV voor Nederlandse Excel/Numbers: puntkomma als scheidingsteken, UTF-8 met BOM, datums als dd-mm-jjjj, bedragen met komma.
+  - **CSV-injectie voorkomen:** een cel die met `=`, `+`, `-`, `@` of een tab begint, krijgt een apostrof ervoor. Zo wordt een productnaam nooit als formule uitgevoerd.
+  - Documentnamen bevatten alleen veilige tekens (`001-wasmachine-factuur-1.pdf`).
+  - Bewaren via het systeemvenster (`FilePicker.saveFile`): de gebruiker kiest zelf de plek. De app schrijft niets naar gedeelde opslag en maakt geen tijdelijk bestand.
+  - Het ZIP-bestand wordt in het geheugen opgebouwd (pakket `archive`). Bij heel veel grote documenten kan dat zwaar worden; zie de bekende beperkingen.
+  - Vooraf een waarschuwing dat het bestand persoonsgegevens bevat.
+- **Alles verwijderen:** pas na een vinkje "Ik begrijp dat dit niet terug te halen is".
+  - Volgorde: database (producten, documentrecords, herinneringen, voorkeuren), dan alle meldingen, dan de documentmap en de cache van de bestandskiezer.
+  - Mislukt het verwijderen van een bestand, dan ruimt de opstartcontrole het later op (het hoort nergens meer bij).
+- **Logs:** alleen het fouttype (`runtimeType`), nooit productnamen, paden of herkende tekst. Een test controleert dit voor alle `debugPrint`-regels in de app.
+- **Tijdelijke bestanden:** bij elke start ruimt de app de cache van de bestandskiezer op, naast de bestaande opruiming van losse documentbestanden.
+- **App-versie:** via `package_info_plus`, zichtbaar bij "Over GarantieBewaker".
+
 ## Openstaande risico's
 
 | Risico | Aanpak |
 |--------|--------|
 | `text_sight` is een klein pakket met één onderhouder | Zit achter de interface `TextRecognizer`; vervangbaar zonder de rest te wijzigen (B10). |
 | "Delen met app" vanuit Mail vraagt native configuratie (iOS Share Extension, Android intent-filters) | Apart onderdeel in fase 3, op beide platformen handmatig testen. |
-| iOS staat maximaal 64 geplande meldingen toe; Android 12+ vraagt aparte toestemming voor exacte alarmen | Niet-exacte meldingen gebruiken, alleen de eerstvolgende plannen en bij het opstarten opnieuw plannen (fase 5). |
 | De bundel-ID `nl.garantiebewaker.garantiebewaker` is een tijdelijke keuze | Vóór de eerste publicatie wijzigen naar een domein dat je zelf bezit. |

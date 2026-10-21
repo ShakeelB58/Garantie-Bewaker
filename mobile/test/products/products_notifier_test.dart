@@ -2,10 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
+import 'package:garantiebewaker/features/reminders/application/reminder_service.dart';
 
 import '../helpers/document_fakes.dart';
 import '../helpers/fixtures.dart';
 import '../helpers/in_memory_product_repository.dart';
+import '../helpers/reminder_fakes.dart';
 
 void main() {
   late InMemoryProductRepository repo;
@@ -23,6 +25,9 @@ void main() {
         productRepositoryProvider.overrideWithValue(repo),
         documentRepositoryProvider.overrideWithValue(documents),
         documentFileStoreProvider.overrideWithValue(fileStore),
+        reminderNotificationsProvider.overrideWithValue(
+          FakeReminderNotifications(),
+        ),
       ],
     );
     addTearDown(container.dispose);

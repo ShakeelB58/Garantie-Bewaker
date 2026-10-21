@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/storage_providers.dart';
 import '../../documents/application/document_service.dart';
+import '../../reminders/application/reminder_service.dart';
 import '../data/product_repository.dart';
 import '../data/sqflite_product_repository.dart';
 import '../domain/product.dart';
@@ -37,6 +38,7 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
   Future<void> save(Product product) async {
     await _repository.save(product);
     state = AsyncData(await _repository.getAll());
+    await ref.read(reminderSyncProvider).syncSafely();
   }
 
   /// Verwijdert het product. Documentrecords en herinneringen verdwijnen via
@@ -49,6 +51,8 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
     await ref.read(documentServiceProvider).deleteFiles(documents);
     ref.invalidate(documentsForProductProvider(id));
     state = AsyncData(await _repository.getAll());
+    // Geen melding laten staan voor een verwijderd product.
+    await ref.read(reminderSyncProvider).syncSafely();
   }
 }
 

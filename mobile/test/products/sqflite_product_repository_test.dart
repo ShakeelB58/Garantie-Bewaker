@@ -3,6 +3,7 @@ import 'package:garantiebewaker/core/storage/app_database.dart';
 import 'package:garantiebewaker/core/storage/migrations.dart';
 import 'package:garantiebewaker/features/products/data/sqflite_product_repository.dart';
 import 'package:garantiebewaker/features/products/domain/product_category.dart';
+import 'package:garantiebewaker/features/reminders/domain/reminder_planner.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../helpers/fixtures.dart';
@@ -37,7 +38,7 @@ void main() {
       );
       expect(
         tables.map((t) => t['name']),
-        containsAll(['products', 'documents', 'reminders']),
+        containsAll(['products', 'documents', 'reminders', 'settings']),
       );
       expect(await db.getVersion(), Migrations.latestVersion);
     });
@@ -117,6 +118,10 @@ void main() {
     final reminders = await db.query('reminders');
     expect(reminders, hasLength(1));
     expect(reminders.first['trigger_at'], '2027-06-01T09:00:00');
+    expect(
+      reminders.first['notification_id'],
+      ReminderPlanner.notificationIdFor(original.id),
+    );
   });
 
   test('herinnering uitzetten bewaart de datum, maar niet actief', () async {
@@ -175,5 +180,28 @@ void main() {
     await db.update('products', {'category': 'iets_nieuws'});
     final loaded = (await repository.getById('p1'))!;
     expect(loaded.category, ProductCategory.other);
+  });
+
+  test('alles verwijderen wist producten, documenten en herinneringen',
+      () async {
+    await repository.save(
+      makeProduct(reminderEnabled: true, reminderDate: DateTime(2027, 1, 1)),
+    );
+    await repository.save(makeProduct(id: 'p2'));
+    final db = await appDatabase.database;
+    await db.insert('documents', {
+      'id': 'd1',
+      'product_id': 'p1',
+      'file_path': 'documents/d1.pdf',
+      'document_type': 'invoice',
+      'mime_type': 'application/pdf',
+      'created_at': '2026-10-01T12:00:00.000Z',
+    });
+
+    await repository.deleteAll();
+
+    expect(await repository.getAll(), isEmpty);
+    expect(await db.query('documents'), isEmpty);
+    expect(await db.query('reminders'), isEmpty);
   });
 }

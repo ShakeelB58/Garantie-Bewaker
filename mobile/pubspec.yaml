@@ -7,7 +7,7 @@ version: 0.1.0+1
 environment:
   sdk: ^3.8.0
 
-# Alleen wat echt gebruikt wordt. Notificaties volgen in fase 5.
+# Alleen wat echt gebruikt wordt.
 # Dio wordt pas toegevoegd wanneer de app daadwerkelijk met de backend praat (niet nodig voor de MVP).
 dependencies:
   flutter:
@@ -41,6 +41,14 @@ dependencies:
   text_sight: ^1.0.0
   # Gescande PDF-pagina's omzetten naar JPEG voor OCR (ook gebruikt door pdfrx).
   image: ^4.8.0
+  # Lokale meldingen voor herinneringen (geen pushserver, geen internet).
+  flutter_local_notifications: ^22.3.0
+  # Tijdstippen voor geplande meldingen (wordt ook door flutter_local_notifications gebruikt).
+  timezone: ">=0.10.0 <0.12.0"
+  # Export als ZIP (pure Dart; werd al gebruikt door het pakket image).
+  archive: ^4.0.0
+  # Versienummer van de app tonen bij "Over GarantieBewaker".
+  package_info_plus: ^10.0.0
 
 dev_dependencies:
   flutter_test:

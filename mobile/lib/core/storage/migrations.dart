@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 ///   omdat een herinnering om "09:00 in Nederland" moet afgaan.
 /// - Geldbedragen in gehele centen.
 abstract final class Migrations {
-  static const latestVersion = 1;
+  static const latestVersion = 2;
 
   static final Map<int, List<String>> _steps = {
     1: [
@@ -54,6 +54,15 @@ abstract final class Migrations {
       )
       ''',
       'CREATE INDEX idx_reminders_product ON reminders (product_id)',
+    ],
+    // Fase 5: voorkeuren van de gebruiker (bijv. standaardherinnering).
+    2: [
+      '''
+      CREATE TABLE settings (
+        key    TEXT PRIMARY KEY NOT NULL,
+        value  TEXT NOT NULL
+      )
+      ''',
     ],
   };
 

@@ -3,14 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:garantiebewaker/app/app.dart';
 import 'package:garantiebewaker/core/storage/storage_providers.dart';
+import 'package:garantiebewaker/features/data_management/application/data_management_providers.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 import 'package:garantiebewaker/features/recognition/application/recognition_service.dart';
+import 'package:garantiebewaker/features/reminders/application/reminder_service.dart';
+import 'package:garantiebewaker/features/settings/application/settings_providers.dart';
 
+import 'data_management_fakes.dart';
 import 'document_fakes.dart';
 import 'fixtures.dart';
 import 'in_memory_product_repository.dart';
 import 'recognition_fakes.dart';
+import 'reminder_fakes.dart';
 
 /// Start de volledige app met opslag in het geheugen en een vaste klok.
 ///
@@ -24,6 +29,9 @@ Future<InMemoryProductRepository> pumpApp(
   FakeIncomingFileSource? incoming,
   FakeTextRecognizer? recognizer,
   FakePdfPageSource? pdfPages,
+  FakeReminderNotifications? notifications,
+  InMemorySettingsRepository? settings,
+  FakeExportSaver? exportSaver,
 }) async {
   // Een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = const Size(800, 1800);
@@ -56,6 +64,16 @@ Future<InMemoryProductRepository> pumpApp(
         pdfPageSourceProvider.overrideWithValue(
           pdfPages ?? FakePdfPageSource(),
         ),
+        reminderNotificationsProvider.overrideWithValue(
+          notifications ?? FakeReminderNotifications(),
+        ),
+        settingsRepositoryProvider.overrideWithValue(
+          settings ?? InMemorySettingsRepository(),
+        ),
+        exportSaverProvider.overrideWithValue(
+          exportSaver ?? FakeExportSaver(),
+        ),
+        appVersionProvider.overrideWith((ref) async => '0.1.0 (1)'),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),
       ],

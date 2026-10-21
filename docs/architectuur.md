@@ -32,7 +32,6 @@ mobile/lib/
     storage/                SQLite-database, migraties, klok- en id-providers
     utils/                  Datums en geldbedragen
     widgets/                Herbruikbare componenten (EmptyState, ErrorView)
-    (notifications/, security/ volgen in fase 5)
   features/
     dashboard/              application/ (DashboardSummary), presentation/
     products/
@@ -50,8 +49,18 @@ mobile/lib/
       data/                 TextRecognizer (OCR op het toestel), PdfPageSource (PDF-tekst en -afbeeldingen)
       application/          TextExtractionService, RecognitionService
       presentation/         Voortgangsvenster tijdens het herkennen
-    settings/presentation/
-    (reminders/ volgt in fase 5)
+    reminders/
+      domain/               ReminderPlanner: welke meldingen wanneer (09:00, max. 50)
+      data/                 ReminderNotifications (lokale meldingen)
+      application/          ReminderSync: na elke wijziging en bij het starten alles opnieuw inplannen
+    data_management/
+      domain/               ProductsCsv (veilige CSV)
+      data/                 ExportSaver (bewaarvenster van het systeem)
+      application/          ExportService (ZIP), DataWipeService (alles verwijderen)
+    settings/
+      data/                 SettingsRepository (tabel settings)
+      application/          Standaardherinnering (ReminderLead)
+      presentation/         Instellingenscherm
 ```
 
 Laagindeling per feature:

@@ -15,6 +15,8 @@ import '../../documents/domain/document.dart';
 import '../../documents/presentation/document_capture.dart';
 import '../../documents/presentation/document_widgets.dart';
 import '../../recognition/domain/parsed_receipt.dart';
+import '../../reminders/application/reminder_service.dart';
+import '../../settings/application/settings_providers.dart';
 import '../application/product_providers.dart';
 import '../domain/product.dart';
 import '../domain/product_category.dart';
@@ -262,6 +264,27 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     });
   }
 
+  /// Vraagt toestemming voor meldingen op het moment dat de gebruiker een
+  /// herinnering aanzet. Zonder toestemming blijft de herinnering bewaard en
+  /// zichtbaar in de app, maar komt er geen melding.
+  Future<void> _askNotificationPermission() async {
+    bool granted;
+    try {
+      granted = await ref
+          .read(reminderNotificationsProvider)
+          .requestPermission();
+    } catch (error) {
+      debugPrint('Toestemming voor meldingen mislukt (${error.runtimeType})');
+      granted = false;
+    }
+    if (!granted && mounted) {
+      _showMessage(
+        'Meldingen staan uit voor GarantieBewaker. De herinnering wordt wel '
+        'bewaard. Zet meldingen aan in de instellingen van je telefoon.',
+      );
+    }
+  }
+
   void _showMessage(String message) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -401,6 +424,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final today = Dates.dateOnly(ref.read(clockProvider)());
+    // Alvast laden, zodat de standaardherinnering klaarstaat.
+    ref.watch(reminderLeadProvider);
     final firstDate = DateTime(1990);
     final lastFutureDate = DateTime(today.year + 30, 12, 31);
 
@@ -589,22 +614,29 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               contentPadding: EdgeInsets.zero,
               title: const Text('Herinnering instellen'),
               subtitle: const Text(
-                'De datum wordt bewaard. Meldingen op je telefoon volgen in '
-                'een volgende versie.',
+                'Je krijgt rond 9:00 uur een melding op de gekozen datum. '
+                'Het precieze moment bepaalt je telefoon.',
               ),
               value: _reminderEnabled,
-              onChanged: (value) => _changed(ProductField.reminderDate, () {
-                _reminderEnabled = value;
-                if (value && _reminderDate == null) {
-                  final base = _warrantyEndDate;
-                  _reminderDate = base != null && base.isAfter(today)
-                      ? base.subtract(const Duration(days: 30))
-                      : null;
-                  if (_reminderDate != null && _reminderDate!.isBefore(today)) {
-                    _reminderDate = today;
+              onChanged: (value) {
+                _changed(ProductField.reminderDate, () {
+                  _reminderEnabled = value;
+                  if (value && _reminderDate == null) {
+                    final lead =
+                        ref.read(reminderLeadProvider).value ??
+                        ReminderLead.standard;
+                    final base = _warrantyEndDate;
+                    _reminderDate = base != null && base.isAfter(today)
+                        ? base.subtract(Duration(days: lead.days))
+                        : null;
+                    if (_reminderDate != null &&
+                        _reminderDate!.isBefore(today)) {
+                      _reminderDate = today;
+                    }
                   }
-                }
-              }),
+                });
+                if (value) _askNotificationPermission();
+              },
             ),
             if (_reminderEnabled)
               DateField(

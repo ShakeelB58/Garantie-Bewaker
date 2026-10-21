@@ -153,6 +153,19 @@ class InMemoryDocumentFileStore implements DocumentFileStore {
   }
 
   @override
+  Future<Uint8List> readBytes(String relativePath) async {
+    final bytes = stored[relativePath];
+    if (bytes == null) throw FileSystemException('Niet gevonden', relativePath);
+    return bytes;
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    stored.clear();
+    storedAt.clear();
+  }
+
+  @override
   Future<Map<String, DateTime>> listStored() async => Map.of(storedAt);
 
   @override
@@ -166,6 +179,10 @@ class FakeDocumentPicker implements DocumentPicker {
   final List<PickedFile?> results = [];
   final List<DocumentSource> requests = [];
   Object? error;
+  int temporaryFilesCleared = 0;
+
+  @override
+  Future<void> clearTemporaryFiles() async => temporaryFilesCleared++;
 
   @override
   Future<PickedFile?> pick(DocumentSource source) async {

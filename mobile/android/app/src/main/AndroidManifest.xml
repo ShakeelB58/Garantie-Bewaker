@@ -4,6 +4,8 @@
          systeem. text_sight (live-scanner, niet gebruikt) zou deze anders
          via de manifest-merge toevoegen. -->
     <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
+    <!-- Geplande meldingen opnieuw inplannen na het herstarten van de telefoon. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:label="GarantieBewaker"
         android:name="${applicationName}"
@@ -48,6 +50,20 @@
                 <data android:mimeType="image/heic"/>
             </intent-filter>
         </activity>
+        <!-- Geplande meldingen (flutter_local_notifications). -->
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
