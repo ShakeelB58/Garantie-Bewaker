@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/fixtures.dart';
@@ -98,7 +97,7 @@ void main() {
     final node = tester.getSemantics(find.text('Koelkast'));
     expect(node.label, contains('Koelkast'));
     expect(node.label, contains('MediaMarkt'));
-    expect(node, containsSemantics(isButton: true, hasTapAction: true));
+    expect(node, isSemantics(isButton: true, hasTapAction: true));
     handle.dispose();
   });
 }

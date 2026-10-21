@@ -41,7 +41,7 @@ class ProductCard extends StatelessWidget {
       // Schermlezers lezen de kaart als één knop voor.
       child: MergeSemantics(
         child: Semantics(
-          button: onTap != null,
+          button: true,
           child: InkWell(
             onTap: onTap,
             child: Padding(
