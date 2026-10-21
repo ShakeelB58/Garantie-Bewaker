@@ -8,11 +8,13 @@ import '../core/errors/user_message.dart';
 import '../features/documents/application/document_service.dart';
 import '../features/documents/data/document_picker.dart';
 import '../features/documents/data/incoming_files.dart';
+import '../features/onboarding/welcome_screen.dart';
 import '../features/products/presentation/new_product_args.dart';
 import '../features/recognition/application/recognition_service.dart';
 import '../features/recognition/presentation/recognize_document.dart';
 import '../features/reminders/application/reminder_service.dart';
 import 'router.dart';
+import 'theme/app_colors.dart';
 import 'theme/app_theme.dart';
 
 class BonvrijApp extends ConsumerStatefulWidget {
@@ -136,8 +138,17 @@ class _BonvrijAppState extends ConsumerState<BonvrijApp> {
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
 
+    final onboarding = ref.watch(onboardingDoneProvider);
+
     return MaterialApp.router(
       title: 'Bonvrij',
+      // Eerste keer: welkomstscherm vóór de rest van de app. De router blijft
+      // ondertussen actief (bijv. voor een bestand dat via "Delen" binnenkomt).
+      builder: (context, child) => switch (onboarding) {
+        AsyncData(value: false) => const WelcomeScreen(),
+        AsyncLoading() => const ColoredBox(color: AppColors.background),
+        _ => child ?? const SizedBox.shrink(),
+      },
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       routerConfig: router,

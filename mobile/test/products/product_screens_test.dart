@@ -52,7 +52,7 @@ void main() {
 
       // Terug naar het dashboard: product en aantal zichtbaar.
       await tapBack(tester);
-      expect(find.text('Nog geen aankopen'), findsNothing);
+      expect(find.text('Nog geen producten'), findsNothing);
       expect(find.text('geregistreerd product'), findsOneWidget);
       expect(find.text('Wasmachine'), findsOneWidget);
     });
@@ -130,7 +130,7 @@ void main() {
       await tester.tap(find.text('Weggooien'));
       await tester.pumpAndSettle();
       expect(find.text('Product toevoegen'), findsNothing);
-      expect(find.text('Nog geen aankopen'), findsOneWidget);
+      expect(find.text('Nog geen producten'), findsOneWidget);
     });
   });
 
@@ -195,7 +195,7 @@ void main() {
       await pumpApp(tester, repository: repo);
       await _openProduct(tester, 'Wasmachine');
 
-      await tester.tap(find.byTooltip('Bewerken'));
+      await tester.tap(find.byKey(const Key('product.edit')));
       await tester.pumpAndSettle();
       expect(find.text('Product bewerken'), findsOneWidget);
 
@@ -214,7 +214,7 @@ void main() {
       await pumpApp(tester, repository: repo);
       await _openProduct(tester, 'Wasmachine');
 
-      await tester.tap(find.byTooltip('Verwijderen'));
+      await tester.tap(find.byKey(const Key('product.delete')));
       await tester.pumpAndSettle();
       expect(find.text('Product verwijderen?'), findsOneWidget);
 
@@ -223,7 +223,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(repo.all, hasLength(2));
 
-      await tester.tap(find.byTooltip('Verwijderen'));
+      await tester.tap(find.byKey(const Key('product.delete')));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Verwijderen'));
       await tester.pumpAndSettle();

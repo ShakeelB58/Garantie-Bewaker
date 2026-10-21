@@ -52,7 +52,7 @@ void main() {
           await _scrollTo(tester, find.text('Tv'));
           await tester.tap(find.text('Tv'));
           await tester.pumpAndSettle();
-          expect(find.byTooltip('Bewerken'), findsOneWidget);
+          expect(find.byKey(const Key('product.edit')), findsOneWidget);
 
           await tapBack(tester);
           // Terug naar boven: deze kaart staat bovenaan de lijst.
@@ -73,7 +73,7 @@ void main() {
 
         testWidgets('aankoop toevoegen en formulier', (tester) async {
           await start(tester);
-          await tester.tap(find.byType(FloatingActionButton).first);
+          await tester.tap(find.byKey(const Key('nav.add')));
           await tester.pumpAndSettle();
           await _scrollTo(tester, find.text('Handmatig invoeren'));
 
@@ -128,7 +128,7 @@ void _maxTextFabTests() {
         screenSize: size,
       );
 
-      final fab = find.byType(FloatingActionButton);
+      final fab = find.byKey(const Key('nav.add'));
       expect(fab, findsOneWidget);
       final rect = tester.getRect(fab);
       expect(rect.left, greaterThanOrEqualTo(0));
@@ -137,7 +137,7 @@ void _maxTextFabTests() {
       // Ook op het productentabblad.
       await tester.tap(find.byIcon(Icons.inventory_2_outlined).last);
       await tester.pumpAndSettle();
-      final productsFab = tester.getRect(find.byType(FloatingActionButton));
+      final productsFab = tester.getRect(find.byKey(const Key('nav.add')));
       expect(productsFab.right, lessThanOrEqualTo(size.width));
     });
   }

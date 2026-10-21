@@ -6,6 +6,9 @@ abstract interface class DocumentRepository {
   /// Documenten van een product, oudste eerst.
   Future<List<Document>> getForProduct(String productId);
 
+  /// Alle documenten van alle producten, nieuwste eerst.
+  Future<List<Document>> getAll();
+
   Future<Document?> getById(String id);
 
   /// Relatieve paden van alle documenten (voor het opruimen van wezen).
@@ -32,6 +35,13 @@ class SqfliteDocumentRepository implements DocumentRepository {
       whereArgs: [productId],
       orderBy: 'created_at ASC',
     );
+    return rows.map(_fromRow).toList();
+  }
+
+  @override
+  Future<List<Document>> getAll() async {
+    final db = await _appDatabase.database;
+    final rows = await db.query('documents', orderBy: 'created_at DESC');
     return rows.map(_fromRow).toList();
   }
 

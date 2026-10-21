@@ -35,7 +35,10 @@ class ProductDocumentsSection extends ConsumerWidget {
       await service.discard(staged);
       messenger.showSnackBar(SnackBar(content: Text(userMessageFor(error))));
     }
-    container.invalidate(documentsForProductProvider(productId));
+    container
+      ..invalidate(documentsForProductProvider(productId))
+      ..invalidate(allDocumentsProvider)
+      ..invalidate(allDocumentsProvider);
   }
 
   Future<void> _changeType(
@@ -69,7 +72,13 @@ class ProductDocumentsSection extends ConsumerWidget {
               AppSpacing.md,
               AppSpacing.xs,
             ),
-            child: Text('Aankoopbewijzen', style: theme.textTheme.titleMedium),
+            child: Text(
+              switch (documents) {
+                AsyncData(:final value) => 'Documenten (${value.length})',
+                _ => 'Documenten',
+              },
+              style: theme.textTheme.titleMedium,
+            ),
           ),
           documents.when(
             loading: () => const Padding(

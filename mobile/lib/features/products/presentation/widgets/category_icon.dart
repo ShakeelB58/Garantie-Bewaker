@@ -16,3 +16,29 @@ extension ProductCategoryIcon on ProductCategory {
     ProductCategory.other => Icons.category_outlined,
   };
 }
+
+/// Categorie-icoon in een afgerond vlak, zoals op productkaarten.
+class CategoryTile extends StatelessWidget {
+  const CategoryTile({required this.category, this.size = 48, super.key});
+
+  final ProductCategory category;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(size / 4),
+      ),
+      child: Icon(
+        category.icon,
+        size: size / 2,
+        color: theme.colorScheme.primary,
+      ),
+    );
+  }
+}

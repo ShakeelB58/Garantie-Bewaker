@@ -72,7 +72,7 @@ void main() {
         expect(documents.all.single.productId, product.id);
         expect(documents.all.single.type, DocumentType.receipt);
         // Detailscherm toont het document.
-        expect(find.text('Aankoopbewijzen'), findsOneWidget);
+        expect(find.text('Documenten (1)'), findsOneWidget);
         expect(find.text('Kassabon'), findsOneWidget);
       },
     );

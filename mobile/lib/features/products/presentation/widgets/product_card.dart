@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_theme.dart';
+import '../../../../core/storage/storage_providers.dart';
 import '../../../../core/utils/dates.dart';
-import '../../../../core/utils/money.dart';
 import '../../domain/product.dart';
 import 'category_icon.dart';
+import 'reminder_badge.dart';
 
-/// Rustige productkaart: naam, winkel, aankoopdatum, prijs en eventueel
-/// een extra regel (bijv. een naderende datum).
-class ProductCard extends StatelessWidget {
+/// Productkaart: categorie-icoon, naam, winkel, aankoopdatum en de
+/// herinneringsstatus ("Over 12 dagen" of "Geen herinnering").
+class ProductCard extends ConsumerWidget {
   const ProductCard({
     required this.product,
     required this.onTap,
@@ -20,21 +22,13 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onTap;
 
   /// Extra regel onder de kaartinhoud, bijv. "Herinnering op 12 nov. 2026".
+  /// Vervangt de standaard herinneringsstatus.
   final String? highlight;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final subtitleParts = [
-      if (product.merchant != null) product.merchant!,
-      Dates.formatShort(product.purchaseDate),
-    ];
-    final reminder = product.activeReminderDate;
-    final extraLine =
-        highlight ??
-        (reminder != null
-            ? 'Herinnering op ${Dates.formatShort(reminder)}'
-            : null);
+    final today = Dates.dateOnly(ref.watch(clockProvider)());
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -45,15 +39,10 @@ class ProductCard extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.sm + 4),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: theme.colorScheme.primaryContainer,
-                    foregroundColor: theme.colorScheme.primary,
-                    child: Icon(product.category.icon),
-                  ),
+                  CategoryTile(category: product.category),
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Column(
@@ -61,62 +50,50 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           product.name,
-                          style: theme.textTheme.titleMedium,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          subtitleParts.join(' · '),
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        if (product.merchant != null)
+                          Text(
+                            product.merchant!,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
-                        ),
-                        if (extraLine != null) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.notifications_none,
-                                size: 16,
-                                color: theme.colorScheme.primary,
+                        const SizedBox(height: 2),
+                        Wrap(
+                          spacing: AppSpacing.sm,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              Dates.formatShort(product.purchaseDate),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
-                              const SizedBox(width: AppSpacing.xs),
-                              Flexible(
-                                child: Text(
-                                  extraLine,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: theme.colorScheme.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                            ),
+                            if (highlight != null)
+                              Text(
+                                highlight!,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              )
+                            else
+                              ReminderBadge(product: product, today: today),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                  if (product.purchasePriceMinor != null) ...[
-                    const SizedBox(width: AppSpacing.sm),
-                    // Bij grote tekst of een smal scherm mag de prijs
-                    // hoogstens een derde van de breedte innemen.
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width / 3,
-                      ),
-                      child: Text(
-                        Money.format(
-                          product.purchasePriceMinor!,
-                          product.currency,
-                        ),
-                        textAlign: TextAlign.end,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                  const SizedBox(width: AppSpacing.xs),
+                  Icon(
+                    Icons.chevron_right,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ],
               ),
             ),

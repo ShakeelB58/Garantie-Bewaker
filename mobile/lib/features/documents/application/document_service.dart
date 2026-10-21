@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../core/errors/user_message.dart';
 import '../../../core/storage/storage_providers.dart';
+import '../../products/application/product_providers.dart';
 import '../data/document_file_store.dart';
 import '../data/incoming_files.dart';
 import '../data/document_picker.dart';
@@ -196,6 +197,14 @@ final documentsForProductProvider =
     FutureProvider.family<List<Document>, String>((ref, productId) {
       return ref.watch(documentRepositoryProvider).getForProduct(productId);
     });
+
+/// Alle documenten (tabblad Documenten). Laadt opnieuw als producten
+/// veranderen; na het toevoegen of verwijderen van een document:
+/// `ref.invalidate(allDocumentsProvider)`.
+final allDocumentsProvider = FutureProvider<List<Document>>((ref) {
+  ref.watch(productsProvider);
+  return ref.watch(documentRepositoryProvider).getAll();
+});
 
 final documentByIdProvider = FutureProvider.family<Document?, String>((
   ref,

@@ -8,10 +8,13 @@ void main() {
   testWidgets('start op het dashboard met een lege toestand', (tester) async {
     await pumpApp(tester);
 
-    expect(find.text('Bonvrij'), findsOneWidget);
-    expect(find.text('Nog geen aankopen'), findsOneWidget);
+    expect(find.text('Nog geen producten'), findsOneWidget);
     expect(find.text('Aankoop toevoegen'), findsOneWidget);
-    expect(find.byType(NavigationBar), findsOneWidget);
+    // Onderbalk met vier tabbladen en de plusknop.
+    for (final label in ['Home', 'Producten', 'Documenten', 'Instellingen']) {
+      expect(find.text(label), findsOneWidget);
+    }
+    expect(find.byTooltip('Aankoop toevoegen'), findsOneWidget);
   });
 
   testWidgets('navigeert via de onderste balk naar Producten en Instellingen', (
@@ -21,16 +24,20 @@ void main() {
 
     await tester.tap(find.text('Producten'));
     await tester.pumpAndSettle();
-    expect(find.text('Geen producten'), findsOneWidget);
+    expect(find.text('Nog geen producten'), findsOneWidget);
 
     await tester.tap(find.text('Instellingen'));
     await tester.pumpAndSettle();
     expect(find.text('Privacy'), findsOneWidget);
     expect(find.text('Alle lokale gegevens verwijderen'), findsOneWidget);
 
-    await tester.tap(find.text('Overzicht'));
+    await tester.tap(find.text('Documenten'));
     await tester.pumpAndSettle();
-    expect(find.text('Nog geen aankopen'), findsOneWidget);
+    expect(find.text('Nog geen documenten'), findsOneWidget);
+
+    await tester.tap(find.text('Home'));
+    await tester.pumpAndSettle();
+    expect(find.text('Nog geen producten'), findsOneWidget);
   });
 
   testWidgets('Aankoop toevoegen toont drie opties zonder navigatiebalk', (

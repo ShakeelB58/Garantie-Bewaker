@@ -44,6 +44,7 @@ Future<void> wipeAllData(WidgetRef ref) async {
     ..invalidate(productsProvider)
     ..invalidate(reminderLeadProvider)
     ..invalidate(documentsForProductProvider)
+    ..invalidate(allDocumentsProvider)
     ..invalidate(documentByIdProvider)
     ..invalidate(notificationsEnabledProvider);
 }

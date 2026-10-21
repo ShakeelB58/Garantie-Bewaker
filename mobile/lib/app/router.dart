@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 
 import '../features/dashboard/presentation/dashboard_screen.dart';
 import '../features/documents/presentation/document_viewer_screen.dart';
+import '../features/documents/presentation/documents_screen.dart';
 import '../features/products/presentation/add_purchase_screen.dart';
 import '../features/products/presentation/new_product_args.dart';
 import '../features/products/presentation/product_detail_screen.dart';
 import '../features/products/presentation/product_form_screen.dart';
 import '../features/products/presentation/products_screen.dart';
+import '../features/reminders/presentation/reminders_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import 'shell_scaffold.dart';
 
@@ -16,7 +18,9 @@ import 'shell_scaffold.dart';
 abstract final class AppRoutes {
   static const dashboard = '/dashboard';
   static const products = '/products';
+  static const documents = '/documents';
   static const settings = '/settings';
+  static const reminders = '/reminders';
   static const addPurchase = '/add-purchase';
   static const newProduct = '/product/new';
 
@@ -54,6 +58,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
+                path: AppRoutes.documents,
+                builder: (context, state) => const DocumentsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
                 path: AppRoutes.settings,
                 builder: (context, state) => const SettingsScreen(),
               ),
@@ -62,6 +74,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       // Buiten de shell: volledige schermen zonder onderste navigatiebalk.
+      GoRoute(
+        path: AppRoutes.reminders,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const RemindersScreen(),
+      ),
       GoRoute(
         path: AppRoutes.addPurchase,
         parentNavigatorKey: rootNavigatorKey,

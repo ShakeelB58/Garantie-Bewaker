@@ -58,6 +58,11 @@ class InMemoryDocumentRepository implements DocumentRepository {
       _documents.removeWhere((_, d) => d.productId == productId);
 
   @override
+  Future<List<Document>> getAll() async =>
+      _documents.values.toList()
+        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+  @override
   Future<List<Document>> getForProduct(String productId) async =>
       _documents.values.where((d) => d.productId == productId).toList()
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));

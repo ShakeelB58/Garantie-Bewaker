@@ -127,8 +127,9 @@ class _OptionCard extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primaryContainer,
-          foregroundColor: theme.colorScheme.primary,
+          radius: 24,
+          backgroundColor: theme.colorScheme.primary,
+          foregroundColor: Colors.white,
           child: Icon(icon),
         ),
         title: Text(title, style: theme.textTheme.titleMedium),

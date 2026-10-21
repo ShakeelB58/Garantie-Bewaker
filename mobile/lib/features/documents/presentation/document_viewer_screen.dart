@@ -66,6 +66,7 @@ class DocumentViewerScreen extends ConsumerWidget {
     }
     container
       ..invalidate(documentsForProductProvider(document.productId))
+      ..invalidate(allDocumentsProvider)
       ..invalidate(documentByIdProvider(document.id));
     if (context.mounted) context.pop();
     messenger

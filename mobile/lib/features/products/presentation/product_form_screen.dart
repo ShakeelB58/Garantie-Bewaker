@@ -332,7 +332,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       }
     }
     _staged = [];
-    container.invalidate(documentsForProductProvider(product.id));
+    container
+      ..invalidate(documentsForProductProvider(product.id))
+      ..invalidate(allDocumentsProvider);
     if (!mounted) return;
 
     // Tijdens het opslaan staat _saving op true, waardoor PopScope de
@@ -439,7 +441,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
           // terugnavigeren afhandelt. PopScope hierboven vangt de
           // systeem-terugknop (Android) en veeggebaren (iOS) af.
           leading: BackButton(onPressed: _handleBack),
-          title: Text(_isEdit ? 'Product bewerken' : 'Product toevoegen'),
+          title: Text(
+            _isEdit
+                ? 'Product bewerken'
+                : widget.recognition != null
+                ? 'Gegevens controleren'
+                : 'Product toevoegen',
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.all(AppSpacing.md),
@@ -739,30 +747,78 @@ class _RecognitionBanner extends StatelessWidget {
     final theme = Theme.of(context);
     final found = recognition.hasAnything;
     final total = recognition.totalMinor.value;
+    final fields = [
+      recognition.merchant,
+      recognition.purchaseDate,
+      recognition.totalMinor,
+    ];
+    final good =
+        fields.every((f) => f.isFound) &&
+        !fields.any((f) => f.needsAttention);
+    final summary = [
+      ?recognition.merchant.value,
+      if (recognition.purchaseDate.value != null)
+        Dates.formatShort(recognition.purchaseDate.value!),
+    ].join(' · ');
     return Card(
       key: const Key('recognition.banner'),
-      color: theme.colorScheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              found ? Icons.auto_awesome_outlined : Icons.info_outline,
-              color: theme.colorScheme.onPrimaryContainer,
+            Container(
+              width: 56,
+              height: 64,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                found ? Icons.receipt_long_outlined : Icons.info_outline,
+                color: theme.colorScheme.primary,
+              ),
             ),
-            const SizedBox(width: AppSpacing.sm),
+            const SizedBox(width: AppSpacing.sm + 4),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (summary.isNotEmpty)
+                    Text(
+                      summary,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  if (found) ...[
+                    const SizedBox(height: AppSpacing.xs),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: good
+                            ? theme.colorScheme.primaryContainer
+                            : const Color(0xFFFFF1DC),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        good ? 'Herkenning: goed' : 'Herkenning: controleren',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: good ? AppColors.navy : AppColors.warning,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                  ],
                   Text(
                     found
                         ? 'Gegevens overgenomen uit het document'
                         : 'Geen gegevens herkend',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
+                    style: theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
@@ -772,7 +828,7 @@ class _RecognitionBanner extends StatelessWidget {
                         : 'Vul de gegevens zelf in. Het document wordt wel '
                               'bij het product bewaard.',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                   if (total != null) ...[
@@ -781,7 +837,6 @@ class _RecognitionBanner extends StatelessWidget {
                       'Totaalbedrag op het document: '
                       '${Money.format(total, recognition.currency)}',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

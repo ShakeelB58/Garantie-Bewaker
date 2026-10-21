@@ -13,7 +13,7 @@ Future<void> _editProduct(WidgetTester tester, String name) async {
   await tester.pumpAndSettle();
   await tester.tap(find.text(name));
   await tester.pumpAndSettle();
-  await tester.tap(find.byTooltip('Bewerken'));
+  await tester.tap(find.byKey(const Key('product.edit')));
   await tester.pumpAndSettle();
 }
 
@@ -215,14 +215,14 @@ void main() {
         settings: settings,
       );
 
-      expect(find.byTooltip('Bewerken'), findsOneWidget);
+      expect(find.byKey(const Key('product.edit')), findsOneWidget);
 
       // Ook als de app al open is.
       await tapBack(tester);
-      expect(find.byTooltip('Bewerken'), findsNothing);
+      expect(find.byKey(const Key('product.edit')), findsNothing);
       notifications.onOpenProduct!('p1');
       await tester.pumpAndSettle();
-      expect(find.byTooltip('Bewerken'), findsOneWidget);
+      expect(find.byKey(const Key('product.edit')), findsOneWidget);
     });
   });
 }

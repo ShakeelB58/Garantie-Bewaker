@@ -33,7 +33,13 @@ Future<InMemoryProductRepository> pumpApp(
   InMemorySettingsRepository? settings,
   FakeExportSaver? exportSaver,
   Size screenSize = const Size(800, 1800),
+  bool showWelcome = false,
 }) async {
+  final settingsRepo = settings ?? InMemorySettingsRepository();
+  // Het welkomstscherm alleen tonen als de test daarom vraagt.
+  if (!showWelcome) {
+    settingsRepo.values.putIfAbsent('onboarding_done', () => 'true');
+  }
   // Standaard een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = screenSize;
   tester.view.devicePixelRatio = 1.0;
@@ -68,9 +74,7 @@ Future<InMemoryProductRepository> pumpApp(
         reminderNotificationsProvider.overrideWithValue(
           notifications ?? FakeReminderNotifications(),
         ),
-        settingsRepositoryProvider.overrideWithValue(
-          settings ?? InMemorySettingsRepository(),
-        ),
+        settingsRepositoryProvider.overrideWithValue(settingsRepo),
         exportSaverProvider.overrideWithValue(exportSaver ?? FakeExportSaver()),
         appVersionProvider.overrideWith((ref) async => '0.1.0 (1)'),
         clockProvider.overrideWithValue(() => testNow),

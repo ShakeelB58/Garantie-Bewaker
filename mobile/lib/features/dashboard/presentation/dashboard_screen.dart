@@ -4,64 +4,68 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../../core/storage/storage_providers.dart';
 import '../../../core/utils/dates.dart';
-import '../../../core/widgets/add_fab.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../products/application/product_providers.dart';
 import '../../products/presentation/widgets/product_card.dart';
 import '../application/dashboard_summary.dart';
 
-/// Dashboard: aantal producten, naderende datums en recente aankopen.
+/// Home: begroeting, tegels met aantallen, naderende datums en recente
+/// aankopen.
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
+
+  static String greeting(DateTime now) {
+    if (now.hour < 12) return 'Goedemorgen,';
+    if (now.hour < 18) return 'Goedemiddag,';
+    return 'Goedenavond,';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = ref.watch(dashboardSummaryProvider);
+    final now = ref.watch(clockProvider)();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Bonvrij')),
-      body: summary.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => ErrorView(
-          error: error,
-          onRetry: () => ref.invalidate(productsProvider),
+      body: SafeArea(
+        bottom: false,
+        child: summary.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => ErrorView(
+            error: error,
+            onRetry: () => ref.invalidate(productsProvider),
+          ),
+          data: (summary) => summary.totalProducts == 0
+              ? EmptyState(
+                  icon: Icons.inventory_2_outlined,
+                  title: 'Nog geen producten',
+                  message:
+                      'Voeg je eerste aankoop toe en houd al je garanties en '
+                      'documenten veilig op één plek. Alles blijft op je '
+                      'eigen telefoon.',
+                  actionLabel: 'Aankoop toevoegen',
+                  onAction: () => context.push(AppRoutes.addPurchase),
+                )
+              : _DashboardContent(summary: summary, now: now),
         ),
-        data: (summary) => summary.totalProducts == 0
-            ? EmptyState(
-                icon: Icons.receipt_long_outlined,
-                title: 'Nog geen aankopen',
-                message:
-                    'Bewaar je kassabonnen en facturen op één plek. '
-                    'Alles blijft op je eigen telefoon.',
-                actionLabel: 'Aankoop toevoegen',
-                onAction: () => context.push(AppRoutes.addPurchase),
-              )
-            : _DashboardContent(summary: summary),
       ),
-      floatingActionButton: summary.value?.totalProducts == 0
-          ? null
-          : AddFab(
-              heroTag: 'fab-dashboard',
-              label: 'Aankoop toevoegen',
-              onPressed: () => context.push(AppRoutes.addPurchase),
-            ),
     );
   }
 }
 
 class _DashboardContent extends StatelessWidget {
-  const _DashboardContent({required this.summary});
+  const _DashboardContent({required this.summary, required this.now});
 
   final DashboardSummary summary;
+  final DateTime now;
 
   String _upcomingText(UpcomingItem item) {
     final date = Dates.formatShort(item.date);
     return switch (item.kind) {
       UpcomingKind.reminder => 'Herinnering op $date',
-      UpcomingKind.warrantyEnd =>
-        'Door jou ingevulde garantie-einddatum: $date',
+      UpcomingKind.warrantyEnd => 'Garantie tot $date (zelf ingevuld)',
     };
   }
 
@@ -69,78 +73,89 @@ class _DashboardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final count = summary.totalProducts;
+    final reminders = summary.upcoming
+        .where((item) => item.kind == UpcomingKind.reminder)
+        .length;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.md,
         AppSpacing.md,
         AppSpacing.md,
-        96,
+        AppSpacing.xl,
       ),
       children: [
-        Card(
-          child: MergeSemantics(
-            child: Semantics(
-              button: true,
-              child: InkWell(
-                onTap: () => context.go(AppRoutes.products),
-                borderRadius: BorderRadius.circular(AppRadius.card),
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.inventory_2_outlined,
-                        color: theme.colorScheme.primary,
-                        size: 32,
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$count',
-                              style: theme.textTheme.headlineSmall,
-                            ),
-                            Text(
-                              count == 1
-                                  ? 'geregistreerd product'
-                                  : 'geregistreerde producten',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.chevron_right),
-                    ],
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      DashboardScreen.greeting(now),
+                      style: theme.textTheme.headlineSmall,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    count == 1
+                        ? 'Je hebt 1 product geregistreerd.'
+                        : 'Je hebt $count producten geregistreerd.',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+            IconButton(
+              key: const Key('dashboard.reminders'),
+              tooltip: 'Herinneringen',
+              icon: const Icon(Icons.notifications_none),
+              onPressed: () => context.push(AppRoutes.reminders),
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.lg),
-        const _SectionHeader(
-          title: 'Binnenkort',
-          subtitle:
-              'Ingestelde datums in de komende '
-              '${DashboardSummary.upcomingWindowDays} dagen',
-        ),
-        if (summary.upcoming.isEmpty)
-          Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: Text(
-              'Geen datums in de komende '
-              '${DashboardSummary.upcomingWindowDays} dagen.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: _StatTile(
+                  key: const Key('dashboard.productCount'),
+                  icon: Icons.inventory_2_outlined,
+                  value: '$count',
+                  label: count == 1 ? 'Product' : 'Producten',
+                  onTap: () => context.go(AppRoutes.products),
+                ),
               ),
-            ),
-          )
-        else
+              const SizedBox(width: AppSpacing.sm + 4),
+              Expanded(
+                child: _StatTile(
+                  key: const Key('dashboard.reminderCount'),
+                  icon: Icons.event_outlined,
+                  value: '$reminders',
+                  label: reminders == 1
+                      ? 'Binnenkort een herinnering'
+                      : 'Binnenkort herinneringen',
+                  onTap: () => context.push(AppRoutes.reminders),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (summary.upcoming.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.lg),
+          _SectionHeader(
+            title: 'Binnenkort',
+            subtitle:
+                'Ingestelde datums in de komende '
+                '${DashboardSummary.upcomingWindowDays} dagen',
+          ),
           for (final item in summary.upcoming)
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -151,8 +166,15 @@ class _DashboardContent extends StatelessWidget {
                     context.push(AppRoutes.productDetail(item.product.id)),
               ),
             ),
+        ],
         const SizedBox(height: AppSpacing.lg),
-        const _SectionHeader(title: 'Recent toegevoegd'),
+        _SectionHeader(
+          title: 'Recent toegevoegd',
+          action: TextButton(
+            onPressed: () => context.go(AppRoutes.products),
+            child: const Text('Toon alles'),
+          ),
+        ),
         for (final product in summary.recent)
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -166,28 +188,87 @@ class _DashboardContent extends StatelessWidget {
   }
 }
 
+class _StatTile extends StatelessWidget {
+  const _StatTile({
+    required this.icon,
+    required this.value,
+    required this.label,
+    required this.onTap,
+    super.key,
+  });
+
+  final IconData icon;
+  final String value;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: MergeSemantics(
+        child: Semantics(
+          button: true,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(icon, color: theme.colorScheme.primary, size: 28),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(value, style: theme.textTheme.headlineSmall),
+                  Text(
+                    label,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, this.subtitle});
+  const _SectionHeader({required this.title, this.subtitle, this.action});
 
   final String title;
   final String? subtitle;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(title, style: theme.textTheme.titleMedium),
-          if (subtitle != null)
-            Text(
-              subtitle!,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Semantics(
+                  header: true,
+                  child: Text(title, style: theme.textTheme.titleMedium),
+                ),
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+              ],
             ),
+          ),
+          ?action,
         ],
       ),
     );

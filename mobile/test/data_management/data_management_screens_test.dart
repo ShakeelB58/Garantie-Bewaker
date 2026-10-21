@@ -115,7 +115,7 @@ void main() {
       expect(notifications.cancelAllCalls, 1);
       expect(find.text('Alle gegevens zijn verwijderd.'), findsOneWidget);
       // Terug naar het overzicht, dat nu leeg is.
-      expect(find.text('Nog geen aankopen'), findsOneWidget);
+      expect(find.text('Nog geen producten'), findsOneWidget);
 
       // Standaardherinnering staat weer op de standaardwaarde.
       await _openSettings(tester);
