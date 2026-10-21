@@ -5,6 +5,8 @@ import 'package:garantiebewaker/app/app.dart';
 import 'package:garantiebewaker/core/storage/storage_providers.dart';
 import 'package:garantiebewaker/features/data_management/application/data_management_providers.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
+import 'package:garantiebewaker/features/documents/data/camera_scanner.dart';
+import 'package:garantiebewaker/features/documents/presentation/scanner_screen.dart';
 import 'package:garantiebewaker/features/products/application/product_providers.dart';
 import 'package:garantiebewaker/features/recognition/application/recognition_service.dart';
 import 'package:garantiebewaker/features/reminders/application/reminder_service.dart';
@@ -36,6 +38,7 @@ Future<InMemoryProductRepository> pumpApp(
   bool showWelcome = false,
 }) async {
   final settingsRepo = settings ?? InMemorySettingsRepository();
+  final documentPicker = picker ?? FakeDocumentPicker();
   // Het welkomstscherm alleen tonen als de test daarom vraagt.
   if (!showWelcome) {
     settingsRepo.values.putIfAbsent('onboarding_done', () => 'true');
@@ -59,8 +62,10 @@ Future<InMemoryProductRepository> pumpApp(
         documentFileStoreProvider.overrideWithValue(
           fileStore ?? InMemoryDocumentFileStore(),
         ),
-        documentPickerProvider.overrideWithValue(
-          picker ?? FakeDocumentPicker(),
+        documentPickerProvider.overrideWithValue(documentPicker),
+        // Geen echte camera in tests: de nepkiezer levert de "foto".
+        cameraScannerProvider.overrideWithValue(
+          PickerCameraScanner(documentPicker),
         ),
         incomingFileSourceProvider.overrideWithValue(
           incoming ?? FakeIncomingFileSource(),

@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/user_message.dart';
 import '../application/document_service.dart';
+import '../data/camera_scanner.dart';
 import '../data/document_file_store.dart';
 import '../data/document_picker.dart';
 import '../domain/document.dart';
 import 'photo_review_screen.dart';
+import 'scanner_screen.dart';
 
 extension DocumentSourceLabel on DocumentSource {
   String get label => switch (this) {
@@ -63,6 +65,7 @@ Future<StagedDocument?> acquireDocument(
 }) async {
   // Alles vooraf ophalen: na een `await` kan het scherm al gesloten zijn.
   final picker = ref.read(documentPickerProvider);
+  final scanner = ref.read(cameraScannerProvider);
   final service = ref.read(documentServiceProvider);
   final fileStore = ref.read(documentFileStoreProvider);
   final messenger = ScaffoldMessenger.of(context);
@@ -76,7 +79,13 @@ Future<StagedDocument?> acquireDocument(
 
   final PickedFile? chosen;
   try {
-    chosen = await _pickWithReview(picker, fileStore, navigator, source);
+    chosen = await _pickWithReview(
+      picker,
+      scanner,
+      fileStore,
+      navigator,
+      source,
+    );
   } catch (error) {
     showError(error);
     return null;
@@ -109,13 +118,19 @@ Future<StagedDocument?> acquireDocument(
 /// controleren en opnieuw maken. `null` bij annuleren.
 Future<PickedFile?> _pickWithReview(
   DocumentPicker picker,
+  CameraScanner scanner,
   DocumentFileStore fileStore,
   NavigatorState navigator,
   DocumentSource source,
 ) async {
+  if (source != DocumentSource.camera) return picker.pick(source);
   while (true) {
-    final picked = await picker.pick(source);
-    if (picked == null || source != DocumentSource.camera) return picked;
+    // Camera in de app; vanuit de scanner kan ook een foto uit de
+    // bibliotheek gekozen worden (die hoeft niet opnieuw gecontroleerd).
+    final scan = await scanner.scan(navigator);
+    if (scan == null) return null;
+    final picked = scan.file;
+    if (scan.fromGallery) return picked;
 
     final decision = await navigator.push<PhotoReviewDecision>(
       MaterialPageRoute(

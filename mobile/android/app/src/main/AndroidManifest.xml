@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Geen cameratoestemming: foto's worden gemaakt met de camera-app van het
-         systeem. text_sight (live-scanner, niet gebruikt) zou deze anders
-         via de manifest-merge toevoegen. -->
-    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
+    <!-- Camera in de app om bonnen te scannen. Geen microfoon: de app maakt
+         alleen foto's (de camera-plug-in zou deze anders toevoegen). -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" tools:node="remove"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <!-- Geplande meldingen opnieuw inplannen na het herstarten van de telefoon. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application

@@ -28,8 +28,10 @@ dependencies:
   intl: any
   # App-private mappen voor documentopslag.
   path_provider: ^2.1.6
-  # Camera en fotobibliotheek (officieel Flutter-pakket).
+  # Fotobibliotheek (officieel Flutter-pakket).
   image_picker: ^1.2.4
+  # Camera in de app, met kader voor de bon (officieel Flutter-pakket).
+  camera: ^0.12.0
   # PDF's en afbeeldingen kiezen uit Bestanden / Downloads.
   file_picker: ^13.1.0
   # PDF-weergave (PDFium). Ook bruikbaar voor tekstextractie in fase 4.
