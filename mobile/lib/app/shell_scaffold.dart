@@ -35,6 +35,7 @@ class ShellScaffold extends StatelessWidget {
       icon: Icons.settings_outlined,
       selected: Icons.settings,
       label: 'Instellingen',
+      key: 'settings',
     ),
   ];
 
