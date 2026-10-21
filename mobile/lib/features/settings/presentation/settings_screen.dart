@@ -301,21 +301,21 @@ class SettingsScreen extends ConsumerWidget {
         scrollable: true,
         title: const Text('Privacy'),
         content: const Text(
-            '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon '
-            'opgeslagen.\n'
-            '• Er is geen account nodig en er wordt niets naar een server '
-            'gestuurd.\n'
-            '• De app krijgt geen toegang tot je mailbox. Je deelt zelf een '
-            'factuur met de app.\n'
-            '• Tekstherkenning gebeurt op je telefoon, niet in de cloud.\n'
-            '• Meldingen worden door je telefoon zelf getoond, zonder '
-            'server. Op het vergrendelscherm van Android wordt de '
-            'productnaam verborgen.\n'
-            '• GarantieBewaker heeft zelf geen back-upfunctie. Verwijder je '
-            'de app, dan verdwijnen ook de gegevens die erin zijn opgeslagen. '
-            'Met "Gegevens exporteren" maak je zelf een kopie.\n'
-            '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
-            'keer.',
+          '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon '
+          'opgeslagen.\n'
+          '• Er is geen account nodig en er wordt niets naar een server '
+          'gestuurd.\n'
+          '• De app krijgt geen toegang tot je mailbox. Je deelt zelf een '
+          'factuur met de app.\n'
+          '• Tekstherkenning gebeurt op je telefoon, niet in de cloud.\n'
+          '• Meldingen worden door je telefoon zelf getoond, zonder '
+          'server. Op het vergrendelscherm van Android wordt de '
+          'productnaam verborgen.\n'
+          '• GarantieBewaker heeft zelf geen back-upfunctie. Verwijder je '
+          'de app, dan verdwijnen ook de gegevens die erin zijn opgeslagen. '
+          'Met "Gegevens exporteren" maak je zelf een kopie.\n'
+          '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
+          'keer.',
         ),
         actions: [
           TextButton(
@@ -400,30 +400,29 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
       scrollable: true,
       title: const Text('Alle gegevens verwijderen?'),
       content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Dit verwijdert van deze telefoon:\n'
-              '• alle producten\n'
-              '• alle aankoopbewijzen (foto\'s en PDF\'s)\n'
-              '• alle herinneringen en geplande meldingen\n'
-              '• je voorkeuren\n\n'
-              'Er is geen back-up of server: dit kan niet ongedaan worden '
-              'gemaakt. Maak eerst een export als je iets wilt bewaren.',
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            CheckboxListTile(
-              key: const Key('deleteAll.understood'),
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.leading,
-              value: _understood,
-              onChanged: (value) =>
-                  setState(() => _understood = value ?? false),
-              title: const Text('Ik begrijp dat dit niet terug te halen is'),
-            ),
-          ],
-        ),
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Dit verwijdert van deze telefoon:\n'
+            '• alle producten\n'
+            '• alle aankoopbewijzen (foto\'s en PDF\'s)\n'
+            '• alle herinneringen en geplande meldingen\n'
+            '• je voorkeuren\n\n'
+            'Er is geen back-up of server: dit kan niet ongedaan worden '
+            'gemaakt. Maak eerst een export als je iets wilt bewaren.',
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          CheckboxListTile(
+            key: const Key('deleteAll.understood'),
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: _understood,
+            onChanged: (value) => setState(() => _understood = value ?? false),
+            title: const Text('Ik begrijp dat dit niet terug te halen is'),
+          ),
+        ],
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
