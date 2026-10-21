@@ -195,10 +195,69 @@
 - De PDF-import met herkenning is niet op iOS getest: het lukte niet de testfactuur in de simulator te zetten. Het lezen van PDF's gebeurt op beide platformen met dezelfde code (pdfrx/PDFium) en werkt op Android.
 - Testen op een echte iPhone lukte nog niet (ondertekening met een gratis Apple-account). Dit volgt bij de publicatievoorbereiding.
 
+## Fase 5: Herinneringen en privacy ⏳ bijna afgerond (2026-10-21)
+
+### Opgeleverd
+
+- **5a – Herinneringen** (beslissing B12):
+  - lokale meldingen rond 9:00 op de herinneringsdatum; tikken opent het product
+  - alles opnieuw inplannen na opslaan of verwijderen en bij elke start; maximaal 50 ingepland
+  - toestemming pas bij het aanzetten van een herinnering; zonder toestemming blijft de herinnering bewaard
+  - Instellingen: standaardherinnering (1 week tot 3 maanden), status van meldingen, testmelding
+  - productnaam verborgen op het Android-vergrendelscherm
+  - nieuwe tabel `settings` (databaseversie 2), met migratietest vanaf versie 1
+- **5b – Privacy** (beslissing B13):
+  - export als ZIP: `producten.csv` (beveiligd tegen CSV-injectie), alle aankoopbewijzen en een uitleg
+  - alle lokale gegevens verwijderen, pas na een bevestigingsvinkje
+  - cache van de bestandskiezer wordt bij elke start opgeruimd
+  - test die afdwingt dat logregels alleen het fouttype bevatten
+  - app-versie bij "Over GarantieBewaker"
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| `flutter analyze` / `flutter test` | Geslaagd (op de Mac van de gebruiker en in GitHub Actions) |
+| Meldingen toestaan, testmelding, standaardherinnering, voorstel in formulier | Werkt op Samsung en iPhone-simulator (bevestigd door de gebruiker) |
+| Export maken en ZIP openen | Werkt op beide toestellen (bevestigd door de gebruiker) |
+| Versienummer | Werkt op beide toestellen (bevestigd door de gebruiker) |
+| Melding op de herinneringsdatum zelf | Nog te bevestigen (ingesteld op 22-10-2026, 9:00) |
+| Alle lokale gegevens verwijderen | Nog te testen op de toestellen (wel automatisch getest) |
+
+### Bekende beperkingen
+
+- Android mag een melding iets later tonen (niet-exact inplannen, om geen extra toestemming nodig te hebben).
+- Bij meer dan 50 toekomstige herinneringen worden de latere pas ingepland bij een volgende start van de app.
+- De export wordt in het geheugen opgebouwd. Bij honderden grote foto's kan dat traag zijn of te veel geheugen vragen.
+- De app heeft geen eigen back-up. Een export moet de gebruiker zelf bewaren.
+
+## Fase 6: Kwaliteitscontrole ⏳ bezig (2026-10-21)
+
+### Opgeleverd
+
+- **Automatische controle (GitHub Actions)** bij elke push: `dart format`-controle, `flutter analyze`, `flutter test` en `mvn verify` (met PostgreSQL via Testcontainers). Fouten verschijnen als annotaties bij de commit. Een commit met `[format]` in de boodschap laat de code automatisch opmaken.
+- **Opmaak:** alle Dart-code opgemaakt met `dart format`.
+- **Toegankelijkheid:**
+  - automatische tests op tikgrootte (48×48 / 44×44), labels voor schermlezers en tekstcontrast voor alle hoofdschermen
+  - productkaarten, de overzichtskaart en datumvelden worden als één knop voorgelezen
+  - beschrijvingen bij foto's en PDF's
+- **Schermformaten:** alle hoofdschermen getest op een klein (320×568) en groot (412×915) scherm, met normale tekst en tekst op 200%. Gevonden en opgelost:
+  - productkaart: een lange prijs duwde de rest uit beeld
+  - formulier: "Aankoopprijs" en "Valuta" passen niet naast elkaar bij grote tekst; nu onder elkaar
+  - keuzelijsten (categorie, valuta) kapten tekst niet netjes af
+  - vensters konden bij grote tekst niet helemaal getoond worden; ze scrollen nu
+- **Documentatie:** README herschreven, [handmatige acceptatietests](acceptatietests.md) toegevoegd.
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| GitHub Actions: Flutter (analyse en tests) | Geslaagd |
+| GitHub Actions: Spring Boot (`mvn verify`) | Geslaagd |
+| Handmatige acceptatietests op de toestellen | Zie [acceptatietests.md](acceptatietests.md) |
+
 ## Volgende stap
 
-Fase 5: meldingen, export en privacy.
-- lokale meldingen voor aflopende garanties (Android 13+ en iOS vragen toestemming)
-- export van alle gegevens (CSV en documenten)
-- alle gegevens verwijderen
-- controle op tijdelijke bestanden en logs zonder persoonsgegevens
+1. Fase 5 afronden: melding op de herinneringsdatum en "alles verwijderen" op de toestellen controleren.
+2. Fase 6 afronden: de open punten in [acceptatietests.md](acceptatietests.md) nalopen (grote tekst, schermlezer, offline, herstarten, meerdere documenten).
+3. Fase 7: uitbreidingen documenteren (accounts, back-up, Plus, AI-herkenning) en een publicatiechecklist voor App Store en Play Store.
