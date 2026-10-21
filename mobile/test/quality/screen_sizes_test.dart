@@ -56,11 +56,10 @@ void main() {
 
           await tapBack(tester);
           // Terug naar boven: deze kaart staat bovenaan de lijst.
-          await _scrollTo(
-            tester,
-            find.textContaining('Combimagnetron').first,
-            delta: -150,
-          );
+          await tester.drag(_verticalList(), const Offset(0, 5000));
+          await tester.pumpAndSettle();
+          await tester.ensureVisible(find.textContaining('Combimagnetron').first);
+          await tester.pumpAndSettle();
           await tester.tap(find.textContaining('Combimagnetron').first);
           await tester.pumpAndSettle();
           await tester.drag(
@@ -123,11 +122,7 @@ Future<void> _scrollTo(
       finder,
       delta,
       // De verticale lijst, niet bijv. de horizontale filterknoppen.
-      scrollable: find
-          .byWidgetPredicate(
-            (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
-          )
-          .first,
+      scrollable: _verticalList(),
     );
   } catch (error) {
     final texts = find
@@ -143,3 +138,9 @@ Future<void> _scrollTo(
   }
   await tester.pumpAndSettle();
 }
+
+Finder _verticalList() => find
+    .byWidgetPredicate(
+      (w) => w is Scrollable && w.axisDirection == AxisDirection.down,
+    )
+    .first;
