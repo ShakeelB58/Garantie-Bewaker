@@ -1,5 +1,7 @@
 # Website bonvrij.nl
 
+Online op https://bonvrij.nl (DNS bij TransIP: vier A-records naar GitHub Pages en `www` als CNAME naar `shakeelb58.github.io.`).
+
 Statische website: startpagina en privacyverklaring. Wordt automatisch gepubliceerd via
 GitHub Pages (`.github/workflows/website.yml`) bij elke wijziging op `main`.
 

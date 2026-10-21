@@ -52,7 +52,7 @@ kassabon,factuur,aankoopbewijs,bon,scanner,herinnering,aankoop,retour,administra
 > Goed om te weten: Bonvrij berekent geen garantietermijnen en geeft geen juridisch advies.
 > De datums die je invult, zijn herinneringen voor jezelf.
 
-**Ondersteunings-URL:** `https://bonvrij.nl` (zodra de website online staat)
+**Ondersteunings-URL:** `https://bonvrij.nl`
 **Privacybeleid-URL:** `https://bonvrij.nl/privacy/`
 **Contact:** bonvrij.app@gmail.com
 
