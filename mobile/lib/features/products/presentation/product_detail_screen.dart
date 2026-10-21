@@ -369,7 +369,11 @@ class _ActionButtons extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [edit, const SizedBox(height: AppSpacing.sm), delete],
+        children: [
+          edit,
+          const SizedBox(height: AppSpacing.sm),
+          delete,
+        ],
       );
     }
     return Row(
