@@ -35,8 +35,8 @@ Extra (fase 6, toegankelijkheid):
 
 | Test | Android | iOS |
 |------|---------|-----|
-| Grote tekst (systeeminstelling op maximaal): niets valt weg of overlapt | ✅ | ⚠️ |
+| Grote tekst (systeeminstelling op maximaal): niets valt weg of overlapt | ✅ | ✅ |
 | Schermlezer (TalkBack / VoiceOver): productkaart wordt als één knop voorgelezen | ✅ | ⬜ |
 | Donkere modus van het systeem: app blijft leesbaar (app gebruikt altijd licht thema) | ⬜ | ⬜ |
 
-Opmerking grote tekst iOS: de knop "Aankoop toevoegen" viel deels buiten beeld; opgelost in fase 6, opnieuw te controleren.
+Opmerking grote tekst iOS: de knop "Aankoop toevoegen" viel deels buiten beeld; opgelost in fase 6 en opnieuw gecontroleerd door de gebruiker.
