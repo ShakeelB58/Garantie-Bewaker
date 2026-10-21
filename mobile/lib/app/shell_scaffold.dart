@@ -13,7 +13,12 @@ class ShellScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   static const _tabs = [
-    (icon: Icons.home_outlined, selected: Icons.home, label: 'Home', key: 'home'),
+    (
+      icon: Icons.home_outlined,
+      selected: Icons.home,
+      label: 'Home',
+      key: 'home',
+    ),
     (
       icon: Icons.inventory_2_outlined,
       selected: Icons.inventory_2,
