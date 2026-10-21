@@ -319,9 +319,14 @@
 - Getest door de gebruiker op Samsung en iPhone-simulator na herinstallatie: welkomstscherm,
   icoon, product toevoegen, camera, testmelding, versie 1.0.0.
 
-Nog open: naam van de verantwoordelijke in de privacyverklaring, privacyverklaring online zetten,
-upload-sleutel voor Android, ontwikkelaarsaccounts, schermafbeeldingen, privacymanifest iOS,
-test op een echte iPhone. Zie de [publicatiechecklist](publicatie-checklist.md).
+Daarna (21-10-2026, avond):
+- Website online op **https://bonvrij.nl** met privacyverklaring op https://bonvrij.nl/privacy/
+  (GitHub Pages, DNS bij TransIP). Naam van de verantwoordelijke ingevuld.
+- Winkelteksten voor App Store en Google Play: [winkelteksten.md](winkelteksten.md).
+
+Nog open: upload-sleutel voor Android, ontwikkelaarsaccounts, schermafbeeldingen,
+privacymanifest iOS, test op een echte iPhone, 12 testers voor Google Play.
+Zie de [publicatiechecklist](publicatie-checklist.md).
 
 ## MVP: definitie van klaar
 
