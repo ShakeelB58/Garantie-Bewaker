@@ -30,15 +30,16 @@ Legenda: ⬜ te doen · ✅ klaar · ❓ beslissing nodig
 |---|------|
 | ⬜ | Bundel-ID en applicationId aanpassen: iOS `PRODUCT_BUNDLE_IDENTIFIER`; Android `namespace`, `applicationId` en de map van `MainActivity.kt`. |
 | ⬜ | Versienummer in `pubspec.yaml` (`version: 1.0.0+1`). Elke upload krijgt een hoger buildnummer (`+2`, `+3`, …). |
-| ⬜ | App-icoon (1024×1024, zonder transparantie voor iOS), via `flutter_launcher_icons`. |
-| ⬜ | Meldingsicoon voor Android: een wit-op-transparant icoon. Nu wordt het app-icoon gebruikt, en dat wordt op veel toestellen een grijs vlak. |
-| ⬜ | Opstartscherm (splash) in de huisstijl. |
+| ✅ | App-icoon (iOS alle maten, Android klassiek en adaptief met monochroom). |
+| ✅ | Meldingsicoon voor Android (wit schild op transparant). |
+| ✅ | Opstartscherm in de huisstijl (iOS en Android, ook Android 12+). |
 | ⬜ | **Android-ondertekening:** een eigen upload-sleutel (keystore) en een `key.properties` die **nooit in Git** komt; Play App Signing aanzetten. Bewaar de keystore en het wachtwoord veilig, buiten de repository. |
 | ⬜ | **Android target-SDK:** vanaf 31 augustus 2026 moeten nieuwe apps en updates API 36 (Android 16) als doel hebben. Controleren met `grep targetSdk` in de build-uitvoer; de app volgt nu de standaard van Flutter. |
 | ⬜ | **iOS:** `ITSAppUsesNonExemptEncryption = NO` in `Info.plist`. De app gebruikt geen eigen versleuteling, dus er is geen exportdocumentatie nodig. |
 | ⬜ | **iOS-privacymanifest** (`PrivacyInfo.xcprivacy`): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
 | ⬜ | Releasebuilds maken en testen: `flutter build appbundle` (Android) en `flutter build ipa` (iOS). |
 | ✅ | Toestemmingsteksten in het Nederlands (camera, foto's), en meldingen pas vragen als het nodig is. |
+| ⬜ | iOS: controleren of Apple `NSMicrophoneUsageDescription` eist vanwege de camera-plug-in (de app neemt geen geluid op). Zo ja, een eerlijke tekst toevoegen. |
 | ✅ | Geen netwerkcode, geen analytics, geen advertenties, geen trackers. |
 | ✅ | Automatische tests en controle via GitHub Actions. |
 

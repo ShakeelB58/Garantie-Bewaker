@@ -278,6 +278,37 @@
 3. Back-ups van iCloud en Google aan laten (advies) en vermelden in de privacyverklaring.
 4. Beschikbaarheid van de naam "Bonvrij" in beide stores.
 
+## Na de MVP: naam en nieuw ontwerp ✅ afgerond (2026-10-21)
+
+### Opgeleverd
+
+- **Naam Bonvrij** (B14): alle teksten, appnaam, meldingen en export. Interne namen
+  (pakket, database, tijdelijk app-ID) bewust ongewijzigd.
+- **Nieuw ontwerp** (B15), volgens de mockup van de product-eigenaar:
+  - onderbalk met Home, Producten, ronde plusknop, Documenten en Instellingen
+  - welkomstscherm (één keer) en Home met begroeting, tegels en "Recent toegevoegd"
+  - productkaarten met categorie-icoon en "Over N dagen"
+  - productdetails met labels, uitklapbare gegevens en knoppen onderaan
+  - herkenningsscherm met voortgangsbalk en stappen; controlescherm met "Herkenning: goed/controleren"
+  - nieuw: tabblad **Documenten** en scherm **Herinneringen** met hoofdschakelaar
+  - **camera in de app**, met kader, flitser en "Kiezen uit foto's"; zonder microfoon
+  - app-icoon, opstartscherm, meldingsicoon (Android) en lettertype Poppins (SIL OFL)
+- **CI uitgebreid:** foutdetails en gemiste tikken als annotaties, automatisch opmaken met `[format]`.
+
+### Getest
+
+| Controle | Resultaat |
+|---|---|
+| GitHub Actions: analyse, alle tests, backend | Geslaagd |
+| Nieuwe tests: welkom, Home, Documenten, Herinneringen, hoofdschakelaar, scanner zonder camera, 310% tekst | Geslaagd |
+| Ontwerp, icoon en camera op Samsung en iPhone-simulator | Werkt (bevestigd door de gebruiker) |
+
+### Bekende beperkingen
+
+- De camera is niet automatisch te testen; handmatig getest op de Samsung. Op een echte iPhone nog niet.
+- Geweigerde cameratoestemming is nog niet handmatig getest op de Samsung.
+- iOS-camera: Apple kan bij de beoordeling een microfoontekst (`NSMicrophoneUsageDescription`) vragen, ook al gebruikt de app de microfoon niet. Zie de publicatiechecklist.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |

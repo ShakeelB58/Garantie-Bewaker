@@ -45,9 +45,10 @@ Nieuw ontwerp (B15):
 
 | Test | Android | iOS |
 |------|---------|-----|
-| Welkomstscherm één keer, daarna Home | ⬜ | ⬜ |
-| Onderbalk en plusknop | ⬜ | ⬜ |
-| Tabblad Documenten | ⬜ | ⬜ |
-| Herinneringen: lijst en hoofdschakelaar | ⬜ | ⬜ |
-| Camera in de app: foto maken, flitser, opnieuw | ⬜ | n.v.t. (simulator heeft geen camera) |
-| Camera geweigerd: melding en "Kiezen uit foto's" | ⬜ | ⬜ |
+| Welkomstscherm één keer, daarna Home | ✅ | ✅ |
+| Onderbalk en plusknop | ✅ | ✅ |
+| Tabblad Documenten | ✅ | ✅ |
+| Herinneringen: lijst en hoofdschakelaar | ✅ | ✅ |
+| Camera in de app: foto maken, flitser, kiezen uit foto's | ✅ | n.v.t. (simulator heeft geen camera) |
+| Geen camera / geweigerd: melding en "Kiezen uit foto's" | ⬜ | ✅ (simulator) |
+| App-icoon, opstartscherm en lettertype Poppins | ✅ | ✅ |
