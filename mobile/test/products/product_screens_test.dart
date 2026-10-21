@@ -250,9 +250,6 @@ void main() {
     // Tegel met het aantal naderende herinneringen.
     expect(find.text('Binnenkort een herinnering'), findsOneWidget);
     final tile = find.byKey(const Key('dashboard.reminderCount'));
-    expect(
-      find.descendant(of: tile, matching: find.text('1')),
-      findsOneWidget,
-    );
+    expect(find.descendant(of: tile, matching: find.text('1')), findsOneWidget);
   });
 }

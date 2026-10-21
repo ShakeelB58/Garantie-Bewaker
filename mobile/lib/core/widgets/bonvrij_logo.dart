@@ -44,15 +44,33 @@ class _ShieldPainter extends CustomPainter {
     final bottom = h;
     final shield = Path()
       ..moveTo(cx, top)
-      ..cubicTo(cx + w * 0.18, top + h * 0.10, w - w * 0.05, top + h * 0.10, w,
-          top + h * 0.12)
+      ..cubicTo(
+        cx + w * 0.18,
+        top + h * 0.10,
+        w - w * 0.05,
+        top + h * 0.10,
+        w,
+        top + h * 0.12,
+      )
       ..lineTo(w, cy + h * 0.02)
       ..cubicTo(w, cy + h * 0.30, cx + w * 0.25, bottom - h * 0.08, cx, bottom)
-      ..cubicTo(cx - w * 0.25, bottom - h * 0.08, 0, cy + h * 0.30, 0,
-          cy + h * 0.02)
+      ..cubicTo(
+        cx - w * 0.25,
+        bottom - h * 0.08,
+        0,
+        cy + h * 0.30,
+        0,
+        cy + h * 0.02,
+      )
       ..lineTo(0, top + h * 0.12)
-      ..cubicTo(w * 0.05, top + h * 0.10, cx - w * 0.18, top + h * 0.10, cx,
-          top)
+      ..cubicTo(
+        w * 0.05,
+        top + h * 0.10,
+        cx - w * 0.18,
+        top + h * 0.10,
+        cx,
+        top,
+      )
       ..close();
     canvas.drawPath(shield, Paint()..color = color);
 
