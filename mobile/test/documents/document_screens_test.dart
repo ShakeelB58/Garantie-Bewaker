@@ -39,42 +39,43 @@ void main() {
   );
 
   group('kassabon scannen', () {
-    testWidgets('foto controleren, gebruiken en opslaan bij een nieuw product', (
-      tester,
-    ) async {
-      fileStore.addSource('/tmp/camera1.jpg', jpegBytes);
-      picker.results.add(const PickedFile(path: '/tmp/camera1.jpg'));
-      final products = await start(tester);
+    testWidgets(
+      'foto controleren, gebruiken en opslaan bij een nieuw product',
+      (tester) async {
+        fileStore.addSource('/tmp/camera1.jpg', jpegBytes);
+        picker.results.add(const PickedFile(path: '/tmp/camera1.jpg'));
+        final products = await start(tester);
 
-      await _openAddPurchase(tester);
-      await tester.tap(find.text('Kassabon scannen'));
-      await tester.pumpAndSettle();
+        await _openAddPurchase(tester);
+        await tester.tap(find.text('Kassabon scannen'));
+        await tester.pumpAndSettle();
 
-      expect(picker.requests, [DocumentSource.camera]);
-      expect(find.text('Foto controleren'), findsOneWidget);
+        expect(picker.requests, [DocumentSource.camera]);
+        expect(find.text('Foto controleren'), findsOneWidget);
 
-      await tester.tap(find.text('Gebruiken'));
-      await tester.pumpAndSettle();
+        await tester.tap(find.text('Gebruiken'));
+        await tester.pumpAndSettle();
 
-      // Formulier met het gescande document.
-      expect(find.text('Product toevoegen'), findsOneWidget);
-      expect(find.text('Kassabon'), findsOneWidget);
-      expect(fileStore.stored, hasLength(1));
-      // De tijdelijke camerafoto is opgeruimd.
-      expect(fileStore.sources, isEmpty);
+        // Formulier met het gescande document.
+        expect(find.text('Product toevoegen'), findsOneWidget);
+        expect(find.text('Kassabon'), findsOneWidget);
+        expect(fileStore.stored, hasLength(1));
+        // De tijdelijke camerafoto is opgeruimd.
+        expect(fileStore.sources, isEmpty);
 
-      await tester.enterText(_field('name'), 'Koffiezetapparaat');
-      await tester.tap(_field('save'));
-      await tester.pumpAndSettle();
+        await tester.enterText(_field('name'), 'Koffiezetapparaat');
+        await tester.tap(_field('save'));
+        await tester.pumpAndSettle();
 
-      final product = products.all.single;
-      expect(documents.all, hasLength(1));
-      expect(documents.all.single.productId, product.id);
-      expect(documents.all.single.type, DocumentType.receipt);
-      // Detailscherm toont het document.
-      expect(find.text('Aankoopbewijzen'), findsOneWidget);
-      expect(find.text('Kassabon'), findsOneWidget);
-    });
+        final product = products.all.single;
+        expect(documents.all, hasLength(1));
+        expect(documents.all.single.productId, product.id);
+        expect(documents.all.single.type, DocumentType.receipt);
+        // Detailscherm toont het document.
+        expect(find.text('Aankoopbewijzen'), findsOneWidget);
+        expect(find.text('Kassabon'), findsOneWidget);
+      },
+    );
 
     testWidgets('opnieuw maken gooit de eerste foto weg', (tester) async {
       fileStore

@@ -44,9 +44,11 @@ class DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final text = value == null ? 'Geen datum gekozen' : Dates.formatLong(value!);
+    final text = value == null
+        ? 'Geen datum gekozen'
+        : Dates.formatLong(value!);
 
-    return InkWell(
+    final field = InkWell(
       onTap: () => _pick(context),
       borderRadius: BorderRadius.circular(4),
       child: InputDecorator(
@@ -73,6 +75,12 @@ class DateField extends StatelessWidget {
               : theme.textTheme.bodyLarge,
         ),
       ),
+    );
+    // Zonder wisknop: label, datum en tikactie als één knop voorlezen.
+    // Met wisknop blijven beide knoppen apart bereikbaar.
+    if (allowClear && value != null) return field;
+    return MergeSemantics(
+      child: Semantics(button: true, onTapHint: 'Datum kiezen', child: field),
     );
   }
 }

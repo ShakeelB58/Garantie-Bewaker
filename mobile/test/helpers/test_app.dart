@@ -32,9 +32,10 @@ Future<InMemoryProductRepository> pumpApp(
   FakeReminderNotifications? notifications,
   InMemorySettingsRepository? settings,
   FakeExportSaver? exportSaver,
+  Size screenSize = const Size(800, 1800),
 }) async {
-  // Een hoog scherm, zodat het hele formulier zichtbaar is.
-  tester.view.physicalSize = const Size(800, 1800);
+  // Standaard een hoog scherm, zodat het hele formulier zichtbaar is.
+  tester.view.physicalSize = screenSize;
   tester.view.devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
 
@@ -70,9 +71,7 @@ Future<InMemoryProductRepository> pumpApp(
         settingsRepositoryProvider.overrideWithValue(
           settings ?? InMemorySettingsRepository(),
         ),
-        exportSaverProvider.overrideWithValue(
-          exportSaver ?? FakeExportSaver(),
-        ),
+        exportSaverProvider.overrideWithValue(exportSaver ?? FakeExportSaver()),
         appVersionProvider.overrideWith((ref) async => '0.1.0 (1)'),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),

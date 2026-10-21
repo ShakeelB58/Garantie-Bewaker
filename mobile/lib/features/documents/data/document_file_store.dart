@@ -68,6 +68,7 @@ class LocalDocumentFileStore implements DocumentFileStore {
   );
 
   final Future<Directory> Function() _baseDirectory;
+
   /// Mappen waarin de app zelf tijdelijke kopieën maakt of ontvangt
   /// (cache, tmp, iOS `Documents/Inbox`).
   final Future<List<Directory>> Function() _temporaryDirectories;

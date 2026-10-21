@@ -124,9 +124,10 @@ BTW OVER EUR
       ]);
     });
 
-    test('elektronicazaak: garantiedatum wordt niet als aankoopdatum gezien',
-        () {
-      final r = parse('''
+    test(
+      'elektronicazaak: garantiedatum wordt niet als aankoopdatum gezien',
+      () {
+        final r = parse('''
 MediaMarkt Utrecht
 Kassabon
 Datum 03.09.2025
@@ -136,13 +137,14 @@ Te betalen 918,99
 Maestro 918,99
 Garantie tot 03.09.2027''');
 
-      expect(r.merchant.value, 'MediaMarkt');
-      expect(r.purchaseDate.value, DateTime(2025, 9, 3));
-      expect(r.purchaseDate.confidence, high);
-      expect(r.totalMinor.value, 91899);
-      expect(r.totalMinor.confidence, high);
-      expect(r.lineItems, hasLength(2));
-    });
+        expect(r.merchant.value, 'MediaMarkt');
+        expect(r.purchaseDate.value, DateTime(2025, 9, 3));
+        expect(r.purchaseDate.confidence, high);
+        expect(r.totalMinor.value, 91899);
+        expect(r.totalMinor.confidence, high);
+        expect(r.lineItems, hasLength(2));
+      },
+    );
 
     test('webwinkelfactuur met uitgeschreven datums en "incl. btw"', () {
       final r = parse('''
@@ -206,8 +208,10 @@ TOTAAL 3.49''');
       expect(r.productName.value, 'Pindakaas');
     });
 
-    test('drogisterijbon: totaal onderaan, spaar- en voordeelinfo ertussen', () {
-      final r = parse('''
+    test(
+      'drogisterijbon: totaal onderaan, spaar- en voordeelinfo ertussen',
+      () {
+        final r = parse('''
 KRUIDVAT
 Kruidvat Voorbeeldstad
 Teststraat 1
@@ -232,24 +236,28 @@ Transactie 000123
 Bedrag EUR 30,47
 Datum 18/10/2026 14:23''');
 
-      expect(r.merchant.value, 'Kruidvat');
-      expect(r.merchant.confidence, high);
-      expect(r.purchaseDate.value, DateTime(2026, 10, 18));
-      expect(r.purchaseDate.confidence, high);
-      // Niet het "totaal voordeel" van 37,50.
-      expect(r.totalMinor.value, 3047);
-      expect(r.totalMinor.confidence, high);
-      // Geen voordeel- of spaarregels als product; "Kruidvat" in een
-      // productnaam is geen btw-regel.
-      expect(r.lineItems, const [
-        ParsedLineItem(description: 'Andrelon shampoo 300ml', amountMinor: 399),
-        ParsedLineItem(description: 'Kruidvat tandpasta', amountMinor: 298),
-        ParsedLineItem(
-          description: 'Elektrische tandenborstel EB-10',
-          amountMinor: 2499,
-        ),
-      ]);
-    });
+        expect(r.merchant.value, 'Kruidvat');
+        expect(r.merchant.confidence, high);
+        expect(r.purchaseDate.value, DateTime(2026, 10, 18));
+        expect(r.purchaseDate.confidence, high);
+        // Niet het "totaal voordeel" van 37,50.
+        expect(r.totalMinor.value, 3047);
+        expect(r.totalMinor.confidence, high);
+        // Geen voordeel- of spaarregels als product; "Kruidvat" in een
+        // productnaam is geen btw-regel.
+        expect(r.lineItems, const [
+          ParsedLineItem(
+            description: 'Andrelon shampoo 300ml',
+            amountMinor: 399,
+          ),
+          ParsedLineItem(description: 'Kruidvat tandpasta', amountMinor: 298),
+          ParsedLineItem(
+            description: 'Elektrische tandenborstel EB-10',
+            amountMinor: 2499,
+          ),
+        ]);
+      },
+    );
 
     test('logo voor de winkelnaam en aantal op een eigen regel', () {
       final r = parse('''
@@ -286,8 +294,10 @@ PIN 86,76''');
     });
 
     test('losse letter van een logo voor een onbekende winkel', () {
-      expect(parse('O Bakkerij Jansen\nBrood 2,50').merchant.value,
-          'Bakkerij Jansen');
+      expect(
+        parse('O Bakkerij Jansen\nBrood 2,50').merchant.value,
+        'Bakkerij Jansen',
+      );
       expect(parse("'t Winkeltje\nBrood 2,50").merchant.value, "'t Winkeltje");
     });
 
@@ -334,18 +344,22 @@ Brandblusser''');
 
   group('datums', () {
     test('verschillende notaties', () {
-      expect(ReceiptParser.datesIn('12-10-2026', today), [DateTime(2026, 10, 12)]);
-      expect(ReceiptParser.datesIn('12/10/26', today), [DateTime(2026, 10, 12)]);
+      expect(ReceiptParser.datesIn('12-10-2026', today), [
+        DateTime(2026, 10, 12),
+      ]);
+      expect(ReceiptParser.datesIn('12/10/26', today), [
+        DateTime(2026, 10, 12),
+      ]);
       expect(ReceiptParser.datesIn('3.9.2025', today), [DateTime(2025, 9, 3)]);
-      expect(ReceiptParser.datesIn('2026-10-12', today), [DateTime(2026, 10, 12)]);
-      expect(
-        ReceiptParser.datesIn('8 okt. 2026', today),
-        [DateTime(2026, 10, 8)],
-      );
-      expect(
-        ReceiptParser.datesIn('1 maart 2026', today),
-        [DateTime(2026, 3, 1)],
-      );
+      expect(ReceiptParser.datesIn('2026-10-12', today), [
+        DateTime(2026, 10, 12),
+      ]);
+      expect(ReceiptParser.datesIn('8 okt. 2026', today), [
+        DateTime(2026, 10, 8),
+      ]);
+      expect(ReceiptParser.datesIn('1 maart 2026', today), [
+        DateTime(2026, 3, 1),
+      ]);
     });
 
     test('ongeldige en onwaarschijnlijke datums worden genegeerd', () {

@@ -5,24 +5,27 @@ import '../helpers/fixtures.dart';
 
 void main() {
   test('kop, Nederlandse datums en bedragen, aantal documenten', () {
-    final csv = ProductsCsv.build([
-      makeProduct(
-        name: 'Wasmachine',
-        brand: 'Bosch',
-        merchant: 'Coolblue',
-        purchaseDate: DateTime(2026, 3, 5),
-        purchasePriceMinor: 129900,
-        warrantyEndDate: DateTime(2028, 3, 5),
-        reminderEnabled: true,
-        reminderDate: DateTime(2028, 2, 5),
-      ),
-      makeProduct(
-        id: 'p2',
-        name: 'Föhn',
-        merchant: null,
-        purchasePriceMinor: null,
-      ),
-    ], {'p1': 2});
+    final csv = ProductsCsv.build(
+      [
+        makeProduct(
+          name: 'Wasmachine',
+          brand: 'Bosch',
+          merchant: 'Coolblue',
+          purchaseDate: DateTime(2026, 3, 5),
+          purchasePriceMinor: 129900,
+          warrantyEndDate: DateTime(2028, 3, 5),
+          reminderEnabled: true,
+          reminderDate: DateTime(2028, 2, 5),
+        ),
+        makeProduct(
+          id: 'p2',
+          name: 'Föhn',
+          merchant: null,
+          purchasePriceMinor: null,
+        ),
+      ],
+      {'p1': 2},
+    );
 
     expect(csv.startsWith('﻿'), isTrue);
     final lines = csv.substring(1).split('\r\n');
@@ -51,10 +54,7 @@ void main() {
     test('formules worden nooit uitgevoerd (CSV-injectie)', () {
       expect(ProductsCsv.escape('=SUM(A1)'), "'=SUM(A1)");
       // Met aanhalingstekens: apostrof én tussen aanhalingstekens.
-      expect(
-        ProductsCsv.escape('=HYPERLINK("x")'),
-        '"\'=HYPERLINK(""x"")"',
-      );
+      expect(ProductsCsv.escape('=HYPERLINK("x")'), '"\'=HYPERLINK(""x"")"');
       expect(ProductsCsv.escape('+31 6'), "'+31 6");
       expect(ProductsCsv.escape('-korting'), "'-korting");
       expect(ProductsCsv.escape('@user'), "'@user");

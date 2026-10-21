@@ -111,7 +111,10 @@ class ReceiptParser {
     r'(?<![A-Za-z0-9])(\d{1,2})\s+(jan(?:uari)?|feb(?:ruari)?|mrt|maart|apr(?:il)?|mei|juni?|juli?|aug(?:ustus)?|sep(?:t(?:ember)?)?|okt(?:ober)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(\d{4})(?!\d)',
     caseSensitive: false,
   );
-  static final _dateKeyword = RegExp(r'(datum|date|gekocht)', caseSensitive: false);
+  static final _dateKeyword = RegExp(
+    r'(datum|date|gekocht)',
+    caseSensitive: false,
+  );
 
   /// Datums die niet de aankoopdatum zijn.
   static final _dateNegative = RegExp(
@@ -196,7 +199,13 @@ class ReceiptParser {
   // Totaalbedrag
 
   static final _totalKeys = [
-    (RegExp(r'\b(?:totaal te betalen|te betalen|eindtotaal|totaalbedrag)\b', caseSensitive: false), 3),
+    (
+      RegExp(
+        r'\b(?:totaal te betalen|te betalen|eindtotaal|totaalbedrag)\b',
+        caseSensitive: false,
+      ),
+      3,
+    ),
     (RegExp(r'\b(?:totaal|total)\b', caseSensitive: false), 2),
     (RegExp(r'\b(?:bedrag)\b', caseSensitive: false), 1),
   ];
@@ -286,7 +295,11 @@ class ReceiptParser {
         lineIndex: null,
       );
     }
-    return (value: null, confidence: RecognitionConfidence.unknown, lineIndex: null);
+    return (
+      value: null,
+      confidence: RecognitionConfidence.unknown,
+      lineIndex: null,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -377,6 +390,7 @@ class ReceiptParser {
     r'(totaal|total|te betalen|btw|\bvat\b|\bpin\b|betaald|contant|wisselgeld|korting|subtotaal|datum|factuur|\btel\b|kvk|iban|omschrijving|aantal\b.*bedrag|bedrag$|bonnummer|kassa|statiegeld retour|spaar|zegels|maestro|visa|mastercard|\bbon\b|voordeel|bespaard|besparing|saldo|punten|klantenkaart|klantenpas|terminal|transactie|autorisatie|wisselgeld)',
     caseSensitive: false,
   );
+
   /// Einde van de productregels (alleen als er een bedrag bij staat, zodat
   /// een kolomkop als "Prijs Totaal" niet telt).
   static final _itemsEnd = RegExp(
@@ -423,9 +437,8 @@ class ReceiptParser {
     return letters >= 3 && chars > 0 && letters / chars >= 0.5;
   }
 
-  static String _niceCase(String text) => _isUpperCase(text)
-      ? text[0] + text.substring(1).toLowerCase()
-      : text;
+  static String _niceCase(String text) =>
+      _isUpperCase(text) ? text[0] + text.substring(1).toLowerCase() : text;
 
   List<ParsedLineItem> _findItems(List<String> lines, int? stopIndex) {
     // Productregels staan boven het (sub)totaal. Alles daaronder is

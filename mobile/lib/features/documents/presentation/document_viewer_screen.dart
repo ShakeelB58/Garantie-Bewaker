@@ -119,7 +119,10 @@ class _DocumentContent extends ConsumerWidget {
           );
         }
         if (document.format == DocumentFormat.pdf) {
-          return PdfViewer.file(path);
+          return Semantics(
+            label: 'PDF-document. Knijp om in te zoomen.',
+            child: PdfViewer.file(path),
+          );
         }
         return InteractiveViewer(
           maxScale: 6,
@@ -127,6 +130,7 @@ class _DocumentContent extends ConsumerWidget {
             child: Image.file(
               File(path),
               fit: BoxFit.contain,
+              semanticLabel: 'Foto van het aankoopbewijs',
               errorBuilder: (context, error, stackTrace) => const ErrorView(
                 error: AppException('Deze afbeelding kan niet worden getoond.'),
               ),

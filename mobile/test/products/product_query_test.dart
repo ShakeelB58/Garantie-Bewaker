@@ -42,17 +42,19 @@ void main() {
   });
 
   test('aankoopdatum, oudste eerst', () {
-    expect(
-      ids(const ProductQuery(sort: ProductSort.purchaseDateOldest)),
-      ['c', 'a', 'b'],
-    );
+    expect(ids(const ProductQuery(sort: ProductSort.purchaseDateOldest)), [
+      'c',
+      'a',
+      'b',
+    ]);
   });
 
   test('herinneringsdatum: eerstvolgende eerst, zonder datum achteraan', () {
-    expect(
-      ids(const ProductQuery(sort: ProductSort.reminderDateSoonest)),
-      ['b', 'a', 'c'],
-    );
+    expect(ids(const ProductQuery(sort: ProductSort.reminderDateSoonest)), [
+      'b',
+      'a',
+      'c',
+    ]);
   });
 
   test('zoeken op naam, merk en winkel, zonder hoofdletters', () {
@@ -71,10 +73,10 @@ void main() {
   });
 
   test('filteren op categorie', () {
-    expect(
-      ids(const ProductQuery(category: ProductCategory.household)),
-      ['a', 'c'],
-    );
+    expect(ids(const ProductQuery(category: ProductCategory.household)), [
+      'a',
+      'c',
+    ]);
   });
 
   test('copyWith kan de categorie wissen', () {

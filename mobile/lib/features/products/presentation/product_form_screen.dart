@@ -123,9 +123,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     super.initState();
     final initial = widget.initial;
     final input = initial == null
-        ? ProductInput(
-            purchaseDate: Dates.dateOnly(ref.read(clockProvider)()),
-          )
+        ? ProductInput(purchaseDate: Dates.dateOnly(ref.read(clockProvider)()))
         : ProductInput.fromProduct(initial);
 
     _name = TextEditingController(text: input.name);
@@ -196,8 +194,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high ||
-      RecognitionConfidence.medium => 'Herkend uit het document. Controleer dit.',
+      RecognitionConfidence.high || RecognitionConfidence.medium =>
+        'Herkend uit het document. Controleer dit.',
       _ => 'Onzeker herkend. Controleer dit goed.',
     };
   }
@@ -210,9 +208,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         confidence == RecognitionConfidence.low ||
         confidence == RecognitionConfidence.unknown;
     return theme.textTheme.bodySmall?.copyWith(
-      color: uncertain
-          ? AppColors.warning
-          : theme.colorScheme.primary,
+      color: uncertain ? AppColors.warning : theme.colorScheme.primary,
       fontWeight: uncertain ? FontWeight.w600 : null,
     );
   }
@@ -493,6 +489,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             ),
             const SizedBox(height: AppSpacing.md),
             DropdownButtonFormField<ProductCategory>(
+              isExpanded: true,
               key: const Key('productForm.category'),
               initialValue: _category,
               decoration: const InputDecoration(
@@ -536,59 +533,52 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               lastDate: today,
               errorText: _errors[ProductField.purchaseDate],
               helperText: _recognitionHint(ProductField.purchaseDate),
-              onChanged: (value) =>
-                  _changed(ProductField.purchaseDate, () => _purchaseDate = value),
+              onChanged: (value) => _changed(
+                ProductField.purchaseDate,
+                () => _purchaseDate = value,
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: TextField(
-                    key: const Key('productForm.price'),
-                    controller: _price,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      labelText: 'Aankoopprijs (optioneel)',
-                      hintText: 'bijv. 1.299,00',
-                      errorText: _errors[ProductField.price],
-                      errorMaxLines: 2,
-                      helperText: _recognitionHint(ProductField.price),
-                      helperStyle: _hintStyle(ProductField.price),
-                      helperMaxLines: 2,
-                      suffixIcon: _recognitionIcon(ProductField.price),
-                      border: const OutlineInputBorder(),
-                    ),
-                    onChanged: (_) => _changed(ProductField.price, () {}),
-                  ),
+            _FieldPair(
+              first: TextField(
+                key: const Key('productForm.price'),
+                controller: _price,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField<String>(
-                    key: const Key('productForm.currency'),
-                    initialValue: _currency,
-                    decoration: InputDecoration(
-                      labelText: 'Valuta',
-                      errorText: _errors[ProductField.currency],
-                      border: const OutlineInputBorder(),
-                    ),
-                    items: [
-                      for (final code in Money.supportedCurrencies)
-                        DropdownMenuItem(value: code, child: Text(code)),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        _changed(ProductField.currency, () => _currency = value);
-                      }
-                    },
-                  ),
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  labelText: 'Aankoopprijs (optioneel)',
+                  hintText: 'bijv. 1.299,00',
+                  errorText: _errors[ProductField.price],
+                  errorMaxLines: 2,
+                  helperText: _recognitionHint(ProductField.price),
+                  helperStyle: _hintStyle(ProductField.price),
+                  helperMaxLines: 2,
+                  suffixIcon: _recognitionIcon(ProductField.price),
+                  border: const OutlineInputBorder(),
                 ),
-              ],
+                onChanged: (_) => _changed(ProductField.price, () {}),
+              ),
+              second: DropdownButtonFormField<String>(
+                isExpanded: true,
+                key: const Key('productForm.currency'),
+                initialValue: _currency,
+                decoration: InputDecoration(
+                  labelText: 'Valuta',
+                  errorText: _errors[ProductField.currency],
+                  border: const OutlineInputBorder(),
+                ),
+                items: [
+                  for (final code in Money.supportedCurrencies)
+                    DropdownMenuItem(value: code, child: Text(code)),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    _changed(ProductField.currency, () => _currency = value);
+                  }
+                },
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SectionTitle('Garantie en herinnering'),
@@ -857,6 +847,39 @@ class _ProductChoice extends StatelessWidget {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// Twee velden naast elkaar (3:2), of onder elkaar bij grote tekst of een
+/// smal scherm, zodat niets wordt afgekapt.
+class _FieldPair extends StatelessWidget {
+  const _FieldPair({required this.first, required this.second});
+
+  final Widget first;
+  final Widget second;
+
+  @override
+  Widget build(BuildContext context) {
+    final largeText = MediaQuery.textScalerOf(context).scale(10) > 13;
+    final narrow = MediaQuery.sizeOf(context).width < 360;
+    if (largeText || narrow) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          first,
+          const SizedBox(height: AppSpacing.md),
+          second,
+        ],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex: 3, child: first),
+        const SizedBox(width: AppSpacing.sm),
+        Expanded(flex: 2, child: second),
       ],
     );
   }

@@ -48,7 +48,8 @@ class FakePdfPageSource implements PdfPageSource {
   @override
   Future<void> forEachPage(
     String path,
-    Future<void> Function(PdfPageAccess page, int index, int pageCount) action, {
+    Future<void> Function(PdfPageAccess page, int index, int pageCount)
+    action, {
     int maxPages = 10,
   }) async {
     lastMaxPages = maxPages;

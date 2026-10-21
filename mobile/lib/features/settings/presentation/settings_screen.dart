@@ -41,8 +41,7 @@ class SettingsScreen extends ConsumerWidget {
             title: const Text('Meldingen'),
             subtitle: Text(switch (enabled) {
               AsyncData(value: true) => 'Aan',
-              AsyncData(value: false) =>
-                'Uit. Tik om meldingen toe te staan.',
+              AsyncData(value: false) => 'Uit. Tik om meldingen toe te staan.',
               _ => 'Controleren…',
             }),
             onTap: enabled.value == true
@@ -53,7 +52,9 @@ class SettingsScreen extends ConsumerWidget {
             key: const Key('settings.testNotification'),
             leading: const Icon(Icons.notification_add_outlined),
             title: const Text('Testmelding versturen'),
-            subtitle: const Text('Controleer of meldingen op je telefoon werken'),
+            subtitle: const Text(
+              'Controleer of meldingen op je telefoon werken',
+            ),
             onTap: () => _sendTest(context, ref),
           ),
           const _SectionHeader('Privacy en gegevens'),

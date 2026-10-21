@@ -28,15 +28,17 @@ void main() {
     ]);
   });
 
-  test('regels staan van boven naar beneden, woorden van links naar rechts',
-      () {
-    final text = TextLayout.assemble([
-      box('onder', 0.1, 0.9),
-      box('rechts', 0.6, 0.1),
-      box('links', 0.1, 0.1),
-    ]);
-    expect(text, 'links rechts\nonder');
-  });
+  test(
+    'regels staan van boven naar beneden, woorden van links naar rechts',
+    () {
+      final text = TextLayout.assemble([
+        box('onder', 0.1, 0.9),
+        box('rechts', 0.6, 0.1),
+        box('links', 0.1, 0.1),
+      ]);
+      expect(text, 'links rechts\nonder');
+    },
+  );
 
   test('losse tekens: spatie alleen bij een duidelijk gat', () {
     // Tekens van 6 breed en 10 hoog; tussen "Bon" en "42" zit een gat.

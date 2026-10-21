@@ -59,7 +59,10 @@ void main() {
 
       await tester.tap(find.byKey(const Key('settings.export')));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Bewaar het op een veilige plek'), findsOneWidget);
+      expect(
+        find.textContaining('Bewaar het op een veilige plek'),
+        findsOneWidget,
+      );
       await tester.tap(find.text('Exporteren'));
       await tester.pumpAndSettle();
 
@@ -76,9 +79,7 @@ void main() {
       );
     });
 
-    testWidgets('annuleren in het bewaarvenster: geen melding', (
-      tester,
-    ) async {
+    testWidgets('annuleren in het bewaarvenster: geen melding', (tester) async {
       saver.accept = false;
       await start(tester);
 

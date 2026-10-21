@@ -53,7 +53,9 @@ void main() {
     expect(await file.exists(), isTrue);
     // Geen half gekopieerde bestanden achtergebleven.
     expect(
-      Directory(p.join(base.path, 'documents')).listSync().map((e) => p.basename(e.path)),
+      Directory(
+        p.join(base.path, 'documents'),
+      ).listSync().map((e) => p.basename(e.path)),
       ['abc-123.pdf'],
     );
   });
@@ -67,11 +69,7 @@ void main() {
       'documents/',
       'andere/a.pdf',
     ]) {
-      await expectLater(
-        store.resolve(bad),
-        throwsArgumentError,
-        reason: bad,
-      );
+      await expectLater(store.resolve(bad), throwsArgumentError, reason: bad);
     }
   });
 
@@ -99,11 +97,11 @@ void main() {
   test('listStored toont alleen geldige documenten', () async {
     final file = await writeFile(outside, 'f.pdf', pdfBytes);
     await store.store(file.path, id: 'd1', format: DocumentFormat.pdf);
-    await writeFile(
-      Directory(p.join(base.path, 'documents')),
-      'vreemd.txt',
-      [1, 2, 3],
-    );
+    await writeFile(Directory(p.join(base.path, 'documents')), 'vreemd.txt', [
+      1,
+      2,
+      3,
+    ]);
 
     final listed = await store.listStored();
     expect(listed.keys, ['documents/d1.pdf']);
@@ -125,18 +123,21 @@ void main() {
     expect(await cached.exists(), isFalse);
   });
 
-  test('deleteIfTemporary raakt alleen bestanden in de tijdelijke map', () async {
-    final tempFile = await writeFile(temp, 'camera.jpg', jpegBytes);
-    final userFile = await writeFile(outside, 'foto.jpg', jpegBytes);
+  test(
+    'deleteIfTemporary raakt alleen bestanden in de tijdelijke map',
+    () async {
+      final tempFile = await writeFile(temp, 'camera.jpg', jpegBytes);
+      final userFile = await writeFile(outside, 'foto.jpg', jpegBytes);
 
-    await store.deleteIfTemporary(tempFile.path);
-    await store.deleteIfTemporary(userFile.path);
-    // Een pad dat via ../ uit de tijdelijke map ontsnapt, telt niet.
-    await store.deleteIfTemporary(
-      p.join(temp.path, '..', 'gebruiker', 'foto.jpg'),
-    );
+      await store.deleteIfTemporary(tempFile.path);
+      await store.deleteIfTemporary(userFile.path);
+      // Een pad dat via ../ uit de tijdelijke map ontsnapt, telt niet.
+      await store.deleteIfTemporary(
+        p.join(temp.path, '..', 'gebruiker', 'foto.jpg'),
+      );
 
-    expect(await tempFile.exists(), isFalse);
-    expect(await userFile.exists(), isTrue);
-  });
+      expect(await tempFile.exists(), isFalse);
+      expect(await userFile.exists(), isTrue);
+    },
+  );
 }

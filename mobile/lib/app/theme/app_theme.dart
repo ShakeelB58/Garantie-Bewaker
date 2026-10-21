@@ -20,24 +20,25 @@ abstract final class AppRadius {
 /// Design system van GarantieBewaker op basis van Material 3.
 abstract final class AppTheme {
   static ThemeData light() {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppColors.teal,
-      brightness: Brightness.light,
-    ).copyWith(
-      primary: AppColors.teal,
-      onPrimary: Colors.white,
-      primaryContainer: AppColors.tealContainer,
-      onPrimaryContainer: AppColors.navy,
-      secondary: AppColors.navy,
-      onSecondary: Colors.white,
-      surface: AppColors.surface,
-      onSurface: AppColors.navy,
-      onSurfaceVariant: AppColors.textMuted,
-      outline: AppColors.textMuted,
-      outlineVariant: AppColors.border,
-      error: AppColors.error,
-      onError: Colors.white,
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: AppColors.teal,
+          brightness: Brightness.light,
+        ).copyWith(
+          primary: AppColors.teal,
+          onPrimary: Colors.white,
+          primaryContainer: AppColors.tealContainer,
+          onPrimaryContainer: AppColors.navy,
+          secondary: AppColors.navy,
+          onSecondary: Colors.white,
+          surface: AppColors.surface,
+          onSurface: AppColors.navy,
+          onSurfaceVariant: AppColors.textMuted,
+          outline: AppColors.textMuted,
+          outlineVariant: AppColors.border,
+          error: AppColors.error,
+          onError: Colors.white,
+        );
 
     final base = ThemeData(
       useMaterial3: true,

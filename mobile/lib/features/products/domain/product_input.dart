@@ -109,16 +109,14 @@ abstract final class ProductValidator {
     if (name.isEmpty) {
       errors[ProductField.name] = 'Vul een productnaam in.';
     } else if (name.length > maxNameLength) {
-      errors[ProductField.name] =
-          'Gebruik maximaal $maxNameLength tekens.';
+      errors[ProductField.name] = 'Gebruik maximaal $maxNameLength tekens.';
     }
 
     if (input.brand.trim().length > maxTextLength) {
       errors[ProductField.brand] = 'Gebruik maximaal $maxTextLength tekens.';
     }
     if (input.merchant.trim().length > maxTextLength) {
-      errors[ProductField.merchant] =
-          'Gebruik maximaal $maxTextLength tekens.';
+      errors[ProductField.merchant] = 'Gebruik maximaal $maxTextLength tekens.';
     }
 
     final purchaseDate = input.purchaseDate == null

@@ -15,14 +15,26 @@ void main() {
   });
 
   test('dateOnly verwijdert de tijd', () {
-    expect(Dates.dateOnly(DateTime(2026, 10, 19, 23, 59)), DateTime(2026, 10, 19));
+    expect(
+      Dates.dateOnly(DateTime(2026, 10, 19, 23, 59)),
+      DateTime(2026, 10, 19),
+    );
   });
 
   test('daysBetween telt kalenderdagen, ook rond zomertijd', () {
     // Op 25 oktober 2026 gaat in Nederland de wintertijd in.
-    expect(Dates.daysBetween(DateTime(2026, 10, 24), DateTime(2026, 10, 26)), 2);
-    expect(Dates.daysBetween(DateTime(2026, 10, 26), DateTime(2026, 10, 24)), -2);
-    expect(Dates.daysBetween(DateTime(2026, 10, 19, 23), DateTime(2026, 10, 20, 1)), 1);
+    expect(
+      Dates.daysBetween(DateTime(2026, 10, 24), DateTime(2026, 10, 26)),
+      2,
+    );
+    expect(
+      Dates.daysBetween(DateTime(2026, 10, 26), DateTime(2026, 10, 24)),
+      -2,
+    );
+    expect(
+      Dates.daysBetween(DateTime(2026, 10, 19, 23), DateTime(2026, 10, 20, 1)),
+      1,
+    );
   });
 
   test('Nederlandse notatie', () {

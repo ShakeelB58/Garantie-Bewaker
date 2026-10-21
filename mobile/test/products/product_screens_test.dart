@@ -25,9 +25,7 @@ Future<void> _openProduct(WidgetTester tester, String name) async {
 
 void main() {
   group('product toevoegen', () {
-    testWidgets('handmatig toevoegen toont het product overal', (
-      tester,
-    ) async {
+    testWidgets('handmatig toevoegen toont het product overal', (tester) async {
       final repo = await pumpApp(tester);
       await _openNewProductForm(tester);
 

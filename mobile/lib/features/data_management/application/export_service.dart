@@ -86,7 +86,10 @@ class ExportService {
 
     archive
       ..addFile(
-        ArchiveFile.string('producten.csv', ProductsCsv.build(products, counts)),
+        ArchiveFile.string(
+          'producten.csv',
+          ProductsCsv.build(products, counts),
+        ),
       )
       ..addFile(ArchiveFile.string('LEESMIJ.txt', _readme()));
 
@@ -116,7 +119,9 @@ class ExportService {
         .replaceAll(RegExp(r'[ùúûü]'), 'u')
         .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
         .replaceAll(RegExp(r'^-+|-+$'), '');
-    if (slug.length > 40) slug = slug.substring(0, 40).replaceAll(RegExp(r'-+$'), '');
+    if (slug.length > 40) {
+      slug = slug.substring(0, 40).replaceAll(RegExp(r'-+$'), '');
+    }
     if (slug.isEmpty) slug = 'product';
     final number = productNumber.toString().padLeft(3, '0');
     final type = document.type.label.toLowerCase();

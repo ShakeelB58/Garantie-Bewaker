@@ -63,7 +63,8 @@ class _DashboardContent extends StatelessWidget {
     final date = Dates.formatShort(item.date);
     return switch (item.kind) {
       UpcomingKind.reminder => 'Herinnering op $date',
-      UpcomingKind.warrantyEnd => 'Door jou ingevulde garantie-einddatum: $date',
+      UpcomingKind.warrantyEnd =>
+        'Door jou ingevulde garantie-einddatum: $date',
     };
   }
 
@@ -81,40 +82,45 @@ class _DashboardContent extends StatelessWidget {
       ),
       children: [
         Card(
-          child: InkWell(
-            onTap: () => context.go(AppRoutes.products),
-            borderRadius: BorderRadius.circular(AppRadius.card),
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.inventory_2_outlined,
-                    color: theme.colorScheme.primary,
-                    size: 32,
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$count',
-                          style: theme.textTheme.headlineSmall,
+          child: MergeSemantics(
+            child: Semantics(
+              button: true,
+              child: InkWell(
+                onTap: () => context.go(AppRoutes.products),
+                borderRadius: BorderRadius.circular(AppRadius.card),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.inventory_2_outlined,
+                        color: theme.colorScheme.primary,
+                        size: 32,
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$count',
+                              style: theme.textTheme.headlineSmall,
+                            ),
+                            Text(
+                              count == 1
+                                  ? 'geregistreerd product'
+                                  : 'geregistreerde producten',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          count == 1
-                              ? 'geregistreerd product'
-                              : 'geregistreerde producten',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const Icon(Icons.chevron_right),
+                    ],
                   ),
-                  const Icon(Icons.chevron_right),
-                ],
+                ),
               ),
             ),
           ),

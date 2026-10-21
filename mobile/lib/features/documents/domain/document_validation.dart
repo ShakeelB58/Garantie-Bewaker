@@ -59,7 +59,9 @@ abstract final class DocumentValidation {
   /// Standaardtype op basis van het formaat: PDF's zijn meestal facturen,
   /// foto's meestal kassabonnen. De gebruiker kan dit later wijzigen.
   static DocumentType defaultTypeFor(DocumentFormat format) =>
-      format == DocumentFormat.pdf ? DocumentType.invoice : DocumentType.receipt;
+      format == DocumentFormat.pdf
+      ? DocumentType.invoice
+      : DocumentType.receipt;
 
   static bool _startsWith(List<int> data, List<int> prefix) {
     if (data.length < prefix.length) return false;

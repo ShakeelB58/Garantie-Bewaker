@@ -51,7 +51,10 @@ void main() {
   group('validate', () {
     test('geldig bestand', () {
       expect(
-        DocumentValidation.validate(sizeBytes: 1000, format: DocumentFormat.pdf),
+        DocumentValidation.validate(
+          sizeBytes: 1000,
+          format: DocumentFormat.pdf,
+        ),
         isNull,
       );
     });
@@ -90,10 +93,7 @@ void main() {
 
   group('sanitizeFilename', () {
     test('verwijdert mappen en stuurtekens', () {
-      expect(
-        DocumentValidation.sanitizeFilename('../../etc/passwd'),
-        'passwd',
-      );
+      expect(DocumentValidation.sanitizeFilename('../../etc/passwd'), 'passwd');
       expect(
         DocumentValidation.sanitizeFilename(r'C:\Users\x\factuur.pdf'),
         'factuur.pdf',
