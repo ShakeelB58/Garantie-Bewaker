@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/utils/dates.dart';
+import '../../../core/widgets/add_fab.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../products/application/product_providers.dart';
@@ -41,14 +42,10 @@ class DashboardScreen extends ConsumerWidget {
       ),
       floatingActionButton: summary.value?.totalProducts == 0
           ? null
-          : FloatingActionButton.extended(
-              // Elke knop een eigen tag: beide tabbladen staan tegelijk in
-              // de boom (IndexedStack) en een gedeelde tag geeft een
-              // Hero-conflict bij het openen van een nieuw scherm.
+          : AddFab(
               heroTag: 'fab-dashboard',
+              label: 'Aankoop toevoegen',
               onPressed: () => context.push(AppRoutes.addPurchase),
-              icon: const Icon(Icons.add),
-              label: const Text('Aankoop toevoegen'),
             ),
     );
   }

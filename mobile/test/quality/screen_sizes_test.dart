@@ -111,6 +111,37 @@ void main() {
       });
     }
   }
+
+  _maxTextFabTests();
+}
+
+
+/// iOS gaat met "Grotere tekst" (toegankelijkheid) tot ongeveer 310%.
+void _maxTextFabTests() {
+  for (final size in const [Size(402, 874), Size(320, 568)]) {
+    testWidgets('knop "Aankoop toevoegen" past bij 310% tekst op '
+        '${size.width.toInt()} breed', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 3.1;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await pumpApp(
+        tester,
+        repository: InMemoryProductRepository([makeProduct()]),
+        screenSize: size,
+      );
+
+      final fab = find.byType(FloatingActionButton);
+      expect(fab, findsOneWidget);
+      final rect = tester.getRect(fab);
+      expect(rect.left, greaterThanOrEqualTo(0));
+      expect(rect.right, lessThanOrEqualTo(size.width));
+
+      // Ook op het productentabblad.
+      await tester.tap(find.byIcon(Icons.inventory_2_outlined).last);
+      await tester.pumpAndSettle();
+      final productsFab = tester.getRect(find.byType(FloatingActionButton));
+      expect(productsFab.right, lessThanOrEqualTo(size.width));
+    });
+  }
 }
 
 /// Scrolt in de zichtbare lijst tot [finder] in beeld is.

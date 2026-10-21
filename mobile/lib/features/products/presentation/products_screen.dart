@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../../core/widgets/add_fab.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../application/product_providers.dart';
@@ -88,11 +89,10 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                 onClearFilters: _clearFilters,
               ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: AddFab(
         heroTag: 'fab-products',
+        label: 'Toevoegen',
         onPressed: () => context.push(AppRoutes.addPurchase),
-        icon: const Icon(Icons.add),
-        label: const Text('Toevoegen'),
       ),
     );
   }
