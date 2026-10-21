@@ -309,6 +309,20 @@
 - Geweigerde cameratoestemming is nog niet handmatig getest op de Samsung.
 - iOS-camera: Apple kan bij de beoordeling een microfoontekst (`NSMicrophoneUsageDescription`) vragen, ook al gebruikt de app de microfoon niet. Zie de publicatiechecklist.
 
+## Publicatievoorbereiding: deel 1 ✅ afgerond (2026-10-21)
+
+- App-ID `nl.bonvrij.app` (iOS en Android), domein bonvrij.nl geregistreerd (B16).
+- Alleen iPhone; versie 1.0.0+1; `ITSAppUsesNonExemptEncryption = false`.
+- Android-ondertekening voorbereid via `android/key.properties` (nooit in Git).
+- Privacyverklaring geschreven ([privacyverklaring.md](privacyverklaring.md)); back-ups van
+  iCloud en Google blijven aan en worden vermeld. Supportadres: bonvrij.app@gmail.com.
+- Getest door de gebruiker op Samsung en iPhone-simulator na herinstallatie: welkomstscherm,
+  icoon, product toevoegen, camera, testmelding, versie 1.0.0.
+
+Nog open: naam van de verantwoordelijke in de privacyverklaring, privacyverklaring online zetten,
+upload-sleutel voor Android, ontwikkelaarsaccounts, schermafbeeldingen, privacymanifest iOS,
+test op een echte iPhone. Zie de [publicatiechecklist](publicatie-checklist.md).
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
