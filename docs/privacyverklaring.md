@@ -8,8 +8,11 @@ eigen telefoon. Wij ontvangen niets.**
 
 ## Wie zijn wij
 
-Bonvrij wordt gemaakt door [naam ontwikkelaar].
-Contact: [e-mailadres voor ondersteuning]
+Bonvrij is een app van [naam ontwikkelaar].
+Contact: bonvrij.app@gmail.com
+
+> Nog in te vullen vóór publicatie: bij "[naam ontwikkelaar]" de naam van de
+> verantwoordelijke (jouw naam, of later je bedrijfsnaam). Dat vraagt de privacywet (AVG).
 
 ## Welke gegevens de app bewaart
 

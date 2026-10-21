@@ -22,7 +22,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | ⬜ | **Apple Developer Program:** $99 per jaar (in euro iets meer). Aanmelden via developer.apple.com met je Apple ID. Als particulier staat je eigen naam als verkoper in de App Store. |
 | ⬜ | **Google Play Console:** eenmalig $25, met identiteitscontrole. |
 | ⬜ | **Google Play, persoonlijk account:** vóór publicatie verplicht een **gesloten test met minimaal 12 testers die 14 dagen achter elkaar meedoen**. Plan dit in met de "paar mensen" die de app gaan gebruiken. |
-| ⬜ | Een e-mailadres voor ondersteuning (verplicht in beide stores). Gebruik bij voorkeur een apart adres. |
+| ✅ | E-mailadres voor ondersteuning: bonvrij.app@gmail.com (ook in de app bij "Over Bonvrij" en in de privacyverklaring). |
 
 ## 3. Technisch (in de code; dit kan ik voorbereiden)
 
@@ -47,7 +47,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⏳ | **Privacyverklaring:** tekst staat klaar in [privacyverklaring.md](privacyverklaring.md). Nog invullen: naam en e-mailadres, en online zetten (bijv. GitHub Pages). |
+| ⏳ | **Privacyverklaring:** tekst staat klaar in [privacyverklaring.md](privacyverklaring.md). Nog invullen: naam van de verantwoordelijke, en online zetten (bijv. GitHub Pages). |
 | ⬜ | **App Store-privacylabel:** waarschijnlijk "Geen gegevens verzameld", omdat er niets naar de ontwikkelaar of derden gaat. |
 | ⬜ | **Google Play-gegevensveiligheid:** "Geen gegevens verzameld of gedeeld", plus een vermelding dat gebruikers alles zelf kunnen verwijderen. |
 | ⬜ | Leeftijdsclassificatie invullen in beide stores; zou "voor iedereen" moeten zijn. |

@@ -100,7 +100,8 @@ class SettingsScreen extends ConsumerWidget {
               applicationLegalese:
                   'Bonvrij geeft geen juridisch advies. Door jou '
                   'ingestelde datums zijn herinneringen, geen vastgestelde '
-                  'garantietermijnen.',
+                  'garantietermijnen.\n\n'
+                  'Vragen of opmerkingen? Mail naar bonvrij.app@gmail.com.',
             ),
           ),
         ],
