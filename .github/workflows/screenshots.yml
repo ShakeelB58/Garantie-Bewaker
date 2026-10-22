@@ -1,0 +1,41 @@
+# Maakt de ruwe schermafbeeldingen voor de App Store en Google Play
+# (mobile/screenshots/raw/) en zet ze als commit terug op dezelfde branch.
+# Start handmatig (tabblad Actions) of met [screenshots] in de commit-boodschap.
+# Gebruikt alleen fictieve voorbeeldgegevens en geen geheimen.
+name: Schermafbeeldingen
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  screenshots:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[screenshots]')
+    name: Schermafbeeldingen maken
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.7
+          cache: true
+      - name: Maken
+        working-directory: mobile
+        run: |
+          flutter pub get
+          rm -rf screenshots/raw
+          flutter test screenshots --reporter expanded
+          ls -la screenshots/raw/*
+      - name: Terugzetten
+        run: |
+          git add mobile/screenshots/raw
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Schermafbeeldingen bijgewerkt"
+          git pull --rebase
+          git push

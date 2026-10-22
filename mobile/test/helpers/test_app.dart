@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:garantiebewaker/app/app.dart';
 import 'package:garantiebewaker/core/storage/storage_providers.dart';
 import 'package:garantiebewaker/features/data_management/application/data_management_providers.dart';
+import 'package:garantiebewaker/features/demo/demo_data.dart';
 import 'package:garantiebewaker/features/documents/application/document_service.dart';
 import 'package:garantiebewaker/features/documents/data/camera_scanner.dart';
 import 'package:garantiebewaker/features/documents/presentation/scanner_screen.dart';
@@ -36,6 +37,7 @@ Future<InMemoryProductRepository> pumpApp(
   FakeExportSaver? exportSaver,
   Size screenSize = const Size(800, 1800),
   bool showWelcome = false,
+  Widget? scannerPreview,
 }) async {
   final settingsRepo = settings ?? InMemorySettingsRepository();
   final documentPicker = picker ?? FakeDocumentPicker();
@@ -48,6 +50,7 @@ Future<InMemoryProductRepository> pumpApp(
   tester.view.devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
 
+  final files = fileStore ?? InMemoryDocumentFileStore();
   final repo = repository ?? InMemoryProductRepository();
   final documentRepo = documents ?? InMemoryDocumentRepository();
   // Bootst ON DELETE CASCADE van de echte database na.
@@ -59,14 +62,19 @@ Future<InMemoryProductRepository> pumpApp(
       overrides: [
         productRepositoryProvider.overrideWithValue(repo),
         documentRepositoryProvider.overrideWithValue(documentRepo),
-        documentFileStoreProvider.overrideWithValue(
-          fileStore ?? InMemoryDocumentFileStore(),
-        ),
+        documentFileStoreProvider.overrideWithValue(files),
+        // Voorbeeldgegevens: "tijdelijke bestanden" in het geheugen.
+        demoTempFileWriterProvider.overrideWithValue((name, bytes) async {
+          final path = '/tmp/$name';
+          files.addSource(path, bytes);
+          return path;
+        }),
         documentPickerProvider.overrideWithValue(documentPicker),
         // Geen echte camera in tests: de nepkiezer levert de "foto".
         cameraScannerProvider.overrideWithValue(
           PickerCameraScanner(documentPicker),
         ),
+        scannerPreviewOverrideProvider.overrideWithValue(scannerPreview),
         incomingFileSourceProvider.overrideWithValue(
           incoming ?? FakeIncomingFileSource(),
         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/user_message.dart';
 import '../../data_management/application/data_management_providers.dart';
+import '../../demo/demo_data.dart';
 import '../../reminders/application/reminder_service.dart';
 import '../application/settings_providers.dart';
 
@@ -104,6 +106,19 @@ class SettingsScreen extends ConsumerWidget {
                   'Vragen of opmerkingen? Mail naar bonvrij.app@gmail.com.',
             ),
           ),
+          // Alleen in de testversie (debug); nooit in de App Store-versie.
+          if (kDebugMode) ...[
+            const _SectionHeader('Testversie'),
+            ListTile(
+              key: const Key('settings.demoData'),
+              leading: const Icon(Icons.science_outlined),
+              title: const Text('Voorbeeldgegevens laden'),
+              subtitle: const Text(
+                'Fictieve producten en documenten, bijv. voor schermafbeeldingen',
+              ),
+              onTap: () => _loadDemoData(context, ref),
+            ),
+          ],
         ],
       ),
     );
@@ -284,6 +299,20 @@ class SettingsScreen extends ConsumerWidget {
           context,
           'Niet alles kon worden verwijderd. Probeer het opnieuw.',
         );
+      }
+    }
+  }
+
+  Future<void> _loadDemoData(BuildContext context, WidgetRef ref) async {
+    try {
+      final count = await ref.read(demoDataLoaderProvider).load();
+      if (context.mounted) {
+        _message(context, '$count voorbeeldproducten toegevoegd.');
+      }
+    } catch (error) {
+      debugPrint('Voorbeeldgegevens laden mislukt (${error.runtimeType})');
+      if (context.mounted) {
+        _message(context, 'De voorbeeldgegevens konden niet worden geladen.');
       }
     }
   }
