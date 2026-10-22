@@ -82,7 +82,9 @@ String _flutterRoot() {
   final fromEnv = Platform.environment['FLUTTER_ROOT'];
   if (fromEnv != null && fromEnv.isNotEmpty) return fromEnv;
   final exe = Platform.resolvedExecutable;
-  final index = exe.indexOf('${Platform.pathSeparator}bin${Platform.pathSeparator}cache');
+  final index = exe.indexOf(
+    '${Platform.pathSeparator}bin${Platform.pathSeparator}cache',
+  );
   if (index < 0) throw StateError('FLUTTER_ROOT niet gevonden');
   return exe.substring(0, index);
 }
@@ -174,7 +176,11 @@ void main() {
     });
 
     shoot('2 scannen', (tester) async {
-      await _startWithDemo(tester, device, scannerPreview: const _TableWithReceipt());
+      await _startWithDemo(
+        tester,
+        device,
+        scannerPreview: const _TableWithReceipt(),
+      );
       unawaited(
         Navigator.of(_context(tester), rootNavigator: true).push(
           MaterialPageRoute<void>(
@@ -189,42 +195,44 @@ void main() {
     shoot('3 controleren', (tester) async {
       await _startWithDemo(tester, device);
       final day = DateTime(testNow.year, testNow.month, testNow.day);
-      unawaited(GoRouter.of(_context(tester)).push(
-        AppRoutes.newProduct,
-        extra: NewProductArgs(
-          documents: const [
-            StagedDocument(
-              id: 'staged-1',
-              filePath: 'documents/staged-1.pdf',
-              format: DocumentFormat.pdf,
-              type: DocumentType.receipt,
-              sizeBytes: 182000,
-              originalFilename: 'Kassabon.pdf',
-            ),
-          ],
-          recognition: ParsedReceipt(
-            merchant: const RecognizedField(
-              'Elektro Noord',
-              RecognitionConfidence.high,
-            ),
-            purchaseDate: RecognizedField(day, RecognitionConfidence.high),
-            totalMinor: const RecognizedField(
-              14900,
-              RecognitionConfidence.high,
-            ),
-            productName: const RecognizedField(
-              'Draadloze koptelefoon',
-              RecognitionConfidence.medium,
-            ),
-            lineItems: const [
-              ParsedLineItem(
-                description: 'Draadloze koptelefoon',
-                amountMinor: 14900,
+      unawaited(
+        GoRouter.of(_context(tester)).push(
+          AppRoutes.newProduct,
+          extra: NewProductArgs(
+            documents: const [
+              StagedDocument(
+                id: 'staged-1',
+                filePath: 'documents/staged-1.pdf',
+                format: DocumentFormat.pdf,
+                type: DocumentType.receipt,
+                sizeBytes: 182000,
+                originalFilename: 'Kassabon.pdf',
               ),
             ],
+            recognition: ParsedReceipt(
+              merchant: const RecognizedField(
+                'Elektro Noord',
+                RecognitionConfidence.high,
+              ),
+              purchaseDate: RecognizedField(day, RecognitionConfidence.high),
+              totalMinor: const RecognizedField(
+                14900,
+                RecognitionConfidence.high,
+              ),
+              productName: const RecognizedField(
+                'Draadloze koptelefoon',
+                RecognitionConfidence.medium,
+              ),
+              lineItems: const [
+                ParsedLineItem(
+                  description: 'Draadloze koptelefoon',
+                  amountMinor: 14900,
+                ),
+              ],
+            ),
           ),
         ),
-      ));
+      );
       await _capture(tester, device, '3-controleren');
     });
 

@@ -181,10 +181,8 @@ abstract final class DemoData {
 
   /// Minimale geldige PDF met één pagina tekst (Helvetica).
   static Uint8List _simplePdf(List<String> lines) {
-    String escape(String s) => s
-        .replaceAll(r'\', r'\\')
-        .replaceAll('(', r'\(')
-        .replaceAll(')', r'\)');
+    String escape(String s) =>
+        s.replaceAll(r'\', r'\\').replaceAll('(', r'\(').replaceAll(')', r'\)');
     final content = StringBuffer('BT /F1 14 Tf 60 780 Td 20 TL\n');
     for (final line in lines) {
       content.write('(${escape(line)}) Tj T*\n');

@@ -209,7 +209,8 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
                       child: CircularProgressIndicator(color: Colors.white),
                     )
                   : _Viewfinder(
-                      child: override ?? Center(child: CameraPreview(controller!)),
+                      child:
+                          override ?? Center(child: CameraPreview(controller!)),
                     ),
             ),
             _Controls(
