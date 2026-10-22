@@ -43,8 +43,8 @@ class DashboardScreen extends ConsumerWidget {
                   title: 'Nog geen producten',
                   message:
                       'Voeg je eerste aankoop toe en houd al je garanties en '
-                      'documenten veilig op één plek. Alles blijft op je '
-                      'eigen telefoon.',
+                      'documenten veilig op één plek. Je aankopen en bonnen '
+                      'blijven op je eigen telefoon.',
                   actionLabel: 'Aankoop toevoegen',
                   onAction: () => context.push(AppRoutes.addPurchase),
                 )

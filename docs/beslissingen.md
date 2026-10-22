@@ -249,6 +249,22 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
 - **Android-ondertekening:** `android/key.properties` (nooit in Git). Zonder dat bestand wordt
   met de debug-sleutel getekend.
 
+
+## B17: ML Kit verstuurt technische gegevens; eerlijk vermelden (2026-10-22)
+
+- **Feit:** op Android stuurt Google ML Kit (tekstherkenning) technische gebruiksgegevens naar
+  Google: toestel- en app-informatie, een identificatiecode per installatie, prestaties en
+  foutcodes (bron: Google, "ML Kit Android data disclosure"). De inhoud van bonnen gaat niet mee.
+  Op iOS gebruikt de app Apple Vision; daar wordt niets verstuurd.
+- **Keuze van de gebruiker:** eerlijk vermelden, in plaats van proberen het te blokkeren
+  (onofficieel en onzeker) of ML Kit te vervangen (veel werk, slechtere herkenning).
+- **Gevolgen:**
+  - privacyverklaring, website, privacytekst in de app, winkelteksten en schermafbeelding 6 zeggen
+    niet meer "er gaat niets naar een server", maar "je aankopen en bonnen blijven op je telefoon";
+  - Google Play-gegevensveiligheid: "verzameld" (diagnose, toestel-ID's; doel analyse; niet
+    gedeeld; versleuteld onderweg), zie [play-console-invulgids.md](play-console-invulgids.md);
+  - App Store-privacylabel blijft "Data Not Collected".
+- **Later te heroverwegen:** een herkenning zonder telemetrie, als die goed genoeg wordt.
 ## Openstaande risico's
 
 | Risico | Aanpak |

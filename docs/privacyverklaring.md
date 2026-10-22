@@ -1,10 +1,12 @@
 # Privacyverklaring Bonvrij
 
-*Laatst bijgewerkt: 21 oktober 2026*
+*Laatst bijgewerkt: 22 oktober 2026*
 
 Bonvrij is een app om aankopen, kassabonnen, facturen en garantiedatums te bewaren. Deze
-verklaring legt uit wat er met je gegevens gebeurt. Kort gezegd: **je gegevens blijven op je
-eigen telefoon. Wij ontvangen niets.**
+verklaring legt uit wat er met je gegevens gebeurt. Kort gezegd: **je aankopen en
+aankoopbewijzen blijven op je eigen telefoon. Wij ontvangen niets.** Op Android stuurt de
+tekstherkenning van Google wel technische gebruiksgegevens naar Google; zie het kopje
+"Tekstherkenning" hieronder.
 
 ## Wie zijn wij
 
@@ -27,8 +29,9 @@ alleen Bonvrij kan lezen.
 ## Wat de app níet doet
 
 - Je hebt geen account nodig.
-- De app stuurt geen gegevens naar ons of naar anderen. Er is geen server.
-- Geen advertenties, geen analytics en geen trackers.
+- De app stuurt je aankopen en aankoopbewijzen nooit naar ons of naar anderen. Wij hebben
+  geen server.
+- Geen advertenties en geen trackers. Wij verzamelen zelf geen gebruiksstatistieken.
 - Geen toegang tot je e-mail. Je deelt zelf een factuur met de app als je dat wilt.
 
 ## Tekstherkenning
@@ -38,8 +41,25 @@ tekstherkenning van Apple (iPhone) of van Google (Android). De herkende tekst wo
 gebruikt om het formulier alvast in te vullen en daarna weggegooid. Alleen wat jij met
 "Opslaan" bevestigt, wordt bewaard.
 
-Op Android downloadt Google Play-services de eerste keer het herkenningsmodel. Daarbij
-worden geen gegevens van je bonnen verstuurd.
+**iPhone:** de tekstherkenning van Apple (Vision) werkt volledig op je telefoon en verstuurt
+niets.
+
+**Android:** Bonvrij gebruikt Google ML Kit. Google Play-services downloadt de eerste keer het
+herkenningsmodel. Het lezen van de tekst gebeurt daarna op je telefoon. ML Kit stuurt wel
+**technische gebruiksgegevens naar Google**, volgens Google voor diagnose en
+gebruiksstatistieken:
+
+- gegevens over het toestel: merk, model en Android-versie
+- de naam en versie van de app
+- een identificatiecode per installatie (volgens Google niet bedoeld om jou of je toestel te
+  herkennen)
+- prestaties, instellingen en foutcodes van de herkenning
+
+De tekst, foto's en PDF's van je bonnen worden **niet** verstuurd. Google versleutelt deze
+gegevens onderweg (HTTPS) en geeft ze volgens eigen zeggen niet aan derden. Wij ontvangen of
+zien deze gegevens niet, en Bonvrij kan dit niet uitzetten. Meer informatie:
+[gegevens die ML Kit verzamelt](https://developers.google.com/ml-kit/android-data-disclosure)
+en het [privacybeleid van Google](https://policies.google.com/privacy).
 
 ## Toestemmingen
 

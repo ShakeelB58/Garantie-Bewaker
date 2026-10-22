@@ -30,8 +30,8 @@ SCREENS = [
      "Alles over een aankoop in één overzicht."),
     ("5-herinneringen", "Een melding op de datum die jij kiest",
      "Mis geen retourtermijn of garantie meer."),
-    ("6-privacy", "Geen account. Alles blijft op je telefoon.",
-     "Geen server, geen tracking, geen reclame."),
+    ("6-privacy", "Geen account. Je bonnen blijven op je telefoon.",
+     "Geen eigen server en geen reclame."),
 ]
 
 # Canvas, telefoonbreedte, bovenmarge, status-balkhoogte (in px van de ruwe afbeelding).

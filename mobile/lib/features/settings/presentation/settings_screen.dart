@@ -332,11 +332,14 @@ class SettingsScreen extends ConsumerWidget {
         content: const Text(
           '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon '
           'opgeslagen.\n'
-          '• Er is geen account nodig en er wordt niets naar een server '
-          'gestuurd.\n'
+          '• Er is geen account nodig. Je aankopen en documenten worden '
+          'nooit naar ons of naar anderen gestuurd.\n'
           '• De app krijgt geen toegang tot je mailbox. Je deelt zelf een '
           'factuur met de app.\n'
-          '• Tekstherkenning gebeurt op je telefoon, niet in de cloud.\n'
+          '• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op '
+          'Android stuurt de herkenning van Google wel technische '
+          'gebruiksgegevens naar Google, zoals het toestelmodel en '
+          'foutcodes. Nooit de inhoud van je bonnen.\n'
           '• Meldingen worden door je telefoon zelf getoond, zonder '
           'server. Op het vergrendelscherm van Android wordt de '
           'productnaam verborgen.\n'
@@ -346,7 +349,8 @@ class SettingsScreen extends ConsumerWidget {
           '• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je '
           'de app, dan verdwijnen de gegevens van je telefoon.\n'
           '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
-          'keer.',
+          'keer.\n\n'
+          'Meer lezen: bonvrij.nl/privacy',
         ),
         actions: [
           TextButton(

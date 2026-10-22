@@ -24,7 +24,7 @@ page = f"""<!doctype html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacyverklaring – Bonvrij</title>
-  <meta name="description" content="Hoe Bonvrij met je gegevens omgaat: alles blijft op je eigen telefoon.">
+  <meta name="description" content="Hoe Bonvrij met je gegevens omgaat: je aankopen en bonnen blijven op je eigen telefoon.">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../assets/style.css">
 </head>
