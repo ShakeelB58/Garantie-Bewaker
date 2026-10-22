@@ -133,8 +133,10 @@ p {{ position:absolute; left:72px; top:320px; width:500px; font-size:21px; line-
 
 
 def main() -> None:
-    if OUT.exists():
-        shutil.rmtree(OUT)
+    # Alleen de afbeeldingsmappen opnieuw maken; README.md blijft staan.
+    for sub in ("ios", "android", "google-play"):
+        if (OUT / sub).exists():
+            shutil.rmtree(OUT / sub)
     tmp = OUT / ".tmp"
     tmp.mkdir(parents=True)
     with sync_playwright() as pw:
