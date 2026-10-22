@@ -38,7 +38,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | ✅ | **Android target-SDK:** 36 (gecontroleerd in de releasebuild, 22-10-2026). Google eist vanaf 31 augustus 2026 API 36. |
 | ✅ | **iOS:** `ITSAppUsesNonExemptEncryption = false` in `Info.plist`. |
 | ⬜ | **iOS-privacymanifest** (`PrivacyInfo.xcprivacy`): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
-| ⏳ | Releasebuilds maken en testen: `flutter build appbundle` werkt (Android, 22-10-2026); nog testen met `flutter run --release` op de Samsung. iOS: `flutter build ipa` volgt na het Apple-account. |
+| ⏳ | Releasebuilds: Android ✅ getest met `flutter run --release` op de Samsung (22-10-2026): herkenning, meldingen, geen voorbeeldknop. Daarvoor waren regels nodig voor R8 en resource shrinking (`proguard-rules.pro`, `res/raw/keep.xml`). iOS: `flutter build ipa` volgt na het Apple-account. |
 | ✅ | Toestemmingsteksten in het Nederlands (camera, foto's), en meldingen pas vragen als het nodig is. |
 | ⬜ | iOS: controleren of Apple `NSMicrophoneUsageDescription` eist vanwege de camera-plug-in (de app neemt geen geluid op). Zo ja, een eerlijke tekst toevoegen. |
 | ✅ | Geen netwerkcode, geen analytics, geen advertenties, geen trackers. |
