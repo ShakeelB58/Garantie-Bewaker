@@ -37,16 +37,11 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | ✅ | **Android-ondertekening:** upload-sleutel aangemaakt (22-10-2026, buiten de projectmap) en `android/key.properties` ingevuld (staat nooit in Git). De releasebuild is ondertekend met "CN=Shakeel Bechan". |
 | ✅ | **Android target-SDK:** 36 (gecontroleerd in de releasebuild, 22-10-2026). Google eist vanaf 31 augustus 2026 API 36. |
 | ✅ | **iOS:** `ITSAppUsesNonExemptEncryption = false` in `Info.plist`. |
-<<<<<<< HEAD
-| ⬜ | **iOS-privacymanifest** (`PrivacyInfo.xcprivacy`): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
-| ⏳ | Releasebuilds: Android ✅ getest met `flutter run --release` op de Samsung (22-10-2026): herkenning, meldingen, geen voorbeeldknop. Daarvoor waren regels nodig voor R8 en resource shrinking (`proguard-rules.pro`, `res/raw/keep.xml`). iOS: `flutter build ipa` volgt na het Apple-account. |
-=======
 | ✅ | **iOS-privacymanifest** (`ios/Runner/PrivacyInfo.xcprivacy`, getest in de simulator 22-10-2026): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
-| ⬜ | Releasebuilds maken en testen: `flutter build appbundle` (Android) en `flutter build ipa` (iOS). |
->>>>>>> origin/publicatie-ios
+| ⏳ | Releasebuilds: Android ✅ getest met `flutter run --release` op de Samsung (22-10-2026): herkenning, meldingen, geen voorbeeldknop. Daarvoor waren regels nodig voor R8 en resource shrinking (`proguard-rules.pro`, `res/raw/keep.xml`). iOS: `flutter build ipa` volgt na het Apple-account. |
 | ✅ | Toestemmingsteksten in het Nederlands (camera, foto's), en meldingen pas vragen als het nodig is. |
 | ✅ | iOS: `NSMicrophoneUsageDescription` toegevoegd met een eerlijke tekst (de camera-plug-in verwijst naar de microfoon; de app neemt geen geluid op). Voorkomt een afwijzing bij het uploaden. |
-| ✅ | Geen netwerkcode, geen analytics, geen advertenties, geen trackers. |
+| ✅ | Geen eigen netwerkcode, geen advertenties, geen trackers. Alleen Google ML Kit (Android) stuurt technische gebruiksgegevens naar Google (B17). |
 | ✅ | Automatische tests en controle via GitHub Actions. |
 
 ## 4. Privacy en juridisch
