@@ -22,6 +22,10 @@ final availableCamerasProvider =
       (ref) => availableCameras,
     );
 
+/// Vaste afbeelding in plaats van het camerabeeld. Alleen bedoeld voor de
+/// winkel-schermafbeeldingen (`screenshots/`); in de app is dit altijd `null`.
+final scannerPreviewOverrideProvider = Provider<Widget?>((ref) => null);
+
 class InAppCameraScanner implements CameraScanner {
   @override
   Future<ScanResult?> scan(NavigatorState navigator) =>
@@ -75,6 +79,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
   }
 
   Future<void> _start() async {
+    if (ref.read(scannerPreviewOverrideProvider) != null) return;
     try {
       final cameras = await ref.read(availableCamerasProvider)();
       if (cameras.isEmpty) {
@@ -177,6 +182,10 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
   @override
   Widget build(BuildContext context) {
     final controller = _controller;
+    final override = ref.watch(scannerPreviewOverrideProvider);
+    final ready =
+        override != null ||
+        (controller != null && controller.value.isInitialized);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -195,15 +204,18 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
             Expanded(
               child: _problem != null
                   ? _Problem(message: _problem!, onGallery: _fromGallery)
-                  : controller == null || !controller.value.isInitialized
+                  : !ready
                   ? const Center(
                       child: CircularProgressIndicator(color: Colors.white),
                     )
-                  : _Preview(controller: controller),
+                  : _Viewfinder(
+                      child:
+                          override ?? Center(child: CameraPreview(controller!)),
+                    ),
             ),
             _Controls(
               flash: _flash,
-              canCapture: controller != null && !_busy && _problem == null,
+              canCapture: ready && !_busy && _problem == null,
               onGallery: _fromGallery,
               onCapture: _capture,
               onFlash: controller == null ? null : _toggleFlash,
@@ -215,17 +227,18 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
   }
 }
 
-class _Preview extends StatelessWidget {
-  const _Preview({required this.controller});
+/// Camerabeeld met het kader en de uitleg eroverheen.
+class _Viewfinder extends StatelessWidget {
+  const _Viewfinder({required this.child});
 
-  final CameraController controller;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Center(child: CameraPreview(controller)),
+        child,
         const IgnorePointer(child: CustomPaint(painter: _FramePainter())),
         Positioned(
           left: AppSpacing.md,

@@ -324,7 +324,15 @@ Daarna (21-10-2026, avond):
   (GitHub Pages, DNS bij TransIP). Naam van de verantwoordelijke ingevuld.
 - Winkelteksten voor App Store en Google Play: [winkelteksten.md](winkelteksten.md).
 
-Nog open: upload-sleutel voor Android, ontwikkelaarsaccounts, schermafbeeldingen,
+22-10-2026: winkelafbeeldingen klaar ([docs/winkel/](winkel/README.md)):
+- 6 schermafbeeldingen voor iPhone (1320×2868) en 6 voor Android (1080×1920), met koppen in de
+  huisstijl; feature-afbeelding (1024×500) en icoon (512×512) voor Google Play.
+- Gemaakt door de workflow "Schermafbeeldingen" met fictieve voorbeeldgegevens, en daarna
+  `scripts/store_images.py`.
+- In de testversie: Instellingen → Testversie → "Voorbeeldgegevens laden" (niet in de
+  winkelversie). Knoppen gebruiken nu ook Poppins; "Toon alles" staat rechts.
+
+Nog open: upload-sleutel voor Android, ontwikkelaarsaccounts,
 privacymanifest iOS, test op een echte iPhone, 12 testers voor Google Play.
 Zie de [publicatiechecklist](publicatie-checklist.md).
 

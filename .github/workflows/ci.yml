@@ -30,7 +30,7 @@ jobs:
         # build te laten mislukken.
         continue-on-error: true
         run: |
-          changed=$(dart format --output=none lib test | grep '^Changed' || true)
+          changed=$(dart format --output=none lib test screenshots | grep '^Changed' || true)
           if [ -n "$changed" ]; then
             echo "::warning title=Opmaak::$(echo "$changed" | sed 's/^Changed //' | tr '\n' ' ')"
             exit 1
@@ -80,7 +80,7 @@ jobs:
         run: |
           cd mobile
           flutter pub get
-          dart format lib test
+          dart format lib test screenshots
           cd ..
           if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"

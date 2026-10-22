@@ -273,7 +273,10 @@ class _SectionHeader extends StatelessWidget {
             ),
           ),
           // Flexible: bij heel grote tekst mag "Toon alles" afbreken.
-          if (action != null) Flexible(child: action!),
+          if (action != null)
+            Flexible(
+              child: Align(alignment: Alignment.centerRight, child: action),
+            ),
         ],
       ),
     );
