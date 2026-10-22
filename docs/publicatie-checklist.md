@@ -21,7 +21,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | | Punt |
 |---|------|
 | ⬜ | **Apple Developer Program:** $99 per jaar (in euro iets meer). Aanmelden via developer.apple.com met je Apple ID. Als particulier staat je eigen naam als verkoper in de App Store. |
-| ⬜ | **Google Play Console:** eenmalig $25, met identiteitscontrole. |
+| ⏳ | **Google Play Console:** account aangemaakt (22-10-2026, persoonlijk, bonvrij.app@gmail.com). Identiteitscontrole loopt. |
 | ⬜ | **Google Play, persoonlijk account:** vóór publicatie verplicht een **gesloten test met minimaal 12 testers die 14 dagen achter elkaar meedoen**. Plan dit in met de "paar mensen" die de app gaan gebruiken. |
 | ✅ | E-mailadres voor ondersteuning: bonvrij.app@gmail.com (ook in de app bij "Over Bonvrij" en in de privacyverklaring). |
 
@@ -34,11 +34,11 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | ✅ | App-icoon (iOS alle maten, Android klassiek en adaptief met monochroom). |
 | ✅ | Meldingsicoon voor Android (wit schild op transparant). |
 | ✅ | Opstartscherm in de huisstijl (iOS en Android, ook Android 12+). |
-| ⏳ | **Android-ondertekening:** de build leest `android/key.properties` (staat nooit in Git). Jij maakt de sleutel aan; zie onderaan. |
-| ⬜ | **Android target-SDK:** vanaf 31 augustus 2026 moeten nieuwe apps en updates API 36 (Android 16) als doel hebben. Controleren met `grep targetSdk` in de build-uitvoer; de app volgt nu de standaard van Flutter. |
+| ✅ | **Android-ondertekening:** upload-sleutel aangemaakt (22-10-2026, buiten de projectmap) en `android/key.properties` ingevuld (staat nooit in Git). De releasebuild is ondertekend met "CN=Shakeel Bechan". |
+| ✅ | **Android target-SDK:** 36 (gecontroleerd in de releasebuild, 22-10-2026). Google eist vanaf 31 augustus 2026 API 36. |
 | ✅ | **iOS:** `ITSAppUsesNonExemptEncryption = false` in `Info.plist`. |
 | ⬜ | **iOS-privacymanifest** (`PrivacyInfo.xcprivacy`): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
-| ⬜ | Releasebuilds maken en testen: `flutter build appbundle` (Android) en `flutter build ipa` (iOS). |
+| ⏳ | Releasebuilds maken en testen: `flutter build appbundle` werkt (Android, 22-10-2026); nog testen met `flutter run --release` op de Samsung. iOS: `flutter build ipa` volgt na het Apple-account. |
 | ✅ | Toestemmingsteksten in het Nederlands (camera, foto's), en meldingen pas vragen als het nodig is. |
 | ⬜ | iOS: controleren of Apple `NSMicrophoneUsageDescription` eist vanwege de camera-plug-in (de app neemt geen geluid op). Zo ja, een eerlijke tekst toevoegen. |
 | ✅ | Geen netwerkcode, geen analytics, geen advertenties, geen trackers. |
