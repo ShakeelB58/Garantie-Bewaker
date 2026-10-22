@@ -58,9 +58,9 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⬜ | Korte en lange beschrijving in het Nederlands (en eventueel Engels). |
-| ⬜ | **Schermafbeeldingen iPhone:** de grootste maat die App Store Connect vraagt (6,9 inch, 1320×2868). Kleinere maten worden daaruit gemaakt. Gebruik alleen fictieve gegevens, zoals de testbestanden. |
-| ⬜ | **Google Play:** minimaal 2 telefoonschermafbeeldingen, een icoon van 512×512 en een feature-afbeelding van 1024×500. |
+| ✅ | Korte en lange beschrijving in het Nederlands: [winkelteksten.md](winkelteksten.md). |
+| ✅ | **Schermafbeeldingen iPhone:** 6 stuks in 6,9 inch (1320×2868), met fictieve gegevens: `docs/winkel/ios/`. Kleinere maten maakt Apple daaruit. |
+| ✅ | **Google Play:** 6 telefoonschermafbeeldingen (1080×1920), icoon 512×512 en feature-afbeelding 1024×500: `docs/winkel/android/` en `docs/winkel/google-play/`. |
 | ⬜ | Categorie, bijv. Productiviteit (of Financiën). |
 | ⬜ | Trefwoorden (iOS, max. 100 tekens): garantie, kassabon, factuur, aankoopbewijs, … |
 

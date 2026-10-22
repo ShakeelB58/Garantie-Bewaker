@@ -84,7 +84,9 @@ ontwikkelaar of derden gaat. Back-ups van iCloud vallen onder Apple en de gebrui
 **Inhoudsclassificatie:** vragenlijst invullen; geen geweld, geen gebruikersinteractie, geen
 aankopen → verwacht "Iedereen" / PEGI 3.
 
-## Schermafbeeldingen (voorstel, met fictieve gegevens)
+## Schermafbeeldingen (klaar, met fictieve gegevens)
+
+De afbeeldingen staan in [winkel/](winkel/README.md). Volgorde en koppen:
 
 1. **Home**: "Al je aankopen op één plek"
 2. **Kassabon scannen**: "Scan je bon met de camera"
