@@ -37,10 +37,10 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | ⏳ | **Android-ondertekening:** de build leest `android/key.properties` (staat nooit in Git). Jij maakt de sleutel aan; zie onderaan. |
 | ⬜ | **Android target-SDK:** vanaf 31 augustus 2026 moeten nieuwe apps en updates API 36 (Android 16) als doel hebben. Controleren met `grep targetSdk` in de build-uitvoer; de app volgt nu de standaard van Flutter. |
 | ✅ | **iOS:** `ITSAppUsesNonExemptEncryption = false` in `Info.plist`. |
-| ⬜ | **iOS-privacymanifest** (`PrivacyInfo.xcprivacy`): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
+| ⏳ | **iOS-privacymanifest** (`ios/Runner/PrivacyInfo.xcprivacy`, toegevoegd; nog testen met een iOS-build): vermelden welke "required reason API's" de app gebruikt. Bijvoorbeeld bestandstijdstempels (opruimen van oude bestanden) en UserDefaults (via plug-ins). |
 | ⬜ | Releasebuilds maken en testen: `flutter build appbundle` (Android) en `flutter build ipa` (iOS). |
 | ✅ | Toestemmingsteksten in het Nederlands (camera, foto's), en meldingen pas vragen als het nodig is. |
-| ⬜ | iOS: controleren of Apple `NSMicrophoneUsageDescription` eist vanwege de camera-plug-in (de app neemt geen geluid op). Zo ja, een eerlijke tekst toevoegen. |
+| ✅ | iOS: `NSMicrophoneUsageDescription` toegevoegd met een eerlijke tekst (de camera-plug-in verwijst naar de microfoon; de app neemt geen geluid op). Voorkomt een afwijzing bij het uploaden. |
 | ✅ | Geen netwerkcode, geen analytics, geen advertenties, geen trackers. |
 | ✅ | Automatische tests en controle via GitHub Actions. |
 
