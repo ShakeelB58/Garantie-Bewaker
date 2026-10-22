@@ -65,6 +65,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Bonvrij gebruikt de camera om kassabonnen te fotograferen. De foto's blijven op je telefoon.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bonvrij neemt geen geluid op. De microfoon wordt niet gebruikt; deze melding hoort bij het camera-onderdeel van iOS.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Bonvrij opent je fotobibliotheek alleen als je zelf een foto van een aankoopbewijs kiest.</string>
 	<key>UIApplicationSceneManifest</key>
