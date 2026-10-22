@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  De winkelversie verwijdert ongebruikte afbeeldingen (resource shrinking).
+  Het meldingsicoon wordt alleen vanuit Dart bij naam gebruikt, dus moet het
+  hier expliciet behouden blijven. Anders mislukken meldingen in de release.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_notification" />
