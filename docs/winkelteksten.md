@@ -12,7 +12,7 @@ teksten hieronder passen daarbinnen. Gebruik op schermafbeeldingen alleen fictie
 **Promotietekst** (170, kan altijd zonder update worden aangepast):
 
 > Scan je kassabon, bewaar je factuur en krijg een herinnering op de datum die jij kiest.
-> Alles blijft op je eigen telefoon. Geen account nodig.
+> Je bonnen blijven op je eigen telefoon. Geen account nodig.
 
 **Trefwoorden** (100, komma's zonder spaties; woorden uit naam en ondertitel niet herhalen):
 
@@ -45,7 +45,7 @@ kassabon,factuur,aankoopbewijs,bon,scanner,herinnering,aankoop,retour,administra
 >
 > PRIVACY VOOROP
 > • Geen account nodig
-> • Je gegevens blijven op je telefoon: geen server, geen advertenties, geen trackers
+> • Je aankopen en bonnen blijven op je telefoon: geen eigen server, geen advertenties
 > • Tekstherkenning gebeurt op je telefoon, niet in de cloud
 > • Exporteer al je gegevens als ZIP, of wis alles in één keer
 >
@@ -56,8 +56,9 @@ kassabon,factuur,aankoopbewijs,bon,scanner,herinnering,aankoop,retour,administra
 **Privacybeleid-URL:** `https://bonvrij.nl/privacy/`
 **Contact:** bonvrij.app@gmail.com
 
-**Privacylabel (App Privacy):** "Data Not Collected". De app verzamelt niets dat naar de
-ontwikkelaar of derden gaat. Back-ups van iCloud vallen onder Apple en de gebruiker.
+**Privacylabel (App Privacy):** "Data Not Collected". Op de iPhone gaat niets naar de
+ontwikkelaar of derden: de tekstherkenning van Apple werkt op het toestel. Back-ups van iCloud
+vallen onder Apple en de gebruiker. (Het versturen door ML Kit speelt alleen op Android.)
 
 ## Google Play (Android)
 
@@ -77,9 +78,10 @@ ontwikkelaar of derden gaat. Back-ups van iCloud vallen onder Apple en de gebrui
 **Privacybeleid:** `https://bonvrij.nl/privacy/`
 
 **Gegevensveiligheid (Data safety):**
-- Verzamelt de app gegevens? **Nee**
-- Deelt de app gegevens met derden? **Nee**
-- Kunnen gebruikers verzoeken om verwijdering? Ja: alles verwijderen kan in de app zelf.
+Zie de stap-voor-stap invulgids in [play-console-invulgids.md](play-console-invulgids.md).
+Kort: **ja, de app verzamelt gegevens**, namelijk technische gegevens door Google ML Kit
+(diagnose, toestel-ID's). Die worden niet gedeeld met derden en zijn onderweg versleuteld.
+De aankopen en bonnen zelf worden niet verzameld.
 
 **Inhoudsclassificatie:** vragenlijst invullen; geen geweld, geen gebruikersinteractie, geen
 aankopen → verwacht "Iedereen" / PEGI 3.
@@ -93,4 +95,4 @@ De afbeeldingen staan in [winkel/](winkel/README.md). Volgorde en koppen:
 3. **Gegevens controleren**: "Winkel, datum en prijs worden herkend"
 4. **Productdetails**: "Garantie en documenten bij elkaar"
 5. **Herinneringen**: "Een melding op de datum die jij kiest"
-6. **Privacy**: "Geen account. Alles blijft op je telefoon."
+6. **Privacy**: "Geen account. Je bonnen blijven op je telefoon."

@@ -30,8 +30,8 @@ SCREENS = [
      "Alles over een aankoop in één overzicht."),
     ("5-herinneringen", "Een melding op de datum die jij kiest",
      "Mis geen retourtermijn of garantie meer."),
-    ("6-privacy", "Geen account. Alles blijft op je telefoon.",
-     "Geen server, geen tracking, geen reclame."),
+    ("6-privacy", "Geen account. Je bonnen blijven op je telefoon.",
+     "Geen eigen server en geen reclame."),
 ]
 
 # Canvas, telefoonbreedte, bovenmarge, status-balkhoogte (in px van de ruwe afbeelding).
@@ -133,8 +133,10 @@ p {{ position:absolute; left:72px; top:320px; width:500px; font-size:21px; line-
 
 
 def main() -> None:
-    if OUT.exists():
-        shutil.rmtree(OUT)
+    # Alleen de afbeeldingsmappen opnieuw maken; README.md blijft staan.
+    for sub in ("ios", "android", "google-play"):
+        if (OUT / sub).exists():
+            shutil.rmtree(OUT / sub)
     tmp = OUT / ".tmp"
     tmp.mkdir(parents=True)
     with sync_playwright() as pw:

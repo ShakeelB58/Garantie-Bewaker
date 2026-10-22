@@ -49,8 +49,8 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | | Punt |
 |---|------|
 | ✅ | **Privacyverklaring** staat online op https://bonvrij.nl/privacy/ (bron `docs/privacyverklaring.md`), met de naam van de verantwoordelijke. |
-| ⬜ | **App Store-privacylabel:** waarschijnlijk "Geen gegevens verzameld", omdat er niets naar de ontwikkelaar of derden gaat. |
-| ⬜ | **Google Play-gegevensveiligheid:** "Geen gegevens verzameld of gedeeld", plus een vermelding dat gebruikers alles zelf kunnen verwijderen. |
+| ⬜ | **App Store-privacylabel:** "Data Not Collected": op iOS gebruikt de app Apple Vision, er gaat niets naar de ontwikkelaar of derden. |
+| ⬜ | **Google Play-gegevensveiligheid:** "verzameld" door Google ML Kit (diagnose en toestel-ID's, niet gedeeld, versleuteld); zie [play-console-invulgids.md](play-console-invulgids.md) en B17. |
 | ⬜ | Leeftijdsclassificatie invullen in beide stores; zou "voor iedereen" moeten zijn. |
 | ✅ | In de app staat dat Bonvrij geen juridisch advies geeft en geen garantietermijnen berekent. |
 

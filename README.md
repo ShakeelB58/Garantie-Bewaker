@@ -1,14 +1,17 @@
 # Bonvrij
 
 Mobiele app (iOS en Android) om aankopen, aankoopbewijzen en garantiedatums lokaal te bewaren.
-Alles blijft op de telefoon: geen account, geen server, geen clouddiensten.
+Aankopen en aankoopbewijzen blijven op de telefoon: geen account, geen eigen server.
+Op Android stuurt Google ML Kit (tekstherkenning) wel technische gebruiksgegevens naar Google;
+zie de [privacyverklaring](docs/privacyverklaring.md).
 
 - `mobile/`: Flutter-app (local-first)
 - `backend/`: Spring Boot REST API, voorbereid op latere uitbreidingen (nu alleen een healthcheck)
 - `docs/`: [architectuur](docs/architectuur.md), [beslissingen](docs/beslissingen.md),
   [API-overzicht](docs/api-overzicht.md), [voortgang](docs/voortgang.md),
   [acceptatietests](docs/acceptatietests.md), [testbestanden](docs/testbestanden/README.md),
-  [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md)
+  [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md),
+  [Play Console-invulgids](docs/play-console-invulgids.md)
 
 > **Status: MVP af (fase 0 t/m 7).** Volgende stap: publicatie voorbereiden met de [publicatiechecklist](docs/publicatie-checklist.md).
 > Zie [docs/voortgang.md](docs/voortgang.md) voor wat er per fase is getest en de bekende beperkingen.
