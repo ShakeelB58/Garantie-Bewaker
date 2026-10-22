@@ -38,6 +38,7 @@ Future<InMemoryProductRepository> pumpApp(
   Size screenSize = const Size(800, 1800),
   bool showWelcome = false,
   Widget? scannerPreview,
+  bool showDemoOption = true,
 }) async {
   final settingsRepo = settings ?? InMemorySettingsRepository();
   final documentPicker = picker ?? FakeDocumentPicker();
@@ -75,6 +76,7 @@ Future<InMemoryProductRepository> pumpApp(
           PickerCameraScanner(documentPicker),
         ),
         scannerPreviewOverrideProvider.overrideWithValue(scannerPreview),
+        demoDataOptionVisibleProvider.overrideWithValue(showDemoOption),
         incomingFileSourceProvider.overrideWithValue(
           incoming ?? FakeIncomingFileSource(),
         ),

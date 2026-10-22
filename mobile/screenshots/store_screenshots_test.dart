@@ -127,6 +127,7 @@ Future<InMemoryProductRepository> _startWithDemo(
     repository: InMemoryProductRepository(),
     documents: InMemoryDocumentRepository(),
     scannerPreview: scannerPreview,
+    showDemoOption: false,
   );
   await _setDevice(tester, device);
   final container = ProviderScope.containerOf(
@@ -341,8 +342,8 @@ class _TableWithReceipt extends StatelessWidget {
                     letterSpacing: 1.5,
                   ),
                 ),
-                Text('Voorbeeldstraat 1', style: line),
-                Text('1234 AB Voorbeeldstad', style: line),
+                const Text('Voorbeeldstraat 1', style: line),
+                const Text('1234 AB Voorbeeldstad', style: line),
                 divider,
                 row('19-10-2026', '14:32'),
                 divider,

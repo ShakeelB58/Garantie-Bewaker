@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -236,6 +237,10 @@ final demoTempFileWriterProvider = Provider<TempFileWriter>((ref) {
     return file.path;
   };
 });
+
+/// Of "Voorbeeldgegevens laden" in Instellingen staat: alleen in de
+/// testversie (debug), nooit in de versie voor de App Store of Google Play.
+final demoDataOptionVisibleProvider = Provider<bool>((ref) => kDebugMode);
 
 final demoDataLoaderProvider = Provider<DemoDataLoader>(DemoDataLoader.new);
 
