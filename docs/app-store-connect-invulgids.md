@@ -106,7 +106,7 @@ buiten de uitzonderingen** (de app gebruikt alleen standaardversleuteling van iO
 
 | Veld | Invullen |
 |------|----------|
-| Schermafbeeldingen iPhone 6,9 inch | `docs/winkel/ios/1-home.png` t/m `6-privacy.png`, in die volgorde |
+| Schermafbeeldingen "iPhone with Dynamic Island (medium display)" | `docs/winkel/ios-6.3/1-home.png` t/m `6-privacy.png`, in die volgorde |
 | Promotietekst | uit [winkelteksten.md](winkelteksten.md) |
 | Beschrijving | uit [winkelteksten.md](winkelteksten.md) |
 | Trefwoorden | uit [winkelteksten.md](winkelteksten.md) |

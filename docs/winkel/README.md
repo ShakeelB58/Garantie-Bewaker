@@ -4,7 +4,8 @@ Alle afbeeldingen bevatten alleen **fictieve gegevens** (verzonnen merken, winke
 
 | Map | Waarvoor | Formaat |
 |-----|----------|---------|
-| `ios/` | App Store Connect, iPhone 6,9 inch | 1320×2868 |
+| `ios-6.3/` | App Store Connect, "iPhone with Dynamic Island (medium display)" (6,1/6,3 inch) — dit vraagt App Store Connect nu | 1206×2622 |
+| `ios/` | App Store Connect, iPhone 6,9 inch (via Media Manager, optioneel) | 1320×2868 |
 | `android/` | Google Play, telefoon | 1080×1920 |
 | `google-play/feature-graphic-1024x500.png` | Google Play, feature-afbeelding | 1024×500 |
 | `google-play/icoon-512.png` | Google Play, app-icoon | 512×512 |

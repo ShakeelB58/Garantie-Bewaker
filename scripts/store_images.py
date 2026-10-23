@@ -134,7 +134,7 @@ p {{ position:absolute; left:72px; top:320px; width:500px; font-size:21px; line-
 
 def main() -> None:
     # Alleen de afbeeldingsmappen opnieuw maken; README.md blijft staan.
-    for sub in ("ios", "android", "google-play"):
+    for sub in ("ios", "ios-6.3", "android", "google-play"):
         if (OUT / sub).exists():
             shutil.rmtree(OUT / sub)
     tmp = OUT / ".tmp"
@@ -166,6 +166,12 @@ def main() -> None:
     from PIL import Image
     icon = Image.open(ICON).convert("RGB").resize((512, 512), Image.LANCZOS)
     icon.save(OUT / "google-play" / "icoon-512.png")
+    # App Store Connect vraagt (2026) ook 6,3 inch: zelfde verhouding, kleiner.
+    (OUT / "ios-6.3").mkdir(exist_ok=True)
+    for png in sorted((OUT / "ios").glob("*.png")):
+        with Image.open(png) as im:
+            im.convert("RGB").resize((1206, 2622), Image.LANCZOS).save(OUT / "ios-6.3" / png.name)
+
     # Apple en Google accepteren geen doorzichtigheid: alles naar RGB.
     for png in sorted(OUT.rglob("*.png")):
         with Image.open(png) as im:
