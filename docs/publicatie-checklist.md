@@ -20,7 +20,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⏳ | **Apple Developer Program:** aangemeld en betaald via de website (23-10-2026, Apple ID shakeelb@live.nl). Wacht op goedkeuring. Daarna: [app-store-connect-invulgids.md](app-store-connect-invulgids.md). |
+| ✅ | **Apple Developer Program:** goedgekeurd (23-10-2026, Apple ID shakeelb@live.nl, team Shakeel Bechan). App ID `nl.bonvrij.app` geregistreerd; app "Bonvrij" aangemaakt in App Store Connect. |
 | ✅ | **Google Play Console:** account aangemaakt en identiteit goedgekeurd (23-10-2026, persoonlijk, bonvrij.app@gmail.com). |
 | ⬜ | **Google Play, persoonlijk account:** vóór publicatie verplicht een **gesloten test met minimaal 12 testers die 14 dagen achter elkaar meedoen**. Plan dit in met de "paar mensen" die de app gaan gebruiken. |
 | ✅ | E-mailadres voor ondersteuning: bonvrij.app@gmail.com (ook in de app bij "Over Bonvrij" en in de privacyverklaring). |
@@ -49,9 +49,9 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 | | Punt |
 |---|------|
 | ✅ | **Privacyverklaring** staat online op https://bonvrij.nl/privacy/ (bron `docs/privacyverklaring.md`), met de naam van de verantwoordelijke. |
-| ⬜ | **App Store-privacylabel:** "Data Not Collected": op iOS gebruikt de app Apple Vision, er gaat niets naar de ontwikkelaar of derden. |
+| ✅ | **App Store-privacylabel:** "Data Not Collected" gepubliceerd (23-10-2026). |
 | ✅ | **Google Play-gegevensveiligheid** (ingevuld 23-10-2026): "verzameld" door Google ML Kit (diagnose en toestel-ID's, niet gedeeld, versleuteld); zie [play-console-invulgids.md](play-console-invulgids.md) en B17. |
-| ⏳ | Leeftijdsclassificatie: Google Play ingevuld (23-10-2026); App Store nog doen. |
+| ✅ | Leeftijdsclassificatie: Google Play (PEGI 3) en App Store (4+) ingevuld (23-10-2026). |
 | ✅ | In de app staat dat Bonvrij geen juridisch advies geeft en geen garantietermijnen berekent. |
 
 ## 5. Winkelpagina
@@ -68,7 +68,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⬜ | **TestFlight (iOS):** interne testers direct. Externe testers (tot 10.000) na een korte beoordeling door Apple. |
+| ⏳ | **TestFlight (iOS):** productpagina, prijs (gratis, NL+BE), privacy en review-notities staan in App Store Connect. Volgende: iPhone één keer via kabel aan Xcode koppelen (team heeft nog geen toestel), dan `flutter build ipa` en uploaden met Transporter. interne testers direct. Externe testers (tot 10.000) na een korte beoordeling door Apple. |
 | ⏳ | **Google Play:** interne test actief (versie 1.0.0 (1), 23-10-2026); app-content en winkelpagina ingevuld. Volgende: gesloten test (12 testers, 14 dagen). |
 | ⬜ | Op minimaal één echte iPhone testen: camera, meldingen, "Openen met" vanuit Mail. |
 | ⬜ | Alle punten uit [acceptatietests.md](acceptatietests.md) opnieuw lopen met de releasebuild. |
