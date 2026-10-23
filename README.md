@@ -11,7 +11,7 @@ zie de [privacyverklaring](docs/privacyverklaring.md).
   [API-overzicht](docs/api-overzicht.md), [voortgang](docs/voortgang.md),
   [acceptatietests](docs/acceptatietests.md), [testbestanden](docs/testbestanden/README.md),
   [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md),
-  [Play Console-invulgids](docs/play-console-invulgids.md)
+  [Play Console-invulgids](docs/play-console-invulgids.md), [App Store Connect-invulgids](docs/app-store-connect-invulgids.md)
 
 > **Status: MVP af (fase 0 t/m 7).** Volgende stap: publicatie voorbereiden met de [publicatiechecklist](docs/publicatie-checklist.md).
 > Zie [docs/voortgang.md](docs/voortgang.md) voor wat er per fase is getest en de bekende beperkingen.

@@ -20,7 +20,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⬜ | **Apple Developer Program:** $99 per jaar (in euro iets meer). Aanmelden via developer.apple.com met je Apple ID. Als particulier staat je eigen naam als verkoper in de App Store. |
+| ⏳ | **Apple Developer Program:** aangemeld en betaald via de website (23-10-2026, Apple ID shakeelb@live.nl). Wacht op goedkeuring. Daarna: [app-store-connect-invulgids.md](app-store-connect-invulgids.md). |
 | ✅ | **Google Play Console:** account aangemaakt en identiteit goedgekeurd (23-10-2026, persoonlijk, bonvrij.app@gmail.com). |
 | ⬜ | **Google Play, persoonlijk account:** vóór publicatie verplicht een **gesloten test met minimaal 12 testers die 14 dagen achter elkaar meedoen**. Plan dit in met de "paar mensen" die de app gaan gebruiken. |
 | ✅ | E-mailadres voor ondersteuning: bonvrij.app@gmail.com (ook in de app bij "Over Bonvrij" en in de privacyverklaring). |
