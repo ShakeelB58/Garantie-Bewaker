@@ -96,6 +96,13 @@ eigen beslissing in [beslissingen.md](beslissingen.md), een privacy-afweging en 
 
 ## 4. Betaalde Plus-functionaliteit
 
+> **Wens van de gebruiker (23-10-2026):** geld verdienen met de app. Afspraak: versie 1.0 gratis
+> publiceren, daarna "Bonvrij Plus" als **eenmalige aankoop** in een update (1.1). Ideeën zonder
+> server: app-vergrendeling (Face ID/vingerafdruk), PDF-overzicht voor de verzekering, meerdere
+> herinneringen per product, widget. Geen advertenties (botst met de privacybelofte). Bij
+> verdienen: adres openbaar in Google Play, handelaarsstatus (EU), betaalprofiel, belasting en
+> mogelijk KvK; dat zelf laten nagaan.
+
 - **Digitale functies** (zoals cloudback-up) moeten via de in-app-aankopen van Apple en Google
   worden verkocht (App Store-richtlijn 3.1.1, Google Play Billing). Een eigen betaallink voor
   digitale functies wordt in de app geweigerd.
