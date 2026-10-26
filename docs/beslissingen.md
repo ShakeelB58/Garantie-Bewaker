@@ -265,6 +265,18 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
     gedeeld; versleuteld onderweg), zie [play-console-invulgids.md](play-console-invulgids.md);
   - App Store-privacylabel blijft "Data Not Collected".
 - **Later te heroverwegen:** een herkenning zonder telemetrie, als die goed genoeg wordt.
+
+## B18: Eerst de iPhone-versie publiceren (2026-10-26)
+
+- Google Play eist voor nieuwe persoonlijke accounts een gesloten test met minimaal 12 testers
+  gedurende 14 dagen. De gebruiker heeft (nog) geen testers.
+- Apple heeft die eis niet. Daarom: **eerst de App Store**, Android volgt zodra er testers zijn.
+- De interne test in Google Play blijft actief (eigen Samsung).
+- Alternatieven bekeken: testgroepen voor ontwikkelaars (mogelijk, wisselvallig), betaalde
+  testdiensten (afgeraden: risico op afwijzing), organisatie-account (geen testeis, maar
+  KvK-inschrijving, D-U-N-S en openbaar adres; heroverwegen als Bonvrij Plus komt).
+- Blokkade iOS: het team heeft nog geen geregistreerd toestel; nodig is één keer een iPhone via
+  een datakabel (Lightning naar USB-C) aan Xcode koppelen.
 ## Openstaande risico's
 
 | Risico | Aanpak |
