@@ -159,9 +159,9 @@ Totaal 799,00
 
     test('serienummer met S/N of Serienummer', () {
       expect(
-        parse('Datum 19-10-2026\nLaptop 1.099,00\nS/N: c02xk1abcd\nTotaal 1.099,00')
-            .serialNumber
-            .value,
+        parse(
+          'Datum 19-10-2026\nLaptop 1.099,00\nS/N: c02xk1abcd\nTotaal 1.099,00',
+        ).serialNumber.value,
         'C02XK1ABCD',
       );
       final r = parse(
@@ -172,7 +172,9 @@ Totaal 799,00
     });
 
     test('zonder label wordt niets gegokt', () {
-      final r = parse('Datum 19-10-2026\nKassa 4 bon 490154203237518\nTotaal 9,99');
+      final r = parse(
+        'Datum 19-10-2026\nKassa 4 bon 490154203237518\nTotaal 9,99',
+      );
       expect(r.serialNumber.isFound, isFalse);
       final sn = parse('Datum 19-10-2026\nSN Bakkerij 1234\nTotaal 3,50');
       expect(sn.serialNumber.isFound, isFalse);
@@ -183,7 +185,11 @@ Totaal 799,00
     testWidgets('serienummer invullen, zien en kopiëren', (tester) async {
       final repo = InMemoryProductRepository();
       await repo.save(
-        makeProduct(id: 'p1', name: 'Telefoon', serialNumber: '490154203237518'),
+        makeProduct(
+          id: 'p1',
+          name: 'Telefoon',
+          serialNumber: '490154203237518',
+        ),
       );
       await pumpApp(tester, repository: repo);
       String? copied;

@@ -333,9 +333,7 @@ class _DetailRow extends StatelessWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(content: Text('$label gekopieerd.')),
-      );
+      ..showSnackBar(SnackBar(content: Text('$label gekopieerd.')));
   }
 
   @override
