@@ -70,7 +70,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 |---|------|
 | ⏳ | **TestFlight (iOS):** iPhone gekoppeld en ondertekening in orde (team Shakeel Bechan). Build **1.0.0 (2)** geüpload met Transporter op 3-11-2026; Apple verwerkt hem. Volgende: interne test op de eigen iPhone, dan indienen voor beoordeling. |
 | ⏳ | **Google Play:** interne test actief (versie 1.0.0 (1), 23-10-2026); app-content en winkelpagina ingevuld. Volgende: gesloten test (12 testers, 14 dagen). |
-| ⬜ | Op minimaal één echte iPhone testen: camera, meldingen, "Openen met" vanuit Mail. |
+| ✅ | Getest op een echte iPhone met de winkelversie (`flutter run --release`, 3-11-2026): camera, herkenning, PDF vanuit Mail, testmelding, serienummer. |
 | ⬜ | Alle punten uit [acceptatietests.md](acceptatietests.md) opnieuw lopen met de releasebuild. |
 | ⬜ | Een update testen over een bestaande installatie heen: gegevens moeten blijven staan (databasemigraties). |
 
