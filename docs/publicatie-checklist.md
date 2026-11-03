@@ -68,7 +68,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ⏳ | **TestFlight (iOS):** productpagina, prijs (gratis, NL+BE), privacy en review-notities staan in App Store Connect. Volgende: iPhone één keer via kabel aan Xcode koppelen (team heeft nog geen toestel), dan `flutter build ipa` en uploaden met Transporter. interne testers direct. Externe testers (tot 10.000) na een korte beoordeling door Apple. |
+| ⏳ | **TestFlight (iOS):** iPhone gekoppeld en ondertekening in orde (team Shakeel Bechan). Build **1.0.0 (2)** geüpload met Transporter op 3-11-2026; Apple verwerkt hem. Volgende: interne test op de eigen iPhone, dan indienen voor beoordeling. |
 | ⏳ | **Google Play:** interne test actief (versie 1.0.0 (1), 23-10-2026); app-content en winkelpagina ingevuld. Volgende: gesloten test (12 testers, 14 dagen). |
 | ⬜ | Op minimaal één echte iPhone testen: camera, meldingen, "Openen met" vanuit Mail. |
 | ⬜ | Alle punten uit [acceptatietests.md](acceptatietests.md) opnieuw lopen met de releasebuild. |
