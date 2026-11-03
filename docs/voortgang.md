@@ -344,6 +344,15 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   schermen) en schermafbeeldingen; door de gebruiker goedgekeurd op basis van de schermafbeeldingen.
 - Buildnummer verhoogd naar `1.0.0+2` voor de volgende upload.
 
+## iOS ingediend bij Apple (2026-11-03)
+
+- iPhone via kabel gekoppeld aan Xcode (team Shakeel Bechan), `flutter build ipa`, upload met
+  Transporter: build 1.0.0 (2).
+- Getest op een echte iPhone met `flutter run --release`: camera, herkenning, PDF vanuit Mail,
+  testmelding, serienummer.
+- App Store Connect volledig ingevuld; ingediend voor beoordeling. Android volgt na de gesloten
+  test (B18).
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
