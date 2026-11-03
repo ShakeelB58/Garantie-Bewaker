@@ -7,6 +7,7 @@ import 'product_category.dart';
 enum ProductField {
   name,
   brand,
+  serialNumber,
   merchant,
   purchaseDate,
   price,
@@ -20,6 +21,7 @@ class ProductInput {
   const ProductInput({
     this.name = '',
     this.brand = '',
+    this.serialNumber = '',
     this.merchant = '',
     this.category = ProductCategory.other,
     this.purchaseDate,
@@ -33,6 +35,7 @@ class ProductInput {
   factory ProductInput.fromProduct(Product product) => ProductInput(
     name: product.name,
     brand: product.brand ?? '',
+    serialNumber: product.serialNumber ?? '',
     merchant: product.merchant ?? '',
     category: product.category,
     purchaseDate: product.purchaseDate,
@@ -47,6 +50,7 @@ class ProductInput {
 
   final String name;
   final String brand;
+  final String serialNumber;
   final String merchant;
   final ProductCategory category;
   final DateTime? purchaseDate;
@@ -72,6 +76,7 @@ class ProductInput {
       id: id,
       name: name.trim(),
       brand: optional(brand),
+      serialNumber: optional(serialNumber),
       category: category,
       merchant: optional(merchant),
       purchaseDate: Dates.dateOnly(purchaseDate!),
@@ -94,6 +99,7 @@ class ProductInput {
 abstract final class ProductValidator {
   static const maxNameLength = 120;
   static const maxTextLength = 120;
+  static const maxSerialLength = 64;
 
   /// Maximaal € 1.000.000,00 (voorkomt typfouten met te veel nullen).
   static const maxPriceMinor = 100000000;
@@ -114,6 +120,10 @@ abstract final class ProductValidator {
 
     if (input.brand.trim().length > maxTextLength) {
       errors[ProductField.brand] = 'Gebruik maximaal $maxTextLength tekens.';
+    }
+    if (input.serialNumber.trim().length > maxSerialLength) {
+      errors[ProductField.serialNumber] =
+          'Gebruik maximaal $maxSerialLength tekens.';
     }
     if (input.merchant.trim().length > maxTextLength) {
       errors[ProductField.merchant] = 'Gebruik maximaal $maxTextLength tekens.';

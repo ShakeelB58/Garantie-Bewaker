@@ -277,6 +277,17 @@ Elke beslissing met datum, keuze en reden. Nieuwe beslissingen onderaan toevoege
   KvK-inschrijving, D-U-N-S en openbaar adres; heroverwegen als Bonvrij Plus komt).
 - Blokkade iOS: het team heeft nog geen geregistreerd toestel; nodig is één keer een iPhone via
   een datakabel (Lightning naar USB-C) aan Xcode koppelen.
+
+## B19: Serienummer of IMEI per product (2026-11-03)
+
+- Wens van de gebruiker: bij een verzekeringsclaim het serienummer/IMEI samen met de bon hebben.
+- **Eén optioneel veld** "Serienummer of IMEI" (max. 64 tekens), databasemigratie 3
+  (`products.serial_number`). Bestaande producten houden een leeg veld.
+- Op de productpagina met kopieerknop; doorzoekbaar; kolom in de CSV-export.
+- Herkenning alleen bij een label ("IMEI", "S/N", "Serienummer", "Serial No."). Een IMEI met kloppend
+  Luhn-controlecijfer = hoge zekerheid; anders onzeker. Zonder label wordt niets gegokt.
+- In het formulier een niet-blokkerende waarschuwing bij een IMEI met een fout controlecijfer.
+- Tegelijk: labels van invoervelden staan altijd boven het vak (thema), op verzoek van de gebruiker.
 ## Openstaande risico's
 
 | Risico | Aanpak |

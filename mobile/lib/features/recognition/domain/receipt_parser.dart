@@ -1,4 +1,5 @@
 import '../../../core/utils/dates.dart';
+import '../../../core/utils/imei.dart';
 import '../../../core/utils/money.dart';
 import 'parsed_receipt.dart';
 
@@ -65,8 +66,57 @@ class ReceiptParser {
       productName: productName,
       lineItems: items,
       productCandidates: goods,
+      serialNumber: findSerialNumber(lines),
       vatMinor: _findVat(lines),
     );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Serienummer en IMEI
+
+  /// "IMEI: 35 123456 789012 3", "IMEI1 490154203237518", "IMEI-nummer …".
+  static final _imei = RegExp(
+    r'\bIMEI[\s\-]*(?:1|nummer|nr\.?|number|no\.?)?\s*[:#.]?\s*((?:\d[\s\-/]?){14}\d)(?!\d)',
+    caseSensitive: false,
+  );
+
+  /// "S/N: C02XK1ABCD", "Serienummer: …", "Serial No. …", "SN# …".
+  static final _serial = RegExp(
+    r'(?:\bS\s?/\s?N\b\s*[:#.]?|\bSN\s*[:#]|\bserie\s?(?:nummer|nr\.?)\b\s*[:#.]?|\bserial\s*(?:number|no\.?|nr\.?)?\s*[:#.]?)\s*([A-Z0-9][A-Z0-9\-/]{3,39})',
+    caseSensitive: false,
+  );
+
+  /// Zoekt een serienummer of IMEI dat expliciet bij een label staat.
+  /// Zonder label wordt niets gegokt.
+  static RecognizedField<String> findSerialNumber(List<String> lines) {
+    final imeis = <String>{};
+    final serials = <String>{};
+    for (final line in lines) {
+      for (final m in _imei.allMatches(line)) {
+        imeis.add(Imei.digitsOf(m.group(1)!));
+      }
+      for (final m in _serial.allMatches(line)) {
+        final value = m.group(1)!;
+        // Een serienummer bevat minstens één cijfer.
+        if (RegExp(r'\d').hasMatch(value)) serials.add(value.toUpperCase());
+      }
+    }
+    if (imeis.isNotEmpty) {
+      final value = imeis.first;
+      final confidence = imeis.length == 1 && Imei.isValid(value)
+          ? RecognitionConfidence.high
+          : RecognitionConfidence.low;
+      return RecognizedField(value, confidence);
+    }
+    if (serials.isNotEmpty) {
+      return RecognizedField(
+        serials.first,
+        serials.length == 1
+            ? RecognitionConfidence.medium
+            : RecognitionConfidence.low,
+      );
+    }
+    return const RecognizedField.unknown();
   }
 
   // ---------------------------------------------------------------------------

@@ -9,6 +9,7 @@ abstract final class ProductsCsv {
   static const header = [
     'Naam',
     'Merk',
+    'Serienummer of IMEI',
     'Categorie',
     'Winkel',
     'Aankoopdatum',
@@ -31,6 +32,7 @@ abstract final class ProductsCsv {
         _row([
           product.name,
           product.brand ?? '',
+          product.serialNumber ?? '',
           product.category.label,
           product.merchant ?? '',
           _date(product.purchaseDate),

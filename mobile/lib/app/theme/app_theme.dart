@@ -66,6 +66,11 @@ abstract final class AppTheme {
 
     return base.copyWith(
       textTheme: textTheme,
+      // Het label staat altijd boven het invoerveld, ook als het leeg is
+      // (bijv. "Merk (optioneel)"), en niet als grijze tekst in het vak.
+      inputDecorationTheme: const InputDecorationTheme(
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
       cardTheme: CardThemeData(
         color: AppColors.surface,
         elevation: 0,

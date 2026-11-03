@@ -45,7 +45,8 @@ class ProductQuery {
       if (category != null && product.category != category) return false;
       if (terms.isEmpty) return true;
       final haystack = _normalize(
-        '${product.name} ${product.brand ?? ''} ${product.merchant ?? ''}',
+        '${product.name} ${product.brand ?? ''} ${product.merchant ?? ''} '
+        '${product.serialNumber ?? ''}',
       );
       return terms.every(haystack.contains);
     }).toList();
