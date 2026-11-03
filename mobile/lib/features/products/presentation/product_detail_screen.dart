@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -216,6 +217,13 @@ class _ProductDetails extends ConsumerWidget {
               children: [
                 _DetailRow(label: 'Categorie', value: product.category.label),
                 _DetailRow(
+                  label: 'Serienummer of IMEI',
+                  value: product.serialNumber ?? 'Niet ingevuld',
+                  copyKey: product.serialNumber == null
+                      ? null
+                      : const Key('product.copySerial'),
+                ),
+                _DetailRow(
                   label: 'Winkel of verkoper',
                   value: product.merchant ?? 'Niet ingevuld',
                 ),
@@ -310,11 +318,25 @@ class _DetailRow extends StatelessWidget {
     required this.label,
     required this.value,
     this.isLast = false,
+    this.copyKey,
   });
 
   final String label;
   final String value;
   final bool isLast;
+
+  /// Als gezet: een kopieerknop naast de waarde (bijv. voor het serienummer).
+  final Key? copyKey;
+
+  Future<void> _copy(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: value));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text('$label gekopieerd.')),
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -345,6 +367,14 @@ class _DetailRow extends StatelessWidget {
                   style: theme.textTheme.bodyLarge,
                 ),
               ),
+              if (copyKey != null)
+                IconButton(
+                  key: copyKey,
+                  tooltip: '$label kopiëren',
+                  visualDensity: VisualDensity.compact,
+                  icon: const Icon(Icons.copy_rounded, size: 20),
+                  onPressed: () => _copy(context),
+                ),
             ],
           ),
         ),

@@ -31,6 +31,7 @@ class DemoProduct {
     required this.boughtDaysAgo,
     this.warrantyMonths,
     this.reminderInDays,
+    this.serialNumber,
     this.documents = const [],
   });
 
@@ -46,6 +47,9 @@ class DemoProduct {
 
   /// Herinnering over dit aantal dagen, of `null` voor geen herinnering.
   final int? reminderInDays;
+
+  /// Fictief serienummer of IMEI (het IMEI is het bekende voorbeeldnummer).
+  final String? serialNumber;
 
   final List<DocumentType> documents;
 }
@@ -73,6 +77,7 @@ abstract final class DemoData {
       boughtDaysAgo: 41,
       warrantyMonths: 24,
       reminderInDays: 34,
+      serialNumber: '490154203237518',
       documents: [DocumentType.invoice, DocumentType.warranty],
     ),
     DemoProduct(
@@ -113,6 +118,7 @@ abstract final class DemoData {
       merchant: 'Digitaal & Zo',
       priceMinor: 109900,
       boughtDaysAgo: 75,
+      serialNumber: 'KRN14-2026-0042',
       warrantyMonths: 24,
       documents: [DocumentType.invoice],
     ),
@@ -143,6 +149,7 @@ abstract final class DemoData {
             brand: demo.brand,
             category: demo.category,
             merchant: demo.merchant,
+            serialNumber: demo.serialNumber,
             purchaseDate: bought,
             purchasePriceMinor: demo.priceMinor,
             currency: 'EUR',
@@ -173,6 +180,8 @@ abstract final class DemoData {
       'Datum: ${Dates.formatShort(product.purchaseDate)}',
       '',
       '${product.brand ?? ''} ${product.name}'.trim(),
+      if (product.serialNumber != null)
+        'Serienummer/IMEI: ${product.serialNumber}',
       'Bedrag: EUR ${Money.formatForInput(product.purchasePriceMinor ?? 0)}',
       '',
       'Voorbeelddocument van Bonvrij - geen echte aankoop.',

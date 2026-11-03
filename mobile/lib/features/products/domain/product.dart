@@ -16,6 +16,7 @@ class Product {
     required this.updatedAt,
     this.brand,
     this.merchant,
+    this.serialNumber,
     this.purchasePriceMinor,
     this.warrantyEndDate,
     this.reminderDate,
@@ -26,6 +27,10 @@ class Product {
   final String? brand;
   final ProductCategory category;
   final String? merchant;
+
+  /// Serienummer of IMEI-nummer, zelf ingevuld of herkend en bevestigd.
+  /// Handig voor de verzekering. Blijft op het toestel.
+  final String? serialNumber;
 
   /// Kalenderdatum (zonder tijd).
   final DateTime purchaseDate;
@@ -60,6 +65,7 @@ class Product {
       other.brand == brand &&
       other.category == category &&
       other.merchant == merchant &&
+      other.serialNumber == serialNumber &&
       other.purchaseDate == purchaseDate &&
       other.purchasePriceMinor == purchasePriceMinor &&
       other.currency == currency &&
@@ -76,6 +82,7 @@ class Product {
     brand,
     category,
     merchant,
+    serialNumber,
     purchaseDate,
     purchasePriceMinor,
     currency,

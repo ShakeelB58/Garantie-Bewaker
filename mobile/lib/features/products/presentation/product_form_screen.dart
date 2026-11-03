@@ -8,6 +8,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/user_message.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../../core/utils/dates.dart';
+import '../../../core/utils/imei.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../documents/application/document_service.dart';
@@ -90,6 +91,7 @@ class _ProductForm extends ConsumerStatefulWidget {
 class _ProductFormState extends ConsumerState<_ProductForm> {
   late final TextEditingController _name;
   late final TextEditingController _brand;
+  late final TextEditingController _serial;
   late final TextEditingController _merchant;
   late final TextEditingController _price;
   late ProductCategory _category;
@@ -128,6 +130,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
 
     _name = TextEditingController(text: input.name);
     _brand = TextEditingController(text: input.brand);
+    _serial = TextEditingController(text: input.serialNumber);
     _merchant = TextEditingController(text: input.merchant);
     _price = TextEditingController(text: input.priceText);
     _category = input.category;
@@ -156,6 +159,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     if (merchant.value != null) {
       _merchant.text = merchant.value!;
       _recognized[ProductField.merchant] = merchant.confidence;
+    }
+    final serial = r.serialNumber;
+    if (serial.value != null) {
+      _serial.text = serial.value!;
+      _recognized[ProductField.serialNumber] = serial.confidence;
     }
     final date = r.purchaseDate;
     if (date.value != null) {
@@ -227,10 +235,27 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     );
   }
 
+  /// Uitleg of waarschuwing onder het serienummerveld.
+  String _serialHelper() {
+    final recognized = _recognitionHint(ProductField.serialNumber);
+    if (recognized != null) return recognized;
+    if (_serialLooksLikeWrongImei) {
+      return 'Dit lijkt een IMEI-nummer, maar het controlecijfer klopt niet. '
+          'Controleer het nummer.';
+    }
+    return _category == ProductCategory.phoneTablet
+        ? 'Het IMEI-nummer zie je door *#06# te bellen.'
+        : 'Handig voor je verzekering, samen met de bon.';
+  }
+
+  bool get _serialLooksLikeWrongImei =>
+      Imei.looksLikeImei(_serial.text) && !Imei.isValid(_serial.text);
+
   @override
   void dispose() {
     _name.dispose();
     _brand.dispose();
+    _serial.dispose();
     _merchant.dispose();
     _price.dispose();
     super.dispose();
@@ -239,6 +264,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   ProductInput get _input => ProductInput(
     name: _name.text,
     brand: _brand.text,
+    serialNumber: _serial.text,
     merchant: _merchant.text,
     category: _category,
     purchaseDate: _purchaseDate,
@@ -516,6 +542,34 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               onChanged: (value) {
                 if (value != null) _changed(null, () => _category = value);
               },
+            ),
+            const SizedBox(height: AppSpacing.md),
+            TextField(
+              key: const Key('productForm.serialNumber'),
+              controller: _serial,
+              textCapitalization: TextCapitalization.characters,
+              autocorrect: false,
+              enableSuggestions: false,
+              textInputAction: TextInputAction.next,
+              maxLength: ProductValidator.maxSerialLength,
+              decoration: InputDecoration(
+                labelText: 'Serienummer of IMEI (optioneel)',
+                errorText: _errors[ProductField.serialNumber],
+                helperText: _serialHelper(),
+                helperMaxLines: 3,
+                helperStyle:
+                    _hintStyle(ProductField.serialNumber) ??
+                    (_serialLooksLikeWrongImei
+                        ? theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.warning,
+                            fontWeight: FontWeight.w600,
+                          )
+                        : null),
+                suffixIcon: _recognitionIcon(ProductField.serialNumber),
+                border: const OutlineInputBorder(),
+                counterText: '',
+              ),
+              onChanged: (_) => _changed(ProductField.serialNumber, () {}),
             ),
             const SizedBox(height: AppSpacing.lg),
             const _SectionTitle('Aankoop'),
