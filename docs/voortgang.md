@@ -336,6 +336,14 @@ Nog open: upload-sleutel voor Android, ontwikkelaarsaccounts,
 privacymanifest iOS, test op een echte iPhone, 12 testers voor Google Play.
 Zie de [publicatiechecklist](publicatie-checklist.md).
 
+## Na publicatievoorbereiding: serienummer of IMEI ✅ (2026-11-03)
+
+- Optioneel veld per product, met kopieerknop, zoeken, export en herkenning op facturen (B19).
+- Labels van invoervelden altijd boven het vak.
+- Gecontroleerd met automatische tests (opslag en migratie, invoer, zoeken, export, herkenning,
+  schermen) en schermafbeeldingen; door de gebruiker goedgekeurd op basis van de schermafbeeldingen.
+- Buildnummer verhoogd naar `1.0.0+2` voor de volgende upload.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
