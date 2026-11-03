@@ -18,7 +18,7 @@ Contact: bonvrij.app@gmail.com
 
 Alleen wat jij zelf invoert of toevoegt:
 
-- productgegevens: naam, merk, categorie, winkel, aankoopdatum, prijs
+- productgegevens: naam, merk, categorie, serienummer of IMEI, winkel, aankoopdatum, prijs
 - door jou ingevulde garantie-einddatums en herinneringsdatums
 - aankoopbewijzen: foto's van kassabonnen en PDF- of afbeeldingsbestanden
 - voorkeuren, zoals je standaardherinnering

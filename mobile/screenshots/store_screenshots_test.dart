@@ -224,6 +224,10 @@ void main() {
                 'Draadloze koptelefoon',
                 RecognitionConfidence.medium,
               ),
+              serialNumber: const RecognizedField(
+                'SNR-7731-4420',
+                RecognitionConfidence.medium,
+              ),
               lineItems: const [
                 ParsedLineItem(
                   description: 'Draadloze koptelefoon',
@@ -349,6 +353,7 @@ class _TableWithReceipt extends StatelessWidget {
                 divider,
                 row('Draadloze koptelefoon', '149,00'),
                 row('  1 x 149,00', ''),
+                row('  S/N: SNR-7731-4420', ''),
                 divider,
                 row('TOTAAL', 'EUR 149,00', bold: true),
                 row('Pin', '149,00'),
