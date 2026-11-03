@@ -249,10 +249,6 @@ void main() {
         GoRouter.of(_context(tester)).push(AppRoutes.productDetail(phone.id)),
       );
       await tester.pumpAndSettle();
-      final details = find.text('Gegevens');
-      if (details.evaluate().isNotEmpty) {
-        await tester.tap(details.first);
-      }
       await _capture(tester, device, '4-product');
     });
 
