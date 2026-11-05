@@ -20,6 +20,7 @@ import 'package:garantiebewaker/features/documents/domain/document.dart';
 import 'package:garantiebewaker/features/documents/presentation/scanner_screen.dart';
 import 'package:garantiebewaker/features/products/presentation/new_product_args.dart';
 import 'package:garantiebewaker/features/recognition/domain/parsed_receipt.dart';
+import 'package:garantiebewaker/l10n/app_locale.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import '../test/helpers/document_fakes.dart';
@@ -103,13 +104,13 @@ Future<void> _setDevice(WidgetTester tester, _Device device) async {
   await tester.pumpAndSettle();
 }
 
-Future<void> _capture(WidgetTester tester, _Device device, String name) async {
+Future<void> _capture(WidgetTester tester, String folder, String name) async {
   await tester.pumpAndSettle();
   final element = find.byType(MaterialApp).evaluate().single;
   await tester.runAsync(() async {
     final image = await captureImage(element);
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
-    final file = File('screenshots/raw/${device.name}/$name.png');
+    final file = File('screenshots/raw/$folder/$name.png');
     file.parent.createSync(recursive: true);
     file.writeAsBytesSync(data!.buffer.asUint8List());
     image.dispose();
@@ -143,7 +144,7 @@ BuildContext _context(WidgetTester tester) =>
 
 void main() {
   setUpAll(() async {
-    await initializeDateFormatting('nl');
+    await initializeDateFormatting();
     await _loadFont('Poppins', [
       for (final w in ['Regular', 'Medium', 'SemiBold', 'Bold'])
         'assets/fonts/Poppins-$w.ttf',
@@ -154,12 +155,19 @@ void main() {
     ]);
   });
 
+  // Nederlands (raw/ios, raw/android) en Engels (raw/ios-en, raw/android-en).
+  for (final (language, locale) in const [
+    ('', Locale('nl', 'NL')),
+    ('-en', Locale('en', 'GB')),
+  ])
   for (final device in _devices) {
+    final folder = '${device.name}$language';
     void shoot(
       String description,
       Future<void> Function(WidgetTester tester) body,
     ) async {
-      testWidgets('${device.name}: $description', (tester) async {
+      testWidgets('$folder: $description', (tester) async {
+        AppLocale.apply(locale);
         debugDefaultTargetPlatformOverride = device.platform;
         debugDisableShadows = false;
         try {
@@ -167,13 +175,14 @@ void main() {
         } finally {
           debugDisableShadows = true;
           debugDefaultTargetPlatformOverride = null;
+          AppLocale.apply(const Locale('nl', 'NL'));
         }
       });
     }
 
     shoot('1 home', (tester) async {
       await _startWithDemo(tester, device);
-      await _capture(tester, device, '1-home');
+      await _capture(tester, folder, '1-home');
     });
 
     shoot('2 scannen', (tester) async {
@@ -190,7 +199,7 @@ void main() {
           ),
         ),
       );
-      await _capture(tester, device, '2-scannen');
+      await _capture(tester, folder, '2-scannen');
     });
 
     shoot('3 controleren', (tester) async {
@@ -211,8 +220,8 @@ void main() {
               ),
             ],
             recognition: ParsedReceipt(
-              merchant: const RecognizedField(
-                'Elektro Noord',
+              merchant: RecognizedField(
+                AppLocale.isDutch ? 'Elektro Noord' : 'North Electric',
                 RecognitionConfidence.high,
               ),
               purchaseDate: RecognizedField(day, RecognitionConfidence.high),
@@ -220,17 +229,21 @@ void main() {
                 14900,
                 RecognitionConfidence.high,
               ),
-              productName: const RecognizedField(
-                'Draadloze koptelefoon',
+              productName: RecognizedField(
+                AppLocale.isDutch
+                    ? 'Draadloze koptelefoon'
+                    : 'Wireless headphones',
                 RecognitionConfidence.medium,
               ),
               serialNumber: const RecognizedField(
                 'SNR-7731-4420',
                 RecognitionConfidence.medium,
               ),
-              lineItems: const [
+              lineItems: [
                 ParsedLineItem(
-                  description: 'Draadloze koptelefoon',
+                  description: AppLocale.isDutch
+                      ? 'Draadloze koptelefoon'
+                      : 'Wireless headphones',
                   amountMinor: 14900,
                 ),
               ],
@@ -238,7 +251,7 @@ void main() {
           ),
         ),
       );
-      await _capture(tester, device, '3-controleren');
+      await _capture(tester, folder, '3-controleren');
     });
 
     shoot('4 product', (tester) async {
@@ -249,13 +262,13 @@ void main() {
         GoRouter.of(_context(tester)).push(AppRoutes.productDetail(phone.id)),
       );
       await tester.pumpAndSettle();
-      await _capture(tester, device, '4-product');
+      await _capture(tester, folder, '4-product');
     });
 
     shoot('5 herinneringen', (tester) async {
       await _startWithDemo(tester, device);
       unawaited(GoRouter.of(_context(tester)).push(AppRoutes.reminders));
-      await _capture(tester, device, '5-herinneringen');
+      await _capture(tester, folder, '5-herinneringen');
     });
 
     shoot('6 privacy', (tester) async {
@@ -263,7 +276,7 @@ void main() {
       await tester.tap(find.byKey(const Key('nav.settings')));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Privacy'));
-      await _capture(tester, device, '6-privacy');
+      await _capture(tester, folder, '6-privacy');
     });
   }
 }
@@ -280,6 +293,8 @@ class _TableWithReceipt extends StatelessWidget {
       height: 1.5,
       color: Color(0xFF2B2B2B),
     );
+    final nl = AppLocale.isDutch;
+    final p149 = nl ? '149,00' : '149.00';
     Widget row(String left, String right, {bool bold = false}) => Row(
       children: [
         Expanded(
@@ -335,28 +350,28 @@ class _TableWithReceipt extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'ELEKTRO NOORD',
+                  nl ? 'ELEKTRO NOORD' : 'NORTH ELECTRIC',
                   style: line.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.5,
                   ),
                 ),
-                const Text('Voorbeeldstraat 1', style: line),
-                const Text('1234 AB Voorbeeldstad', style: line),
+                Text(nl ? 'Voorbeeldstraat 1' : '1 Sample Street', style: line),
+                Text(nl ? '1234 AB Voorbeeldstad' : 'Sampletown', style: line),
                 divider,
-                row('19-10-2026', '14:32'),
+                row(nl ? '19-10-2026' : '19/10/2026', '14:32'),
                 divider,
-                row('Draadloze koptelefoon', '149,00'),
-                row('  1 x 149,00', ''),
+                row(nl ? 'Draadloze koptelefoon' : 'Wireless headphones', p149),
+                row(nl ? '  1 x 149,00' : '  1 x 149.00', ''),
                 row('  S/N: SNR-7731-4420', ''),
                 divider,
-                row('TOTAAL', 'EUR 149,00', bold: true),
-                row('Pin', '149,00'),
-                row('Btw 21%', '25,86'),
+                row(nl ? 'TOTAAL' : 'TOTAL', 'EUR $p149', bold: true),
+                row(nl ? 'Pin' : 'Card', p149),
+                row(nl ? 'Btw 21%' : 'VAT 21%', nl ? '25,86' : '25.86'),
                 divider,
                 Text(
-                  'Bedankt voor je aankoop!',
+                  nl ? 'Bedankt voor je aankoop!' : 'Thank you for your purchase!',
                   style: line.copyWith(
                     color: AppColors.textMuted,
                     fontSize: 12,

@@ -16,6 +16,7 @@ import '../documents/domain/document.dart';
 import '../products/application/product_providers.dart';
 import '../products/domain/product.dart';
 import '../products/domain/product_category.dart';
+import '../../l10n/app_locale.dart';
 
 /// Eén fictief voorbeeldproduct, met datums ten opzichte van vandaag.
 ///
@@ -32,6 +33,8 @@ class DemoProduct {
     this.warrantyMonths,
     this.reminderInDays,
     this.serialNumber,
+    this.nameEn,
+    this.merchantEn,
     this.documents = const [],
   });
 
@@ -51,7 +54,15 @@ class DemoProduct {
   /// Fictief serienummer of IMEI (het IMEI is het bekende voorbeeldnummer).
   final String? serialNumber;
 
+  /// Engelse naam en winkel (voor de Engelse schermafbeeldingen).
+  final String? nameEn;
+  final String? merchantEn;
+
   final List<DocumentType> documents;
+
+  String get localName => AppLocale.isDutch ? name : nameEn ?? name;
+  String get localMerchant =>
+      AppLocale.isDutch ? merchant : merchantEn ?? merchant;
 }
 
 /// Fictieve voorbeeldgegevens, om de app te laten zien zonder echte bonnen.
@@ -62,6 +73,7 @@ abstract final class DemoData {
       brand: 'Kookwijs',
       category: ProductCategory.kitchen,
       merchant: 'Huis & Haard',
+      merchantEn: 'Hearth & Home',
       priceMinor: 12999,
       boughtDaysAgo: 3,
       warrantyMonths: 24,
@@ -73,6 +85,7 @@ abstract final class DemoData {
       brand: 'Lumo',
       category: ProductCategory.phoneTablet,
       merchant: 'Elektro Noord',
+      merchantEn: 'North Electric',
       priceMinor: 79900,
       boughtDaysAgo: 41,
       warrantyMonths: 24,
@@ -82,9 +95,11 @@ abstract final class DemoData {
     ),
     DemoProduct(
       name: 'Hardloopschoenen',
+      nameEn: 'Running shoes',
       brand: 'Sprintr',
       category: ProductCategory.clothing,
       merchant: 'Sportzaak De Baan',
+      merchantEn: 'Track Sports',
       priceMinor: 10995,
       boughtDaysAgo: 9,
       reminderInDays: 5,
@@ -92,9 +107,11 @@ abstract final class DemoData {
     ),
     DemoProduct(
       name: 'Draadloze koptelefoon',
+      nameEn: 'Wireless headphones',
       brand: 'Sonora',
       category: ProductCategory.electronics,
       merchant: 'Elektro Noord',
+      merchantEn: 'North Electric',
       priceMinor: 14900,
       boughtDaysAgo: 150,
       warrantyMonths: 24,
@@ -102,9 +119,11 @@ abstract final class DemoData {
     ),
     DemoProduct(
       name: 'Stoomstrijkijzer',
+      nameEn: 'Steam iron',
       brand: 'Vlotto',
       category: ProductCategory.household,
       merchant: 'Huis & Haard',
+      merchantEn: 'Hearth & Home',
       priceMinor: 5999,
       boughtDaysAgo: 420,
       warrantyMonths: 24,
@@ -116,6 +135,7 @@ abstract final class DemoData {
       brand: 'Kern',
       category: ProductCategory.computer,
       merchant: 'Digitaal & Zo',
+      merchantEn: 'Digital & Co',
       priceMinor: 109900,
       boughtDaysAgo: 75,
       serialNumber: 'KRN14-2026-0042',
@@ -145,10 +165,10 @@ abstract final class DemoData {
               : today.add(Duration(days: demo.reminderInDays!));
           return Product(
             id: newId(),
-            name: demo.name,
+            name: demo.localName,
             brand: demo.brand,
             category: demo.category,
-            merchant: demo.merchant,
+            merchant: demo.localMerchant,
             serialNumber: demo.serialNumber,
             purchaseDate: bought,
             purchasePriceMinor: demo.priceMinor,
@@ -171,20 +191,27 @@ abstract final class DemoData {
 
   /// Een eenvoudige, fictieve PDF met de gegevens van het product.
   static Uint8List pdfFor(Product product, DocumentType type) {
+    final nl = AppLocale.isDutch;
+    final amount = Money.formatForInput(product.purchasePriceMinor ?? 0);
+    final date = Dates.formatShort(product.purchaseDate);
     final lines = <String>[
       type.label.toUpperCase(),
       '',
       product.merchant ?? '',
-      'Voorbeeldstraat 1, 1234 AB Voorbeeldstad',
+      nl ? 'Voorbeeldstraat 1, 1234 AB Voorbeeldstad' : '1 Sample Street, Sampletown',
       '',
-      'Datum: ${Dates.formatShort(product.purchaseDate)}',
+      nl ? 'Datum: $date' : 'Date: $date',
       '',
       '${product.brand ?? ''} ${product.name}'.trim(),
       if (product.serialNumber != null)
-        'Serienummer/IMEI: ${product.serialNumber}',
-      'Bedrag: EUR ${Money.formatForInput(product.purchasePriceMinor ?? 0)}',
+        nl
+            ? 'Serienummer/IMEI: ${product.serialNumber}'
+            : 'Serial number/IMEI: ${product.serialNumber}',
+      nl ? 'Bedrag: EUR $amount' : 'Amount: EUR $amount',
       '',
-      'Voorbeelddocument van Bonvrij - geen echte aankoop.',
+      nl
+          ? 'Voorbeelddocument van Bonvrij - geen echte aankoop.'
+          : 'Bonvrij sample document - not a real purchase.',
     ];
     return _simplePdf(lines);
   }

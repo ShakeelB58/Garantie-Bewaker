@@ -1,0 +1,4 @@
+/* Texts iOS shows when asking for permission (English). */
+"NSCameraUsageDescription" = "Bonvrij uses the camera to photograph receipts. The photos stay on your phone.";
+"NSMicrophoneUsageDescription" = "Bonvrij does not record sound. The microphone is not used; this message belongs to the iOS camera component.";
+"NSPhotoLibraryUsageDescription" = "Bonvrij only opens your photo library when you choose a photo of a proof of purchase yourself.";

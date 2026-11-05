@@ -1,0 +1,4 @@
+/* Teksten die iOS toont bij toestemmingsvragen (Nederlands). */
+"NSCameraUsageDescription" = "Bonvrij gebruikt de camera om kassabonnen te fotograferen. De foto's blijven op je telefoon.";
+"NSMicrophoneUsageDescription" = "Bonvrij neemt geen geluid op. De microfoon wordt niet gebruikt; deze melding hoort bij het camera-onderdeel van iOS.";
+"NSPhotoLibraryUsageDescription" = "Bonvrij opent je fotobibliotheek alleen als je zelf een foto van een aankoopbewijs kiest.";

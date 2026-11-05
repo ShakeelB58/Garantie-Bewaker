@@ -34,6 +34,28 @@ SCREENS = [
      "Geen eigen server en geen reclame."),
 ]
 
+SCREENS_EN = [
+    ("1-home", "All your purchases in one place",
+     "Receipts, invoices and warranties neatly together."),
+    ("2-scannen", "Scan your receipt with the camera",
+     "Or import a PDF invoice, even from your email."),
+    ("3-controleren", "Store, date and price are recognised",
+     "On your own phone. You check everything."),
+    ("4-product", "Warranty and documents together",
+     "Everything about a purchase at a glance."),
+    ("5-herinneringen", "A reminder on the date you choose",
+     "Never miss a return period or warranty again."),
+    ("6-privacy", "No account. Your receipts stay on your phone.",
+     "No server of our own and no ads."),
+]
+
+FEATURE = {
+    "": ("Bonnen en garanties veilig op je telefoon",
+         "Scan je bon, bewaar je factuur en krijg een herinnering op de datum die jij kiest."),
+    "-en": ("Receipts and warranties safe on your phone",
+            "Scan your receipt, keep your invoice and get a reminder on the date you choose."),
+}
+
 # Canvas, telefoonbreedte, bovenmarge, status-balkhoogte (in px van de ruwe afbeelding).
 DEVICES = {
     "ios": dict(w=1320, h=2868, phone=1040, top=640, title=92, sub=50,
@@ -89,9 +111,9 @@ def status_bar(kind: str, scale: float, dark_screen: bool) -> str:
             f'{icons}</div>')
 
 
-def screen_page(kind: str, name: str, title: str, sub: str) -> str:
+def screen_page(kind: str, name: str, title: str, sub: str, lang: str = "") -> str:
     d = DEVICES[kind]
-    raw = RAW / kind / f"{name}.png"
+    raw = RAW / f"{kind}{lang}" / f"{name}.png"
     scale = d["phone"] / d["raw_w"] * (3 if kind == "ios" else 2.625)
     dark = name == "2-scannen" or name == "6-privacy"
     outer_w = d["phone"] + 2 * d["bezel"]
@@ -113,7 +135,8 @@ p {{ text-wrap:balance; margin-top:{d['sub']*0.55}px; font-size:{d['sub']}px; li
 </body></html>"""
 
 
-def feature_page() -> str:
+def feature_page(lang: str = "") -> str:
+    title, text = FEATURE[lang]
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS_FONTS}
 body {{ width:1024px; height:500px; overflow:hidden; background:{BACKGROUND}; position:relative; color:#fff; }}
 .logo {{ position:absolute; left:72px; top:70px; display:flex; align-items:center; gap:22px; }}
@@ -126,15 +149,16 @@ p {{ position:absolute; left:72px; top:320px; width:500px; font-size:21px; line-
 .phone img {{ display:block; width:100%; border-radius:42px; }}
 </style></head><body>
 <div class="logo"><img src="{ICON.as_uri()}"><span>Bonvrij</span></div>
-<h1>Bonnen en garanties veilig op je telefoon</h1>
-<p>Scan je bon, bewaar je factuur en krijg een herinnering op de datum die jij kiest.</p>
-<div class="phone"><img src="{(RAW / 'ios' / '1-home.png').as_uri()}"></div>
+<h1>{title}</h1>
+<p>{text}</p>
+<div class="phone"><img src="{(RAW / f'ios{lang}' / '1-home.png').as_uri()}"></div>
 </body></html>"""
 
 
 def main() -> None:
     # Alleen de afbeeldingsmappen opnieuw maken; README.md blijft staan.
-    for sub in ("ios", "ios-6.3", "android", "google-play"):
+    for sub in ("ios", "ios-6.3", "android", "google-play",
+                "ios-en", "ios-6.3-en", "android-en"):
         if (OUT / sub).exists():
             shutil.rmtree(OUT / sub)
     tmp = OUT / ".tmp"
@@ -153,12 +177,16 @@ def main() -> None:
             page.screenshot(path=str(path), omit_background=False)
             page.close()
 
-        for kind in ("ios", "android"):
-            d = DEVICES[kind]
-            for name, title, sub in SCREENS:
-                render(screen_page(kind, name, title, sub),
-                       OUT / kind / f"{name}.png", d["w"], d["h"])
-        render(feature_page(), OUT / "google-play" / "feature-graphic-1024x500.png", 1024, 500)
+        for lang, screens in (("", SCREENS), ("-en", SCREENS_EN)):
+            if not (RAW / f"ios{lang}").exists():
+                continue
+            for kind in ("ios", "android"):
+                d = DEVICES[kind]
+                for name, title, sub in screens:
+                    render(screen_page(kind, name, title, sub, lang),
+                           OUT / f"{kind}{lang}" / f"{name}.png", d["w"], d["h"])
+            render(feature_page(lang),
+                   OUT / "google-play" / f"feature-graphic-1024x500{lang}.png", 1024, 500)
         browser.close()
     shutil.rmtree(tmp)
 
@@ -167,10 +195,14 @@ def main() -> None:
     icon = Image.open(ICON).convert("RGB").resize((512, 512), Image.LANCZOS)
     icon.save(OUT / "google-play" / "icoon-512.png")
     # App Store Connect vraagt (2026) ook 6,3 inch: zelfde verhouding, kleiner.
-    (OUT / "ios-6.3").mkdir(exist_ok=True)
-    for png in sorted((OUT / "ios").glob("*.png")):
-        with Image.open(png) as im:
-            im.convert("RGB").resize((1206, 2622), Image.LANCZOS).save(OUT / "ios-6.3" / png.name)
+    for lang in ("", "-en"):
+        if not (OUT / f"ios{lang}").exists():
+            continue
+        (OUT / f"ios-6.3{lang}").mkdir(exist_ok=True)
+        for png in sorted((OUT / f"ios{lang}").glob("*.png")):
+            with Image.open(png) as im:
+                im.convert("RGB").resize((1206, 2622), Image.LANCZOS).save(
+                    OUT / f"ios-6.3{lang}" / png.name)
 
     # Apple en Google accepteren geen doorzichtigheid: alles naar RGB.
     for png in sorted(OUT.rglob("*.png")):
