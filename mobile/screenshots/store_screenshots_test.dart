@@ -160,125 +160,127 @@ void main() {
     ('', Locale('nl', 'NL')),
     ('-en', Locale('en', 'GB')),
   ])
-  for (final device in _devices) {
-    final folder = '${device.name}$language';
-    void shoot(
-      String description,
-      Future<void> Function(WidgetTester tester) body,
-    ) async {
-      testWidgets('$folder: $description', (tester) async {
-        AppLocale.apply(locale);
-        debugDefaultTargetPlatformOverride = device.platform;
-        debugDisableShadows = false;
-        try {
-          await body(tester);
-        } finally {
-          debugDisableShadows = true;
-          debugDefaultTargetPlatformOverride = null;
-          AppLocale.apply(const Locale('nl', 'NL'));
-        }
+    for (final device in _devices) {
+      final folder = '${device.name}$language';
+      void shoot(
+        String description,
+        Future<void> Function(WidgetTester tester) body,
+      ) async {
+        testWidgets('$folder: $description', (tester) async {
+          AppLocale.apply(locale);
+          debugDefaultTargetPlatformOverride = device.platform;
+          debugDisableShadows = false;
+          try {
+            await body(tester);
+          } finally {
+            debugDisableShadows = true;
+            debugDefaultTargetPlatformOverride = null;
+            AppLocale.apply(const Locale('nl', 'NL'));
+          }
+        });
+      }
+
+      shoot('1 home', (tester) async {
+        await _startWithDemo(tester, device);
+        await _capture(tester, folder, '1-home');
       });
-    }
 
-    shoot('1 home', (tester) async {
-      await _startWithDemo(tester, device);
-      await _capture(tester, folder, '1-home');
-    });
-
-    shoot('2 scannen', (tester) async {
-      await _startWithDemo(
-        tester,
-        device,
-        scannerPreview: const _TableWithReceipt(),
-      );
-      unawaited(
-        Navigator.of(_context(tester), rootNavigator: true).push(
-          MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (_) => const ScannerScreen(),
-          ),
-        ),
-      );
-      await _capture(tester, folder, '2-scannen');
-    });
-
-    shoot('3 controleren', (tester) async {
-      await _startWithDemo(tester, device);
-      final day = DateTime(testNow.year, testNow.month, testNow.day);
-      unawaited(
-        GoRouter.of(_context(tester)).push(
-          AppRoutes.newProduct,
-          extra: NewProductArgs(
-            documents: const [
-              StagedDocument(
-                id: 'staged-1',
-                filePath: 'documents/staged-1.pdf',
-                format: DocumentFormat.pdf,
-                type: DocumentType.receipt,
-                sizeBytes: 182000,
-                originalFilename: 'Kassabon.pdf',
-              ),
-            ],
-            recognition: ParsedReceipt(
-              merchant: RecognizedField(
-                AppLocale.isDutch ? 'Elektro Noord' : 'North Electric',
-                RecognitionConfidence.high,
-              ),
-              purchaseDate: RecognizedField(day, RecognitionConfidence.high),
-              totalMinor: const RecognizedField(
-                14900,
-                RecognitionConfidence.high,
-              ),
-              productName: RecognizedField(
-                AppLocale.isDutch
-                    ? 'Draadloze koptelefoon'
-                    : 'Wireless headphones',
-                RecognitionConfidence.medium,
-              ),
-              serialNumber: const RecognizedField(
-                'SNR-7731-4420',
-                RecognitionConfidence.medium,
-              ),
-              lineItems: [
-                ParsedLineItem(
-                  description: AppLocale.isDutch
-                      ? 'Draadloze koptelefoon'
-                      : 'Wireless headphones',
-                  amountMinor: 14900,
-                ),
-              ],
+      shoot('2 scannen', (tester) async {
+        await _startWithDemo(
+          tester,
+          device,
+          scannerPreview: const _TableWithReceipt(),
+        );
+        unawaited(
+          Navigator.of(_context(tester), rootNavigator: true).push(
+            MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (_) => const ScannerScreen(),
             ),
           ),
-        ),
-      );
-      await _capture(tester, folder, '3-controleren');
-    });
+        );
+        await _capture(tester, folder, '2-scannen');
+      });
 
-    shoot('4 product', (tester) async {
-      final repo = await _startWithDemo(tester, device);
-      final products = await repo.getAll();
-      final phone = products.firstWhere((p) => p.name.startsWith('Smartphone'));
-      unawaited(
-        GoRouter.of(_context(tester)).push(AppRoutes.productDetail(phone.id)),
-      );
-      await tester.pumpAndSettle();
-      await _capture(tester, folder, '4-product');
-    });
+      shoot('3 controleren', (tester) async {
+        await _startWithDemo(tester, device);
+        final day = DateTime(testNow.year, testNow.month, testNow.day);
+        unawaited(
+          GoRouter.of(_context(tester)).push(
+            AppRoutes.newProduct,
+            extra: NewProductArgs(
+              documents: const [
+                StagedDocument(
+                  id: 'staged-1',
+                  filePath: 'documents/staged-1.pdf',
+                  format: DocumentFormat.pdf,
+                  type: DocumentType.receipt,
+                  sizeBytes: 182000,
+                  originalFilename: 'Kassabon.pdf',
+                ),
+              ],
+              recognition: ParsedReceipt(
+                merchant: RecognizedField(
+                  AppLocale.isDutch ? 'Elektro Noord' : 'North Electric',
+                  RecognitionConfidence.high,
+                ),
+                purchaseDate: RecognizedField(day, RecognitionConfidence.high),
+                totalMinor: const RecognizedField(
+                  14900,
+                  RecognitionConfidence.high,
+                ),
+                productName: RecognizedField(
+                  AppLocale.isDutch
+                      ? 'Draadloze koptelefoon'
+                      : 'Wireless headphones',
+                  RecognitionConfidence.medium,
+                ),
+                serialNumber: const RecognizedField(
+                  'SNR-7731-4420',
+                  RecognitionConfidence.medium,
+                ),
+                lineItems: [
+                  ParsedLineItem(
+                    description: AppLocale.isDutch
+                        ? 'Draadloze koptelefoon'
+                        : 'Wireless headphones',
+                    amountMinor: 14900,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+        await _capture(tester, folder, '3-controleren');
+      });
 
-    shoot('5 herinneringen', (tester) async {
-      await _startWithDemo(tester, device);
-      unawaited(GoRouter.of(_context(tester)).push(AppRoutes.reminders));
-      await _capture(tester, folder, '5-herinneringen');
-    });
+      shoot('4 product', (tester) async {
+        final repo = await _startWithDemo(tester, device);
+        final products = await repo.getAll();
+        final phone = products.firstWhere(
+          (p) => p.name.startsWith('Smartphone'),
+        );
+        unawaited(
+          GoRouter.of(_context(tester)).push(AppRoutes.productDetail(phone.id)),
+        );
+        await tester.pumpAndSettle();
+        await _capture(tester, folder, '4-product');
+      });
 
-    shoot('6 privacy', (tester) async {
-      await _startWithDemo(tester, device);
-      await tester.tap(find.byKey(const Key('nav.settings')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Privacy'));
-      await _capture(tester, folder, '6-privacy');
-    });
-  }
+      shoot('5 herinneringen', (tester) async {
+        await _startWithDemo(tester, device);
+        unawaited(GoRouter.of(_context(tester)).push(AppRoutes.reminders));
+        await _capture(tester, folder, '5-herinneringen');
+      });
+
+      shoot('6 privacy', (tester) async {
+        await _startWithDemo(tester, device);
+        await tester.tap(find.byKey(const Key('nav.settings')));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Privacy'));
+        await _capture(tester, folder, '6-privacy');
+      });
+    }
 }
 
 /// Een fictieve kassabon op tafel, in plaats van het camerabeeld.
@@ -371,7 +373,9 @@ class _TableWithReceipt extends StatelessWidget {
                 row(nl ? 'Btw 21%' : 'VAT 21%', nl ? '25,86' : '25.86'),
                 divider,
                 Text(
-                  nl ? 'Bedankt voor je aankoop!' : 'Thank you for your purchase!',
+                  nl
+                      ? 'Bedankt voor je aankoop!'
+                      : 'Thank you for your purchase!',
                   style: line.copyWith(
                     color: AppColors.textMuted,
                     fontSize: 12,

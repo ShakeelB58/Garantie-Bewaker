@@ -198,7 +198,9 @@ abstract final class DemoData {
       type.label.toUpperCase(),
       '',
       product.merchant ?? '',
-      nl ? 'Voorbeeldstraat 1, 1234 AB Voorbeeldstad' : '1 Sample Street, Sampletown',
+      nl
+          ? 'Voorbeeldstraat 1, 1234 AB Voorbeeldstad'
+          : '1 Sample Street, Sampletown',
       '',
       nl ? 'Datum: $date' : 'Date: $date',
       '',
