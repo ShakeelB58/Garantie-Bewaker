@@ -358,6 +358,19 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 - Apple heeft versie 1.0.0 (2) goedgekeurd; de app komt binnen 24 uur live in Nederland en België.
 - Android: gesloten test in beoordeling bij Google; daarna 12 testers × 14 dagen.
 
+## Engelse versie, 1.1.0 (3) (2026-11-05)
+
+- De app volgt de taal van de telefoon: Nederlands bij `nl`, anders Engels (Brits als standaard).
+  Alle schermen, meldingen, datums, bedragen en iOS-toestemmingsteksten zijn vertaald.
+- De herkenning leest nu ook Engelse bonnen en facturen: £, $, CHF; maand-eerst-datums bij dollars;
+  Engelse maandnamen; trefwoorden voor totaal, betaling en btw.
+- Engelse winkelteksten ([winkelteksten.md](winkelteksten.md)), privacyverklaring op
+  https://bonvrij.nl/en/privacy/ en schermafbeeldingen in `docs/winkel/*-en`.
+- Getest: automatische tests (CI groen) en schermafbeeldingen in beide talen, door de gebruiker
+  goedgekeurd. Nog niet getest met een echte Engelse bon.
+- Nog te doen door de gebruiker: build 1.1.0 (3) uploaden; Engelse taal toevoegen in App Store
+  Connect en Google Play; eventueel meer landen aanzetten.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
