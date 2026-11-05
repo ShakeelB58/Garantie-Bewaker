@@ -368,8 +368,11 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   https://bonvrij.nl/en/privacy/ en schermafbeeldingen in `docs/winkel/*-en`.
 - Getest: automatische tests (CI groen) en schermafbeeldingen in beide talen, door de gebruiker
   goedgekeurd. Nog niet getest met een echte Engelse bon.
-- Nog te doen door de gebruiker: build 1.1.0 (3) uploaden; Engelse taal toevoegen in App Store
-  Connect en Google Play; eventueel meer landen aanzetten.
+- 1.1.0 (3) ingediend bij Apple (met Engels (VK)) en als gesloten-testrelease bij Google Play,
+  plus Engelse winkelpagina's (en-GB en en-US).
+- Apple: Nederland en België stonden op "Cannot Sell – Trader Status Not Provided"; de
+  DSA-status is op 5-11 ingevuld (Active). Nog controleren of de landen op "Available" komen.
+- Daarna eventueel meer landen aanzetten (niet China).
 
 ## MVP: definitie van klaar
 
