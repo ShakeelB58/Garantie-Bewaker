@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_strings.dart';
 
 /// Het Bonvrij-schild met vinkje (zelfde vorm als het app-icoon).
 class BonvrijLogo extends StatelessWidget {
@@ -18,7 +19,7 @@ class BonvrijLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Bonvrij-logo',
+      label: S.current.logoLabel,
       image: true,
       child: CustomPaint(
         size: Size(size * 0.8, size),

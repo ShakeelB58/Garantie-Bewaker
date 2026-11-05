@@ -11,6 +11,7 @@ import '../../products/application/product_providers.dart';
 import '../../products/presentation/widgets/category_icon.dart';
 import '../../products/presentation/widgets/reminder_badge.dart';
 import '../application/reminder_service.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Hoofdschakelaar voor meldingen en de lijst met komende herinneringen.
 class RemindersScreen extends ConsumerWidget {
@@ -30,12 +31,7 @@ class RemindersScreen extends ConsumerWidget {
       ref.invalidate(notificationsEnabledProvider);
       if (!granted) {
         messenger.showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Meldingen staan uit in de instellingen van je telefoon. Zet '
-              'ze daar aan voor Bonvrij.',
-            ),
-          ),
+          SnackBar(content: Text(S.current.notificationsOffPhone)),
         );
       }
     }
@@ -50,7 +46,7 @@ class RemindersScreen extends ConsumerWidget {
     final today = Dates.dateOnly(ref.watch(clockProvider)());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Herinneringen')),
+      appBar: AppBar(title: Text(S.current.reminders)),
       body: products.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => ErrorView(
@@ -77,11 +73,8 @@ class RemindersScreen extends ConsumerWidget {
               Card(
                 child: SwitchListTile(
                   key: const Key('reminders.enabled'),
-                  title: const Text('Herinneringen inschakelen'),
-                  subtitle: const Text(
-                    'Ontvang rond 9:00 uur een melding op de herinneringsdatum '
-                    'die je bij een product hebt ingesteld.',
-                  ),
+                  title: Text(S.current.enableReminders),
+                  subtitle: Text(S.current.enableRemindersHelper),
                   value: on,
                   onChanged: enabled.isLoading
                       ? null
@@ -92,7 +85,7 @@ class RemindersScreen extends ConsumerWidget {
               Semantics(
                 header: true,
                 child: Text(
-                  'Komende herinneringen',
+                  S.current.upcomingReminders,
                   style: theme.textTheme.titleMedium,
                 ),
               ),
@@ -101,8 +94,7 @@ class RemindersScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                   child: Text(
-                    'Herinneringen staan uit. De datums blijven bewaard, maar '
-                    'je krijgt geen meldingen.',
+                    S.current.remindersOff,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -110,8 +102,7 @@ class RemindersScreen extends ConsumerWidget {
                 ),
               if (upcoming.isEmpty)
                 Text(
-                  'Geen komende herinneringen. Stel een herinnering in bij een '
-                  'product via "Bewerken".',
+                  S.current.noUpcomingReminders,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

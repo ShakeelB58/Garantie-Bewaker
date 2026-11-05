@@ -9,6 +9,7 @@ import '../data/pdf_pages.dart';
 import '../data/text_recognizer.dart';
 import '../domain/parsed_receipt.dart';
 import '../domain/receipt_parser.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Voortgang tijdens het herkennen.
 class RecognitionProgress {
@@ -25,8 +26,10 @@ class RecognitionProgress {
   final bool usingOcr;
 
   String get message {
-    final what = usingOcr ? 'Tekst herkennen' : 'Tekst lezen';
-    return pageCount > 1 ? '$what… pagina $page van $pageCount' : '$what…';
+    final what = usingOcr ? S.current.recognizeText : S.current.readText;
+    return pageCount > 1
+        ? S.current.pageProgress(what, page, pageCount)
+        : '$what…';
   }
 }
 

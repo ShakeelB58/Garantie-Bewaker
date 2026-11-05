@@ -1,20 +1,38 @@
+import '../../../l10n/app_strings.dart';
+
 /// Vaste categorieën. De [key] wordt opgeslagen en mag nooit veranderen.
 enum ProductCategory {
-  electronics('electronics', 'Elektronica'),
-  phoneTablet('phone_tablet', 'Telefoon en tablet'),
-  computer('computer', 'Computer'),
-  household('household', 'Huishoudelijk'),
-  kitchen('kitchen', 'Keuken'),
-  furniture('furniture', 'Meubels en wonen'),
-  garden('garden_tools', 'Tuin en gereedschap'),
-  clothing('clothing', 'Kleding en schoenen'),
-  sports('sports', 'Sport en vrije tijd'),
-  other('other', 'Overig');
+  electronics('electronics'),
+  phoneTablet('phone_tablet'),
+  computer('computer'),
+  household('household'),
+  kitchen('kitchen'),
+  furniture('furniture'),
+  garden('garden_tools'),
+  clothing('clothing'),
+  sports('sports'),
+  other('other');
 
-  const ProductCategory(this.key, this.label);
+  const ProductCategory(this.key);
 
   final String key;
-  final String label;
+
+  /// Naam in de taal van de app.
+  String get label {
+    final s = S.current;
+    return switch (this) {
+      electronics => s.catElectronics,
+      phoneTablet => s.catPhoneTablet,
+      computer => s.catComputer,
+      household => s.catHousehold,
+      kitchen => s.catKitchen,
+      furniture => s.catFurniture,
+      garden => s.catGarden,
+      clothing => s.catClothing,
+      sports => s.catSports,
+      other => s.catOther,
+    };
+  }
 
   /// Onbekende waarden (bijv. uit een nieuwere app-versie) worden "Overig".
   static ProductCategory fromKey(String key) => ProductCategory.values

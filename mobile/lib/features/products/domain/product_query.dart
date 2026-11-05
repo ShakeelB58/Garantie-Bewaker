@@ -1,14 +1,18 @@
+import '../../../l10n/app_strings.dart';
 import 'product.dart';
 import 'product_category.dart';
 
 enum ProductSort {
-  purchaseDateNewest('Aankoopdatum (nieuwste eerst)'),
-  purchaseDateOldest('Aankoopdatum (oudste eerst)'),
-  reminderDateSoonest('Herinneringsdatum (eerstvolgende eerst)');
+  purchaseDateNewest,
+  purchaseDateOldest,
+  reminderDateSoonest;
 
-  const ProductSort(this.label);
-
-  final String label;
+  /// Naam in de taal van de app.
+  String get label => switch (this) {
+    purchaseDateNewest => S.current.sortPurchaseNewest,
+    purchaseDateOldest => S.current.sortPurchaseOldest,
+    reminderDateSoonest => S.current.sortReminderSoonest,
+  };
 }
 
 /// Zoek-, filter- en sorteerinstellingen van het productoverzicht.

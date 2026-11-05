@@ -8,6 +8,7 @@ import '../../documents/data/document_repository.dart';
 import '../../documents/domain/document.dart';
 import '../../products/data/product_repository.dart';
 import '../domain/products_csv.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Een export die klaarstaat om te bewaren.
 class ExportFile {
@@ -32,6 +33,8 @@ class ExportFile {
 /// - `producten.csv` (te openen in Excel of Numbers)
 /// - `documenten/` met alle aankoopbewijzen
 /// - `LEESMIJ.txt`
+///
+/// In het Engels: `products.csv`, `documents/` en `README.txt`.
 ///
 /// Het bestand wordt in het geheugen opgebouwd en nergens tussentijds
 /// opgeslagen; de gebruiker kiest zelf waar het komt.
@@ -87,11 +90,16 @@ class ExportService {
     archive
       ..addFile(
         ArchiveFile.string(
-          'producten.csv',
+          S.current.exportCsvName,
           ProductsCsv.build(products, counts),
         ),
       )
-      ..addFile(ArchiveFile.string('LEESMIJ.txt', _readme()));
+      ..addFile(
+        ArchiveFile.string(
+          S.current.exportReadmeName,
+          S.current.exportReadme(Dates.formatLong(_clock())),
+        ),
+      );
 
     return ExportFile(
       fileName: 'bonvrij-export-${Dates.toIsoDate(_clock())}.zip',
@@ -124,27 +132,11 @@ class ExportService {
     }
     if (slug.isEmpty) slug = 'product';
     final number = productNumber.toString().padLeft(3, '0');
-    final type = document.type.label.toLowerCase();
-    return 'documenten/$number-$slug-$type-$documentNumber.'
-        '${document.format.extension}';
+    final type = document.type.label.toLowerCase().replaceAll(
+      RegExp(r'[^a-z0-9]+'),
+      '-',
+    );
+    return '${S.current.exportDocumentsFolder}/'
+        '$number-$slug-$type-$documentNumber.${document.format.extension}';
   }
-
-  String _readme() =>
-      'Export van Bonvrij\r\n'
-      'Gemaakt op ${Dates.formatLong(_clock())}.\r\n'
-      '\r\n'
-      'producten.csv\r\n'
-      '  Al je producten. Open dit bestand met Excel, Numbers of Google '
-      'Spreadsheets.\r\n'
-      '\r\n'
-      'documenten/\r\n'
-      '  Je aankoopbewijzen. Het nummer vooraan de bestandsnaam hoort bij de '
-      'volgorde in producten.csv (product 1 is de eerste regel).\r\n'
-      '\r\n'
-      'Let op: dit bestand bevat je aankoopgegevens. Bewaar het op een '
-      'veilige plek en deel het alleen met mensen die je vertrouwt.\r\n'
-      '\r\n'
-      'Garantie-einddatums en herinneringen zijn door jou ingevuld. '
-      'Bonvrij berekent geen garantietermijnen en geeft geen '
-      'juridisch advies.\r\n';
 }

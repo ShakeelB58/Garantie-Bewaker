@@ -9,6 +9,7 @@ import '../../../core/errors/user_message.dart';
 import '../../../core/widgets/error_view.dart';
 import '../application/document_service.dart';
 import '../domain/document.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Absoluut pad van een opgeslagen document.
 final _documentPathProvider = FutureProvider.family<String, Document>((
@@ -36,21 +37,19 @@ class DocumentViewerScreen extends ConsumerWidget {
       builder: (context) => AlertDialog(
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
-        title: const Text('Document verwijderen?'),
-        content: const Text(
-          'Het document wordt definitief van deze telefoon verwijderd.',
-        ),
+        title: Text(S.current.deleteDocumentQuestion),
+        content: Text(S.current.deleteDocumentBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annuleren'),
+            child: Text(S.current.cancel),
           ),
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Verwijderen'),
+            child: Text(S.current.delete),
           ),
         ],
       ),
@@ -71,7 +70,7 @@ class DocumentViewerScreen extends ConsumerWidget {
     if (context.mounted) context.pop();
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Document verwijderd.')));
+      ..showSnackBar(SnackBar(content: Text(S.current.documentDeleted)));
   }
 
   @override
@@ -81,11 +80,11 @@ class DocumentViewerScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(document?.type.label ?? 'Document'),
+        title: Text(document?.type.label ?? S.current.document),
         actions: [
           if (document != null)
             IconButton(
-              tooltip: 'Verwijderen',
+              tooltip: S.current.delete,
               icon: const Icon(Icons.delete_outline),
               onPressed: () => _delete(context, ref, document),
             ),
@@ -95,7 +94,7 @@ class DocumentViewerScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => ErrorView(error: error),
         data: (document) => document == null
-            ? const Center(child: Text('Dit document bestaat niet meer.'))
+            ? Center(child: Text(S.current.documentGone))
             : _DocumentContent(document: document),
       ),
     );
@@ -115,15 +114,11 @@ class _DocumentContent extends ConsumerWidget {
       error: (error, _) => ErrorView(error: error),
       data: (path) {
         if (!File(path).existsSync()) {
-          return const ErrorView(
-            error: AppException(
-              'Het bestand van dit document is niet gevonden op deze telefoon.',
-            ),
-          );
+          return ErrorView(error: AppException(S.current.documentFileMissing));
         }
         if (document.format == DocumentFormat.pdf) {
           return Semantics(
-            label: 'PDF-document. Knijp om in te zoomen.',
+            label: S.current.pdfPinchHint,
             child: PdfViewer.file(path),
           );
         }
@@ -133,10 +128,9 @@ class _DocumentContent extends ConsumerWidget {
             child: Image.file(
               File(path),
               fit: BoxFit.contain,
-              semanticLabel: 'Foto van het aankoopbewijs',
-              errorBuilder: (context, error, stackTrace) => const ErrorView(
-                error: AppException('Deze afbeelding kan niet worden getoond.'),
-              ),
+              semanticLabel: S.current.receiptPhotoLabel,
+              errorBuilder: (context, error, stackTrace) =>
+                  ErrorView(error: AppException(S.current.imageCannotShow)),
             ),
           ),
         );

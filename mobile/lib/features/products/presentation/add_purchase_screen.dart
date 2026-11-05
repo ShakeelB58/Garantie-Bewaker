@@ -10,6 +10,7 @@ import '../../documents/presentation/document_capture.dart';
 import '../../recognition/application/recognition_service.dart';
 import '../../recognition/presentation/recognize_document.dart';
 import 'new_product_args.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Scherm "Aankoop toevoegen" met de drie invoermogelijkheden.
 ///
@@ -66,34 +67,30 @@ class AddPurchaseScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Aankoop toevoegen')),
+      appBar: AppBar(title: Text(S.current.addPurchase)),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
-          Text(
-            'Hoe wil je je aankoop toevoegen?',
-            style: theme.textTheme.titleMedium,
-          ),
+          Text(S.current.howToAdd, style: theme.textTheme.titleMedium),
           const SizedBox(height: AppSpacing.md),
           _OptionCard(
             icon: Icons.photo_camera_outlined,
-            title: 'Kassabon scannen',
-            description: 'Maak een foto van een papieren bon.',
+            title: S.current.scanReceipt,
+            description: S.current.scanReceiptSubtitle,
             onTap: () => _scan(context, ref),
           ),
           const SizedBox(height: AppSpacing.sm),
           _OptionCard(
             icon: Icons.picture_as_pdf_outlined,
-            title: 'PDF of afbeelding importeren',
-            description:
-                'Kies een factuur uit je bestanden, downloads of foto\'s.',
+            title: S.current.importPdfOrImage,
+            description: S.current.importSubtitle,
             onTap: () => _import(context, ref),
           ),
           const SizedBox(height: AppSpacing.sm),
           _OptionCard(
             icon: Icons.edit_outlined,
-            title: 'Handmatig invoeren',
-            description: 'Vul de gegevens zelf in.',
+            title: S.current.enterManually,
+            description: S.current.enterManuallySubtitle,
             onTap: () => context.pushReplacement(AppRoutes.newProduct),
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:text_sight/text_sight.dart';
 
 import '../../../core/errors/user_message.dart';
 import '../domain/text_layout.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Tekstherkenning (OCR) op het toestel.
 abstract interface class TextRecognizer {
@@ -24,11 +25,7 @@ class TextSightRecognizer implements TextRecognizer {
     // Op Android downloadt ML Kit het model bij het eerste gebruik.
     final state = await TextSightModel.ensureReady();
     if (state is ModelUnavailable) {
-      throw const AppException(
-        'Tekstherkenning is nog niet beschikbaar op deze telefoon. '
-        'Controleer de internetverbinding en probeer het later opnieuw, '
-        'of vul de gegevens zelf in.',
-      );
+      throw AppException(S.current.recognitionUnavailable);
     }
     _modelChecked = true;
   }

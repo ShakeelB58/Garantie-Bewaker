@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/utils/dates.dart';
 import '../domain/document.dart';
+import '../../../l10n/app_strings.dart';
 
 extension DocumentFormatIcon on DocumentFormat {
   IconData get icon => this == DocumentFormat.pdf
@@ -29,7 +30,7 @@ class DocumentTile extends StatelessWidget {
   }) {
     final parts = [
       if (document.originalFilename != null) document.originalFilename!,
-      'Toegevoegd ${Dates.formatShort(document.createdAt.toLocal())}',
+      S.current.addedOn(Dates.formatShort(document.createdAt.toLocal())),
     ];
     return DocumentTile(
       key: key,
@@ -74,7 +75,7 @@ Future<DocumentType?> showDocumentTypeDialog(
   return showDialog<DocumentType>(
     context: context,
     builder: (context) => SimpleDialog(
-      title: const Text('Soort document'),
+      title: Text(S.current.documentType),
       children: [
         for (final type in DocumentType.values)
           SimpleDialogOption(

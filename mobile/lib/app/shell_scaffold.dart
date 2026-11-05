@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'router.dart';
 import 'theme/app_colors.dart';
 import 'theme/app_theme.dart';
+import '../l10n/app_strings.dart';
 
 /// Hoofdindeling met de onderste balk: vier tabbladen en in het midden een
 /// ronde knop om een aankoop toe te voegen.
@@ -12,29 +13,30 @@ class ShellScaffold extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _tabs = [
+  static List<({IconData icon, IconData selected, String label, String key})>
+  get _tabs => [
     (
       icon: Icons.home_outlined,
       selected: Icons.home,
-      label: 'Home',
+      label: S.current.navHome,
       key: 'home',
     ),
     (
       icon: Icons.inventory_2_outlined,
       selected: Icons.inventory_2,
-      label: 'Producten',
+      label: S.current.navProducts,
       key: 'products',
     ),
     (
       icon: Icons.description_outlined,
       selected: Icons.description,
-      label: 'Documenten',
+      label: S.current.navDocuments,
       key: 'documents',
     ),
     (
       icon: Icons.settings_outlined,
       selected: Icons.settings,
-      label: 'Instellingen',
+      label: S.current.navSettings,
       key: 'settings',
     ),
   ];
@@ -162,7 +164,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Aankoop toevoegen',
+      message: S.current.addPurchase,
       child: Material(
         color: AppColors.teal,
         shape: const CircleBorder(),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/errors/user_message.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Een bestand dat de gebruiker heeft gekozen of gefotografeerd.
 class PickedFile {
@@ -72,20 +73,18 @@ class PlatformDocumentPicker implements DocumentPicker {
 
   static String _messageFor(PlatformException e, DocumentSource source) {
     if (e.code == 'camera_access_denied') {
-      return 'Bonvrij heeft geen toegang tot de camera. '
-          'Je kunt dit aanzetten in de instellingen van je telefoon.';
+      return S.current.cameraNoAccess;
     }
     if (e.code == 'photo_access_denied') {
-      return 'Bonvrij heeft geen toegang tot je foto\'s. '
-          'Je kunt dit aanzetten in de instellingen van je telefoon.';
+      return S.current.photosNoAccess;
     }
     if (e.code == 'no_available_camera') {
-      return 'Er is geen camera beschikbaar op dit toestel.';
+      return S.current.noCamera;
     }
     return switch (source) {
-      DocumentSource.camera => 'De camera kon niet worden geopend.',
-      DocumentSource.gallery => 'De fotobibliotheek kon niet worden geopend.',
-      DocumentSource.files => 'Het bestand kon niet worden geopend.',
+      DocumentSource.camera => S.current.cameraOpenFailed,
+      DocumentSource.gallery => S.current.photoLibraryOpenFailed,
+      DocumentSource.files => S.current.fileOpenFailed,
     };
   }
 }

@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import '../../l10n/app_strings.dart';
 
 /// Fout met een begrijpelijke Nederlandse melding voor de gebruiker.
 class AppException implements Exception {
@@ -17,8 +18,7 @@ class AppException implements Exception {
 String userMessageFor(Object error) {
   if (error is AppException) return error.userMessage;
   if (error is DatabaseException) {
-    return 'Je gegevens konden niet worden gelezen of opgeslagen. '
-        'Probeer het opnieuw.';
+    return S.current.errorStorage;
   }
-  return 'Er ging iets mis. Probeer het opnieuw.';
+  return S.current.errorGeneric;
 }

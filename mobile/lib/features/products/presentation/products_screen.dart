@@ -11,6 +11,7 @@ import '../domain/product.dart';
 import '../domain/product_category.dart';
 import '../domain/product_query.dart';
 import 'widgets/product_card.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Productoverzicht met zoeken, filteren op categorie en sorteren.
 class ProductsScreen extends ConsumerStatefulWidget {
@@ -49,10 +50,10 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Producten'),
+        title: Text(S.current.navProducts),
         actions: [
           PopupMenuButton<ProductSort>(
-            tooltip: 'Sorteren',
+            tooltip: S.current.sort,
             icon: const Icon(Icons.tune),
             initialValue: query.sort,
             onSelected: ref.read(productQueryProvider.notifier).setSort,
@@ -76,9 +77,9 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
         data: (products) => products.isEmpty
             ? EmptyState(
                 icon: Icons.inventory_2_outlined,
-                title: 'Nog geen producten',
-                message: 'Producten die je toevoegt, verschijnen hier.',
-                actionLabel: 'Aankoop toevoegen',
+                title: S.current.noProductsTitle,
+                message: S.current.noProductsList,
+                actionLabel: S.current.addPurchase,
                 onAction: () => context.push(AppRoutes.addPurchase),
               )
             : _ProductList(
@@ -127,12 +128,12 @@ class _ProductList extends ConsumerWidget {
             controller: searchController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
-              hintText: 'Zoek op product, merk of winkel',
+              hintText: S.current.searchHint,
               prefixIcon: const Icon(Icons.search),
               suffixIcon: query.searchText.isEmpty
                   ? null
                   : IconButton(
-                      tooltip: 'Zoekopdracht wissen',
+                      tooltip: S.current.clearSearch,
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         searchController.clear();
@@ -161,7 +162,7 @@ class _ProductList extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: AppSpacing.sm),
                   child: ChoiceChip(
-                    label: const Text('Alle'),
+                    label: Text(S.current.all),
                     selected: query.category == null,
                     onSelected: (_) => notifier.setCategory(null),
                   ),
@@ -185,9 +186,9 @@ class _ProductList extends ConsumerWidget {
           child: visible.isEmpty
               ? EmptyState(
                   icon: Icons.search_off,
-                  title: 'Geen producten gevonden',
-                  message: 'Probeer een andere zoekterm of categorie.',
-                  actionLabel: 'Filters wissen',
+                  title: S.current.noProductsFound,
+                  message: S.current.tryOtherSearch,
+                  actionLabel: S.current.clearFilters,
                   actionIcon: Icons.filter_alt_off_outlined,
                   onAction: onClearFilters,
                 )

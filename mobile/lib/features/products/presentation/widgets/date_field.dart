@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/dates.dart';
+import '../../../../l10n/app_strings.dart';
 
 /// Formulierveld voor een kalenderdatum met de Nederlandse datumkiezer.
 class DateField extends StatelessWidget {
@@ -35,8 +36,8 @@ class DateField extends StatelessWidget {
       firstDate: firstDate,
       lastDate: lastDate,
       helpText: label,
-      cancelText: 'Annuleren',
-      confirmText: 'Kiezen',
+      cancelText: S.current.cancel,
+      confirmText: S.current.choose,
     );
     if (picked != null) onChanged(Dates.dateOnly(picked));
   }
@@ -45,7 +46,7 @@ class DateField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final text = value == null
-        ? 'Geen datum gekozen'
+        ? S.current.noDateChosen
         : Dates.formatLong(value!);
 
     final field = InkWell(
@@ -60,7 +61,7 @@ class DateField extends StatelessWidget {
           border: const OutlineInputBorder(),
           suffixIcon: allowClear && value != null
               ? IconButton(
-                  tooltip: 'Datum wissen',
+                  tooltip: S.current.clearDate,
                   icon: const Icon(Icons.clear),
                   onPressed: () => onChanged(null),
                 )
@@ -80,7 +81,11 @@ class DateField extends StatelessWidget {
     // Met wisknop blijven beide knoppen apart bereikbaar.
     if (allowClear && value != null) return field;
     return MergeSemantics(
-      child: Semantics(button: true, onTapHint: 'Datum kiezen', child: field),
+      child: Semantics(
+        button: true,
+        onTapHint: S.current.chooseDate,
+        child: field,
+      ),
     );
   }
 }

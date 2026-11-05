@@ -9,6 +9,7 @@ import '../application/document_service.dart';
 import '../domain/document.dart';
 import 'document_capture.dart';
 import 'document_widgets.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Aankoopbewijzen op het detailscherm van een product.
 class ProductDocumentsSection extends ConsumerWidget {
@@ -28,9 +29,7 @@ class ProductDocumentsSection extends ConsumerWidget {
     if (staged == null) return;
     try {
       await service.attach(staged, productId);
-      messenger.showSnackBar(
-        const SnackBar(content: Text('Document toegevoegd.')),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(S.current.documentAdded)));
     } catch (error) {
       await service.discard(staged);
       messenger.showSnackBar(SnackBar(content: Text(userMessageFor(error))));
@@ -73,8 +72,8 @@ class ProductDocumentsSection extends ConsumerWidget {
               AppSpacing.xs,
             ),
             child: Text(switch (documents) {
-              AsyncData(:final value) => 'Documenten (${value.length})',
-              _ => 'Documenten',
+              AsyncData(:final value) => S.current.documentsCount(value.length),
+              _ => S.current.navDocuments,
             }, style: theme.textTheme.titleMedium),
           ),
           documents.when(
@@ -93,8 +92,7 @@ class ProductDocumentsSection extends ConsumerWidget {
                       vertical: AppSpacing.sm,
                     ),
                     child: Text(
-                      'Nog geen documenten. Voeg een kassabon, factuur of '
-                      'garantiebewijs toe.',
+                      S.current.noDocumentsForProduct,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -109,7 +107,7 @@ class ProductDocumentsSection extends ConsumerWidget {
                           onTap: () =>
                               context.push(AppRoutes.document(document.id)),
                           trailing: IconButton(
-                            tooltip: 'Soort wijzigen',
+                            tooltip: S.current.changeType,
                             icon: const Icon(Icons.label_outline),
                             onPressed: () =>
                                 _changeType(context, ref, document),
@@ -126,7 +124,7 @@ class ProductDocumentsSection extends ConsumerWidget {
                 key: const Key('documents.add'),
                 onPressed: () => _add(context, ref),
                 icon: const Icon(Icons.add),
-                label: const Text('Document toevoegen'),
+                label: Text(S.current.addDocument),
               ),
             ),
           ),

@@ -13,6 +13,7 @@ import '../features/products/presentation/new_product_args.dart';
 import '../features/recognition/application/recognition_service.dart';
 import '../features/recognition/presentation/recognize_document.dart';
 import '../features/reminders/application/reminder_service.dart';
+import '../l10n/app_locale.dart';
 import 'router.dart';
 import 'theme/app_colors.dart';
 import 'theme/app_theme.dart';
@@ -153,10 +154,10 @@ class _BonvrijAppState extends ConsumerState<BonvrijApp> {
       theme: AppTheme.light(),
       routerConfig: router,
       scaffoldMessengerKey: _messengerKey,
-      // Alle gebruikersgerichte tekst is Nederlands, ook standaardteksten van
-      // Material-componenten zoals datumkiezers.
-      locale: const Locale('nl', 'NL'),
-      supportedLocales: const [Locale('nl', 'NL')],
+      // Taal van de app (Nederlands of Engels), ook voor standaardteksten van
+      // Material-componenten zoals datumkiezers. Zie AppLocale.
+      locale: AppLocale.current,
+      supportedLocales: AppLocale.supported,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
     );
   }

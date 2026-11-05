@@ -6,6 +6,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../documents/domain/document.dart';
 import '../application/recognition_service.dart';
 import '../domain/parsed_receipt.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Stand van het herkennen, voor het voortgangsscherm.
 @immutable
@@ -25,10 +26,10 @@ class RecognitionStatus {
   /// Bijv. "Tekst herkennen… pagina 2 van 3".
   final String detail;
 
-  static const start = RecognitionStatus(
+  static RecognitionStatus get start => RecognitionStatus(
     step: 0,
     progress: 0.1,
-    detail: 'Tekst herkennen…',
+    detail: S.current.recognizingText,
   );
 }
 
@@ -62,27 +63,21 @@ Future<ParsedReceipt?> recognizeWithProgress({
         detail: p.message,
       ),
     );
-    status.value = const RecognitionStatus(
+    status.value = RecognitionStatus(
       step: 2,
       progress: 1,
-      detail: 'Velden invullen…',
+      detail: S.current.fillingFields,
     );
     if (!result.hasAnything) {
       messenger?.showSnackBar(
-        const SnackBar(
-          content: Text('Er zijn geen gegevens herkend. Vul ze zelf in.'),
-        ),
+        SnackBar(content: Text(S.current.nothingRecognized)),
       );
     }
     return result;
   } catch (error) {
     debugPrint('Herkennen mislukt (${error.runtimeType})');
     messenger?.showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Automatisch herkennen lukte niet. Vul de gegevens zelf in.',
-        ),
-      ),
+      SnackBar(content: Text(S.current.recognitionFailed)),
     );
     return null;
   } finally {
@@ -96,10 +91,10 @@ class _RecognitionPage extends StatelessWidget {
 
   final ValueListenable<RecognitionStatus> status;
 
-  static const _steps = [
-    'Tekst herkennen',
-    'Gegevens verwerken',
-    'Velden invullen',
+  static List<String> get _steps => [
+    S.current.recognizeText,
+    S.current.stepProcess,
+    S.current.stepFill,
   ];
 
   @override
@@ -110,7 +105,7 @@ class _RecognitionPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Gegevens herkennen'),
+          title: Text(S.current.recognizeDetails),
         ),
         body: SafeArea(
           child: ValueListenableBuilder<RecognitionStatus>(
@@ -128,14 +123,13 @@ class _RecognitionPage extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 Text(
-                  'We lezen je bon…',
+                  S.current.readingReceipt,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleLarge,
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'Dit kan enkele seconden duren. Alles gebeurt op je '
-                  'telefoon.',
+                  S.current.recognitionTakesSeconds,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
@@ -147,7 +141,7 @@ class _RecognitionPage extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: s.progress,
                     minHeight: 8,
-                    semanticsLabel: 'Voortgang herkennen',
+                    semanticsLabel: S.current.recognitionProgress,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),

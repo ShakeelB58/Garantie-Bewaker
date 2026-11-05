@@ -5,6 +5,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/utils/dates.dart';
 import '../domain/reminder_planner.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Lokale meldingen op het toestel. Er is geen pushserver: meldingen worden
 /// door het besturingssysteem zelf op het geplande moment getoond.
@@ -43,16 +44,16 @@ class LocalReminderNotifications implements ReminderNotifications {
   Future<void>? _initialized;
   void Function(String productId)? _onOpenProduct;
 
-  static const _details = NotificationDetails(
+  static NotificationDetails get _details => NotificationDetails(
     android: AndroidNotificationDetails(
       'herinneringen',
-      'Herinneringen',
-      channelDescription: 'Herinneringen op door jou ingestelde datums',
+      S.current.reminders,
+      channelDescription: S.current.notificationChannelDescription,
       // Op het vergrendelscherm geen productnaam tonen.
       visibility: NotificationVisibility.private,
-      color: Color(0xFF0B7A75),
+      color: const Color(0xFF0B7A75),
     ),
-    iOS: DarwinNotificationDetails(),
+    iOS: const DarwinNotificationDetails(),
   );
 
   @override
@@ -138,12 +139,10 @@ class LocalReminderNotifications implements ReminderNotifications {
       await _schedule(
         id: reminder.notificationId,
         at: reminder.triggerAt,
-        title: 'Herinnering: ${reminder.productName}',
+        title: S.current.notificationTitle(reminder.productName),
         body: end == null
-            ? 'Je hebt deze herinnering zelf ingesteld. Controleer je '
-                  'aankoopbewijs en garantie.'
-            : 'Je garantie-einddatum is ${Dates.formatLong(end)}. '
-                  'Controleer je aankoopbewijs.',
+            ? S.current.notificationBodyNoEnd
+            : S.current.notificationBodyWithEnd(Dates.formatLong(end)),
         payload: reminder.productId,
       );
     }
@@ -161,8 +160,8 @@ class LocalReminderNotifications implements ReminderNotifications {
     await _schedule(
       id: ReminderPlanner.testNotificationId,
       at: DateTime.now().add(const Duration(minutes: 1)),
-      title: 'Testmelding',
-      body: 'Meldingen van Bonvrij werken.',
+      title: S.current.testNotificationTitle,
+      body: S.current.testNotificationBody,
     );
   }
 

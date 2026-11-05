@@ -10,12 +10,13 @@ import '../data/document_picker.dart';
 import '../domain/document.dart';
 import 'photo_review_screen.dart';
 import 'scanner_screen.dart';
+import '../../../l10n/app_strings.dart';
 
 extension DocumentSourceLabel on DocumentSource {
   String get label => switch (this) {
-    DocumentSource.camera => 'Foto maken',
-    DocumentSource.gallery => 'Kiezen uit foto\'s',
-    DocumentSource.files => 'Kiezen uit bestanden (PDF of afbeelding)',
+    DocumentSource.camera => S.current.takePhoto,
+    DocumentSource.gallery => S.current.chooseFromPhotos,
+    DocumentSource.files => S.current.chooseFromFiles,
   };
 
   IconData get icon => switch (this) {
@@ -101,7 +102,7 @@ Future<StagedDocument?> acquireDocument(
     DialogRoute<void>(
       context: navigator.context,
       barrierDismissible: false,
-      builder: (_) => const _ProgressDialog(message: 'Document opslaan…'),
+      builder: (_) => _ProgressDialog(message: S.current.savingDocument),
     ),
   );
   try {

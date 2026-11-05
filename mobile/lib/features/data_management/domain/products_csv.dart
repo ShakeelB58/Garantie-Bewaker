@@ -1,24 +1,25 @@
 import '../../../core/utils/money.dart';
 import '../../products/domain/product.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Productgegevens als CSV voor Excel/Numbers met Nederlandse instellingen:
 /// puntkomma als scheidingsteken, datums als dd-mm-jjjj, bedragen met komma.
 abstract final class ProductsCsv {
   static const separator = ';';
 
-  static const header = [
-    'Naam',
-    'Merk',
-    'Serienummer of IMEI',
-    'Categorie',
-    'Winkel',
-    'Aankoopdatum',
-    'Aankoopprijs',
-    'Valuta',
-    'Garantie tot',
-    'Herinnering aan',
-    'Herinneringsdatum',
-    'Aantal documenten',
+  static List<String> get header => [
+    S.current.csvName,
+    S.current.csvBrand,
+    S.current.serialNumber,
+    S.current.category,
+    S.current.csvMerchant,
+    S.current.purchaseDate,
+    S.current.purchasePrice,
+    S.current.currency,
+    S.current.csvWarrantyUntil,
+    S.current.csvReminderOn,
+    S.current.csvReminderDate,
+    S.current.csvDocumentCount,
   ];
 
   /// [documentCounts]: aantal documenten per product-id.
@@ -43,7 +44,7 @@ abstract final class ProductsCsv {
           product.warrantyEndDate == null
               ? ''
               : _date(product.warrantyEndDate!),
-          product.reminderEnabled ? 'ja' : 'nee',
+          product.reminderEnabled ? S.current.yes : S.current.no,
           product.reminderDate == null ? '' : _date(product.reminderDate!),
           '${documentCounts[product.id] ?? 0}',
         ]),

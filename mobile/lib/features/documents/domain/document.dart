@@ -1,14 +1,23 @@
+import '../../../l10n/app_strings.dart';
+
 /// Soort aankoopbewijs. De [key] wordt opgeslagen en mag nooit veranderen.
 enum DocumentType {
-  receipt('receipt', 'Kassabon'),
-  invoice('invoice', 'Factuur'),
-  warranty('warranty', 'Garantiebewijs'),
-  other('other', 'Overig');
+  receipt('receipt'),
+  invoice('invoice'),
+  warranty('warranty'),
+  other('other');
 
-  const DocumentType(this.key, this.label);
+  const DocumentType(this.key);
 
   final String key;
-  final String label;
+
+  /// Naam in de taal van de app.
+  String get label => switch (this) {
+    receipt => S.current.docReceipt,
+    invoice => S.current.docInvoice,
+    warranty => S.current.docWarranty,
+    other => S.current.catOther,
+  };
 
   static DocumentType fromKey(String key) => DocumentType.values.firstWhere(
     (t) => t.key == key,

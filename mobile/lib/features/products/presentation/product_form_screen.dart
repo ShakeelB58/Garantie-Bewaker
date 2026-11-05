@@ -23,6 +23,7 @@ import '../domain/product.dart';
 import '../domain/product_category.dart';
 import '../domain/product_input.dart';
 import 'widgets/date_field.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Product toevoegen (zonder [productId]) of bewerken (met [productId]).
 ///
@@ -55,17 +56,17 @@ class ProductFormScreen extends ConsumerWidget {
     final product = ref.watch(productByIdProvider(id));
     return product.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Product bewerken')),
+        appBar: AppBar(title: Text(S.current.editProduct)),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        appBar: AppBar(title: const Text('Product bewerken')),
+        appBar: AppBar(title: Text(S.current.editProduct)),
         body: ErrorView(error: error),
       ),
       data: (product) => product == null
           ? Scaffold(
-              appBar: AppBar(title: const Text('Product bewerken')),
-              body: const Center(child: Text('Dit product bestaat niet meer.')),
+              appBar: AppBar(title: Text(S.current.editProduct)),
+              body: Center(child: Text(S.current.productGone)),
             )
           : _ProductForm(key: ValueKey(product.id), initial: product),
     );
@@ -160,6 +161,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       _merchant.text = merchant.value!;
       _recognized[ProductField.merchant] = merchant.confidence;
     }
+    // Valuta van de bon (bijv. pond of dollar), als de app die kent.
+    if (r.totalMinor.isFound &&
+        Money.supportedCurrencies.contains(r.currency)) {
+      _currency = r.currency;
+    }
     final serial = r.serialNumber;
     if (serial.value != null) {
       _serial.text = serial.value!;
@@ -202,9 +208,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high || RecognitionConfidence.medium =>
-        'Herkend uit het document. Controleer dit.',
-      _ => 'Onzeker herkend. Controleer dit goed.',
+      RecognitionConfidence.high ||
+      RecognitionConfidence.medium => S.current.recognizedHint,
+      _ => S.current.uncertainHint,
     };
   }
 
@@ -240,12 +246,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final recognized = _recognitionHint(ProductField.serialNumber);
     if (recognized != null) return recognized;
     if (_serialLooksLikeWrongImei) {
-      return 'Dit lijkt een IMEI-nummer, maar het controlecijfer klopt niet. '
-          'Controleer het nummer.';
+      return S.current.imeiChecksumWarning;
     }
     return _category == ProductCategory.phoneTablet
-        ? 'Het IMEI-nummer zie je door *#06# te bellen.'
-        : 'Handig voor je verzekering, samen met de bon.';
+        ? S.current.imeiHint
+        : S.current.serialHint;
   }
 
   bool get _serialLooksLikeWrongImei =>
@@ -300,10 +305,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       granted = false;
     }
     if (!granted && mounted) {
-      _showMessage(
-        'Meldingen staan uit voor Bonvrij. De herinnering wordt wel '
-        'bewaard. Zet meldingen aan in de instellingen van je telefoon.',
-      );
+      _showMessage(S.current.notificationsOffReminderSaved);
     }
   }
 
@@ -322,7 +324,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final errors = ProductValidator.validate(input, today: now);
     setState(() => _errors = errors);
     if (errors.isNotEmpty) {
-      _showMessage('Controleer de gemarkeerde velden.');
+      _showMessage(S.current.checkMarkedFields);
       return;
     }
 
@@ -377,9 +379,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         SnackBar(
           content: Text(
             documentFailed
-                ? 'Product opgeslagen, maar een document kon niet worden '
-                      'toegevoegd. Probeer het opnieuw via het productscherm.'
-                : 'Product opgeslagen.',
+                ? S.current.productSavedDocumentFailed
+                : S.current.productSaved,
           ),
         ),
       );
@@ -418,16 +419,16 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       builder: (context) => AlertDialog(
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
-        title: const Text('Wijzigingen weggooien?'),
-        content: const Text('Je wijzigingen worden niet opgeslagen.'),
+        title: Text(S.current.discardChangesQuestion),
+        content: Text(S.current.changesNotSaved),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Verder bewerken'),
+            child: Text(S.current.keepEditing),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Weggooien'),
+            child: Text(S.current.discard),
           ),
         ],
       ),
@@ -469,10 +470,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
           leading: BackButton(onPressed: _handleBack),
           title: Text(
             _isEdit
-                ? 'Product bewerken'
+                ? S.current.editProduct
                 : widget.recognition?.hasAnything ?? false
-                ? 'Gegevens controleren'
-                : 'Product toevoegen',
+                ? S.current.checkDetails
+                : S.current.addProduct,
           ),
         ),
         body: ListView(
@@ -491,7 +492,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               ),
               const SizedBox(height: AppSpacing.lg),
             ],
-            const _SectionTitle('Product'),
+            _SectionTitle(S.current.product),
             TextField(
               key: const Key('productForm.name'),
               controller: _name,
@@ -499,8 +500,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               textInputAction: TextInputAction.next,
               maxLength: ProductValidator.maxNameLength,
               decoration: InputDecoration(
-                labelText: 'Productnaam *',
-                hintText: 'bijv. Wasmachine',
+                labelText: S.current.productNameRequired,
+                hintText: S.current.productNameHint,
                 errorText: _errors[ProductField.name],
                 helperText: _recognitionHint(ProductField.name),
                 helperStyle: _hintStyle(ProductField.name),
@@ -517,7 +518,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: 'Merk (optioneel)',
+                labelText: S.current.brandOptional,
                 errorText: _errors[ProductField.brand],
                 border: const OutlineInputBorder(),
               ),
@@ -528,9 +529,9 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               isExpanded: true,
               key: const Key('productForm.category'),
               initialValue: _category,
-              decoration: const InputDecoration(
-                labelText: 'Categorie',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: S.current.category,
+                border: const OutlineInputBorder(),
               ),
               items: [
                 for (final category in ProductCategory.values)
@@ -553,7 +554,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               textInputAction: TextInputAction.next,
               maxLength: ProductValidator.maxSerialLength,
               decoration: InputDecoration(
-                labelText: 'Serienummer of IMEI (optioneel)',
+                labelText: S.current.serialOptional,
                 errorText: _errors[ProductField.serialNumber],
                 helperText: _serialHelper(),
                 helperMaxLines: 3,
@@ -572,14 +573,14 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               onChanged: (_) => _changed(ProductField.serialNumber, () {}),
             ),
             const SizedBox(height: AppSpacing.lg),
-            const _SectionTitle('Aankoop'),
+            _SectionTitle(S.current.purchase),
             TextField(
               key: const Key('productForm.merchant'),
               controller: _merchant,
               textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: 'Winkel of verkoper (optioneel)',
+                labelText: S.current.merchantOptional,
                 errorText: _errors[ProductField.merchant],
                 helperText: _recognitionHint(ProductField.merchant),
                 helperStyle: _hintStyle(ProductField.merchant),
@@ -591,7 +592,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             const SizedBox(height: AppSpacing.md),
             DateField(
               key: const Key('productForm.purchaseDate'),
-              label: 'Aankoopdatum *',
+              label: S.current.purchaseDateRequired,
               value: _purchaseDate,
               firstDate: firstDate,
               lastDate: today,
@@ -612,8 +613,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 ),
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
-                  labelText: 'Aankoopprijs (optioneel)',
-                  hintText: 'bijv. 1.299,00',
+                  labelText: S.current.priceOptional,
+                  hintText: S.current.priceHint,
                   errorText: _errors[ProductField.price],
                   errorMaxLines: 2,
                   helperText: _recognitionHint(ProductField.price),
@@ -629,7 +630,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 key: const Key('productForm.currency'),
                 initialValue: _currency,
                 decoration: InputDecoration(
-                  labelText: 'Valuta',
+                  labelText: S.current.currency,
                   errorText: _errors[ProductField.currency],
                   border: const OutlineInputBorder(),
                 ),
@@ -645,13 +646,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
-            const _SectionTitle('Garantie en herinnering'),
+            _SectionTitle(S.current.warrantyAndReminder),
             DateField(
               key: const Key('productForm.warrantyEndDate'),
-              label: 'Garantie-einddatum (optioneel)',
-              helperText:
-                  'Vul zelf in tot wanneer je garantie hebt. '
-                  'De app berekent dit niet.',
+              label: S.current.warrantyEndOptional,
+              helperText: S.current.warrantyEndHelper,
               value: _warrantyEndDate,
               firstDate: firstDate,
               lastDate: lastFutureDate,
@@ -666,11 +665,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             SwitchListTile(
               key: const Key('productForm.reminderEnabled'),
               contentPadding: EdgeInsets.zero,
-              title: const Text('Herinnering instellen'),
-              subtitle: const Text(
-                'Je krijgt rond 9:00 uur een melding op de gekozen datum. '
-                'Het precieze moment bepaalt je telefoon.',
-              ),
+              title: Text(S.current.setReminder),
+              subtitle: Text(S.current.setReminderHelper),
               value: _reminderEnabled,
               onChanged: (value) {
                 _changed(ProductField.reminderDate, () {
@@ -695,7 +691,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             if (_reminderEnabled)
               DateField(
                 key: const Key('productForm.reminderDate'),
-                label: 'Herinneringsdatum',
+                label: S.current.csvReminderDate,
                 value: _reminderDate,
                 firstDate: firstDate,
                 lastDate: lastFutureDate,
@@ -707,17 +703,18 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               ),
             if (!_isEdit) ...[
               const SizedBox(height: AppSpacing.lg),
-              const _SectionTitle('Aankoopbewijzen'),
+              _SectionTitle(S.current.proofsOfPurchase),
               for (final staged in _staged)
                 Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                   child: Card(
                     child: DocumentTile(
                       title: staged.type.label,
-                      subtitle: staged.originalFilename ?? 'Nieuw document',
+                      subtitle:
+                          staged.originalFilename ?? S.current.newDocument,
                       format: staged.format,
                       trailing: IconButton(
-                        tooltip: 'Document weghalen',
+                        tooltip: S.current.removeDocument,
                         icon: const Icon(Icons.close),
                         onPressed: () => _removeStaged(staged),
                       ),
@@ -730,13 +727,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                   key: const Key('productForm.addDocument'),
                   onPressed: _addDocument,
                   icon: const Icon(Icons.add),
-                  label: const Text('Document toevoegen'),
+                  label: Text(S.current.addDocument),
                 ),
               ),
             ],
             const SizedBox(height: AppSpacing.lg),
             Text(
-              '* verplicht',
+              S.current.requiredNote,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -761,7 +758,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : const Icon(Icons.check),
-              label: Text(_saving ? 'Bezig met opslaan…' : 'Opslaan'),
+              label: Text(_saving ? S.current.saving : S.current.save),
             ),
           ),
         ),
@@ -858,7 +855,9 @@ class _RecognitionBanner extends StatelessWidget {
                         borderRadius: BorderRadius.circular(999),
                       ),
                       child: Text(
-                        good ? 'Herkenning: goed' : 'Herkenning: controleren',
+                        good
+                            ? S.current.recognitionGood
+                            : S.current.recognitionCheck,
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: good ? AppColors.navy : AppColors.warning,
                           fontWeight: FontWeight.w700,
@@ -869,17 +868,15 @@ class _RecognitionBanner extends StatelessWidget {
                   ],
                   Text(
                     found
-                        ? 'Gegevens overgenomen uit het document'
-                        : 'Geen gegevens herkend',
+                        ? S.current.dataTakenFromDocument
+                        : S.current.noDataRecognized,
                     style: theme.textTheme.titleSmall,
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     found
-                        ? 'Controleer alles voordat je opslaat. Velden met '
-                              'een waarschuwing zijn onzeker herkend.'
-                        : 'Vul de gegevens zelf in. Het document wordt wel '
-                              'bij het product bewaard.',
+                        ? S.current.checkBeforeSaving
+                        : S.current.fillInYourself,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -887,8 +884,9 @@ class _RecognitionBanner extends StatelessWidget {
                   if (total != null) ...[
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'Totaalbedrag op het document: '
-                      '${Money.format(total, recognition.currency)}',
+                      S.current.totalOnDocument(
+                        Money.format(total, recognition.currency),
+                      ),
                       style: theme.textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -924,10 +922,9 @@ class _ProductChoice extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _SectionTitle('Welk product wil je bewaren?'),
+        _SectionTitle(S.current.whichProduct),
         Text(
-          'Er staan meerdere producten op het document. Kies er een; '
-          'je kunt de andere daarna apart toevoegen.',
+          S.current.multipleProducts,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
