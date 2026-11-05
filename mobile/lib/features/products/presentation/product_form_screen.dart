@@ -161,6 +161,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       _merchant.text = merchant.value!;
       _recognized[ProductField.merchant] = merchant.confidence;
     }
+    // Valuta van de bon (bijv. pond of dollar), als de app die kent.
+    if (r.totalMinor.isFound &&
+        Money.supportedCurrencies.contains(r.currency)) {
+      _currency = r.currency;
+    }
     final serial = r.serialNumber;
     if (serial.value != null) {
       _serial.text = serial.value!;

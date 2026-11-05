@@ -3,8 +3,9 @@ import '../../../core/utils/imei.dart';
 import '../../../core/utils/money.dart';
 import 'parsed_receipt.dart';
 
-/// Zet herkende tekst van een Nederlandse kassabon of factuur om naar
-/// kandidaatvelden. Werkt met vaste regels; geen AI en geen netwerk.
+/// Zet herkende tekst van een kassabon of factuur om naar kandidaatvelden.
+/// Werkt met vaste regels; geen AI en geen netwerk. Begrijpt Nederlandse en
+/// Engelse bonnen, met Nederlandse (1.299,00) en Engelse (1,299.00) bedragen.
 ///
 /// Verwacht tekst met één regel per printregel (de OCR-laag zet woorden op
 /// dezelfde hoogte al op één regel).
@@ -23,6 +24,10 @@ class ReceiptParser {
         .where((l) => l.isNotEmpty)
         .toList();
     if (lines.isEmpty) return ParsedReceipt.empty;
+
+    final currency = detectCurrency(lines);
+    // Amerikaanse datums (maand eerst) alleen als de bon in dollars is.
+    final monthFirst = currency == 'USD';
 
     final total = _findTotal(lines);
     final items = _findItems(lines, total.lineIndex);
@@ -48,7 +53,11 @@ class ReceiptParser {
                 : RecognitionConfidence.low,
           );
 
-    final purchaseDate = _findDate(lines, Dates.dateOnly(today));
+    final purchaseDate = _findDate(
+      lines,
+      Dates.dateOnly(today),
+      monthFirst: monthFirst,
+    );
 
     // Geen bedrag en geen datum: dit is waarschijnlijk geen aankoopbewijs
     // (bijv. een foto van een muur of verpakking met wat losse tekst).
@@ -67,8 +76,28 @@ class ReceiptParser {
       lineItems: items,
       productCandidates: goods,
       serialNumber: findSerialNumber(lines),
+      currency: currency,
       vatMinor: _findVat(lines),
     );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Valuta
+
+  /// `EUR`, `GBP`, `USD` of `CHF`, op basis van tekens en codes op de bon.
+  /// Zonder duidelijke aanwijzing: euro.
+  static String detectCurrency(List<String> lines) {
+    final text = lines.join(' ');
+    int count(String pattern) =>
+        RegExp(pattern, caseSensitive: false).allMatches(text).length;
+    final scores = {
+      'EUR': count(r'€|\bEUR\b'),
+      'GBP': count(r'£|\bGBP\b'),
+      'USD': count(r'\$|\bUSD\b'),
+      'CHF': count(r'\bCHF\b'),
+    };
+    final best = scores.entries.reduce((a, b) => b.value > a.value ? b : a);
+    return best.value == 0 ? 'EUR' : best.key;
   }
 
   // ---------------------------------------------------------------------------
@@ -122,16 +151,18 @@ class ReceiptParser {
   // ---------------------------------------------------------------------------
   // Bedragen
 
-  /// `1.299,00`, `1299,00`, `29,99`, `3.49`; met optioneel minteken ervoor.
+  /// `1.299,00`, `1299,00`, `29,99`, `3.49`, `1,299.00`; met optioneel
+  /// minteken ervoor.
   static final _amount = RegExp(
-    r'(?<![\d.,])(-\s?)?(\d{1,3}(?:\.\d{3})+,\d{2}|\d+,\d{2}|\d+\.\d{2})(?!\d|[.,]\d)',
+    r'(?<![\d.,])(-\s?)?(\d{1,3}(?:\.\d{3})+,\d{2}|\d{1,3}(?:,\d{3})+\.\d{2}|\d+,\d{2}|\d+\.\d{2})(?!\d|[.,]\d)',
   );
 
   /// Alle bedragen op een regel, met hun positie. Negatief = korting.
   static List<({int value, int start})> amountsIn(String line) {
     final result = <({int value, int start})>[];
     for (final match in _amount.allMatches(line)) {
-      final value = Money.parseToMinor(match.group(2)!);
+      // Vaste regels, los van de taal van de app.
+      final value = Money.parseToMinor(match.group(2)!, dutch: true);
       if (value == null) continue;
       result.add((
         value: match.group(1) != null ? -value : value,
@@ -150,25 +181,35 @@ class ReceiptParser {
   // Datums
 
   static const _months = {
-    'jan': 1, 'feb': 2, 'mrt': 3, 'maa': 3, 'apr': 4, 'mei': 5, 'jun': 6, //
-    'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'oct': 10, 'nov': 11, 'dec': 12,
+    'jan': 1, 'feb': 2, 'mrt': 3, 'maa': 3, 'mar': 3, 'apr': 4, 'mei': 5, //
+    'may': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'oct': 10,
+    'nov': 11, 'dec': 12,
   };
+  static const _monthNames =
+      r'jan(?:uari|uary)?|feb(?:ruari|ruary)?|mrt|maart|mar(?:ch)?|apr(?:il)?|mei|may|june?|juni|july?|juli|aug(?:ustus|ust)?|sep(?:t(?:ember)?)?|okt(?:ober)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?';
   static final _numericDate = RegExp(
     r'(?<!\d)(\d{1,2})[-/.](\d{1,2})[-/.](\d{4}|\d{2})(?!\d)',
   );
   static final _isoDate = RegExp(r'(?<!\d)(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)');
+  /// `19 okt 2026`, `19 October 2026`, `19-Oct-2026`.
   static final _textDate = RegExp(
-    r'(?<![A-Za-z0-9])(\d{1,2})\s+(jan(?:uari)?|feb(?:ruari)?|mrt|maart|apr(?:il)?|mei|juni?|juli?|aug(?:ustus)?|sep(?:t(?:ember)?)?|okt(?:ober)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(\d{4})(?!\d)',
+    '(?<![A-Za-z0-9])(\\d{1,2})(?:st|nd|rd|th)?[\\s-]+($_monthNames)\\.?,?[\\s-]+(\\d{4})(?!\\d)',
+    caseSensitive: false,
+  );
+
+  /// `October 19, 2026`, `Oct 19 2026` (Engels, maand eerst).
+  static final _textDateMonthFirst = RegExp(
+    '(?<![A-Za-z])($_monthNames)\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s+(\\d{4})(?!\\d)',
     caseSensitive: false,
   );
   static final _dateKeyword = RegExp(
-    r'(datum|date|gekocht)',
+    r'(datum|date|gekocht|purchased|order(?:ed)?|transaction)',
     caseSensitive: false,
   );
 
   /// Datums die niet de aankoopdatum zijn.
   static final _dateNegative = RegExp(
-    r'(verval|uiterlijk|geldig tot|garantie tot|lever|retour|ruilen tot|houdbaar)',
+    r'(verval|uiterlijk|geldig tot|garantie tot|lever|retour|ruilen tot|houdbaar|\bdue\b|expir|valid until|return by|returns? until|deliver|dispatch|ship|best before|warranty until)',
     caseSensitive: false,
   );
 
@@ -182,7 +223,15 @@ class ReceiptParser {
     return date;
   }
 
-  static List<DateTime> datesIn(String line, DateTime today) {
+  /// Alle datums op een regel. Bij `1/2/2026` (dag en maand allebei 12 of
+  /// lager) bepaalt [monthFirst] de volgorde: Amerikaans (maand eerst) of
+  /// Europees (dag eerst). Is één van beide groter dan 12, dan is het
+  /// duidelijk.
+  static List<DateTime> datesIn(
+    String line,
+    DateTime today, {
+    bool monthFirst = false,
+  }) {
     final result = <DateTime>[];
     for (final m in _isoDate.allMatches(line)) {
       final date = _makeDate(
@@ -196,10 +245,13 @@ class ReceiptParser {
     for (final m in _numericDate.allMatches(line)) {
       var year = int.parse(m.group(3)!);
       if (year < 100) year += 2000;
+      final a = int.parse(m.group(1)!);
+      final b = int.parse(m.group(2)!);
+      final dayFirst = a > 12 || (b <= 12 && !monthFirst);
       final date = _makeDate(
         year,
-        int.parse(m.group(2)!),
-        int.parse(m.group(1)!),
+        dayFirst ? b : a,
+        dayFirst ? a : b,
         today,
       );
       if (date != null) result.add(date);
@@ -215,14 +267,29 @@ class ReceiptParser {
       );
       if (date != null) result.add(date);
     }
+    for (final m in _textDateMonthFirst.allMatches(line)) {
+      final month = _months[m.group(1)!.toLowerCase().substring(0, 3)];
+      if (month == null) continue;
+      final date = _makeDate(
+        int.parse(m.group(3)!),
+        month,
+        int.parse(m.group(2)!),
+        today,
+      );
+      if (date != null) result.add(date);
+    }
     return result;
   }
 
-  RecognizedField<DateTime> _findDate(List<String> lines, DateTime today) {
+  RecognizedField<DateTime> _findDate(
+    List<String> lines,
+    DateTime today, {
+    required bool monthFirst,
+  }) {
     final keyed = <DateTime>[];
     final other = <DateTime>[];
     for (final line in lines) {
-      final dates = datesIn(line, today);
+      final dates = datesIn(line, today, monthFirst: monthFirst);
       if (dates.isEmpty || _dateNegative.hasMatch(line)) continue;
       (_dateKeyword.hasMatch(line) ? keyed : other).addAll(dates);
     }
@@ -251,22 +318,25 @@ class ReceiptParser {
   static final _totalKeys = [
     (
       RegExp(
-        r'\b(?:totaal te betalen|te betalen|eindtotaal|totaalbedrag)\b',
+        r'\b(?:totaal te betalen|te betalen|eindtotaal|totaalbedrag|amount due|total due|balance due|grand total|total to pay|amount to pay|total amount|amount payable|total payable)\b',
         caseSensitive: false,
       ),
       3,
     ),
     (RegExp(r'\b(?:totaal|total)\b', caseSensitive: false), 2),
-    (RegExp(r'\b(?:bedrag)\b', caseSensitive: false), 1),
+    (RegExp(r'\b(?:bedrag|amount)\b', caseSensitive: false), 1),
   ];
   static final _totalNegative = RegExp(
-    r'(sub\s?-?\s?totaal|subtotal|excl|korting|wisselgeld|retour|statiegeld|spaar|punten|aantal artikelen|totaal artikelen|art\.|omschrijving|aantal|prijs|voordeel|bespaard|besparing|saldo)',
+    r'(sub\s?-?\s?totaal|sub\s?-?\s?total|excl|korting|wisselgeld|retour|statiegeld|spaar|punten|aantal artikelen|totaal artikelen|art\.|omschrijving|aantal|prijs|voordeel|bespaard|besparing|saldo|discount|\bchange\b|you saved|savings|points|\bqty\b|quantity|unit price|\bprice\b|refund)',
     caseSensitive: false,
   );
-  static final _vatWord = RegExp(r'\b(btw|vat)\b', caseSensitive: false);
-  static final _incl = RegExp(r'incl', caseSensitive: false);
+  static final _vatWord = RegExp(
+    r'\b(btw|vat|tax|gst)\b',
+    caseSensitive: false,
+  );
+  static final _incl = RegExp(r'incl|\binc\b|including', caseSensitive: false);
   static final _payment = RegExp(
-    r'\b(pin|pinnen|betaald|contant|maestro|v ?pay|visa|mastercard|creditcard|ideal|betaling|bankpas)\b',
+    r'\b(pin|pinnen|betaald|contant|maestro|v ?pay|visa|mastercard|creditcard|ideal|betaling|bankpas|card|contactless|debit|credit|cash|paid|payment|amex|apple pay|google pay|paypal)\b',
     caseSensitive: false,
   );
 
@@ -363,21 +433,32 @@ class ReceiptParser {
     'Decathlon', 'Intertoys', 'Bart Smit', 'Wehkamp', 'Zalando',
     'Alternate', 'Megekko', 'Amazon', 'Primark', 'H&M', 'Zeeman', 'Wibra',
     'Bijenkorf', 'Big Bazar', 'Trekpleister', 'Gall & Gall', 'Jysk', 'Fonq',
-    'Beter Bed', 'Electro World', 'Euronics',
+    'Beter Bed', 'Electro World', 'Euronics', 'Tesco', "Sainsbury's",
+    'Asda', 'Morrisons', 'Argos', 'Currys', 'John Lewis', 'Boots',
+    'Walmart', 'Target', 'Best Buy', 'Costco', 'Apple Store',
   ];
   static const _canonical = {'media markt': 'MediaMarkt'};
 
   static final _merchantSkip = RegExp(
-    r'(factuur|kassabon|\bbon\b|datum|\btel\b|telefoon|www\.|http|@|btw|kvk|iban|klant|order|bestel|kassa|filiaal|welkom|bedankt|fictie|^\d)',
+    r'(factuur|kassabon|\bbon\b|datum|\btel\b|telefoon|www\.|http|@|btw|kvk|iban|klant|order|bestel|kassa|filiaal|welkom|bedankt|fictie|invoice|receipt|\bdate\b|phone|\bvat\b|customer|thank|welcome|store #|^\d)',
     caseSensitive: false,
   );
   static final _street = RegExp(
     r'\b[\w-]+(straat|laan|weg|plein|gracht|kade|singel|dijk|steeg|hof|park|markt)\s+\d+',
     caseSensitive: false,
   );
-  static final _postcode = RegExp(r'\b\d{4}\s?[A-Z]{2}\b');
+  /// Straatnamen in het Engels: `12 High Street`, `5 Main St`.
+  static final _streetEnglish = RegExp(
+    r'\b\d+\s+[\w\s-]*\b(street|st|road|rd|avenue|ave|lane|ln|drive|dr|way|boulevard|blvd|square|sq)\b\.?',
+    caseSensitive: false,
+  );
+
+  /// Nederlandse, Britse en Amerikaanse postcodes.
+  static final _postcode = RegExp(
+    r'\b\d{4}\s?[A-Z]{2}\b|\b[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}\b|\b[A-Z]{2}\s\d{5}(?:-\d{4})?\b',
+  );
   static final _legalSuffix = RegExp(
-    r'\s*\b(b\.?\s?v\.?|v\.?o\.?f\.?|n\.?v\.?)\s*$',
+    r'\s*\b(b\.?\s?v\.?|v\.?o\.?f\.?|n\.?v\.?|ltd\.?|limited|plc|inc\.?|llc)\s*$',
     caseSensitive: false,
   );
   static final _letter = RegExp(r'[A-Za-zÀ-ÖØ-öø-ÿ]');
@@ -410,6 +491,7 @@ class ReceiptParser {
       if (amountsIn(line).isNotEmpty ||
           _merchantSkip.hasMatch(line) ||
           _street.hasMatch(line) ||
+          _streetEnglish.hasMatch(line) ||
           _postcode.hasMatch(line)) {
         continue;
       }
@@ -437,40 +519,43 @@ class ReceiptParser {
   // Productregels
 
   static final _itemSkip = RegExp(
-    r'(totaal|total|te betalen|btw|\bvat\b|\bpin\b|betaald|contant|wisselgeld|korting|subtotaal|datum|factuur|\btel\b|kvk|iban|omschrijving|aantal\b.*bedrag|bedrag$|bonnummer|kassa|statiegeld retour|spaar|zegels|maestro|visa|mastercard|\bbon\b|voordeel|bespaard|besparing|saldo|punten|klantenkaart|klantenpas|terminal|transactie|autorisatie|wisselgeld)',
+    r'(totaal|total|te betalen|btw|\bvat\b|\bpin\b|betaald|contant|wisselgeld|korting|subtotaal|datum|factuur|\btel\b|kvk|iban|omschrijving|aantal\b.*bedrag|bedrag$|bonnummer|kassa|statiegeld retour|spaar|zegels|maestro|visa|mastercard|\bbon\b|voordeel|bespaard|besparing|saldo|punten|klantenkaart|klantenpas|terminal|transactie|autorisatie|wisselgeld|subtotal|\btax\b|\bcard\b|\bcash\b|\bchange\b|\bpaid\b|payment|amex|\bdate\b|invoice|receipt|\bphone\b|order no|auth code|approval|you saved|discount|loyalty|points)',
     caseSensitive: false,
   );
 
   /// Einde van de productregels (alleen als er een bedrag bij staat, zodat
   /// een kolomkop als "Prijs Totaal" niet telt).
   static final _itemsEnd = RegExp(
-    r'(sub\s?-?\s?totaal|subtotal|\btotaal\b|\btotal\b|te betalen|aantal artikelen|totaal artikelen|aantal producten)',
+    r'(sub\s?-?\s?totaal|sub\s?-?\s?total|\btotaal\b|\btotal\b|te betalen|aantal artikelen|totaal artikelen|aantal producten|amount due|balance due|number of items|items sold|item count)',
     caseSensitive: false,
   );
   static final _itemsEndAlways = RegExp(
-    r'(aantal artikelen|totaal artikelen|aantal producten)',
+    r'(aantal artikelen|totaal artikelen|aantal producten|number of items|items sold|item count)',
     caseSensitive: false,
   );
 
   static final _service = RegExp(
-    r'(bezorg|verzend|installatie|servicekosten|statiegeld|tasje|\btas\b|verpakking|administratie)',
+    r'(bezorg|verzend|installatie|servicekosten|statiegeld|tasje|\btas\b|verpakking|administratie|shipping|delivery|postage|installation|service fee|handling|carrier bag|\bbag\b|packaging)',
     caseSensitive: false,
   );
 
   /// Regel met een aantal of stuksprijs, bijv. "2 x 8,49" of "8,49 per stuk".
   static final _quantityLine = RegExp(
-    r'(^\s*\d+([.,]\d+)?\s*(x|×|st\.?|stuks?|kg)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s?\d)',
+    r'(^\s*\d+([.,]\d+)?\s*(x|×|st\.?|stuks?|kg|pcs?|ea)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s?\d|\beach\b|\bqty\s*\d)',
     caseSensitive: false,
   );
   static final _quantityPhrase = RegExp(
-    r'(\b\d+([.,]\d+)?\s*(x|×|st\.?|stuks?)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s*$)',
+    r'(\b\d+([.,]\d+)?\s*(x|×|st\.?|stuks?|pcs?)(?![A-Za-z])|\bper\s*(stuk|st|kg|stuks)\b|\s(à|@)\s*$|\bqty\s*\d+|\beach\b)',
     caseSensitive: false,
   );
 
   /// Productnaam zonder valuta, aantallen en artikelcodes.
   static String _cleanDescription(String text) => text
       .trim()
-      .replaceAll(RegExp(r'(EUR|€)\s*$', caseSensitive: false), '')
+      .replaceAll(
+        RegExp(r'(EUR|GBP|USD|CHF|€|£|\$)\s*$', caseSensitive: false),
+        '',
+      )
       .trim()
       .replaceAll(_quantityPhrase, ' ')
       .trim()
@@ -555,7 +640,12 @@ class ReceiptParser {
     var found = false;
     for (final line in lines) {
       if (!_vatWord.hasMatch(line) || !line.contains('%')) continue;
-      if (RegExp(r'excl|incl', caseSensitive: false).hasMatch(line)) continue;
+      if (RegExp(
+        r'excl|incl|\binc\b|including',
+        caseSensitive: false,
+      ).hasMatch(line)) {
+        continue;
+      }
       final amounts = _positiveAmounts(line);
       if (amounts.isNotEmpty) {
         total += amounts.last;
