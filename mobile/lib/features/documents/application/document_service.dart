@@ -67,10 +67,7 @@ class DocumentService {
           format: validFormat,
         );
       } catch (e) {
-        throw AppException(
-          S.current.documentNotSaved,
-          cause: e,
-        );
+        throw AppException(S.current.documentNotSaved, cause: e);
       }
 
       return StagedDocument(

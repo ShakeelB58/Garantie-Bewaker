@@ -31,11 +31,7 @@ class RemindersScreen extends ConsumerWidget {
       ref.invalidate(notificationsEnabledProvider);
       if (!granted) {
         messenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              S.current.notificationsOffPhone,
-            ),
-          ),
+          SnackBar(content: Text(S.current.notificationsOffPhone)),
         );
       }
     }
@@ -78,9 +74,7 @@ class RemindersScreen extends ConsumerWidget {
                 child: SwitchListTile(
                   key: const Key('reminders.enabled'),
                   title: Text(S.current.enableReminders),
-                  subtitle: Text(
-                    S.current.enableRemindersHelper,
-                  ),
+                  subtitle: Text(S.current.enableRemindersHelper),
                   value: on,
                   onChanged: enabled.isLoading
                       ? null

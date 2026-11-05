@@ -211,9 +211,15 @@ class _ProductDetails extends ConsumerWidget {
             data: theme.copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
               initiallyExpanded: true,
-              title: Text(S.current.details, style: theme.textTheme.titleMedium),
+              title: Text(
+                S.current.details,
+                style: theme.textTheme.titleMedium,
+              ),
               children: [
-                _DetailRow(label: S.current.category, value: product.category.label),
+                _DetailRow(
+                  label: S.current.category,
+                  value: product.category.label,
+                ),
                 _DetailRow(
                   label: S.current.serialNumber,
                   value: product.serialNumber ?? S.current.notFilledIn,

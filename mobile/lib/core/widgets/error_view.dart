@@ -29,10 +29,7 @@ class ErrorView extends StatelessWidget {
             ),
             if (onRetry != null) ...[
               const SizedBox(height: AppSpacing.md),
-              OutlinedButton(
-                onPressed: onRetry,
-                child: Text(S.current.retry),
-              ),
+              OutlinedButton(onPressed: onRetry, child: Text(S.current.retry)),
             ],
           ],
         ),

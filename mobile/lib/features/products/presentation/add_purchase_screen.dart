@@ -71,10 +71,7 @@ class AddPurchaseScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
-          Text(
-            S.current.howToAdd,
-            style: theme.textTheme.titleMedium,
-          ),
+          Text(S.current.howToAdd, style: theme.textTheme.titleMedium),
           const SizedBox(height: AppSpacing.md),
           _OptionCard(
             icon: Icons.photo_camera_outlined,
@@ -86,8 +83,7 @@ class AddPurchaseScreen extends ConsumerWidget {
           _OptionCard(
             icon: Icons.picture_as_pdf_outlined,
             title: S.current.importPdfOrImage,
-            description:
-                S.current.importSubtitle,
+            description: S.current.importSubtitle,
             onTap: () => _import(context, ref),
           ),
           const SizedBox(height: AppSpacing.sm),

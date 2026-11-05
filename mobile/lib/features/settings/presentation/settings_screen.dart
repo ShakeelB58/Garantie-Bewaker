@@ -54,9 +54,7 @@ class SettingsScreen extends ConsumerWidget {
             key: const Key('settings.testNotification'),
             leading: const Icon(Icons.notification_add_outlined),
             title: Text(S.current.sendTestNotification),
-            subtitle: Text(
-              S.current.sendTestNotificationSubtitle,
-            ),
+            subtitle: Text(S.current.sendTestNotificationSubtitle),
             onTap: () => _sendTest(context, ref),
           ),
           _SectionHeader(S.current.privacyAndData),
@@ -70,9 +68,7 @@ class SettingsScreen extends ConsumerWidget {
             key: const Key('settings.export'),
             leading: const Icon(Icons.file_download_outlined),
             title: Text(S.current.exportData),
-            subtitle: Text(
-              S.current.exportDataSubtitle,
-            ),
+            subtitle: Text(S.current.exportDataSubtitle),
             onTap: () => _export(context, ref),
           ),
           ListTile(
@@ -82,9 +78,7 @@ class SettingsScreen extends ConsumerWidget {
               S.current.deleteAllLocal,
               style: TextStyle(color: AppColors.error),
             ),
-            subtitle: Text(
-              S.current.deleteAllLocalSubtitle,
-            ),
+            subtitle: Text(S.current.deleteAllLocalSubtitle),
             onTap: () => _confirmDeleteAll(context, ref),
           ),
           _SectionHeader(S.current.about),
@@ -99,8 +93,7 @@ class SettingsScreen extends ConsumerWidget {
               context: context,
               applicationName: 'Bonvrij',
               applicationVersion: ref.read(appVersionProvider).value,
-              applicationLegalese:
-                  S.current.aboutLegalese,
+              applicationLegalese: S.current.aboutLegalese,
             ),
           ),
           // Alleen in de testversie (debug); nooit in de App Store-versie.
@@ -110,9 +103,7 @@ class SettingsScreen extends ConsumerWidget {
               key: const Key('settings.demoData'),
               leading: const Icon(Icons.science_outlined),
               title: Text(S.current.loadDemoData),
-              subtitle: Text(
-                S.current.loadDemoDataSubtitle,
-              ),
+              subtitle: Text(S.current.loadDemoDataSubtitle),
               onTap: () => _loadDemoData(context, ref),
             ),
           ],
@@ -133,9 +124,7 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Text(
-              S.current.defaultReminderExplanation,
-            ),
+            child: Text(S.current.defaultReminderExplanation),
           ),
           const SizedBox(height: AppSpacing.sm),
           for (final lead in ReminderLead.values)
@@ -178,10 +167,7 @@ class SettingsScreen extends ConsumerWidget {
     }
     ref.invalidate(notificationsEnabledProvider);
     if (!granted && context.mounted) {
-      _message(
-        context,
-        S.current.notificationsOffSettings,
-      );
+      _message(context, S.current.notificationsOffSettings);
     }
     return granted;
   }
@@ -191,10 +177,7 @@ class SettingsScreen extends ConsumerWidget {
     try {
       await ref.read(reminderNotificationsProvider).scheduleTest();
       if (context.mounted) {
-        _message(
-          context,
-          S.current.testNotificationScheduled,
-        );
+        _message(context, S.current.testNotificationScheduled);
       }
     } catch (_) {
       if (context.mounted) {
@@ -210,9 +193,7 @@ class SettingsScreen extends ConsumerWidget {
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
         title: Text(S.current.exportData),
-        content: Text(
-          S.current.exportExplanation,
-        ),
+        content: Text(S.current.exportExplanation),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -267,7 +248,6 @@ class SettingsScreen extends ConsumerWidget {
     if (context.mounted) _message(context, message);
   }
 
-
   Future<void> _confirmDeleteAll(BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -282,10 +262,7 @@ class SettingsScreen extends ConsumerWidget {
     } catch (error) {
       debugPrint('Alles verwijderen mislukt (${error.runtimeType})');
       if (context.mounted) {
-        _message(
-          context,
-          S.current.notEverythingDeleted,
-        );
+        _message(context, S.current.notEverythingDeleted);
       }
     }
   }
@@ -317,9 +294,7 @@ class SettingsScreen extends ConsumerWidget {
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
         title: Text(S.current.privacy),
-        content: Text(
-          S.current.privacyText,
-        ),
+        content: Text(S.current.privacyText),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -406,9 +381,7 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            S.current.deleteAllBody,
-          ),
+          Text(S.current.deleteAllBody),
           const SizedBox(height: AppSpacing.sm),
           CheckboxListTile(
             key: const Key('deleteAll.understood'),

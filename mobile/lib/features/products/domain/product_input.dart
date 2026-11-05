@@ -123,8 +123,9 @@ abstract final class ProductValidator {
       errors[ProductField.brand] = S.current.maxCharacters(maxTextLength);
     }
     if (input.serialNumber.trim().length > maxSerialLength) {
-      errors[ProductField.serialNumber] =
-          S.current.maxCharacters(maxSerialLength);
+      errors[ProductField.serialNumber] = S.current.maxCharacters(
+        maxSerialLength,
+      );
     }
     if (input.merchant.trim().length > maxTextLength) {
       errors[ProductField.merchant] = S.current.maxCharacters(maxTextLength);
@@ -136,15 +137,13 @@ abstract final class ProductValidator {
     if (purchaseDate == null) {
       errors[ProductField.purchaseDate] = S.current.errorPurchaseDateRequired;
     } else if (purchaseDate.isAfter(todayDate)) {
-      errors[ProductField.purchaseDate] =
-          S.current.errorPurchaseDateFuture;
+      errors[ProductField.purchaseDate] = S.current.errorPurchaseDateFuture;
     }
 
     if (input.priceText.trim().isNotEmpty) {
       final minor = Money.parseToMinor(input.priceText);
       if (minor == null) {
-        errors[ProductField.price] =
-            S.current.errorPriceInvalid;
+        errors[ProductField.price] = S.current.errorPriceInvalid;
       } else if (minor > maxPriceMinor) {
         errors[ProductField.price] = S.current.errorPriceTooHigh;
       }
@@ -168,8 +167,7 @@ abstract final class ProductValidator {
     } else if (reminder != null &&
         purchaseDate != null &&
         Dates.dateOnly(reminder).isBefore(purchaseDate)) {
-      errors[ProductField.reminderDate] =
-          S.current.errorReminderBeforePurchase;
+      errors[ProductField.reminderDate] = S.current.errorReminderBeforePurchase;
     }
 
     return errors;

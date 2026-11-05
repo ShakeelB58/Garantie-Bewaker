@@ -25,9 +25,7 @@ class TextSightRecognizer implements TextRecognizer {
     // Op Android downloadt ML Kit het model bij het eerste gebruik.
     final state = await TextSightModel.ensureReady();
     if (state is ModelUnavailable) {
-      throw AppException(
-        S.current.recognitionUnavailable,
-      );
+      throw AppException(S.current.recognitionUnavailable);
     }
     _modelChecked = true;
   }

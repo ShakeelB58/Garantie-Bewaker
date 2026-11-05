@@ -41,10 +41,8 @@ abstract final class Dates {
   }
 
   /// `19 okt 2026` (of `19 Oct 2026`), in de taal van de app.
-  static String formatShort(DateTime value) =>
-      DateFormat.yMMMd().format(value);
+  static String formatShort(DateTime value) => DateFormat.yMMMd().format(value);
 
   /// `19 oktober 2026` (of `19 October 2026`), in de taal van de app.
-  static String formatLong(DateTime value) =>
-      DateFormat.yMMMMd().format(value);
+  static String formatLong(DateTime value) => DateFormat.yMMMMd().format(value);
 }

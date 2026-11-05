@@ -33,8 +33,7 @@ class PhotoReviewScreen extends StatelessWidget {
                 child: Image.file(
                   File(imagePath),
                   fit: BoxFit.contain,
-                  semanticLabel:
-                      S.current.takenPhotoLabel,
+                  semanticLabel: S.current.takenPhotoLabel,
                   errorBuilder: (context, error, stackTrace) => Text(
                     S.current.previewUnavailable,
                     style: TextStyle(color: Colors.white),

@@ -43,8 +43,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
             return EmptyState(
               icon: Icons.description_outlined,
               title: S.current.noDocumentsTitle,
-              message:
-                  S.current.noDocumentsBody,
+              message: S.current.noDocumentsBody,
             );
           }
           final usedTypes = DocumentType.values
@@ -99,7 +98,8 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
                       const SizedBox(height: AppSpacing.sm),
                   itemBuilder: (context, index) {
                     final document = visible[index];
-                    final product = names[document.productId] ?? S.current.product;
+                    final product =
+                        names[document.productId] ?? S.current.product;
                     return Card(
                       clipBehavior: Clip.antiAlias,
                       child: DocumentTile(

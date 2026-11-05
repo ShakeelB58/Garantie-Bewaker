@@ -29,9 +29,7 @@ class ProductDocumentsSection extends ConsumerWidget {
     if (staged == null) return;
     try {
       await service.attach(staged, productId);
-      messenger.showSnackBar(
-        SnackBar(content: Text(S.current.documentAdded)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(S.current.documentAdded)));
     } catch (error) {
       await service.discard(staged);
       messenger.showSnackBar(SnackBar(content: Text(userMessageFor(error))));

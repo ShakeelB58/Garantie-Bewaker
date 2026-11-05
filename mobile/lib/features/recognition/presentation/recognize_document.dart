@@ -70,20 +70,14 @@ Future<ParsedReceipt?> recognizeWithProgress({
     );
     if (!result.hasAnything) {
       messenger?.showSnackBar(
-        SnackBar(
-          content: Text(S.current.nothingRecognized),
-        ),
+        SnackBar(content: Text(S.current.nothingRecognized)),
       );
     }
     return result;
   } catch (error) {
     debugPrint('Herkennen mislukt (${error.runtimeType})');
     messenger?.showSnackBar(
-      SnackBar(
-        content: Text(
-          S.current.recognitionFailed,
-        ),
-      ),
+      SnackBar(content: Text(S.current.recognitionFailed)),
     );
     return null;
   } finally {

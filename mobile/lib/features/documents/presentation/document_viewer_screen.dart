@@ -38,9 +38,7 @@ class DocumentViewerScreen extends ConsumerWidget {
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
         title: Text(S.current.deleteDocumentQuestion),
-        content: Text(
-          S.current.deleteDocumentBody,
-        ),
+        content: Text(S.current.deleteDocumentBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -116,11 +114,7 @@ class _DocumentContent extends ConsumerWidget {
       error: (error, _) => ErrorView(error: error),
       data: (path) {
         if (!File(path).existsSync()) {
-          return ErrorView(
-            error: AppException(
-              S.current.documentFileMissing,
-            ),
-          );
+          return ErrorView(error: AppException(S.current.documentFileMissing));
         }
         if (document.format == DocumentFormat.pdf) {
           return Semantics(
@@ -135,9 +129,8 @@ class _DocumentContent extends ConsumerWidget {
               File(path),
               fit: BoxFit.contain,
               semanticLabel: S.current.receiptPhotoLabel,
-              errorBuilder: (context, error, stackTrace) => ErrorView(
-                error: AppException(S.current.imageCannotShow),
-              ),
+              errorBuilder: (context, error, stackTrace) =>
+                  ErrorView(error: AppException(S.current.imageCannotShow)),
             ),
           ),
         );

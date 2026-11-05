@@ -81,7 +81,11 @@ class DateField extends StatelessWidget {
     // Met wisknop blijven beide knoppen apart bereikbaar.
     if (allowClear && value != null) return field;
     return MergeSemantics(
-      child: Semantics(button: true, onTapHint: S.current.chooseDate, child: field),
+      child: Semantics(
+        button: true,
+        onTapHint: S.current.chooseDate,
+        child: field,
+      ),
     );
   }
 }

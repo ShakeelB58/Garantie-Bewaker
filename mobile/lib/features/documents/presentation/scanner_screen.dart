@@ -122,8 +122,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
   static String _messageFor(CameraException e) => switch (e.code) {
     'CameraAccessDenied' ||
     'CameraAccessDeniedWithoutPrompt' ||
-    'CameraAccessRestricted' =>
-      S.current.cameraNoAccessScanner,
+    'CameraAccessRestricted' => S.current.cameraNoAccessScanner,
     _ => S.current.cameraStartFailed,
   };
 
@@ -143,9 +142,9 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
     } catch (error) {
       if (mounted) {
         setState(() => _busy = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(S.current.photoFailed)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(S.current.photoFailed)));
       }
     }
   }

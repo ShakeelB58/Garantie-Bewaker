@@ -46,9 +46,7 @@ class OpenFileHandlerSource implements IncomingFileSource {
       (file) {
         final path = file.path;
         if (path == null) {
-          _controller.addError(
-            AppException(S.current.sharedFileOpenFailed),
-          );
+          _controller.addError(AppException(S.current.sharedFileOpenFailed));
           return;
         }
         final uri = Uri.tryParse(file.uri);
@@ -63,10 +61,7 @@ class OpenFileHandlerSource implements IncomingFileSource {
         );
       },
       onError: (Object error) => _controller.addError(
-        AppException(
-          S.current.sharedFileOpenFailed,
-          cause: error,
-        ),
+        AppException(S.current.sharedFileOpenFailed, cause: error),
       ),
     );
   }

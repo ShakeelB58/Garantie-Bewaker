@@ -42,8 +42,7 @@ class DashboardScreen extends ConsumerWidget {
               ? EmptyState(
                   icon: Icons.inventory_2_outlined,
                   title: S.current.noProductsTitle,
-                  message:
-                      S.current.noProductsDashboard,
+                  message: S.current.noProductsDashboard,
                   actionLabel: S.current.addPurchase,
                   onAction: () => context.push(AppRoutes.addPurchase),
                 )

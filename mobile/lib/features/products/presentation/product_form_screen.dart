@@ -203,8 +203,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high || RecognitionConfidence.medium =>
-        S.current.recognizedHint,
+      RecognitionConfidence.high ||
+      RecognitionConfidence.medium => S.current.recognizedHint,
       _ => S.current.uncertainHint,
     };
   }
@@ -300,9 +300,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       granted = false;
     }
     if (!granted && mounted) {
-      _showMessage(
-        S.current.notificationsOffReminderSaved,
-      );
+      _showMessage(S.current.notificationsOffReminderSaved);
     }
   }
 
@@ -647,8 +645,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             DateField(
               key: const Key('productForm.warrantyEndDate'),
               label: S.current.warrantyEndOptional,
-              helperText:
-                  S.current.warrantyEndHelper,
+              helperText: S.current.warrantyEndHelper,
               value: _warrantyEndDate,
               firstDate: firstDate,
               lastDate: lastFutureDate,
@@ -664,9 +661,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               key: const Key('productForm.reminderEnabled'),
               contentPadding: EdgeInsets.zero,
               title: Text(S.current.setReminder),
-              subtitle: Text(
-                S.current.setReminderHelper,
-              ),
+              subtitle: Text(S.current.setReminderHelper),
               value: _reminderEnabled,
               onChanged: (value) {
                 _changed(ProductField.reminderDate, () {
@@ -710,7 +705,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                   child: Card(
                     child: DocumentTile(
                       title: staged.type.label,
-                      subtitle: staged.originalFilename ?? S.current.newDocument,
+                      subtitle:
+                          staged.originalFilename ?? S.current.newDocument,
                       format: staged.format,
                       trailing: IconButton(
                         tooltip: S.current.removeDocument,
@@ -854,7 +850,9 @@ class _RecognitionBanner extends StatelessWidget {
                         borderRadius: BorderRadius.circular(999),
                       ),
                       child: Text(
-                        good ? S.current.recognitionGood : S.current.recognitionCheck,
+                        good
+                            ? S.current.recognitionGood
+                            : S.current.recognitionCheck,
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: good ? AppColors.navy : AppColors.warning,
                           fontWeight: FontWeight.w700,
