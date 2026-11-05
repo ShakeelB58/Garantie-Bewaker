@@ -13,7 +13,8 @@ class ShellScaffold extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _tabs = [
+  static List<({IconData icon, IconData selected, String label, String key})>
+  get _tabs => [
     (
       icon: Icons.home_outlined,
       selected: Icons.home,

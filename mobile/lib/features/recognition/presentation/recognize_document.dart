@@ -26,7 +26,7 @@ class RecognitionStatus {
   /// Bijv. "Tekst herkennen… pagina 2 van 3".
   final String detail;
 
-  static const start = RecognitionStatus(
+  static RecognitionStatus get start => RecognitionStatus(
     step: 0,
     progress: 0.1,
     detail: S.current.recognizingText,

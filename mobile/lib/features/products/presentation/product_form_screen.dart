@@ -526,7 +526,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               initialValue: _category,
               decoration: InputDecoration(
                 labelText: S.current.category,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               items: [
                 for (final category in ProductCategory.values)

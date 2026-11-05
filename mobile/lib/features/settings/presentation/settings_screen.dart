@@ -76,7 +76,7 @@ class SettingsScreen extends ConsumerWidget {
             leading: const Icon(Icons.delete_outline, color: AppColors.error),
             title: Text(
               S.current.deleteAllLocal,
-              style: TextStyle(color: AppColors.error),
+              style: const TextStyle(color: AppColors.error),
             ),
             subtitle: Text(S.current.deleteAllLocalSubtitle),
             onTap: () => _confirmDeleteAll(context, ref),
@@ -123,7 +123,7 @@ class SettingsScreen extends ConsumerWidget {
         title: Text(S.current.defaultReminder),
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(S.current.defaultReminderExplanation),
           ),
           const SizedBox(height: AppSpacing.sm),

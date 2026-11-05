@@ -44,16 +44,16 @@ class LocalReminderNotifications implements ReminderNotifications {
   Future<void>? _initialized;
   void Function(String productId)? _onOpenProduct;
 
-  static const _details = NotificationDetails(
+  static NotificationDetails get _details => NotificationDetails(
     android: AndroidNotificationDetails(
       'herinneringen',
       S.current.reminders,
       channelDescription: S.current.notificationChannelDescription,
       // Op het vergrendelscherm geen productnaam tonen.
       visibility: NotificationVisibility.private,
-      color: Color(0xFF0B7A75),
+      color: const Color(0xFF0B7A75),
     ),
-    iOS: DarwinNotificationDetails(),
+    iOS: const DarwinNotificationDetails(),
   );
 
   @override

@@ -36,7 +36,7 @@ class PhotoReviewScreen extends StatelessWidget {
                   semanticLabel: S.current.takenPhotoLabel,
                   errorBuilder: (context, error, stackTrace) => Text(
                     S.current.previewUnavailable,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),
