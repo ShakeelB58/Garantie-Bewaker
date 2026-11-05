@@ -13,7 +13,7 @@ zie de [privacyverklaring](docs/privacyverklaring.md).
   [uitbreidingen](docs/uitbreidingen.md), [publicatiechecklist](docs/publicatie-checklist.md),
   [Play Console-invulgids](docs/play-console-invulgids.md), [App Store Connect-invulgids](docs/app-store-connect-invulgids.md)
 
-> **Status: MVP af (fase 0 t/m 7).** Volgende stap: publicatie voorbereiden met de [publicatiechecklist](docs/publicatie-checklist.md).
+> **Status: versie 1.0 goedgekeurd voor de App Store (5-11-2026).** Android volgt na de gesloten test van Google Play; zie de [publicatiechecklist](docs/publicatie-checklist.md).
 > Zie [docs/voortgang.md](docs/voortgang.md) voor wat er per fase is getest en de bekende beperkingen.
 
 ## Wat de app kan

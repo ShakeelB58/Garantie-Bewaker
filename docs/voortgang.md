@@ -353,6 +353,11 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 - App Store Connect volledig ingevuld; ingediend voor beoordeling. Android volgt na de gesloten
   test (B18).
 
+## 🎉 Bonvrij goedgekeurd voor de App Store (2026-11-05)
+
+- Apple heeft versie 1.0.0 (2) goedgekeurd; de app komt binnen 24 uur live in Nederland en België.
+- Android: gesloten test in beoordeling bij Google; daarna 12 testers × 14 dagen.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |

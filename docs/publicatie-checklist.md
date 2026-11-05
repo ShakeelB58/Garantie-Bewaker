@@ -68,7 +68,7 @@ Legenda: ⬜ te doen · ⏳ deels klaar · ✅ klaar · ❓ beslissing nodig
 
 | | Punt |
 |---|------|
-| ✅ | **iOS ingediend voor beoordeling** (3-11-2026, 23:50): build 1.0.0 (2), gratis, Nederland en België, "Data Not Collected", 4+. Wacht op Apple (tot 48 uur). Na goedkeuring zelf **Release This Version**. |
+| ✅ | **iOS goedgekeurd door Apple** (5-11-2026): build 1.0.0 (2). Live in de App Store (Nederland en België) binnen 24 uur. |
 | ⏳ | **Google Play:** interne test actief; gesloten test aangemaakt met testerslijst "Testers Bonvrij" en ter beoordeling ingediend (5-11-2026). Volgende: link delen, 12+ testers 14 dagen, dan productietoegang aanvragen. Handelaarsstatus: geen handelaar (gratis, geen inkomsten). |
 | ✅ | Getest op een echte iPhone met de winkelversie (`flutter run --release`, 3-11-2026): camera, herkenning, PDF vanuit Mail, testmelding, serienummer. |
 | ⬜ | Alle punten uit [acceptatietests.md](acceptatietests.md) opnieuw lopen met de releasebuild. |
