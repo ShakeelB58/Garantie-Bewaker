@@ -191,6 +191,7 @@ class ReceiptParser {
     r'(?<!\d)(\d{1,2})[-/.](\d{1,2})[-/.](\d{4}|\d{2})(?!\d)',
   );
   static final _isoDate = RegExp(r'(?<!\d)(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)');
+
   /// `19 okt 2026`, `19 October 2026`, `19-Oct-2026`.
   static final _textDate = RegExp(
     '(?<![A-Za-z0-9])(\\d{1,2})(?:st|nd|rd|th)?[\\s-]+($_monthNames)\\.?,?[\\s-]+(\\d{4})(?!\\d)',
@@ -248,12 +249,7 @@ class ReceiptParser {
       final a = int.parse(m.group(1)!);
       final b = int.parse(m.group(2)!);
       final dayFirst = a > 12 || (b <= 12 && !monthFirst);
-      final date = _makeDate(
-        year,
-        dayFirst ? b : a,
-        dayFirst ? a : b,
-        today,
-      );
+      final date = _makeDate(year, dayFirst ? b : a, dayFirst ? a : b, today);
       if (date != null) result.add(date);
     }
     for (final m in _textDate.allMatches(line)) {
@@ -447,6 +443,7 @@ class ReceiptParser {
     r'\b[\w-]+(straat|laan|weg|plein|gracht|kade|singel|dijk|steeg|hof|park|markt)\s+\d+',
     caseSensitive: false,
   );
+
   /// Straatnamen in het Engels: `12 High Street`, `5 Main St`.
   static final _streetEnglish = RegExp(
     r'\b\d+\s+[\w\s-]*\b(street|st|road|rd|avenue|ave|lane|ln|drive|dr|way|boulevard|blvd|square|sq)\b\.?',

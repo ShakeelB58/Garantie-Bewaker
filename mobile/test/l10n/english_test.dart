@@ -13,17 +13,35 @@ import '../helpers/test_app.dart';
 void main() {
   group('taalkeuze', () {
     test('Nederlands op een Nederlandse of Belgische telefoon', () {
-      expect(AppLocale.resolve(const Locale('nl', 'NL')), const Locale('nl', 'NL'));
-      expect(AppLocale.resolve(const Locale('nl', 'BE')), const Locale('nl', 'BE'));
+      expect(
+        AppLocale.resolve(const Locale('nl', 'NL')),
+        const Locale('nl', 'NL'),
+      );
+      expect(
+        AppLocale.resolve(const Locale('nl', 'BE')),
+        const Locale('nl', 'BE'),
+      );
       expect(AppLocale.resolve(const Locale('nl')), const Locale('nl', 'NL'));
     });
 
     test('Engels voor Engelse en alle andere talen', () {
-      expect(AppLocale.resolve(const Locale('en', 'US')), const Locale('en', 'US'));
-      expect(AppLocale.resolve(const Locale('en', 'GB')), const Locale('en', 'GB'));
+      expect(
+        AppLocale.resolve(const Locale('en', 'US')),
+        const Locale('en', 'US'),
+      );
+      expect(
+        AppLocale.resolve(const Locale('en', 'GB')),
+        const Locale('en', 'GB'),
+      );
       expect(AppLocale.resolve(const Locale('en')), const Locale('en', 'GB'));
-      expect(AppLocale.resolve(const Locale('de', 'DE')), const Locale('en', 'GB'));
-      expect(AppLocale.resolve(const Locale('fr', 'BE')), const Locale('en', 'GB'));
+      expect(
+        AppLocale.resolve(const Locale('de', 'DE')),
+        const Locale('en', 'GB'),
+      );
+      expect(
+        AppLocale.resolve(const Locale('fr', 'BE')),
+        const Locale('en', 'GB'),
+      );
     });
   });
 

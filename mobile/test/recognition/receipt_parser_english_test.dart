@@ -60,35 +60,32 @@ Paid by Visa \$1,186.92
   });
 
   test('datums met maandnamen in het Engels', () {
-    expect(
-      ReceiptParser.datesIn('Date: 3 October 2026', today),
-      [DateTime(2026, 10, 3)],
-    );
-    expect(
-      ReceiptParser.datesIn('Purchased October 3, 2026', today),
-      [DateTime(2026, 10, 3)],
-    );
-    expect(
-      ReceiptParser.datesIn('Order date 3rd Oct 2026', today),
-      [DateTime(2026, 10, 3)],
-    );
-    expect(ReceiptParser.datesIn('12-Sep-2026', today), [DateTime(2026, 9, 12)]);
+    expect(ReceiptParser.datesIn('Date: 3 October 2026', today), [
+      DateTime(2026, 10, 3),
+    ]);
+    expect(ReceiptParser.datesIn('Purchased October 3, 2026', today), [
+      DateTime(2026, 10, 3),
+    ]);
+    expect(ReceiptParser.datesIn('Order date 3rd Oct 2026', today), [
+      DateTime(2026, 10, 3),
+    ]);
+    expect(ReceiptParser.datesIn('12-Sep-2026', today), [
+      DateTime(2026, 9, 12),
+    ]);
   });
 
   test('dag of maand eerst', () {
     // Dag groter dan 12: altijd duidelijk.
     expect(ReceiptParser.datesIn('25/09/2026', today), [DateTime(2026, 9, 25)]);
-    expect(
-      ReceiptParser.datesIn('09/25/2026', today, monthFirst: true),
-      [DateTime(2026, 9, 25)],
-    );
+    expect(ReceiptParser.datesIn('09/25/2026', today, monthFirst: true), [
+      DateTime(2026, 9, 25),
+    ]);
     expect(ReceiptParser.datesIn('09/25/2026', today), [DateTime(2026, 9, 25)]);
     // Twijfel: Europees, behalve bij een bon in dollars.
     expect(ReceiptParser.datesIn('05/10/2026', today), [DateTime(2026, 10, 5)]);
-    expect(
-      ReceiptParser.datesIn('05/10/2026', today, monthFirst: true),
-      [DateTime(2026, 5, 10)],
-    );
+    expect(ReceiptParser.datesIn('05/10/2026', today, monthFirst: true), [
+      DateTime(2026, 5, 10),
+    ]);
   });
 
   test('Engelse bedragen', () {
