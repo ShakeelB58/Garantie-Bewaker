@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:open_file_handler/open_file_handler.dart';
 
 import '../../../core/errors/user_message.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Een bestand dat vanuit een andere app naar Bonvrij is gestuurd.
 class IncomingFile {
@@ -46,7 +47,7 @@ class OpenFileHandlerSource implements IncomingFileSource {
         final path = file.path;
         if (path == null) {
           _controller.addError(
-            const AppException('Het gedeelde bestand kon niet worden geopend.'),
+            AppException(S.current.sharedFileOpenFailed),
           );
           return;
         }
@@ -63,7 +64,7 @@ class OpenFileHandlerSource implements IncomingFileSource {
       },
       onError: (Object error) => _controller.addError(
         AppException(
-          'Het gedeelde bestand kon niet worden geopend.',
+          S.current.sharedFileOpenFailed,
           cause: error,
         ),
       ),

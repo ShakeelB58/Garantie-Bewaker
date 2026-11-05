@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Laat de gebruiker kiezen waar een export wordt bewaard.
 abstract interface class ExportSaver {
@@ -26,7 +27,7 @@ class SystemExportSaver implements ExportSaver {
       fileName: fileName,
       bytes: bytes,
       mimeType: mimeType,
-      dialogTitle: 'Export bewaren',
+      dialogTitle: S.current.exportSaveTitle,
     );
     return uri != null;
   }

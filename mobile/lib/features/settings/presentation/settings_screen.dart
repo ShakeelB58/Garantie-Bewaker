@@ -10,6 +10,7 @@ import '../../data_management/application/data_management_providers.dart';
 import '../../demo/demo_data.dart';
 import '../../reminders/application/reminder_service.dart';
 import '../application/settings_providers.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Instellingen en privacy.
 ///
@@ -22,15 +23,15 @@ class SettingsScreen extends ConsumerWidget {
     final lead = ref.watch(reminderLeadProvider);
     final enabled = ref.watch(notificationsEnabledProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Instellingen')),
+      appBar: AppBar(title: Text(S.current.navSettings)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         children: [
-          const _SectionHeader('Herinneringen'),
+          _SectionHeader(S.current.reminders),
           ListTile(
             key: const Key('settings.reminderLead'),
             leading: const Icon(Icons.event_outlined),
-            title: const Text('Standaardherinnering'),
+            title: Text(S.current.defaultReminder),
             subtitle: Text(
               lead.value?.description ?? ReminderLead.standard.description,
             ),
@@ -39,11 +40,11 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             key: const Key('settings.notifications'),
             leading: const Icon(Icons.notifications_outlined),
-            title: const Text('Meldingen'),
+            title: Text(S.current.notifications),
             subtitle: Text(switch (enabled) {
-              AsyncData(value: true) => 'Aan',
-              AsyncData(value: false) => 'Uit. Tik om meldingen toe te staan.',
-              _ => 'Controleren…',
+              AsyncData(value: true) => S.current.on,
+              AsyncData(value: false) => S.current.notificationsOffTap,
+              _ => S.current.checking,
             }),
             onTap: enabled.value == true
                 ? null
@@ -52,68 +53,65 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             key: const Key('settings.testNotification'),
             leading: const Icon(Icons.notification_add_outlined),
-            title: const Text('Testmelding versturen'),
-            subtitle: const Text(
-              'Controleer of meldingen op je telefoon werken',
+            title: Text(S.current.sendTestNotification),
+            subtitle: Text(
+              S.current.sendTestNotificationSubtitle,
             ),
             onTap: () => _sendTest(context, ref),
           ),
-          const _SectionHeader('Privacy en gegevens'),
+          _SectionHeader(S.current.privacyAndData),
           ListTile(
             leading: const Icon(Icons.lock_outline),
-            title: const Text('Privacy'),
-            subtitle: const Text('Hoe Bonvrij met je gegevens omgaat'),
+            title: Text(S.current.privacy),
+            subtitle: Text(S.current.privacySubtitle),
             onTap: () => _showPrivacy(context),
           ),
           ListTile(
             key: const Key('settings.export'),
             leading: const Icon(Icons.file_download_outlined),
-            title: const Text('Gegevens exporteren'),
-            subtitle: const Text(
-              'Producten (CSV) en aankoopbewijzen in één ZIP-bestand',
+            title: Text(S.current.exportData),
+            subtitle: Text(
+              S.current.exportDataSubtitle,
             ),
             onTap: () => _export(context, ref),
           ),
           ListTile(
             key: const Key('settings.deleteAll'),
             leading: const Icon(Icons.delete_outline, color: AppColors.error),
-            title: const Text(
-              'Alle lokale gegevens verwijderen',
+            title: Text(
+              S.current.deleteAllLocal,
               style: TextStyle(color: AppColors.error),
             ),
-            subtitle: const Text(
-              'Producten, aankoopbewijzen, herinneringen en voorkeuren',
+            subtitle: Text(
+              S.current.deleteAllLocalSubtitle,
             ),
             onTap: () => _confirmDeleteAll(context, ref),
           ),
-          const _SectionHeader('Over'),
+          _SectionHeader(S.current.about),
           ListTile(
             key: const Key('settings.about'),
             leading: const Icon(Icons.info_outline),
-            title: const Text('Over Bonvrij'),
+            title: Text(S.current.aboutBonvrij),
             subtitle: Text(
-              'Versie ${ref.watch(appVersionProvider).value ?? '…'}',
+              S.current.version(ref.watch(appVersionProvider).value ?? '…'),
             ),
             onTap: () => showAboutDialog(
               context: context,
               applicationName: 'Bonvrij',
               applicationVersion: ref.read(appVersionProvider).value,
               applicationLegalese:
-                  'Bonvrij geeft geen juridisch advies. Door jou '
-                  'ingestelde datums zijn herinneringen, geen vastgestelde '
-                  'garantietermijnen.\n\n'
-                  'Vragen of opmerkingen? Mail naar bonvrij.app@gmail.com.',
+                  S.current.aboutLegalese,
             ),
           ),
           // Alleen in de testversie (debug); nooit in de App Store-versie.
           if (ref.watch(demoDataOptionVisibleProvider)) ...[
-            const _SectionHeader('Testversie'),
+            _SectionHeader(S.current.testVersion),
             ListTile(
               key: const Key('settings.demoData'),
               leading: const Icon(Icons.science_outlined),
-              title: const Text('Voorbeeldgegevens laden'),
-              subtitle: const Text(
-                'Fictieve producten en documenten, bijv. voor schermafbeeldingen',
+              title: Text(S.current.loadDemoData),
+              subtitle: Text(
+                S.current.loadDemoDataSubtitle,
               ),
               onTap: () => _loadDemoData(context, ref),
             ),
@@ -131,13 +129,12 @@ class SettingsScreen extends ConsumerWidget {
     final chosen = await showDialog<ReminderLead>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Standaardherinnering'),
+        title: Text(S.current.defaultReminder),
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(
-              'Wordt voorgesteld als je bij een product een herinnering '
-              'aanzet. Je kunt de datum daar altijd zelf aanpassen.',
+              S.current.defaultReminderExplanation,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -151,7 +148,7 @@ class SettingsScreen extends ConsumerWidget {
                   if (lead == current)
                     Icon(
                       Icons.check,
-                      semanticLabel: 'Gekozen',
+                      semanticLabel: S.current.chosen,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                 ],
@@ -165,7 +162,7 @@ class SettingsScreen extends ConsumerWidget {
       await ref.read(reminderLeadProvider.notifier).set(chosen);
     } catch (_) {
       if (context.mounted) {
-        _message(context, 'De voorkeur kon niet worden opgeslagen.');
+        _message(context, S.current.preferenceNotSaved);
       }
     }
   }
@@ -183,8 +180,7 @@ class SettingsScreen extends ConsumerWidget {
     if (!granted && context.mounted) {
       _message(
         context,
-        'Meldingen staan uit. Zet ze aan in de instellingen van je telefoon, '
-        'bij Bonvrij.',
+        S.current.notificationsOffSettings,
       );
     }
     return granted;
@@ -197,13 +193,12 @@ class SettingsScreen extends ConsumerWidget {
       if (context.mounted) {
         _message(
           context,
-          'Over ongeveer een minuut krijg je een testmelding. Je kunt de app '
-          'gewoon sluiten.',
+          S.current.testNotificationScheduled,
         );
       }
     } catch (_) {
       if (context.mounted) {
-        _message(context, 'De testmelding kon niet worden ingepland.');
+        _message(context, S.current.testNotificationFailed);
       }
     }
   }
@@ -214,21 +209,18 @@ class SettingsScreen extends ConsumerWidget {
       builder: (context) => AlertDialog(
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
-        title: const Text('Gegevens exporteren'),
-        content: const Text(
-          'Je krijgt één ZIP-bestand met al je producten (als CSV, te openen '
-          'in Excel of Numbers) en al je aankoopbewijzen.\n\n'
-          'Het bestand bevat je aankoopgegevens. Bewaar het op een veilige '
-          'plek en deel het alleen met mensen die je vertrouwt.',
+        title: Text(S.current.exportData),
+        content: Text(
+          S.current.exportExplanation,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annuleren'),
+            child: Text(S.current.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Exporteren'),
+            child: Text(S.current.export),
           ),
         ],
       ),
@@ -240,7 +232,7 @@ class SettingsScreen extends ConsumerWidget {
       DialogRoute<void>(
         context: context,
         barrierDismissible: false,
-        builder: (_) => const _BusyDialog('Export maken…'),
+        builder: (_) => _BusyDialog(S.current.creatingExport),
       ),
     );
     String message;
@@ -255,14 +247,12 @@ class SettingsScreen extends ConsumerWidget {
             mimeType: 'application/zip',
           );
       if (!saved) return;
-      message =
-          'Export bewaard: ${_count(export.productCount, 'product', 'producten')} '
-          'en ${_count(export.documentCount, 'document', 'documenten')}.';
+      message = S.current.exportSaved(
+        export.productCount,
+        export.documentCount,
+      );
       if (export.missingDocuments > 0) {
-        message +=
-            ' ${_count(export.missingDocuments, 'document', 'documenten')} '
-            'kon${export.missingDocuments == 1 ? '' : 'den'} niet worden '
-            'gelezen.';
+        message += S.current.exportMissing(export.missingDocuments);
       }
     } catch (error) {
       debugPrint('Exporteren mislukt (${error.runtimeType})');
@@ -272,13 +262,11 @@ class SettingsScreen extends ConsumerWidget {
       }
       message = error is AppException
           ? error.userMessage
-          : 'De export is niet gelukt. Probeer het opnieuw.';
+          : S.current.exportFailed;
     }
     if (context.mounted) _message(context, message);
   }
 
-  static String _count(int n, String one, String many) =>
-      '$n ${n == 1 ? one : many}';
 
   Future<void> _confirmDeleteAll(BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
@@ -289,14 +277,14 @@ class SettingsScreen extends ConsumerWidget {
     try {
       await wipeAllData(ref);
       if (!context.mounted) return;
-      _message(context, 'Alle gegevens zijn verwijderd.');
+      _message(context, S.current.allDataDeleted);
       context.go(AppRoutes.dashboard);
     } catch (error) {
       debugPrint('Alles verwijderen mislukt (${error.runtimeType})');
       if (context.mounted) {
         _message(
           context,
-          'Niet alles kon worden verwijderd. Probeer het opnieuw.',
+          S.current.notEverythingDeleted,
         );
       }
     }
@@ -306,12 +294,12 @@ class SettingsScreen extends ConsumerWidget {
     try {
       final count = await ref.read(demoDataLoaderProvider).load();
       if (context.mounted) {
-        _message(context, '$count voorbeeldproducten toegevoegd.');
+        _message(context, S.current.demoDataAdded(count));
       }
     } catch (error) {
       debugPrint('Voorbeeldgegevens laden mislukt (${error.runtimeType})');
       if (context.mounted) {
-        _message(context, 'De voorbeeldgegevens konden niet worden geladen.');
+        _message(context, S.current.demoDataFailed);
       }
     }
   }
@@ -328,34 +316,14 @@ class SettingsScreen extends ConsumerWidget {
       builder: (context) => AlertDialog(
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
-        title: const Text('Privacy'),
-        content: const Text(
-          '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon '
-          'opgeslagen.\n'
-          '• Er is geen account nodig. Je aankopen en documenten worden '
-          'nooit naar ons of naar anderen gestuurd.\n'
-          '• De app krijgt geen toegang tot je mailbox. Je deelt zelf een '
-          'factuur met de app.\n'
-          '• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op '
-          'Android stuurt de herkenning van Google wel technische '
-          'gebruiksgegevens naar Google, zoals het toestelmodel en '
-          'foutcodes. Nooit de inhoud van je bonnen.\n'
-          '• Meldingen worden door je telefoon zelf getoond, zonder '
-          'server. Op het vergrendelscherm van Android wordt de '
-          'productnaam verborgen.\n'
-          '• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen '
-          'back-up (iCloud of Google), versleuteld en onder jouw account. '
-          'Zo komen ze terug op een nieuwe telefoon.\n'
-          '• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je '
-          'de app, dan verdwijnen de gegevens van je telefoon.\n'
-          '• Met "Alle lokale gegevens verwijderen" wis je alles in één '
-          'keer.\n\n'
-          'Meer lezen: bonvrij.nl/privacy',
+        title: Text(S.current.privacy),
+        content: Text(
+          S.current.privacyText,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Sluiten'),
+            child: Text(S.current.close),
           ),
         ],
       ),
@@ -433,19 +401,13 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
     return AlertDialog(
       // Bij grote tekst kan het hele venster scrollen.
       scrollable: true,
-      title: const Text('Alle gegevens verwijderen?'),
+      title: Text(S.current.deleteAllQuestion),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Dit verwijdert van deze telefoon:\n'
-            '• alle producten\n'
-            '• alle aankoopbewijzen (foto\'s en PDF\'s)\n'
-            '• alle herinneringen en geplande meldingen\n'
-            '• je voorkeuren\n\n'
-            'Er is geen back-up of server: dit kan niet ongedaan worden '
-            'gemaakt. Maak eerst een export als je iets wilt bewaren.',
+          Text(
+            S.current.deleteAllBody,
           ),
           const SizedBox(height: AppSpacing.sm),
           CheckboxListTile(
@@ -454,20 +416,20 @@ class _DeleteAllDialogState extends State<_DeleteAllDialog> {
             controlAffinity: ListTileControlAffinity.leading,
             value: _understood,
             onChanged: (value) => setState(() => _understood = value ?? false),
-            title: const Text('Ik begrijp dat dit niet terug te halen is'),
+            title: Text(S.current.deleteAllUnderstood),
           ),
         ],
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Annuleren'),
+          child: Text(S.current.cancel),
         ),
         FilledButton(
           key: const Key('deleteAll.confirm'),
           style: FilledButton.styleFrom(backgroundColor: AppColors.error),
           onPressed: _understood ? () => Navigator.of(context).pop(true) : null,
-          child: const Text('Alles verwijderen'),
+          child: Text(S.current.deleteAllConfirm),
         ),
       ],
     );

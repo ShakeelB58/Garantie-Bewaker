@@ -14,6 +14,7 @@ import '../data/document_picker.dart';
 import '../data/document_repository.dart';
 import '../domain/document.dart';
 import '../domain/document_validation.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Importeren, koppelen en verwijderen van aankoopbewijzen.
 ///
@@ -46,7 +47,7 @@ class DocumentService {
       try {
         info = await _fileStore.inspectSource(picked.path);
       } catch (e) {
-        throw AppException('Het bestand kon niet worden gelezen.', cause: e);
+        throw AppException(S.current.fileUnreadable, cause: e);
       }
 
       final format = DocumentValidation.detectFormat(info.header);
@@ -67,8 +68,7 @@ class DocumentService {
         );
       } catch (e) {
         throw AppException(
-          'Het document kon niet worden opgeslagen. '
-          'Controleer of er genoeg opslagruimte vrij is.',
+          S.current.documentNotSaved,
           cause: e,
         );
       }

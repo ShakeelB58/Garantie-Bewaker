@@ -16,6 +16,7 @@ import '../application/product_providers.dart';
 import '../domain/product.dart';
 import 'widgets/category_icon.dart';
 import 'widgets/reminder_badge.dart';
+import '../../../l10n/app_strings.dart';
 
 class ProductDetailScreen extends ConsumerWidget {
   const ProductDetailScreen({required this.productId, super.key});
@@ -32,23 +33,19 @@ class ProductDetailScreen extends ConsumerWidget {
       builder: (context) => AlertDialog(
         // Bij grote tekst kan het hele venster scrollen.
         scrollable: true,
-        title: const Text('Product verwijderen?'),
-        content: Text(
-          '"${product.name}" wordt definitief van deze telefoon verwijderd, '
-          'inclusief alle aankoopbewijzen en herinneringen. Dit kan niet '
-          'ongedaan worden gemaakt.',
-        ),
+        title: Text(S.current.deleteProductQuestion),
+        content: Text(S.current.deleteProductBody(product.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annuleren'),
+            child: Text(S.current.cancel),
           ),
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Verwijderen'),
+            child: Text(S.current.delete),
           ),
         ],
       ),
@@ -65,7 +62,7 @@ class ProductDetailScreen extends ConsumerWidget {
     if (context.mounted) context.pop();
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Product verwijderd.')));
+      ..showSnackBar(SnackBar(content: Text(S.current.productDeleted)));
   }
 
   @override
@@ -74,7 +71,7 @@ class ProductDetailScreen extends ConsumerWidget {
     final product = productAsync.value;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Productdetails')),
+      appBar: AppBar(title: Text(S.current.productDetails)),
       body: productAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => ErrorView(
@@ -82,7 +79,7 @@ class ProductDetailScreen extends ConsumerWidget {
           onRetry: () => ref.invalidate(productsProvider),
         ),
         data: (product) => product == null
-            ? const Center(child: Text('Dit product bestaat niet meer.'))
+            ? Center(child: Text(S.current.productGone))
             : _ProductDetails(product: product),
       ),
       bottomNavigationBar: product == null
@@ -102,7 +99,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       minimumSize: const Size(64, 48),
                     ),
                     icon: const Icon(Icons.edit_outlined),
-                    label: const Text('Bewerken'),
+                    label: Text(S.current.edit),
                     onPressed: () =>
                         context.push(AppRoutes.editProduct(product.id)),
                   ),
@@ -113,7 +110,7 @@ class ProductDetailScreen extends ConsumerWidget {
                       minimumSize: const Size(64, 48),
                     ),
                     icon: const Icon(Icons.delete_outline),
-                    label: const Text('Verwijderen'),
+                    label: Text(S.current.delete),
                     onPressed: () => _delete(context, ref, product),
                   ),
                 ),
@@ -187,16 +184,17 @@ class _ProductDetails extends ConsumerWidget {
                     _Pill(
                       icon: Icons.verified_outlined,
                       text: product.warrantyEndDate == null
-                          ? 'Geen garantiedatum'
-                          : 'Garantie tot '
-                                '${Dates.formatShort(product.warrantyEndDate!)}',
+                          ? S.current.noWarrantyDate
+                          : S.current.warrantyUntil(
+                              Dates.formatShort(product.warrantyEndDate!),
+                            ),
                       active: product.warrantyEndDate != null,
                     ),
                     _Pill(
                       icon: Icons.notifications_none,
                       text: reminderText == null
-                          ? 'Geen herinnering'
-                          : 'Herinnering: ${reminderText.toLowerCase()}',
+                          ? S.current.noReminder
+                          : S.current.reminderPill(reminderText),
                       active: product.activeReminderDate != null,
                     ),
                   ],
@@ -213,43 +211,43 @@ class _ProductDetails extends ConsumerWidget {
             data: theme.copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
               initiallyExpanded: true,
-              title: Text('Gegevens', style: theme.textTheme.titleMedium),
+              title: Text(S.current.details, style: theme.textTheme.titleMedium),
               children: [
-                _DetailRow(label: 'Categorie', value: product.category.label),
+                _DetailRow(label: S.current.category, value: product.category.label),
                 _DetailRow(
-                  label: 'Serienummer of IMEI',
-                  value: product.serialNumber ?? 'Niet ingevuld',
+                  label: S.current.serialNumber,
+                  value: product.serialNumber ?? S.current.notFilledIn,
                   copyKey: product.serialNumber == null
                       ? null
                       : const Key('product.copySerial'),
                 ),
                 _DetailRow(
-                  label: 'Winkel of verkoper',
-                  value: product.merchant ?? 'Niet ingevuld',
+                  label: S.current.merchant,
+                  value: product.merchant ?? S.current.notFilledIn,
                 ),
                 _DetailRow(
-                  label: 'Aankoopdatum',
+                  label: S.current.purchaseDate,
                   value: Dates.formatLong(product.purchaseDate),
                 ),
                 _DetailRow(
-                  label: 'Aankoopprijs',
+                  label: S.current.purchasePrice,
                   value: product.purchasePriceMinor == null
-                      ? 'Niet ingevuld'
+                      ? S.current.notFilledIn
                       : Money.format(
                           product.purchasePriceMinor!,
                           product.currency,
                         ),
                 ),
                 _DetailRow(
-                  label: 'Garantie-einddatum (zelf ingevuld)',
+                  label: S.current.warrantyEndSelf,
                   value: product.warrantyEndDate == null
-                      ? 'Niet ingevuld'
+                      ? S.current.notFilledIn
                       : Dates.formatLong(product.warrantyEndDate!),
                 ),
                 _DetailRow(
-                  label: 'Herinnering',
+                  label: S.current.reminder,
                   value: product.activeReminderDate == null
-                      ? 'Uit'
+                      ? S.current.off
                       : Dates.formatLong(product.activeReminderDate!),
                   isLast: true,
                 ),
@@ -261,8 +259,7 @@ class _ProductDetails extends ConsumerWidget {
         ProductDocumentsSection(productId: product.id),
         const SizedBox(height: AppSpacing.md),
         Text(
-          'Bonvrij controleert niet of je recht hebt op garantie. '
-          'De datums hierboven heb je zelf ingevuld.',
+          S.current.warrantyDisclaimer,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
@@ -333,7 +330,7 @@ class _DetailRow extends StatelessWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$label gekopieerd.')));
+      ..showSnackBar(SnackBar(content: Text(S.current.copied(label))));
   }
 
   @override
@@ -368,7 +365,7 @@ class _DetailRow extends StatelessWidget {
               if (copyKey != null)
                 IconButton(
                   key: copyKey,
-                  tooltip: '$label kopiëren',
+                  tooltip: S.current.copyLabel(label),
                   visualDensity: VisualDensity.compact,
                   icon: const Icon(Icons.copy_rounded, size: 20),
                   onPressed: () => _copy(context),

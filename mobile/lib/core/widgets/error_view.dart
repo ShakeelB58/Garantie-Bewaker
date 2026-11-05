@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../errors/user_message.dart';
+import '../../l10n/app_strings.dart';
 
 /// Foutmelding met optionele knop om opnieuw te proberen.
 class ErrorView extends StatelessWidget {
@@ -30,7 +31,7 @@ class ErrorView extends StatelessWidget {
               const SizedBox(height: AppSpacing.md),
               OutlinedButton(
                 onPressed: onRetry,
-                child: const Text('Opnieuw proberen'),
+                child: Text(S.current.retry),
               ),
             ],
           ],

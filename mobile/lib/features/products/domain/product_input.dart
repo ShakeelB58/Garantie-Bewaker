@@ -2,6 +2,7 @@ import '../../../core/utils/dates.dart';
 import '../../../core/utils/money.dart';
 import 'product.dart';
 import 'product_category.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Velden van het productformulier.
 enum ProductField {
@@ -113,44 +114,44 @@ abstract final class ProductValidator {
 
     final name = input.name.trim();
     if (name.isEmpty) {
-      errors[ProductField.name] = 'Vul een productnaam in.';
+      errors[ProductField.name] = S.current.errorNameRequired;
     } else if (name.length > maxNameLength) {
-      errors[ProductField.name] = 'Gebruik maximaal $maxNameLength tekens.';
+      errors[ProductField.name] = S.current.maxCharacters(maxNameLength);
     }
 
     if (input.brand.trim().length > maxTextLength) {
-      errors[ProductField.brand] = 'Gebruik maximaal $maxTextLength tekens.';
+      errors[ProductField.brand] = S.current.maxCharacters(maxTextLength);
     }
     if (input.serialNumber.trim().length > maxSerialLength) {
       errors[ProductField.serialNumber] =
-          'Gebruik maximaal $maxSerialLength tekens.';
+          S.current.maxCharacters(maxSerialLength);
     }
     if (input.merchant.trim().length > maxTextLength) {
-      errors[ProductField.merchant] = 'Gebruik maximaal $maxTextLength tekens.';
+      errors[ProductField.merchant] = S.current.maxCharacters(maxTextLength);
     }
 
     final purchaseDate = input.purchaseDate == null
         ? null
         : Dates.dateOnly(input.purchaseDate!);
     if (purchaseDate == null) {
-      errors[ProductField.purchaseDate] = 'Kies de aankoopdatum.';
+      errors[ProductField.purchaseDate] = S.current.errorPurchaseDateRequired;
     } else if (purchaseDate.isAfter(todayDate)) {
       errors[ProductField.purchaseDate] =
-          'De aankoopdatum kan niet in de toekomst liggen.';
+          S.current.errorPurchaseDateFuture;
     }
 
     if (input.priceText.trim().isNotEmpty) {
       final minor = Money.parseToMinor(input.priceText);
       if (minor == null) {
         errors[ProductField.price] =
-            'Vul een geldig bedrag in, bijvoorbeeld 1.299,00.';
+            S.current.errorPriceInvalid;
       } else if (minor > maxPriceMinor) {
-        errors[ProductField.price] = 'Dit bedrag is te hoog.';
+        errors[ProductField.price] = S.current.errorPriceTooHigh;
       }
     }
 
     if (!Money.supportedCurrencies.contains(input.currency)) {
-      errors[ProductField.currency] = 'Kies een valuta.';
+      errors[ProductField.currency] = S.current.errorCurrency;
     }
 
     final warrantyEnd = input.warrantyEndDate;
@@ -158,17 +159,17 @@ abstract final class ProductValidator {
         purchaseDate != null &&
         Dates.dateOnly(warrantyEnd).isBefore(purchaseDate)) {
       errors[ProductField.warrantyEndDate] =
-          'De einddatum ligt vóór de aankoopdatum.';
+          S.current.errorWarrantyBeforePurchase;
     }
 
     final reminder = input.reminderDate;
     if (input.reminderEnabled && reminder == null) {
-      errors[ProductField.reminderDate] = 'Kies een herinneringsdatum.';
+      errors[ProductField.reminderDate] = S.current.errorReminderRequired;
     } else if (reminder != null &&
         purchaseDate != null &&
         Dates.dateOnly(reminder).isBefore(purchaseDate)) {
       errors[ProductField.reminderDate] =
-          'De herinnering ligt vóór de aankoopdatum.';
+          S.current.errorReminderBeforePurchase;
     }
 
     return errors;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/dates.dart';
 import '../../domain/product.dart';
+import '../../../../l10n/app_strings.dart';
 
 /// Korte tekst over de herinnering van een product, bijv. "Over 12 dagen".
 abstract final class ReminderText {
@@ -13,10 +14,10 @@ abstract final class ReminderText {
 
   static String relative(DateTime date, DateTime today) {
     final days = Dates.daysBetween(today, date);
-    if (days < 0) return 'Herinnering geweest';
-    if (days == 0) return 'Vandaag';
-    if (days == 1) return 'Morgen';
-    return 'Over $days dagen';
+    if (days < 0) return S.current.reminderPassed;
+    if (days == 0) return S.current.today;
+    if (days == 1) return S.current.tomorrow;
+    return S.current.inDays(days);
   }
 }
 
@@ -31,7 +32,7 @@ class ReminderBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final text = ReminderText.forProduct(product, today);
-    final active = text != null && text != 'Herinnering geweest';
+    final active = text != null && text != S.current.reminderPassed;
     final color = active
         ? theme.colorScheme.primary
         : theme.colorScheme.onSurfaceVariant;
@@ -44,7 +45,7 @@ class ReminderBadge extends StatelessWidget {
         ],
         Flexible(
           child: Text(
-            text ?? 'Geen herinnering',
+            text ?? S.current.noReminder,
             style: theme.textTheme.labelSmall?.copyWith(
               color: color,
               fontWeight: active ? FontWeight.w600 : FontWeight.w400,

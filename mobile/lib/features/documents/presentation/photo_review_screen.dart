@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/app_theme.dart';
+import '../../../l10n/app_strings.dart';
 
 enum PhotoReviewDecision { use, retake }
 
@@ -19,7 +20,7 @@ class PhotoReviewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Foto controleren'),
+        title: Text(S.current.checkPhoto),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
@@ -33,9 +34,9 @@ class PhotoReviewScreen extends StatelessWidget {
                   File(imagePath),
                   fit: BoxFit.contain,
                   semanticLabel:
-                      'Gemaakte foto. Controleer of de tekst leesbaar is.',
-                  errorBuilder: (context, error, stackTrace) => const Text(
-                    'Voorbeeld niet beschikbaar',
+                      S.current.takenPhotoLabel,
+                  errorBuilder: (context, error, stackTrace) => Text(
+                    S.current.previewUnavailable,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -56,7 +57,7 @@ class PhotoReviewScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Is de bon goed leesbaar en staat hij er helemaal op?',
+                    S.current.receiptReadableQuestion,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
@@ -76,7 +77,7 @@ class PhotoReviewScreen extends StatelessWidget {
                             context,
                           ).pop(PhotoReviewDecision.retake),
                           icon: const Icon(Icons.refresh),
-                          label: const Text('Opnieuw'),
+                          label: Text(S.current.again),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.md),
@@ -86,7 +87,7 @@ class PhotoReviewScreen extends StatelessWidget {
                             context,
                           ).pop(PhotoReviewDecision.use),
                           icon: const Icon(Icons.check),
-                          label: const Text('Gebruiken'),
+                          label: Text(S.current.use),
                         ),
                       ),
                     ],

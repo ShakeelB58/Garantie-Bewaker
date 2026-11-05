@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_theme.dart';
 import '../../core/widgets/bonvrij_logo.dart';
 import '../settings/application/settings_providers.dart';
+import '../../l10n/app_strings.dart';
 
 /// Of het welkomstscherm al is gezien.
 final onboardingDoneProvider = AsyncNotifierProvider<OnboardingNotifier, bool>(
@@ -74,7 +75,7 @@ class WelcomeScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: AppSpacing.sm + 4),
                       Text(
-                        'Al je aankopen, garanties\nen documenten op één plek.',
+                        S.current.welcomeTagline,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
@@ -98,7 +99,7 @@ class WelcomeScreen extends ConsumerWidget {
                     ),
                     onPressed: () =>
                         ref.read(onboardingDoneProvider.notifier).complete(),
-                    child: const Text('Aan de slag'),
+                    child: Text(S.current.getStarted),
                   ),
                 ],
               ),

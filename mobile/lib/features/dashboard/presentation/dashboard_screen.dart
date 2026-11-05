@@ -12,15 +12,16 @@ import '../../products/application/product_providers.dart';
 import '../../products/domain/product.dart';
 import '../../products/presentation/widgets/category_icon.dart';
 import '../application/dashboard_summary.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Home: begroeting, tegels met aantallen en recente aankopen.
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   static String greeting(DateTime now) {
-    if (now.hour < 12) return 'Goedemorgen,';
-    if (now.hour < 18) return 'Goedemiddag,';
-    return 'Goedenavond,';
+    if (now.hour < 12) return S.current.greetingMorning;
+    if (now.hour < 18) return S.current.greetingAfternoon;
+    return S.current.greetingEvening;
   }
 
   @override
@@ -40,12 +41,10 @@ class DashboardScreen extends ConsumerWidget {
           data: (summary) => summary.totalProducts == 0
               ? EmptyState(
                   icon: Icons.inventory_2_outlined,
-                  title: 'Nog geen producten',
+                  title: S.current.noProductsTitle,
                   message:
-                      'Voeg je eerste aankoop toe en houd al je garanties en '
-                      'documenten veilig op één plek. Je aankopen en bonnen '
-                      'blijven op je eigen telefoon.',
-                  actionLabel: 'Aankoop toevoegen',
+                      S.current.noProductsDashboard,
+                  actionLabel: S.current.addPurchase,
                   onAction: () => context.push(AppRoutes.addPurchase),
                 )
               : _DashboardContent(summary: summary, now: now),
@@ -93,9 +92,7 @@ class _DashboardContent extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    count == 1
-                        ? 'Je hebt 1 product geregistreerd.'
-                        : 'Je hebt $count producten geregistreerd.',
+                    S.current.productsRegistered(count),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -105,7 +102,7 @@ class _DashboardContent extends StatelessWidget {
             ),
             IconButton(
               key: const Key('dashboard.reminders'),
-              tooltip: 'Herinneringen',
+              tooltip: S.current.reminders,
               icon: const Icon(Icons.notifications_none),
               onPressed: () => context.push(AppRoutes.reminders),
             ),
@@ -121,7 +118,7 @@ class _DashboardContent extends StatelessWidget {
                   key: const Key('dashboard.productCount'),
                   icon: Icons.inventory_2_outlined,
                   value: '$count',
-                  label: count == 1 ? 'Product' : 'Producten',
+                  label: count == 1 ? S.current.product : S.current.navProducts,
                   onTap: () => context.go(AppRoutes.products),
                 ),
               ),
@@ -132,8 +129,8 @@ class _DashboardContent extends StatelessWidget {
                   icon: Icons.event_outlined,
                   value: '$reminders',
                   label: reminders == 1
-                      ? 'Binnenkort een herinnering'
-                      : 'Binnenkort herinneringen',
+                      ? S.current.statUpcomingReminder
+                      : S.current.statUpcomingReminders,
                   onTap: () => context.push(AppRoutes.reminders),
                 ),
               ),
@@ -142,10 +139,10 @@ class _DashboardContent extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.lg),
         _SectionHeader(
-          title: 'Recent toegevoegd',
+          title: S.current.recentlyAdded,
           action: TextButton(
             onPressed: () => context.go(AppRoutes.products),
-            child: const Text('Toon alles'),
+            child: Text(S.current.showAll),
           ),
         ),
         Card(

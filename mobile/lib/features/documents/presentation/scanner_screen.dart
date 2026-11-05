@@ -10,6 +10,7 @@ import '../../../core/errors/user_message.dart';
 import '../application/document_service.dart';
 import '../data/camera_scanner.dart';
 import '../data/document_picker.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Camera in de app met een kader voor de bon.
 final cameraScannerProvider = Provider<CameraScanner>(
@@ -83,7 +84,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
     try {
       final cameras = await ref.read(availableCamerasProvider)();
       if (cameras.isEmpty) {
-        _fail('Er is geen camera beschikbaar op dit toestel.');
+        _fail(S.current.noCamera);
         return;
       }
       final back = cameras.firstWhere(
@@ -110,7 +111,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
     } on CameraException catch (e) {
       _fail(_messageFor(e));
     } catch (_) {
-      _fail('De camera kon niet worden gestart.');
+      _fail(S.current.cameraStartFailed);
     }
   }
 
@@ -122,10 +123,8 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
     'CameraAccessDenied' ||
     'CameraAccessDeniedWithoutPrompt' ||
     'CameraAccessRestricted' =>
-      'Bonvrij heeft geen toegang tot de camera. Je kunt dit aanzetten in de '
-          'instellingen van je telefoon, of een foto uit je fotobibliotheek '
-          'kiezen.',
-    _ => 'De camera kon niet worden gestart.',
+      S.current.cameraNoAccessScanner,
+    _ => S.current.cameraStartFailed,
   };
 
   Future<void> _capture() async {
@@ -145,7 +144,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
       if (mounted) {
         setState(() => _busy = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('De foto kon niet worden gemaakt.')),
+          SnackBar(content: Text(S.current.photoFailed)),
         );
       }
     }
@@ -191,9 +190,9 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen>
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Kassabon scannen'),
+        title: Text(S.current.scanReceipt),
         leading: IconButton(
-          tooltip: 'Sluiten',
+          tooltip: S.current.close,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -245,7 +244,7 @@ class _Viewfinder extends StatelessWidget {
           right: AppSpacing.md,
           bottom: AppSpacing.md,
           child: Text(
-            'Leg de bon plat neer en houd hem binnen het kader.',
+            S.current.scannerHint,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Colors.white,
@@ -310,9 +309,9 @@ class _Controls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (flashIcon, flashLabel) = switch (flash) {
-      FlashMode.auto => (Icons.flash_auto, 'Flitser: automatisch'),
-      FlashMode.always => (Icons.flash_on, 'Flitser: aan'),
-      _ => (Icons.flash_off, 'Flitser: uit'),
+      FlashMode.auto => (Icons.flash_auto, S.current.flashAuto),
+      FlashMode.always => (Icons.flash_on, S.current.flashOn),
+      _ => (Icons.flash_off, S.current.flashOff),
     };
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
@@ -320,7 +319,7 @@ class _Controls extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           IconButton(
-            tooltip: 'Kiezen uit foto\'s',
+            tooltip: S.current.chooseFromPhotos,
             iconSize: 30,
             color: Colors.white,
             icon: const Icon(Icons.photo_library_outlined),
@@ -328,7 +327,7 @@ class _Controls extends StatelessWidget {
           ),
           Semantics(
             button: true,
-            label: 'Foto maken',
+            label: S.current.takePhoto,
             child: GestureDetector(
               onTap: canCapture ? onCapture : null,
               child: Container(
@@ -393,7 +392,7 @@ class _Problem extends StatelessWidget {
             FilledButton.icon(
               onPressed: onGallery,
               icon: const Icon(Icons.photo_library_outlined),
-              label: const Text('Kiezen uit foto\'s'),
+              label: Text(S.current.chooseFromPhotos),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'document.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Controle van geïmporteerde bestanden: type (op inhoud) en grootte.
 abstract final class DocumentValidation {
@@ -33,14 +34,13 @@ abstract final class DocumentValidation {
     required DocumentFormat? format,
   }) {
     if (sizeBytes <= 0) {
-      return 'Dit bestand is leeg en kan niet worden gebruikt.';
+      return S.current.fileEmpty;
     }
     if (sizeBytes > maxSizeBytes) {
-      return 'Dit bestand is te groot (maximaal 25 MB).';
+      return S.current.fileTooLarge;
     }
     if (format == null) {
-      return 'Dit bestandstype wordt niet ondersteund. '
-          'Kies een PDF, JPG, PNG of HEIC.';
+      return S.current.fileTypeUnsupported;
     }
     return null;
   }

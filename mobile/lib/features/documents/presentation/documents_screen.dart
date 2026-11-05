@@ -11,6 +11,7 @@ import '../../products/application/product_providers.dart';
 import '../application/document_service.dart';
 import '../domain/document.dart';
 import 'document_widgets.dart';
+import '../../../l10n/app_strings.dart';
 
 /// Alle aankoopbewijzen van alle producten in één lijst.
 class DocumentsScreen extends ConsumerStatefulWidget {
@@ -30,7 +31,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
     final names = {for (final p in products) p.id: p.name};
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Documenten')),
+      appBar: AppBar(title: Text(S.current.navDocuments)),
       body: documents.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => ErrorView(
@@ -39,12 +40,11 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
         ),
         data: (all) {
           if (all.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.description_outlined,
-              title: 'Nog geen documenten',
+              title: S.current.noDocumentsTitle,
               message:
-                  'Kassabonnen, facturen en garantiebewijzen die je bij een '
-                  'product bewaart, verschijnen hier.',
+                  S.current.noDocumentsBody,
             );
           }
           final usedTypes = DocumentType.values
@@ -68,7 +68,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
                       Padding(
                         padding: const EdgeInsets.only(right: AppSpacing.sm),
                         child: ChoiceChip(
-                          label: const Text('Alle'),
+                          label: Text(S.current.all),
                           selected: _type == null,
                           onSelected: (_) => setState(() => _type = null),
                         ),
@@ -99,7 +99,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen> {
                       const SizedBox(height: AppSpacing.sm),
                   itemBuilder: (context, index) {
                     final document = visible[index];
-                    final product = names[document.productId] ?? 'Product';
+                    final product = names[document.productId] ?? S.current.product;
                     return Card(
                       clipBehavior: Clip.antiAlias,
                       child: DocumentTile(
