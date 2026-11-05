@@ -159,7 +159,7 @@ void main() {
   for (final (language, locale) in const [
     ('', Locale('nl', 'NL')),
     ('-en', Locale('en', 'GB')),
-  ])
+  ]) {
     for (final device in _devices) {
       final folder = '${device.name}$language';
       void shoot(
@@ -281,6 +281,7 @@ void main() {
         await _capture(tester, folder, '6-privacy');
       });
     }
+  }
 }
 
 /// Een fictieve kassabon op tafel, in plaats van het camerabeeld.
