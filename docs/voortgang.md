@@ -375,6 +375,16 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 - 7-11: Apple heeft 1.1.0 goedgekeurd (Ready for Distribution); de app staat in 174 landen
   (alle behalve China). "Automatisch in toekomstige landen" staat uit.
 
+## Modelnummer, 1.2.0 (4) (2026-11-07)
+
+- Nieuw optioneel veld **Modelnummer** (na Categorie), met herkenning op facturen ("Model:",
+  "Modelnummer", "Typenr.", "Type:", "MPN"), kopieerknop, zoeken en exportkolom. Databaseversie 4.
+- Model- en serienummer staan bij alle categorieën behalve Kleding en Meubels; is er al iets
+  ingevuld of herkend, dan blijft het veld zichtbaar.
+- Getest met automatische tests (CI groen) en schermafbeeldingen; door de gebruiker goedgekeurd.
+  Niet getest met een echte factuur met modelnummer.
+- Idee voor later: typeplaatje scannen (model- en serienummer met de camera, op het toestel).
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
