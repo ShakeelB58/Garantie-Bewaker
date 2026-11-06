@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 ///   omdat een herinnering om "09:00 in Nederland" moet afgaan.
 /// - Geldbedragen in gehele centen.
 abstract final class Migrations {
-  static const latestVersion = 3;
+  static const latestVersion = 4;
 
   static final Map<int, List<String>> _steps = {
     1: [
@@ -66,6 +66,8 @@ abstract final class Migrations {
     ],
     // Serienummer of IMEI per product (optioneel).
     3: ['ALTER TABLE products ADD COLUMN serial_number TEXT'],
+    // Modelnummer of typenummer per product (optioneel).
+    4: ['ALTER TABLE products ADD COLUMN model_number TEXT'],
   };
 
   /// Voert alle stappen uit na [fromVersion] tot en met [toVersion].

@@ -8,6 +8,7 @@ import '../../../l10n/app_strings.dart';
 enum ProductField {
   name,
   brand,
+  modelNumber,
   serialNumber,
   merchant,
   purchaseDate,
@@ -22,6 +23,7 @@ class ProductInput {
   const ProductInput({
     this.name = '',
     this.brand = '',
+    this.modelNumber = '',
     this.serialNumber = '',
     this.merchant = '',
     this.category = ProductCategory.other,
@@ -36,6 +38,7 @@ class ProductInput {
   factory ProductInput.fromProduct(Product product) => ProductInput(
     name: product.name,
     brand: product.brand ?? '',
+    modelNumber: product.modelNumber ?? '',
     serialNumber: product.serialNumber ?? '',
     merchant: product.merchant ?? '',
     category: product.category,
@@ -51,6 +54,7 @@ class ProductInput {
 
   final String name;
   final String brand;
+  final String modelNumber;
   final String serialNumber;
   final String merchant;
   final ProductCategory category;
@@ -77,6 +81,7 @@ class ProductInput {
       id: id,
       name: name.trim(),
       brand: optional(brand),
+      modelNumber: optional(modelNumber),
       serialNumber: optional(serialNumber),
       category: category,
       merchant: optional(merchant),
@@ -121,6 +126,11 @@ abstract final class ProductValidator {
 
     if (input.brand.trim().length > maxTextLength) {
       errors[ProductField.brand] = S.current.maxCharacters(maxTextLength);
+    }
+    if (input.modelNumber.trim().length > maxSerialLength) {
+      errors[ProductField.modelNumber] = S.current.maxCharacters(
+        maxSerialLength,
+      );
     }
     if (input.serialNumber.trim().length > maxSerialLength) {
       errors[ProductField.serialNumber] = S.current.maxCharacters(

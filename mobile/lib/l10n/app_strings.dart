@@ -49,6 +49,7 @@ abstract class S {
   String get exportSaveTitle;
   String get csvName;
   String get csvBrand;
+  String get modelNumber;
   String get serialNumber;
   String get category;
   String get csvMerchant;
@@ -171,6 +172,8 @@ abstract class S {
   String get productNameRequired;
   String get productNameHint;
   String get brandOptional;
+  String get modelOptional;
+  String get modelHint;
   String get serialOptional;
   String get purchase;
   String get merchantOptional;

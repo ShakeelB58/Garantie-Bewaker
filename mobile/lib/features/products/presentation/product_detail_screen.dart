@@ -221,6 +221,13 @@ class _ProductDetails extends ConsumerWidget {
                   value: product.category.label,
                 ),
                 _DetailRow(
+                  label: S.current.modelNumber,
+                  value: product.modelNumber ?? S.current.notFilledIn,
+                  copyKey: product.modelNumber == null
+                      ? null
+                      : const Key('product.copyModel'),
+                ),
+                _DetailRow(
                   label: S.current.serialNumber,
                   value: product.serialNumber ?? S.current.notFilledIn,
                   copyKey: product.serialNumber == null

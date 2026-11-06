@@ -10,6 +10,7 @@ abstract final class ProductsCsv {
   static List<String> get header => [
     S.current.csvName,
     S.current.csvBrand,
+    S.current.modelNumber,
     S.current.serialNumber,
     S.current.category,
     S.current.csvMerchant,
@@ -33,6 +34,7 @@ abstract final class ProductsCsv {
         _row([
           product.name,
           product.brand ?? '',
+          product.modelNumber ?? '',
           product.serialNumber ?? '',
           product.category.label,
           product.merchant ?? '',
