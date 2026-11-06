@@ -235,6 +235,10 @@ void main() {
                       : 'Wireless headphones',
                   RecognitionConfidence.medium,
                 ),
+                modelNumber: const RecognizedField(
+                  'SN-WH7',
+                  RecognitionConfidence.medium,
+                ),
                 serialNumber: const RecognizedField(
                   'SNR-7731-4420',
                   RecognitionConfidence.medium,
@@ -367,6 +371,7 @@ class _TableWithReceipt extends StatelessWidget {
                 divider,
                 row(nl ? 'Draadloze koptelefoon' : 'Wireless headphones', p149),
                 row(nl ? '  1 x 149,00' : '  1 x 149.00', ''),
+                row('  Model: SN-WH7', ''),
                 row('  S/N: SNR-7731-4420', ''),
                 divider,
                 row(nl ? 'TOTAAL' : 'TOTAL', 'EUR $p149', bold: true),
