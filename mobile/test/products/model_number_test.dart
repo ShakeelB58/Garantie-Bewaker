@@ -115,7 +115,7 @@ void main() {
         makeProduct(id: 'a', name: 'Wasmachine', modelNumber: 'WAN28297NL'),
         makeProduct(id: 'b', name: 'Laptop', modelNumber: 'KRN-14A'),
       ];
-      final result = ProductQuery(searchText: 'wan282').apply(products);
+      final result = const ProductQuery(searchText: 'wan282').apply(products);
       expect(result.map((p) => p.id), ['a']);
     });
 
