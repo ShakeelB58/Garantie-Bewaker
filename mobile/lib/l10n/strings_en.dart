@@ -114,6 +114,9 @@ class StringsEn extends S {
   String get csvBrand => 'Brand';
 
   @override
+  String get modelNumber => 'Model number';
+
+  @override
   String get serialNumber => 'Serial number or IMEI';
 
   @override
@@ -499,6 +502,12 @@ class StringsEn extends S {
 
   @override
   String get brandOptional => 'Brand (optional)';
+
+  @override
+  String get modelOptional => 'Model number (optional)';
+
+  @override
+  String get modelHint => 'On the sticker or rating plate, e.g. SM-S921B.';
 
   @override
   String get serialOptional => 'Serial number or IMEI (optional)';

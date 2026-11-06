@@ -114,6 +114,9 @@ class StringsNl extends S {
   String get csvBrand => 'Merk';
 
   @override
+  String get modelNumber => 'Modelnummer';
+
+  @override
   String get serialNumber => 'Serienummer of IMEI';
 
   @override
@@ -502,6 +505,13 @@ class StringsNl extends S {
 
   @override
   String get brandOptional => 'Merk (optioneel)';
+
+  @override
+  String get modelOptional => 'Modelnummer (optioneel)';
+
+  @override
+  String get modelHint =>
+      'Staat op de sticker of het typeplaatje, bijv. SM-S921B.';
 
   @override
   String get serialOptional => 'Serienummer of IMEI (optioneel)';

@@ -50,7 +50,7 @@ class ProductQuery {
       if (terms.isEmpty) return true;
       final haystack = _normalize(
         '${product.name} ${product.brand ?? ''} ${product.merchant ?? ''} '
-        '${product.serialNumber ?? ''}',
+        '${product.modelNumber ?? ''} ${product.serialNumber ?? ''}',
       );
       return terms.every(haystack.contains);
     }).toList();

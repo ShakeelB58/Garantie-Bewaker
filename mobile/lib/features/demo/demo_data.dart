@@ -32,6 +32,7 @@ class DemoProduct {
     required this.boughtDaysAgo,
     this.warrantyMonths,
     this.reminderInDays,
+    this.modelNumber,
     this.serialNumber,
     this.nameEn,
     this.merchantEn,
@@ -50,6 +51,9 @@ class DemoProduct {
 
   /// Herinnering over dit aantal dagen, of `null` voor geen herinnering.
   final int? reminderInDays;
+
+  /// Fictief modelnummer.
+  final String? modelNumber;
 
   /// Fictief serienummer of IMEI (het IMEI is het bekende voorbeeldnummer).
   final String? serialNumber;
@@ -74,6 +78,7 @@ abstract final class DemoData {
       category: ProductCategory.kitchen,
       merchant: 'Huis & Haard',
       merchantEn: 'Hearth & Home',
+      modelNumber: 'KW-AF55',
       priceMinor: 12999,
       boughtDaysAgo: 3,
       warrantyMonths: 24,
@@ -90,6 +95,7 @@ abstract final class DemoData {
       boughtDaysAgo: 41,
       warrantyMonths: 24,
       reminderInDays: 34,
+      modelNumber: 'LM-N9-128',
       serialNumber: '490154203237518',
       documents: [DocumentType.invoice, DocumentType.warranty],
     ),
@@ -138,6 +144,7 @@ abstract final class DemoData {
       merchantEn: 'Digital & Co',
       priceMinor: 109900,
       boughtDaysAgo: 75,
+      modelNumber: 'KRN-14A',
       serialNumber: 'KRN14-2026-0042',
       warrantyMonths: 24,
       documents: [DocumentType.invoice],
@@ -169,6 +176,7 @@ abstract final class DemoData {
             brand: demo.brand,
             category: demo.category,
             merchant: demo.localMerchant,
+            modelNumber: demo.modelNumber,
             serialNumber: demo.serialNumber,
             purchaseDate: bought,
             purchasePriceMinor: demo.priceMinor,
@@ -205,6 +213,10 @@ abstract final class DemoData {
       nl ? 'Datum: $date' : 'Date: $date',
       '',
       '${product.brand ?? ''} ${product.name}'.trim(),
+      if (product.modelNumber != null)
+        nl
+            ? 'Modelnummer: ${product.modelNumber}'
+            : 'Model number: ${product.modelNumber}',
       if (product.serialNumber != null)
         nl
             ? 'Serienummer/IMEI: ${product.serialNumber}'

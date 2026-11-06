@@ -92,6 +92,7 @@ class _ProductForm extends ConsumerStatefulWidget {
 class _ProductFormState extends ConsumerState<_ProductForm> {
   late final TextEditingController _name;
   late final TextEditingController _brand;
+  late final TextEditingController _model;
   late final TextEditingController _serial;
   late final TextEditingController _merchant;
   late final TextEditingController _price;
@@ -131,6 +132,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
 
     _name = TextEditingController(text: input.name);
     _brand = TextEditingController(text: input.brand);
+    _model = TextEditingController(text: input.modelNumber);
     _serial = TextEditingController(text: input.serialNumber);
     _merchant = TextEditingController(text: input.merchant);
     _price = TextEditingController(text: input.priceText);
@@ -165,6 +167,11 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     if (r.totalMinor.isFound &&
         Money.supportedCurrencies.contains(r.currency)) {
       _currency = r.currency;
+    }
+    final model = r.modelNumber;
+    if (model.value != null) {
+      _model.text = model.value!;
+      _recognized[ProductField.modelNumber] = model.confidence;
     }
     final serial = r.serialNumber;
     if (serial.value != null) {
@@ -253,6 +260,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         : S.current.serialHint;
   }
 
+  /// Model- en serienummer horen niet bij kleding en meubels. Staat er al
+  /// iets in het veld, dan blijft het altijd zichtbaar (niets raakt kwijt).
+  bool get _showModel =>
+      _category.hasDeviceNumbers || _model.text.trim().isNotEmpty;
+  bool get _showSerial =>
+      _category.hasDeviceNumbers || _serial.text.trim().isNotEmpty;
+
   bool get _serialLooksLikeWrongImei =>
       Imei.looksLikeImei(_serial.text) && !Imei.isValid(_serial.text);
 
@@ -260,6 +274,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   void dispose() {
     _name.dispose();
     _brand.dispose();
+    _model.dispose();
     _serial.dispose();
     _merchant.dispose();
     _price.dispose();
@@ -269,6 +284,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   ProductInput get _input => ProductInput(
     name: _name.text,
     brand: _brand.text,
+    modelNumber: _model.text,
     serialNumber: _serial.text,
     merchant: _merchant.text,
     category: _category,
@@ -544,34 +560,60 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 if (value != null) _changed(null, () => _category = value);
               },
             ),
-            const SizedBox(height: AppSpacing.md),
-            TextField(
-              key: const Key('productForm.serialNumber'),
-              controller: _serial,
-              textCapitalization: TextCapitalization.characters,
-              autocorrect: false,
-              enableSuggestions: false,
-              textInputAction: TextInputAction.next,
-              maxLength: ProductValidator.maxSerialLength,
-              decoration: InputDecoration(
-                labelText: S.current.serialOptional,
-                errorText: _errors[ProductField.serialNumber],
-                helperText: _serialHelper(),
-                helperMaxLines: 3,
-                helperStyle:
-                    _hintStyle(ProductField.serialNumber) ??
-                    (_serialLooksLikeWrongImei
-                        ? theme.textTheme.bodySmall?.copyWith(
-                            color: AppColors.warning,
-                            fontWeight: FontWeight.w600,
-                          )
-                        : null),
-                suffixIcon: _recognitionIcon(ProductField.serialNumber),
-                border: const OutlineInputBorder(),
-                counterText: '',
+            if (_showModel) ...[
+              const SizedBox(height: AppSpacing.md),
+              TextField(
+                key: const Key('productForm.modelNumber'),
+                controller: _model,
+                textCapitalization: TextCapitalization.characters,
+                autocorrect: false,
+                enableSuggestions: false,
+                textInputAction: TextInputAction.next,
+                maxLength: ProductValidator.maxSerialLength,
+                decoration: InputDecoration(
+                  labelText: S.current.modelOptional,
+                  errorText: _errors[ProductField.modelNumber],
+                  helperText:
+                      _recognitionHint(ProductField.modelNumber) ??
+                      S.current.modelHint,
+                  helperMaxLines: 3,
+                  helperStyle: _hintStyle(ProductField.modelNumber),
+                  suffixIcon: _recognitionIcon(ProductField.modelNumber),
+                  border: const OutlineInputBorder(),
+                  counterText: '',
+                ),
+                onChanged: (_) => _changed(ProductField.modelNumber, () {}),
               ),
-              onChanged: (_) => _changed(ProductField.serialNumber, () {}),
-            ),
+            ],
+            if (_showSerial) const SizedBox(height: AppSpacing.md),
+            if (_showSerial)
+              TextField(
+                key: const Key('productForm.serialNumber'),
+                controller: _serial,
+                textCapitalization: TextCapitalization.characters,
+                autocorrect: false,
+                enableSuggestions: false,
+                textInputAction: TextInputAction.next,
+                maxLength: ProductValidator.maxSerialLength,
+                decoration: InputDecoration(
+                  labelText: S.current.serialOptional,
+                  errorText: _errors[ProductField.serialNumber],
+                  helperText: _serialHelper(),
+                  helperMaxLines: 3,
+                  helperStyle:
+                      _hintStyle(ProductField.serialNumber) ??
+                      (_serialLooksLikeWrongImei
+                          ? theme.textTheme.bodySmall?.copyWith(
+                              color: AppColors.warning,
+                              fontWeight: FontWeight.w600,
+                            )
+                          : null),
+                  suffixIcon: _recognitionIcon(ProductField.serialNumber),
+                  border: const OutlineInputBorder(),
+                  counterText: '',
+                ),
+                onChanged: (_) => _changed(ProductField.serialNumber, () {}),
+              ),
             const SizedBox(height: AppSpacing.lg),
             _SectionTitle(S.current.purchase),
             TextField(

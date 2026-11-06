@@ -72,6 +72,7 @@ class ParsedReceipt {
     required this.productName,
     required this.lineItems,
     this.productCandidates = const [],
+    this.modelNumber = const RecognizedField.unknown(),
     this.serialNumber = const RecognizedField.unknown(),
     this.currency = 'EUR',
     this.vatMinor,
@@ -102,6 +103,9 @@ class ParsedReceipt {
   /// Productregels zonder bezorg- of servicekosten: de keuzes voor de
   /// gebruiker als er meerdere producten op één bon staan.
   final List<ParsedLineItem> productCandidates;
+
+  /// Model- of typenummer dat bij een label staat, bijv. "Model: SM-S921B".
+  final RecognizedField<String> modelNumber;
 
   /// Serienummer of IMEI dat bij een label staat, bijv. "IMEI: …" of
   /// "S/N: …". Hoog alleen bij een IMEI met een kloppend controlecijfer.

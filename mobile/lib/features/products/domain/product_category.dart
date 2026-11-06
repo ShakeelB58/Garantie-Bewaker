@@ -34,6 +34,11 @@ enum ProductCategory {
     };
   }
 
+  /// Of model- en serienummer bij deze categorie horen. Bij kleding en
+  /// meubels staan die velden niet in het formulier (behalve als er al iets
+  /// is ingevuld of herkend).
+  bool get hasDeviceNumbers => this != clothing && this != furniture;
+
   /// Onbekende waarden (bijv. uit een nieuwere app-versie) worden "Overig".
   static ProductCategory fromKey(String key) => ProductCategory.values
       .firstWhere((c) => c.key == key, orElse: () => ProductCategory.other);

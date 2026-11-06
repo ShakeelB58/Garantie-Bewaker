@@ -31,15 +31,15 @@ void main() {
     final lines = csv.substring(1).split('\r\n');
     expect(
       lines[0],
-      'Naam;Merk;Serienummer of IMEI;Categorie;Winkel;Aankoopdatum;Aankoopprijs;Valuta;'
+      'Naam;Merk;Modelnummer;Serienummer of IMEI;Categorie;Winkel;Aankoopdatum;Aankoopprijs;Valuta;'
       'Garantie tot;Herinnering aan;Herinneringsdatum;Aantal documenten',
     );
     expect(
       lines[1],
-      'Wasmachine;Bosch;;Huishoudelijk;Coolblue;05-03-2026;1299,00;EUR;'
+      'Wasmachine;Bosch;;;Huishoudelijk;Coolblue;05-03-2026;1299,00;EUR;'
       '05-03-2028;ja;05-02-2028;2',
     );
-    expect(lines[2], 'Föhn;;;Huishoudelijk;;30-09-2026;;EUR;;nee;;0');
+    expect(lines[2], 'Föhn;;;;Huishoudelijk;;30-09-2026;;EUR;;nee;;0');
     expect(lines[3], isEmpty);
   });
 

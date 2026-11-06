@@ -16,6 +16,7 @@ class Product {
     required this.updatedAt,
     this.brand,
     this.merchant,
+    this.modelNumber,
     this.serialNumber,
     this.purchasePriceMinor,
     this.warrantyEndDate,
@@ -27,6 +28,9 @@ class Product {
   final String? brand;
   final ProductCategory category;
   final String? merchant;
+
+  /// Model- of typenummer, bijv. `SM-S921B`. Zegt wélk apparaat het is.
+  final String? modelNumber;
 
   /// Serienummer of IMEI-nummer, zelf ingevuld of herkend en bevestigd.
   /// Handig voor de verzekering. Blijft op het toestel.
@@ -65,6 +69,7 @@ class Product {
       other.brand == brand &&
       other.category == category &&
       other.merchant == merchant &&
+      other.modelNumber == modelNumber &&
       other.serialNumber == serialNumber &&
       other.purchaseDate == purchaseDate &&
       other.purchasePriceMinor == purchasePriceMinor &&
@@ -82,6 +87,7 @@ class Product {
     brand,
     category,
     merchant,
+    modelNumber,
     serialNumber,
     purchaseDate,
     purchasePriceMinor,

@@ -75,6 +75,7 @@ class ReceiptParser {
       productName: productName,
       lineItems: items,
       productCandidates: goods,
+      modelNumber: findModelNumber(lines),
       serialNumber: findSerialNumber(lines),
       currency: currency,
       vatMinor: _findVat(lines),
@@ -146,6 +147,40 @@ class ReceiptParser {
       );
     }
     return const RecognizedField.unknown();
+  }
+
+  /// "Model: SM-S921B", "Modelnummer WAN28297NL", "Typenr. HD9252/90",
+  /// "Type: KD-55X85L", "Model No. A2337", "MPN: MK183N/A".
+  /// "Type" alleen met dubbele punt, zodat "Type betaling" niet meetelt.
+  static final _model = RegExp(
+    r'\b(?:model\s?(?:nummer|nr|number|no)?|type\s?(?:nummer|nr|number|no)|type(?=\s*:)|MPN)(?![a-z])\.?\s*[:#]?\s*([A-Z0-9][A-Z0-9\-/.]{2,39})',
+    caseSensitive: false,
+  );
+
+  /// Zoekt een model- of typenummer dat expliciet bij een label staat.
+  /// Zonder label wordt niets gegokt.
+  static RecognizedField<String> findModelNumber(List<String> lines) {
+    final models = <String>{};
+    for (final line in lines) {
+      for (final m in _model.allMatches(line)) {
+        var value = m.group(1)!;
+        while (value.endsWith('.') || value.endsWith('/')) {
+          value = value.substring(0, value.length - 1);
+        }
+        // Minstens één cijfer; alleen cijfers pas vanaf 5 tekens (geen jaartal).
+        final hasDigit = RegExp(r'\d').hasMatch(value);
+        final onlyDigits = RegExp(r'^\d+$').hasMatch(value);
+        if (!hasDigit || (onlyDigits && value.length < 5)) continue;
+        models.add(value.toUpperCase());
+      }
+    }
+    if (models.isEmpty) return const RecognizedField.unknown();
+    return RecognizedField(
+      models.first,
+      models.length == 1
+          ? RecognitionConfidence.medium
+          : RecognitionConfidence.low,
+    );
   }
 
   // ---------------------------------------------------------------------------
