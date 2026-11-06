@@ -372,7 +372,8 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   plus Engelse winkelpagina's (en-GB en en-US).
 - Apple: Nederland en België stonden op "Cannot Sell – Trader Status Not Provided"; de
   DSA-status is op 5-11 ingevuld (Active). Op 6-11 stonden beide op "Available": Bonvrij is te downloaden.
-- Daarna eventueel meer landen aanzetten (niet China).
+- 7-11: Apple heeft 1.1.0 goedgekeurd (Ready for Distribution); de app staat in 174 landen
+  (alle behalve China). "Automatisch in toekomstige landen" staat uit.
 
 ## MVP: definitie van klaar
 
