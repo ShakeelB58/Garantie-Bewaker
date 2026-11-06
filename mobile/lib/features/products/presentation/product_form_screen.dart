@@ -587,33 +587,33 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             ],
             if (_showSerial) const SizedBox(height: AppSpacing.md),
             if (_showSerial)
-            TextField(
-              key: const Key('productForm.serialNumber'),
-              controller: _serial,
-              textCapitalization: TextCapitalization.characters,
-              autocorrect: false,
-              enableSuggestions: false,
-              textInputAction: TextInputAction.next,
-              maxLength: ProductValidator.maxSerialLength,
-              decoration: InputDecoration(
-                labelText: S.current.serialOptional,
-                errorText: _errors[ProductField.serialNumber],
-                helperText: _serialHelper(),
-                helperMaxLines: 3,
-                helperStyle:
-                    _hintStyle(ProductField.serialNumber) ??
-                    (_serialLooksLikeWrongImei
-                        ? theme.textTheme.bodySmall?.copyWith(
-                            color: AppColors.warning,
-                            fontWeight: FontWeight.w600,
-                          )
-                        : null),
-                suffixIcon: _recognitionIcon(ProductField.serialNumber),
-                border: const OutlineInputBorder(),
-                counterText: '',
+              TextField(
+                key: const Key('productForm.serialNumber'),
+                controller: _serial,
+                textCapitalization: TextCapitalization.characters,
+                autocorrect: false,
+                enableSuggestions: false,
+                textInputAction: TextInputAction.next,
+                maxLength: ProductValidator.maxSerialLength,
+                decoration: InputDecoration(
+                  labelText: S.current.serialOptional,
+                  errorText: _errors[ProductField.serialNumber],
+                  helperText: _serialHelper(),
+                  helperMaxLines: 3,
+                  helperStyle:
+                      _hintStyle(ProductField.serialNumber) ??
+                      (_serialLooksLikeWrongImei
+                          ? theme.textTheme.bodySmall?.copyWith(
+                              color: AppColors.warning,
+                              fontWeight: FontWeight.w600,
+                            )
+                          : null),
+                  suffixIcon: _recognitionIcon(ProductField.serialNumber),
+                  border: const OutlineInputBorder(),
+                  counterText: '',
+                ),
+                onChanged: (_) => _changed(ProductField.serialNumber, () {}),
               ),
-              onChanged: (_) => _changed(ProductField.serialNumber, () {}),
-            ),
             const SizedBox(height: AppSpacing.lg),
             _SectionTitle(S.current.purchase),
             TextField(

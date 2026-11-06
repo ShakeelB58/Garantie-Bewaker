@@ -132,7 +132,10 @@ void main() {
     final today = DateTime(2026, 10, 19);
 
     test('modelnummer met verschillende labels', () {
-      expect(ReceiptParser.findModelNumber(['Model: SM-S921B']).value, 'SM-S921B');
+      expect(
+        ReceiptParser.findModelNumber(['Model: SM-S921B']).value,
+        'SM-S921B',
+      );
       expect(
         ReceiptParser.findModelNumber(['Modelnummer WAN28297NL']).value,
         'WAN28297NL',
@@ -141,7 +144,10 @@ void main() {
         ReceiptParser.findModelNumber(['Typenr. HD9252/90']).value,
         'HD9252/90',
       );
-      expect(ReceiptParser.findModelNumber(['Type: KD-55X85L']).value, 'KD-55X85L');
+      expect(
+        ReceiptParser.findModelNumber(['Type: KD-55X85L']).value,
+        'KD-55X85L',
+      );
       expect(ReceiptParser.findModelNumber(['Model No. A2337']).value, 'A2337');
     });
 
@@ -214,9 +220,7 @@ Totaal 649,00
       expect(serial, findsOneWidget);
     });
 
-    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (
-      tester,
-    ) async {
+    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (tester) async {
       await openForm(tester);
       await tester.ensureVisible(model);
       await tester.enterText(model, 'XY-123');
