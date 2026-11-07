@@ -146,7 +146,13 @@ class _BonvrijAppState extends ConsumerState<BonvrijApp> {
       // Eerste keer: welkomstscherm vóór de rest van de app. De router blijft
       // ondertussen actief (bijv. voor een bestand dat via "Delen" binnenkomt).
       builder: (context, child) => switch (onboarding) {
-        AsyncData(value: false) => const WelcomeScreen(),
+        // Eigen Navigator, zodat het welkomstscherm vensters kan tonen
+        // (bijv. bij "Ik heb een reservekopie").
+        AsyncData(value: false) => Navigator(
+          onGenerateRoute: (_) => MaterialPageRoute<void>(
+            builder: (_) => const WelcomeScreen(),
+          ),
+        ),
         AsyncLoading() => const ColoredBox(color: AppColors.background),
         _ => child ?? const SizedBox.shrink(),
       },

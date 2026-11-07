@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,7 @@ class SystemBackupFilePicker implements BackupFilePicker {
       );
       final path = file?.path;
       if (file == null || path == null) return null;
-      return File(path).readAsBytes();
+      return await File(path).readAsBytes();
     } on PlatformException catch (e) {
       throw AppException(S.current.fileOpenFailed, cause: e);
     }
