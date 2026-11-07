@@ -296,6 +296,25 @@ void main() {
           await tester.pumpAndSettle();
           await _capture(tester, 'preview$language', 'formulier');
         });
+
+        shoot('voorbeeld formulier garantie', (tester) async {
+          await _startWithDemo(tester, device);
+          await tester.tap(find.byKey(const Key('nav.add')));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(S.current.enterManually));
+          await tester.pumpAndSettle();
+          final chip = find.byKey(const Key('productForm.warranty2y'));
+          await tester.scrollUntilVisible(
+            chip,
+            300,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, -250));
+          await tester.pumpAndSettle();
+          await tester.tap(chip);
+          await tester.pumpAndSettle();
+          await _capture(tester, 'preview$language', 'formulier-garantie');
+        });
       }
     }
   }
