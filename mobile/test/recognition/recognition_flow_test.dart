@@ -68,9 +68,11 @@ void main() {
     // Eén product: de regelprijs, niet het totaal met bezorging.
     expect(_fieldText(tester, 'price'), '1299,00');
     expect(find.text('12 oktober 2026'), findsOneWidget);
+    // Goed herkend: alleen het icoon, geen tekst onder elk veld.
+    expect(find.byIcon(Icons.auto_awesome_outlined), findsWidgets);
     expect(
       find.text('Herkend uit het document. Controleer dit.'),
-      findsWidgets,
+      findsNothing,
     );
     // Eén product: geen keuzelijst.
     expect(find.text('Welk product wil je bewaren?'), findsNothing);
@@ -103,15 +105,18 @@ void main() {
     await start(tester);
     await scanReceipt(tester);
 
+    // Goed herkend: alleen het icoon, geen tekst onder elk veld.
+    expect(find.byIcon(Icons.auto_awesome_outlined), findsWidgets);
     expect(
       find.text('Herkend uit het document. Controleer dit.'),
-      findsWidgets,
+      findsNothing,
     );
     await tester.enterText(_field('merchant'), 'Andere winkel');
     await tester.pump();
 
     final merchantField = tester.widget<TextField>(_field('merchant'));
     expect(merchantField.decoration!.helperText, isNull);
+    expect(merchantField.decoration!.suffixIcon, isNull);
   });
 
   testWidgets('herkennen mislukt: melding en handmatig verder', (tester) async {

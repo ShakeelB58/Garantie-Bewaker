@@ -170,11 +170,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     }
     final model = r.modelNumber;
     if (model.value != null) {
+      _numbersOpen = true;
       _model.text = model.value!;
       _recognized[ProductField.modelNumber] = model.confidence;
     }
     final serial = r.serialNumber;
     if (serial.value != null) {
+      _numbersOpen = true;
       _serial.text = serial.value!;
       _recognized[ProductField.serialNumber] = serial.confidence;
     }
@@ -210,13 +212,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     });
   }
 
-  /// Hulptekst onder een veld dat uit het document is overgenomen.
+  /// Hulptekst onder een overgenomen veld: alleen bij onzekere herkenning.
+  /// Goed herkende velden krijgen alleen het ✨-icoon (rustiger scherm).
   String? _recognitionHint(ProductField field) {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high ||
-      RecognitionConfidence.medium => S.current.recognizedHint,
+      RecognitionConfidence.high || RecognitionConfidence.medium => null,
       _ => S.current.uncertainHint,
     };
   }
@@ -242,6 +244,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         confidence == RecognitionConfidence.unknown;
     return Icon(
       uncertain ? Icons.warning_amber_rounded : Icons.auto_awesome_outlined,
+      // Schermlezers horen wat het icoon betekent.
+      semanticLabel: uncertain
+          ? S.current.uncertainHint
+          : S.current.recognizedHint,
       color: uncertain
           ? AppColors.warning
           : Theme.of(context).colorScheme.primary,
@@ -249,23 +255,39 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
   }
 
   /// Uitleg of waarschuwing onder het serienummerveld.
-  String _serialHelper() {
+  String? _serialHelper() {
     final recognized = _recognitionHint(ProductField.serialNumber);
     if (recognized != null) return recognized;
     if (_serialLooksLikeWrongImei) {
       return S.current.imeiChecksumWarning;
     }
-    return _category == ProductCategory.phoneTablet
-        ? S.current.imeiHint
-        : S.current.serialHint;
+    return _category == ProductCategory.phoneTablet ? S.current.imeiHint : null;
   }
 
+  /// Aankoopdatum plus [years] jaar. Op 29 februari wordt dat 28 februari.
+  /// De gebruiker kiest zelf de periode; de app berekent geen garantie.
+  DateTime? _plusYears(int years) {
+    final bought = _purchaseDate;
+    if (bought == null) return null;
+    final year = bought.year + years;
+    final lastDay = DateTime(year, bought.month + 1, 0).day;
+    return DateTime(
+      year,
+      bought.month,
+      bought.day > lastDay ? lastDay : bought.day,
+    );
+  }
+
+  bool get _hasNumbers =>
+      _model.text.trim().isNotEmpty || _serial.text.trim().isNotEmpty;
+
   /// Model- en serienummer horen niet bij kleding en meubels. Staat er al
-  /// iets in het veld, dan blijft het altijd zichtbaar (niets raakt kwijt).
-  bool get _showModel =>
-      _category.hasDeviceNumbers || _model.text.trim().isNotEmpty;
-  bool get _showSerial =>
-      _category.hasDeviceNumbers || _serial.text.trim().isNotEmpty;
+  /// iets in, dan blijven ze altijd zichtbaar (niets raakt kwijt).
+  bool get _showNumbers => _category.hasDeviceNumbers || _hasNumbers;
+
+  /// Of de velden zelf open staan. Dicht achter één regel, zodat het
+  /// formulier rustig blijft; open zodra er iets is ingevuld of herkend.
+  bool _numbersOpen = false;
 
   bool get _serialLooksLikeWrongImei =>
       Imei.looksLikeImei(_serial.text) && !Imei.isValid(_serial.text);
@@ -535,6 +557,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: S.current.brandOptional,
+                hintText: S.current.brandHint,
                 errorText: _errors[ProductField.brand],
                 border: const OutlineInputBorder(),
               ),
@@ -560,7 +583,21 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 if (value != null) _changed(null, () => _category = value);
               },
             ),
-            if (_showModel) ...[
+            if (_showNumbers && !(_numbersOpen || _hasNumbers)) ...[
+              const SizedBox(height: AppSpacing.sm),
+              ListTile(
+                key: const Key('productForm.addNumbers'),
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(
+                  Icons.add_circle_outline,
+                  color: AppColors.teal,
+                ),
+                title: Text(S.current.addDeviceNumbers),
+                subtitle: Text(S.current.addDeviceNumbersSubtitle),
+                onTap: () => setState(() => _numbersOpen = true),
+              ),
+            ],
+            if (_showNumbers && (_numbersOpen || _hasNumbers)) ...[
               const SizedBox(height: AppSpacing.md),
               TextField(
                 key: const Key('productForm.modelNumber'),
@@ -573,9 +610,8 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 decoration: InputDecoration(
                   labelText: S.current.modelOptional,
                   errorText: _errors[ProductField.modelNumber],
-                  helperText:
-                      _recognitionHint(ProductField.modelNumber) ??
-                      S.current.modelHint,
+                  hintText: S.current.modelHint,
+                  helperText: _recognitionHint(ProductField.modelNumber),
                   helperMaxLines: 3,
                   helperStyle: _hintStyle(ProductField.modelNumber),
                   suffixIcon: _recognitionIcon(ProductField.modelNumber),
@@ -584,9 +620,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 ),
                 onChanged: (_) => _changed(ProductField.modelNumber, () {}),
               ),
-            ],
-            if (_showSerial) const SizedBox(height: AppSpacing.md),
-            if (_showSerial)
+              const SizedBox(height: AppSpacing.md),
               TextField(
                 key: const Key('productForm.serialNumber'),
                 controller: _serial,
@@ -597,6 +631,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 maxLength: ProductValidator.maxSerialLength,
                 decoration: InputDecoration(
                   labelText: S.current.serialOptional,
+                  hintText: S.current.serialPlaceholder,
                   errorText: _errors[ProductField.serialNumber],
                   helperText: _serialHelper(),
                   helperMaxLines: 3,
@@ -614,6 +649,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 ),
                 onChanged: (_) => _changed(ProductField.serialNumber, () {}),
               ),
+            ],
             const SizedBox(height: AppSpacing.lg),
             _SectionTitle(S.current.purchase),
             TextField(
@@ -703,6 +739,30 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 () => _warrantyEndDate = value,
               ),
             ),
+            if (_purchaseDate != null) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                S.current.warrantyQuickPick,
+                style: theme.textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Wrap(
+                spacing: AppSpacing.sm,
+                runSpacing: AppSpacing.xs,
+                children: [
+                  for (final years in const [1, 2, 3, 5])
+                    ChoiceChip(
+                      key: Key('productForm.warranty${years}y'),
+                      label: Text(S.current.warrantyYears(years)),
+                      selected: _warrantyEndDate == _plusYears(years),
+                      onSelected: (_) => _changed(
+                        ProductField.warrantyEndDate,
+                        () => _warrantyEndDate = _plusYears(years),
+                      ),
+                    ),
+                ],
+              ),
+            ],
             const SizedBox(height: AppSpacing.sm),
             SwitchListTile(
               key: const Key('productForm.reminderEnabled'),

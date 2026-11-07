@@ -158,7 +158,6 @@ abstract class S {
   String get uncertainHint;
   String get imeiChecksumWarning;
   String get imeiHint;
-  String get serialHint;
   String get notificationsOffReminderSaved;
   String get checkMarkedFields;
   String get productSavedDocumentFailed;
@@ -171,9 +170,13 @@ abstract class S {
   String get addProduct;
   String get productNameRequired;
   String get productNameHint;
+  String get brandHint;
   String get brandOptional;
   String get modelOptional;
   String get modelHint;
+  String get serialPlaceholder;
+  String get addDeviceNumbers;
+  String get addDeviceNumbersSubtitle;
   String get serialOptional;
   String get purchase;
   String get merchantOptional;
@@ -183,6 +186,7 @@ abstract class S {
   String get warrantyAndReminder;
   String get warrantyEndOptional;
   String get warrantyEndHelper;
+  String get warrantyQuickPick;
   String get setReminder;
   String get setReminderHelper;
   String get reminderDate;
@@ -305,6 +309,7 @@ abstract class S {
   String restoreSkipped(int count);
   String restoreDone(int products, int documents);
   String lastBackup(String date);
+  String warrantyYears(int years);
   String productsRegistered(int count);
   String maxCharacters(int max);
   String inDays(int days);

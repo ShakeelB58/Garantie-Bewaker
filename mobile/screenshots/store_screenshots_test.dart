@@ -21,6 +21,7 @@ import 'package:garantiebewaker/features/documents/presentation/scanner_screen.d
 import 'package:garantiebewaker/features/products/presentation/new_product_args.dart';
 import 'package:garantiebewaker/features/recognition/domain/parsed_receipt.dart';
 import 'package:garantiebewaker/l10n/app_locale.dart';
+import 'package:garantiebewaker/l10n/app_strings.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import '../test/helpers/document_fakes.dart';
@@ -319,6 +320,37 @@ void main() {
             200,
           );
           await _capture(tester, preview, 'instellingen');
+        });
+
+        shoot('voorbeeld formulier', (tester) async {
+          await _startWithDemo(tester, device);
+          await tester.tap(find.byKey(const Key('nav.add')));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(S.current.enterManually));
+          await tester.pumpAndSettle();
+          await _capture(tester, 'preview$language', 'formulier');
+        });
+
+        shoot('voorbeeld formulier garantie', (tester) async {
+          await _startWithDemo(tester, device);
+          await tester.tap(find.byKey(const Key('nav.add')));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(S.current.enterManually));
+          await tester.pumpAndSettle();
+          final chip = find.byKey(const Key('productForm.warranty2y'));
+          await tester.scrollUntilVisible(
+            chip,
+            300,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.drag(
+            find.byType(Scrollable).first,
+            const Offset(0, -250),
+          );
+          await tester.pumpAndSettle();
+          await tester.tap(chip);
+          await tester.pumpAndSettle();
+          await _capture(tester, 'preview$language', 'formulier-garantie');
         });
       }
     }
