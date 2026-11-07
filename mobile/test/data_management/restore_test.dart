@@ -216,15 +216,19 @@ void main() {
       expect(await problemOf(zip), BackupProblem.newerVersion);
     });
 
-    test('verwijzing naar een bestand dat ontbreekt of buiten de ZIP ligt', () async {
-      final zip = _withManifest(await _makeExport(), (d) {
-        final product = (d['products'] as List).first as Map<String, dynamic>;
-        final doc = (product['documents'] as List).first as Map<String, dynamic>;
-        doc['file'] = '../../geheim.pdf';
-      });
-      expect(await problemOf(zip), BackupProblem.damaged);
-      expect(files.stored, isEmpty);
-    });
+    test(
+      'verwijzing naar een bestand dat ontbreekt of buiten de ZIP ligt',
+      () async {
+        final zip = _withManifest(await _makeExport(), (d) {
+          final product = (d['products'] as List).first as Map<String, dynamic>;
+          final doc =
+              (product['documents'] as List).first as Map<String, dynamic>;
+          doc['file'] = '../../geheim.pdf';
+        });
+        expect(await problemOf(zip), BackupProblem.damaged);
+        expect(files.stored, isEmpty);
+      },
+    );
 
     test('bestand is geen PDF terwijl dat wel zo staat', () async {
       final export = await _makeExport();
@@ -377,9 +381,7 @@ void main() {
       expect(find.text('Telefoon'), findsOneWidget);
     });
 
-    testWidgets('herinneringskaart op Home: Later en Nu maken', (
-      tester,
-    ) async {
+    testWidgets('herinneringskaart op Home: Later en Nu maken', (tester) async {
       final settings = InMemorySettingsRepository();
       final saver = FakeExportSaver();
       await pumpApp(
@@ -401,13 +403,19 @@ void main() {
       settings.values.remove('backup_reminder_snoozed_until');
       await tester.tap(find.byKey(const Key('nav.settings')));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Nog geen reservekopie gemaakt'), findsOneWidget);
+      expect(
+        find.textContaining('Nog geen reservekopie gemaakt'),
+        findsOneWidget,
+      );
       await tester.tap(find.byKey(const Key('settings.export')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('export.confirm')));
       await tester.pumpAndSettle();
       expect(saver.bytes, isNotNull);
-      expect(find.textContaining('Laatste reservekopie: 19 okt 2026'), findsOneWidget);
+      expect(
+        find.textContaining('Laatste reservekopie: 19 okt 2026'),
+        findsOneWidget,
+      );
       expect(settings.values['last_backup_at'], isNotNull);
     });
   });

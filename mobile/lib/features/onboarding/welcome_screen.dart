@@ -92,33 +92,36 @@ class WelcomeScreen extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                  FilledButton(
-                    key: const Key('welcome.start'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.navy,
-                      minimumSize: const Size.fromHeight(56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                      FilledButton(
+                        key: const Key('welcome.start'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.navy,
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        onPressed: () => ref
+                            .read(onboardingDoneProvider.notifier)
+                            .complete(),
+                        child: Text(S.current.getStarted),
                       ),
-                    ),
-                    onPressed: () =>
-                        ref.read(onboardingDoneProvider.notifier).complete(),
-                    child: Text(S.current.getStarted),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextButton(
-                    key: const Key('welcome.restore'),
-                    style: TextButton.styleFrom(
-                      minimumSize: const Size.fromHeight(48),
-                    ),
-                    onPressed: () async {
-                      final restored = await runRestore(context, ref);
-                      if (restored) {
-                        await ref.read(onboardingDoneProvider.notifier).complete();
-                      }
-                    },
-                    child: Text(S.current.haveBackup),
-                  ),
+                      const SizedBox(height: AppSpacing.sm),
+                      TextButton(
+                        key: const Key('welcome.restore'),
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size.fromHeight(48),
+                        ),
+                        onPressed: () async {
+                          final restored = await runRestore(context, ref);
+                          if (restored) {
+                            await ref
+                                .read(onboardingDoneProvider.notifier)
+                                .complete();
+                          }
+                        },
+                        child: Text(S.current.haveBackup),
+                      ),
                     ],
                   ),
                 ],

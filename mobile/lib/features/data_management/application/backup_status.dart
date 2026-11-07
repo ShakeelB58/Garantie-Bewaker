@@ -21,7 +21,9 @@ class LastBackupNotifier extends AsyncNotifier<DateTime?> {
 
   Future<void> markDone() async {
     final now = ref.read(clockProvider)().toUtc();
-    await ref.read(settingsRepositoryProvider).write(key, now.toIso8601String());
+    await ref
+        .read(settingsRepositoryProvider)
+        .write(key, now.toIso8601String());
     state = AsyncData(now);
   }
 }

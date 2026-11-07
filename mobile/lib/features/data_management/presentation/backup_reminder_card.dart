@@ -28,7 +28,10 @@ class BackupReminderCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.cloud_upload_outlined, color: AppColors.teal),
+                  const Icon(
+                    Icons.cloud_upload_outlined,
+                    color: AppColors.teal,
+                  ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Text(
