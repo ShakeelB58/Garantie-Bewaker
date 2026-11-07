@@ -50,8 +50,16 @@ beslissen vóór het bouwen.
 - **Privacy:** de reservekopie gaat naar de eigen cloud van de gebruiker, onder diens account.
   De privacyverklaring krijgt een alinea erbij; de privacylabels blijven "geen gegevens
   verzameld", omdat de gegevens niet naar ons gaan. Dit laten controleren vóór uitbrengen.
-- **Terugzetten:** gewoon gratis, met "Ik heb een reservekopie" (zit al op de branch
-  `herstellen`).
+- **Terugzetten:** gewoon gratis, met "Ik heb een reservekopie" (zit sinds 1.3.0 in de app).
+- **Herinneringskaart op Home** (wens van de gebruiker, 7-11-2026):
+  - **"Nu maken"** blijft gratis en werkt gewoon; de knop wordt **niet** grijs. Betalen voor het
+    veiligstellen van je eigen gegevens voelt als gijzeling.
+  - **Rechtsboven** in de kaart komt een klein knopje **"⭐ Plus"**, of onderaan een regel
+    "Automatisch elke week? Met Plus". Tikken opent de uitleg van Plus met de prijs.
+  - **Met Plus** verdwijnt de kaart; in Instellingen staat dan "Automatische reservekopie: aan ·
+    laatste: …".
+  - Pas toevoegen als Plus echt te koop is: Apple en Google keuren knoppen voor functies die nog
+    niet bestaan af.
 
 ### 2. Overzicht voor de verzekering ⭐
 
@@ -123,7 +131,7 @@ beslissen vóór het bouwen.
 
 ## Volgorde (advies)
 
-1. De gratis terugzetfunctie uitbrengen (klaar op branch `herstellen`, versie 1.3.0).
+1. De gratis terugzetfunctie uitbrengen (in versie 1.3.0).
 2. Ondertussen de zakelijke kant regelen (punten 1 tot en met 4 hierboven).
 3. **Plus 1.0:**
    - automatische reservekopie
@@ -137,6 +145,7 @@ beslissen vóór het bouwen.
 ## Open beslissingen
 
 - Prijs: € 3,99 / € 4,99 / € 6,99?
+- Eenmalig, abonnement (bijv. € 1,99 per jaar) of allebei? Voorstel: eenmalig.
 - Typeplaatje scannen: gratis of Plus?
 - Aankoop controleren met of zonder RevenueCat?
 - Moeten bestaande gebruikers iets gratis krijgen, bijv. de eerste maand automatische
