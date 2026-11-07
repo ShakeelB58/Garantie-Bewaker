@@ -203,32 +203,45 @@ Totaal 649,00
 
     final model = find.byKey(const Key('productForm.modelNumber'));
     final serial = find.byKey(const Key('productForm.serialNumber'));
+    final addNumbers = find.byKey(const Key('productForm.addNumbers'));
 
-    testWidgets('velden weg bij kleding, terug bij elektronica', (
-      tester,
-    ) async {
+    Future<void> openNumbers(WidgetTester tester) async {
+      await tester.ensureVisible(addNumbers);
+      await tester.tap(addNumbers);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('nummers achter één regel, niet bij kleding', (tester) async {
       await openForm(tester);
-      expect(model, findsOneWidget);
-      expect(serial, findsOneWidget);
-
-      await chooseCategory(tester, 'Kleding en schoenen');
+      expect(find.textContaining('(optioneel)'), findsNothing);
+      expect(addNumbers, findsOneWidget);
       expect(model, findsNothing);
       expect(serial, findsNothing);
 
+      await chooseCategory(tester, 'Kleding en schoenen');
+      expect(addNumbers, findsNothing);
+
       await chooseCategory(tester, 'Elektronica');
+      expect(addNumbers, findsOneWidget);
+      await openNumbers(tester);
       expect(model, findsOneWidget);
       expect(serial, findsOneWidget);
+      expect(addNumbers, findsNothing);
+      expect(find.text('bijv. SM-S921B'), findsOneWidget);
     });
 
-    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (tester) async {
+    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (
+      tester,
+    ) async {
       await openForm(tester);
+      await openNumbers(tester);
       await tester.ensureVisible(model);
       await tester.enterText(model, 'XY-123');
       await tester.pump();
 
       await chooseCategory(tester, 'Kleding en schoenen');
       expect(model, findsOneWidget);
-      expect(serial, findsNothing);
+      expect(serial, findsOneWidget);
     });
 
     testWidgets('modelnummer zien en kopiëren op het detailscherm', (

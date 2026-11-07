@@ -158,7 +158,6 @@ abstract class S {
   String get uncertainHint;
   String get imeiChecksumWarning;
   String get imeiHint;
-  String get serialHint;
   String get notificationsOffReminderSaved;
   String get checkMarkedFields;
   String get productSavedDocumentFailed;
@@ -174,6 +173,9 @@ abstract class S {
   String get brandOptional;
   String get modelOptional;
   String get modelHint;
+  String get serialPlaceholder;
+  String get addDeviceNumbers;
+  String get addDeviceNumbersSubtitle;
   String get serialOptional;
   String get purchase;
   String get merchantOptional;

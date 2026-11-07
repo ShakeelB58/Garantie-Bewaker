@@ -229,6 +229,10 @@ Totaal 799,00
       await tester.pumpAndSettle();
       await tester.tap(find.text('Handmatig invoeren'));
       await tester.pumpAndSettle();
+      final open = find.byKey(const Key('productForm.addNumbers'));
+      await tester.ensureVisible(open);
+      await tester.tap(open);
+      await tester.pumpAndSettle();
       final field = find.byKey(const Key('productForm.serialNumber'));
       await tester.ensureVisible(field);
       await tester.enterText(field, '490154203237519');

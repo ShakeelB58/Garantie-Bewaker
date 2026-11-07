@@ -27,3 +27,4 @@ backend/.mvn/wrapper/maven-wrapper.jar
 mobile/build/
 mobile/.dart_tool/
 mobile/coverage/
+__pycache__/

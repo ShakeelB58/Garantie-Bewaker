@@ -21,6 +21,7 @@ import 'package:garantiebewaker/features/documents/presentation/scanner_screen.d
 import 'package:garantiebewaker/features/products/presentation/new_product_args.dart';
 import 'package:garantiebewaker/features/recognition/domain/parsed_receipt.dart';
 import 'package:garantiebewaker/l10n/app_locale.dart';
+import 'package:garantiebewaker/l10n/app_strings.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import '../test/helpers/document_fakes.dart';
@@ -284,6 +285,18 @@ void main() {
         await tester.tap(find.text('Privacy'));
         await _capture(tester, folder, '6-privacy');
       });
+
+      // Voorbeeld van het formulier (alleen ter controle, niet voor de winkels).
+      if (device.name == 'ios') {
+        shoot('voorbeeld formulier', (tester) async {
+          await _startWithDemo(tester, device);
+          await tester.tap(find.byKey(const Key('nav.add')));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text(S.current.enterManually));
+          await tester.pumpAndSettle();
+          await _capture(tester, 'preview$language', 'formulier');
+        });
+      }
     }
   }
 }

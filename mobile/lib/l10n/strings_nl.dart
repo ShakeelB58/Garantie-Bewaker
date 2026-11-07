@@ -22,8 +22,7 @@ class StringsNl extends S {
   String get addPurchase => 'Aankoop toevoegen';
 
   @override
-  String get errorStorage =>
-      'Je gegevens konden niet worden gelezen of opgeslagen. Probeer het opnieuw.';
+  String get errorStorage => 'Je gegevens konden niet worden gelezen of opgeslagen. Probeer het opnieuw.';
 
   @override
   String get errorGeneric => 'Er ging iets mis. Probeer het opnieuw.';
@@ -77,8 +76,7 @@ class StringsNl extends S {
   String get noProductsTitle => 'Nog geen producten';
 
   @override
-  String get noProductsDashboard =>
-      'Voeg je eerste aankoop toe en houd al je garanties en documenten veilig op één plek. Je aankopen en bonnen blijven op je eigen telefoon.';
+  String get noProductsDashboard => 'Voeg je eerste aankoop toe en houd al je garanties en documenten veilig op één plek. Je aankopen en bonnen blijven op je eigen telefoon.';
 
   @override
   String get oneProductRegistered => 'Je hebt 1 product geregistreerd.';
@@ -156,16 +154,13 @@ class StringsNl extends S {
   String get fileUnreadable => 'Het bestand kon niet worden gelezen.';
 
   @override
-  String get documentNotSaved =>
-      'Het document kon niet worden opgeslagen. Controleer of er genoeg opslagruimte vrij is.';
+  String get documentNotSaved => 'Het document kon niet worden opgeslagen. Controleer of er genoeg opslagruimte vrij is.';
 
   @override
-  String get cameraNoAccess =>
-      'Bonvrij heeft geen toegang tot de camera. Je kunt dit aanzetten in de instellingen van je telefoon.';
+  String get cameraNoAccess => 'Bonvrij heeft geen toegang tot de camera. Je kunt dit aanzetten in de instellingen van je telefoon.';
 
   @override
-  String get photosNoAccess =>
-      'Bonvrij heeft geen toegang tot je foto\'s. Je kunt dit aanzetten in de instellingen van je telefoon.';
+  String get photosNoAccess => 'Bonvrij heeft geen toegang tot je foto\'s. Je kunt dit aanzetten in de instellingen van je telefoon.';
 
   @override
   String get noCamera => 'Er is geen camera beschikbaar op dit toestel.';
@@ -174,15 +169,13 @@ class StringsNl extends S {
   String get cameraOpenFailed => 'De camera kon niet worden geopend.';
 
   @override
-  String get photoLibraryOpenFailed =>
-      'De fotobibliotheek kon niet worden geopend.';
+  String get photoLibraryOpenFailed => 'De fotobibliotheek kon niet worden geopend.';
 
   @override
   String get fileOpenFailed => 'Het bestand kon niet worden geopend.';
 
   @override
-  String get sharedFileOpenFailed =>
-      'Het gedeelde bestand kon niet worden geopend.';
+  String get sharedFileOpenFailed => 'Het gedeelde bestand kon niet worden geopend.';
 
   @override
   String get fileEmpty => 'Dit bestand is leeg en kan niet worden gebruikt.';
@@ -191,8 +184,7 @@ class StringsNl extends S {
   String get fileTooLarge => 'Dit bestand is te groot (maximaal 25 MB).';
 
   @override
-  String get fileTypeUnsupported =>
-      'Dit bestandstype wordt niet ondersteund. Kies een PDF, JPG, PNG of HEIC.';
+  String get fileTypeUnsupported => 'Dit bestandstype wordt niet ondersteund. Kies een PDF, JPG, PNG of HEIC.';
 
   @override
   String get takePhoto => 'Foto maken';
@@ -210,8 +202,7 @@ class StringsNl extends S {
   String get deleteDocumentQuestion => 'Document verwijderen?';
 
   @override
-  String get deleteDocumentBody =>
-      'Het document wordt definitief van deze telefoon verwijderd.';
+  String get deleteDocumentBody => 'Het document wordt definitief van deze telefoon verwijderd.';
 
   @override
   String get documentDeleted => 'Document verwijderd.';
@@ -223,8 +214,7 @@ class StringsNl extends S {
   String get documentGone => 'Dit document bestaat niet meer.';
 
   @override
-  String get documentFileMissing =>
-      'Het bestand van dit document is niet gevonden op deze telefoon.';
+  String get documentFileMissing => 'Het bestand van dit document is niet gevonden op deze telefoon.';
 
   @override
   String get pdfPinchHint => 'PDF-document. Knijp om in te zoomen.';
@@ -245,22 +235,19 @@ class StringsNl extends S {
   String get noDocumentsTitle => 'Nog geen documenten';
 
   @override
-  String get noDocumentsBody =>
-      'Kassabonnen, facturen en garantiebewijzen die je bij een product bewaart, verschijnen hier.';
+  String get noDocumentsBody => 'Kassabonnen, facturen en garantiebewijzen die je bij een product bewaart, verschijnen hier.';
 
   @override
   String get checkPhoto => 'Foto controleren';
 
   @override
-  String get takenPhotoLabel =>
-      'Gemaakte foto. Controleer of de tekst leesbaar is.';
+  String get takenPhotoLabel => 'Gemaakte foto. Controleer of de tekst leesbaar is.';
 
   @override
   String get previewUnavailable => 'Voorbeeld niet beschikbaar';
 
   @override
-  String get receiptReadableQuestion =>
-      'Is de bon goed leesbaar en staat hij er helemaal op?';
+  String get receiptReadableQuestion => 'Is de bon goed leesbaar en staat hij er helemaal op?';
 
   @override
   String get again => 'Opnieuw';
@@ -272,8 +259,7 @@ class StringsNl extends S {
   String get documentAdded => 'Document toegevoegd.';
 
   @override
-  String get noDocumentsForProduct =>
-      'Nog geen documenten. Voeg een kassabon, factuur of garantiebewijs toe.';
+  String get noDocumentsForProduct => 'Nog geen documenten. Voeg een kassabon, factuur of garantiebewijs toe.';
 
   @override
   String get changeType => 'Soort wijzigen';
@@ -285,8 +271,7 @@ class StringsNl extends S {
   String get cameraStartFailed => 'De camera kon niet worden gestart.';
 
   @override
-  String get cameraNoAccessScanner =>
-      'Bonvrij heeft geen toegang tot de camera. Je kunt dit aanzetten in de instellingen van je telefoon, of een foto uit je fotobibliotheek kiezen.';
+  String get cameraNoAccessScanner => 'Bonvrij heeft geen toegang tot de camera. Je kunt dit aanzetten in de instellingen van je telefoon, of een foto uit je fotobibliotheek kiezen.';
 
   @override
   String get photoFailed => 'De foto kon niet worden gemaakt.';
@@ -295,8 +280,7 @@ class StringsNl extends S {
   String get scanReceipt => 'Kassabon scannen';
 
   @override
-  String get scannerHint =>
-      'Leg de bon plat neer en houd hem binnen het kader.';
+  String get scannerHint => 'Leg de bon plat neer en houd hem binnen het kader.';
 
   @override
   String get flashAuto => 'Flitser: automatisch';
@@ -308,8 +292,7 @@ class StringsNl extends S {
   String get flashOff => 'Flitser: uit';
 
   @override
-  String get welcomeTagline =>
-      'Al je aankopen, garanties\nen documenten op één plek.';
+  String get welcomeTagline => 'Al je aankopen, garanties\nen documenten op één plek.';
 
   @override
   String get getStarted => 'Aan de slag';
@@ -360,12 +343,10 @@ class StringsNl extends S {
   String get errorPurchaseDateRequired => 'Kies de aankoopdatum.';
 
   @override
-  String get errorPurchaseDateFuture =>
-      'De aankoopdatum kan niet in de toekomst liggen.';
+  String get errorPurchaseDateFuture => 'De aankoopdatum kan niet in de toekomst liggen.';
 
   @override
-  String get errorPriceInvalid =>
-      'Vul een geldig bedrag in, bijvoorbeeld 1.299,00.';
+  String get errorPriceInvalid => 'Vul een geldig bedrag in, bijvoorbeeld 1.299,00.';
 
   @override
   String get errorPriceTooHigh => 'Dit bedrag is te hoog.';
@@ -374,15 +355,13 @@ class StringsNl extends S {
   String get errorCurrency => 'Kies een valuta.';
 
   @override
-  String get errorWarrantyBeforePurchase =>
-      'De einddatum ligt vóór de aankoopdatum.';
+  String get errorWarrantyBeforePurchase => 'De einddatum ligt vóór de aankoopdatum.';
 
   @override
   String get errorReminderRequired => 'Kies een herinneringsdatum.';
 
   @override
-  String get errorReminderBeforePurchase =>
-      'De herinnering ligt vóór de aankoopdatum.';
+  String get errorReminderBeforePurchase => 'De herinnering ligt vóór de aankoopdatum.';
 
   @override
   String get sortPurchaseNewest => 'Aankoopdatum (nieuwste eerst)';
@@ -403,8 +382,7 @@ class StringsNl extends S {
   String get importPdfOrImage => 'PDF of afbeelding importeren';
 
   @override
-  String get importSubtitle =>
-      'Kies een factuur uit je bestanden, downloads of foto\'s.';
+  String get importSubtitle => 'Kies een factuur uit je bestanden, downloads of foto\'s.';
 
   @override
   String get enterManually => 'Handmatig invoeren';
@@ -443,8 +421,7 @@ class StringsNl extends S {
   String get reminder => 'Herinnering';
 
   @override
-  String get warrantyDisclaimer =>
-      'Bonvrij controleert niet of je recht hebt op garantie. De datums hierboven heb je zelf ingevuld.';
+  String get warrantyDisclaimer => 'Bonvrij controleert niet of je recht hebt op garantie. De datums hierboven heb je zelf ingevuld.';
 
   @override
   String get editProduct => 'Product bewerken';
@@ -456,25 +433,19 @@ class StringsNl extends S {
   String get uncertainHint => 'Onzeker herkend. Controleer dit goed.';
 
   @override
-  String get imeiChecksumWarning =>
-      'Dit lijkt een IMEI-nummer, maar het controlecijfer klopt niet. Controleer het nummer.';
+  String get imeiChecksumWarning => 'Dit lijkt een IMEI-nummer, maar het controlecijfer klopt niet. Controleer het nummer.';
 
   @override
   String get imeiHint => 'Het IMEI-nummer zie je door *#06# te bellen.';
 
   @override
-  String get serialHint => 'Handig voor je verzekering, samen met de bon.';
-
-  @override
-  String get notificationsOffReminderSaved =>
-      'Meldingen staan uit voor Bonvrij. De herinnering wordt wel bewaard. Zet meldingen aan in de instellingen van je telefoon.';
+  String get notificationsOffReminderSaved => 'Meldingen staan uit voor Bonvrij. De herinnering wordt wel bewaard. Zet meldingen aan in de instellingen van je telefoon.';
 
   @override
   String get checkMarkedFields => 'Controleer de gemarkeerde velden.';
 
   @override
-  String get productSavedDocumentFailed =>
-      'Product opgeslagen, maar een document kon niet worden toegevoegd. Probeer het opnieuw via het productscherm.';
+  String get productSavedDocumentFailed => 'Product opgeslagen, maar een document kon niet worden toegevoegd. Probeer het opnieuw via het productscherm.';
 
   @override
   String get productSaved => 'Product opgeslagen.';
@@ -504,29 +475,37 @@ class StringsNl extends S {
   String get productNameHint => 'bijv. Wasmachine';
 
   @override
-  String get brandOptional => 'Merk (optioneel)';
+  String get brandOptional => 'Merk';
 
   @override
-  String get modelOptional => 'Modelnummer (optioneel)';
+  String get modelOptional => 'Modelnummer';
 
   @override
-  String get modelHint =>
-      'Staat op de sticker of het typeplaatje, bijv. SM-S921B.';
+  String get modelHint => 'bijv. SM-S921B';
 
   @override
-  String get serialOptional => 'Serienummer of IMEI (optioneel)';
+  String get serialPlaceholder => 'Van de sticker, doos of factuur';
+
+  @override
+  String get addDeviceNumbers => 'Model- en serienummer toevoegen';
+
+  @override
+  String get addDeviceNumbersSubtitle => 'Handig voor garantie en verzekering';
+
+  @override
+  String get serialOptional => 'Serienummer of IMEI';
 
   @override
   String get purchase => 'Aankoop';
 
   @override
-  String get merchantOptional => 'Winkel of verkoper (optioneel)';
+  String get merchantOptional => 'Winkel of verkoper';
 
   @override
   String get purchaseDateRequired => 'Aankoopdatum *';
 
   @override
-  String get priceOptional => 'Aankoopprijs (optioneel)';
+  String get priceOptional => 'Aankoopprijs';
 
   @override
   String get priceHint => 'bijv. 1.299,00';
@@ -535,18 +514,16 @@ class StringsNl extends S {
   String get warrantyAndReminder => 'Garantie en herinnering';
 
   @override
-  String get warrantyEndOptional => 'Garantie-einddatum (optioneel)';
+  String get warrantyEndOptional => 'Garantie-einddatum';
 
   @override
-  String get warrantyEndHelper =>
-      'Vul zelf in tot wanneer je garantie hebt. De app berekent dit niet.';
+  String get warrantyEndHelper => 'Vul zelf in tot wanneer je garantie hebt. De app berekent dit niet.';
 
   @override
   String get setReminder => 'Herinnering instellen';
 
   @override
-  String get setReminderHelper =>
-      'Je krijgt rond 9:00 uur een melding op de gekozen datum. Het precieze moment bepaalt je telefoon.';
+  String get setReminderHelper => 'Je krijgt rond 9:00 uur een melding op de gekozen datum. Het precieze moment bepaalt je telefoon.';
 
   @override
   String get reminderDate => 'Herinneringsdatum';
@@ -579,19 +556,16 @@ class StringsNl extends S {
   String get noDataRecognized => 'Geen gegevens herkend';
 
   @override
-  String get checkBeforeSaving =>
-      'Controleer alles voordat je opslaat. Velden met een waarschuwing zijn onzeker herkend.';
+  String get checkBeforeSaving => 'Controleer alles voordat je opslaat. Velden met een waarschuwing zijn onzeker herkend.';
 
   @override
-  String get fillInYourself =>
-      'Vul de gegevens zelf in. Het document wordt wel bij het product bewaard.';
+  String get fillInYourself => 'Vul de gegevens zelf in. Het document wordt wel bij het product bewaard.';
 
   @override
   String get whichProduct => 'Welk product wil je bewaren?';
 
   @override
-  String get multipleProducts =>
-      'Er staan meerdere producten op het document. Kies er een; je kunt de andere daarna apart toevoegen.';
+  String get multipleProducts => 'Er staan meerdere producten op het document. Kies er een; je kunt de andere daarna apart toevoegen.';
 
   @override
   String get products => 'Producten';
@@ -645,8 +619,7 @@ class StringsNl extends S {
   String get readText => 'Tekst lezen';
 
   @override
-  String get recognitionUnavailable =>
-      'Tekstherkenning is nog niet beschikbaar op deze telefoon. Controleer de internetverbinding en probeer het later opnieuw, of vul de gegevens zelf in.';
+  String get recognitionUnavailable => 'Tekstherkenning is nog niet beschikbaar op deze telefoon. Controleer de internetverbinding en probeer het later opnieuw, of vul de gegevens zelf in.';
 
   @override
   String get recognizingText => 'Tekst herkennen…';
@@ -655,12 +628,10 @@ class StringsNl extends S {
   String get fillingFields => 'Velden invullen…';
 
   @override
-  String get nothingRecognized =>
-      'Er zijn geen gegevens herkend. Vul ze zelf in.';
+  String get nothingRecognized => 'Er zijn geen gegevens herkend. Vul ze zelf in.';
 
   @override
-  String get recognitionFailed =>
-      'Automatisch herkennen lukte niet. Vul de gegevens zelf in.';
+  String get recognitionFailed => 'Automatisch herkennen lukte niet. Vul de gegevens zelf in.';
 
   @override
   String get stepProcess => 'Gegevens verwerken';
@@ -675,8 +646,7 @@ class StringsNl extends S {
   String get readingReceipt => 'We lezen je bon…';
 
   @override
-  String get recognitionTakesSeconds =>
-      'Dit kan enkele seconden duren. Alles gebeurt op je telefoon.';
+  String get recognitionTakesSeconds => 'Dit kan enkele seconden duren. Alles gebeurt op je telefoon.';
 
   @override
   String get recognitionProgress => 'Voortgang herkennen';
@@ -685,12 +655,10 @@ class StringsNl extends S {
   String get notificationChannel => 'Herinneringen';
 
   @override
-  String get notificationChannelDescription =>
-      'Herinneringen op door jou ingestelde datums';
+  String get notificationChannelDescription => 'Herinneringen op door jou ingestelde datums';
 
   @override
-  String get notificationBodyNoEnd =>
-      'Je hebt deze herinnering zelf ingesteld. Controleer je aankoopbewijs en garantie.';
+  String get notificationBodyNoEnd => 'Je hebt deze herinnering zelf ingesteld. Controleer je aankoopbewijs en garantie.';
 
   @override
   String get testNotificationTitle => 'Testmelding';
@@ -699,26 +667,22 @@ class StringsNl extends S {
   String get testNotificationBody => 'Meldingen van Bonvrij werken.';
 
   @override
-  String get notificationsOffPhone =>
-      'Meldingen staan uit in de instellingen van je telefoon. Zet ze daar aan voor Bonvrij.';
+  String get notificationsOffPhone => 'Meldingen staan uit in de instellingen van je telefoon. Zet ze daar aan voor Bonvrij.';
 
   @override
   String get enableReminders => 'Herinneringen inschakelen';
 
   @override
-  String get enableRemindersHelper =>
-      'Ontvang rond 9:00 uur een melding op de herinneringsdatum die je bij een product hebt ingesteld.';
+  String get enableRemindersHelper => 'Ontvang rond 9:00 uur een melding op de herinneringsdatum die je bij een product hebt ingesteld.';
 
   @override
   String get upcomingReminders => 'Komende herinneringen';
 
   @override
-  String get remindersOff =>
-      'Herinneringen staan uit. De datums blijven bewaard, maar je krijgt geen meldingen.';
+  String get remindersOff => 'Herinneringen staan uit. De datums blijven bewaard, maar je krijgt geen meldingen.';
 
   @override
-  String get noUpcomingReminders =>
-      'Geen komende herinneringen. Stel een herinnering in bij een product via "Bewerken".';
+  String get noUpcomingReminders => 'Geen komende herinneringen. Stel een herinnering in bij een product via "Bewerken".';
 
   @override
   String get settings => 'Instellingen';
@@ -739,8 +703,7 @@ class StringsNl extends S {
   String get sendTestNotification => 'Testmelding versturen';
 
   @override
-  String get sendTestNotificationSubtitle =>
-      'Controleer of meldingen op je telefoon werken';
+  String get sendTestNotificationSubtitle => 'Controleer of meldingen op je telefoon werken';
 
   @override
   String get privacyAndData => 'Privacy en gegevens';
@@ -755,15 +718,13 @@ class StringsNl extends S {
   String get exportData => 'Gegevens exporteren';
 
   @override
-  String get exportDataSubtitle =>
-      'Producten (CSV) en aankoopbewijzen in één ZIP-bestand';
+  String get exportDataSubtitle => 'Producten (CSV) en aankoopbewijzen in één ZIP-bestand';
 
   @override
   String get deleteAllLocal => 'Alle lokale gegevens verwijderen';
 
   @override
-  String get deleteAllLocalSubtitle =>
-      'Producten, aankoopbewijzen, herinneringen en voorkeuren';
+  String get deleteAllLocalSubtitle => 'Producten, aankoopbewijzen, herinneringen en voorkeuren';
 
   @override
   String get about => 'Over';
@@ -772,8 +733,7 @@ class StringsNl extends S {
   String get aboutBonvrij => 'Over Bonvrij';
 
   @override
-  String get aboutLegalese =>
-      'Bonvrij geeft geen juridisch advies. Door jou ingestelde datums zijn herinneringen, geen vastgestelde garantietermijnen.\n\nVragen of opmerkingen? Mail naar bonvrij.app@gmail.com.';
+  String get aboutLegalese => 'Bonvrij geeft geen juridisch advies. Door jou ingestelde datums zijn herinneringen, geen vastgestelde garantietermijnen.\n\nVragen of opmerkingen? Mail naar bonvrij.app@gmail.com.';
 
   @override
   String get testVersion => 'Testversie';
@@ -782,12 +742,10 @@ class StringsNl extends S {
   String get loadDemoData => 'Voorbeeldgegevens laden';
 
   @override
-  String get loadDemoDataSubtitle =>
-      'Fictieve producten en documenten, bijv. voor schermafbeeldingen';
+  String get loadDemoDataSubtitle => 'Fictieve producten en documenten, bijv. voor schermafbeeldingen';
 
   @override
-  String get defaultReminderExplanation =>
-      'Wordt voorgesteld als je bij een product een herinnering aanzet. Je kunt de datum daar altijd zelf aanpassen.';
+  String get defaultReminderExplanation => 'Wordt voorgesteld als je bij een product een herinnering aanzet. Je kunt de datum daar altijd zelf aanpassen.';
 
   @override
   String get chosen => 'Gekozen';
@@ -796,20 +754,16 @@ class StringsNl extends S {
   String get preferenceNotSaved => 'De voorkeur kon niet worden opgeslagen.';
 
   @override
-  String get notificationsOffSettings =>
-      'Meldingen staan uit. Zet ze aan in de instellingen van je telefoon, bij Bonvrij.';
+  String get notificationsOffSettings => 'Meldingen staan uit. Zet ze aan in de instellingen van je telefoon, bij Bonvrij.';
 
   @override
-  String get testNotificationScheduled =>
-      'Over ongeveer een minuut krijg je een testmelding. Je kunt de app gewoon sluiten.';
+  String get testNotificationScheduled => 'Over ongeveer een minuut krijg je een testmelding. Je kunt de app gewoon sluiten.';
 
   @override
-  String get testNotificationFailed =>
-      'De testmelding kon niet worden ingepland.';
+  String get testNotificationFailed => 'De testmelding kon niet worden ingepland.';
 
   @override
-  String get exportExplanation =>
-      'Je krijgt één ZIP-bestand met al je producten (als CSV, te openen in Excel of Numbers) en al je aankoopbewijzen.\n\nHet bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.';
+  String get exportExplanation => 'Je krijgt één ZIP-bestand met al je producten (als CSV, te openen in Excel of Numbers) en al je aankoopbewijzen.\n\nHet bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.';
 
   @override
   String get export => 'Exporteren';
@@ -824,23 +778,19 @@ class StringsNl extends S {
   String get allDataDeleted => 'Alle gegevens zijn verwijderd.';
 
   @override
-  String get notEverythingDeleted =>
-      'Niet alles kon worden verwijderd. Probeer het opnieuw.';
+  String get notEverythingDeleted => 'Niet alles kon worden verwijderd. Probeer het opnieuw.';
 
   @override
-  String get demoDataFailed =>
-      'De voorbeeldgegevens konden niet worden geladen.';
+  String get demoDataFailed => 'De voorbeeldgegevens konden niet worden geladen.';
 
   @override
-  String get privacyText =>
-      '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon opgeslagen.\n• Er is geen account nodig. Je aankopen en documenten worden nooit naar ons of naar anderen gestuurd.\n• De app krijgt geen toegang tot je mailbox. Je deelt zelf een factuur met de app.\n• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op Android stuurt de herkenning van Google wel technische gebruiksgegevens naar Google, zoals het toestelmodel en foutcodes. Nooit de inhoud van je bonnen.\n• Meldingen worden door je telefoon zelf getoond, zonder server. Op het vergrendelscherm van Android wordt de productnaam verborgen.\n• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen back-up (iCloud of Google), versleuteld en onder jouw account. Zo komen ze terug op een nieuwe telefoon.\n• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je de app, dan verdwijnen de gegevens van je telefoon.\n• Met "Alle lokale gegevens verwijderen" wis je alles in één keer.\n\nMeer lezen: bonvrij.nl/privacy';
+  String get privacyText => '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon opgeslagen.\n• Er is geen account nodig. Je aankopen en documenten worden nooit naar ons of naar anderen gestuurd.\n• De app krijgt geen toegang tot je mailbox. Je deelt zelf een factuur met de app.\n• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op Android stuurt de herkenning van Google wel technische gebruiksgegevens naar Google, zoals het toestelmodel en foutcodes. Nooit de inhoud van je bonnen.\n• Meldingen worden door je telefoon zelf getoond, zonder server. Op het vergrendelscherm van Android wordt de productnaam verborgen.\n• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen back-up (iCloud of Google), versleuteld en onder jouw account. Zo komen ze terug op een nieuwe telefoon.\n• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je de app, dan verdwijnen de gegevens van je telefoon.\n• Met "Alle lokale gegevens verwijderen" wis je alles in één keer.\n\nMeer lezen: bonvrij.nl/privacy';
 
   @override
   String get deleteAllQuestion => 'Alle gegevens verwijderen?';
 
   @override
-  String get deleteAllBody =>
-      'Dit verwijdert van deze telefoon:\n• alle producten\n• alle aankoopbewijzen (foto\'s en PDF\'s)\n• alle herinneringen en geplande meldingen\n• je voorkeuren\n\nEr is geen back-up of server: dit kan niet ongedaan worden gemaakt. Maak eerst een export als je iets wilt bewaren.';
+  String get deleteAllBody => 'Dit verwijdert van deze telefoon:\n• alle producten\n• alle aankoopbewijzen (foto\'s en PDF\'s)\n• alle herinneringen en geplande meldingen\n• je voorkeuren\n\nEr is geen back-up of server: dit kan niet ongedaan worden gemaakt. Maak eerst een export als je iets wilt bewaren.';
 
   @override
   String get deleteAllUnderstood => 'Ik begrijp dat dit niet terug te halen is';
@@ -873,9 +823,7 @@ class StringsNl extends S {
   String get exportDocumentsFolder => 'documenten';
 
   @override
-  String productsRegistered(int count) => count == 1
-      ? 'Je hebt 1 product geregistreerd.'
-      : 'Je hebt $count producten geregistreerd.';
+  String productsRegistered(int count) => count == 1 ? 'Je hebt 1 product geregistreerd.' : 'Je hebt $count producten geregistreerd.';
 
   @override
   String maxCharacters(int max) => 'Gebruik maximaal $max tekens.';
@@ -884,8 +832,7 @@ class StringsNl extends S {
   String inDays(int days) => 'Over $days dagen';
 
   @override
-  String deleteProductBody(String name) =>
-      '"$name" wordt definitief van deze telefoon verwijderd, inclusief alle aankoopbewijzen en herinneringen. Dit kan niet ongedaan worden gemaakt.';
+  String deleteProductBody(String name) => '"$name" wordt definitief van deze telefoon verwijderd, inclusief alle aankoopbewijzen en herinneringen. Dit kan niet ongedaan worden gemaakt.';
 
   @override
   String warrantyUntil(String date) => 'Garantie tot $date';
@@ -900,8 +847,7 @@ class StringsNl extends S {
   String copyLabel(String label) => '$label kopiëren';
 
   @override
-  String totalOnDocument(String amount) =>
-      'Totaalbedrag op het document: $amount';
+  String totalOnDocument(String amount) => 'Totaalbedrag op het document: $amount';
 
   @override
   String documentsCount(int count) => 'Documenten ($count)';
@@ -910,15 +856,13 @@ class StringsNl extends S {
   String addedOn(String date) => 'Toegevoegd $date';
 
   @override
-  String pageProgress(String what, int page, int pageCount) =>
-      '$what… pagina $page van $pageCount';
+  String pageProgress(String what, int page, int pageCount) => '$what… pagina $page van $pageCount';
 
   @override
   String notificationTitle(String product) => 'Herinnering: $product';
 
   @override
-  String notificationBodyWithEnd(String date) =>
-      'Je garantie-einddatum is $date. Controleer je aankoopbewijs.';
+  String notificationBodyWithEnd(String date) => 'Je garantie-einddatum is $date. Controleer je aankoopbewijs.';
 
   @override
   String version(String version) => 'Versie $version';
@@ -927,18 +871,15 @@ class StringsNl extends S {
   String leadDescription(String lead) => '$lead vóór de garantie-einddatum';
 
   @override
-  String exportSaved(int products, int documents) =>
-      'Export bewaard: ${products == 1 ? '1 product' : '$products producten'} en ${documents == 1 ? '1 document' : '$documents documenten'}.';
+  String exportSaved(int products, int documents) => 'Export bewaard: ${products == 1 ? '1 product' : '$products producten'} en ${documents == 1 ? '1 document' : '$documents documenten'}.';
 
   @override
-  String exportMissing(int count) => count == 1
-      ? ' 1 document kon niet worden gelezen.'
-      : ' $count documenten konden niet worden gelezen.';
+  String exportMissing(int count) => count == 1 ? ' 1 document kon niet worden gelezen.' : ' $count documenten konden niet worden gelezen.';
 
   @override
   String demoDataAdded(int count) => '$count voorbeeldproducten toegevoegd.';
 
   @override
-  String exportReadme(String date) =>
-      'Export van Bonvrij\r\nGemaakt op $date.\r\n\r\nproducten.csv\r\n  Al je producten. Open dit bestand met Excel, Numbers of Google Spreadsheets.\r\n\r\ndocumenten/\r\n  Je aankoopbewijzen. Het nummer vooraan de bestandsnaam hoort bij de volgorde in producten.csv (product 1 is de eerste regel).\r\n\r\nLet op: dit bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.\r\n\r\nGarantie-einddatums en herinneringen zijn door jou ingevuld. Bonvrij berekent geen garantietermijnen en geeft geen juridisch advies.\r\n';
+  String exportReadme(String date) => 'Export van Bonvrij\r\nGemaakt op $date.\r\n\r\nproducten.csv\r\n  Al je producten. Open dit bestand met Excel, Numbers of Google Spreadsheets.\r\n\r\ndocumenten/\r\n  Je aankoopbewijzen. Het nummer vooraan de bestandsnaam hoort bij de volgorde in producten.csv (product 1 is de eerste regel).\r\n\r\nLet op: dit bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.\r\n\r\nGarantie-einddatums en herinneringen zijn door jou ingevuld. Bonvrij berekent geen garantietermijnen en geeft geen juridisch advies.\r\n';
+
 }
