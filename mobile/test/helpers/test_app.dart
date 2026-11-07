@@ -35,16 +35,26 @@ Future<InMemoryProductRepository> pumpApp(
   FakeReminderNotifications? notifications,
   InMemorySettingsRepository? settings,
   FakeExportSaver? exportSaver,
+  FakeBackupFilePicker? backupPicker,
   Size screenSize = const Size(800, 1800),
   bool showWelcome = false,
   Widget? scannerPreview,
   bool showDemoOption = true,
+  bool recentBackup = true,
 }) async {
   final settingsRepo = settings ?? InMemorySettingsRepository();
   final documentPicker = picker ?? FakeDocumentPicker();
   // Het welkomstscherm alleen tonen als de test daarom vraagt.
   if (!showWelcome) {
     settingsRepo.values.putIfAbsent('onboarding_done', () => 'true');
+  }
+  // Standaard een recente reservekopie, zodat de herinneringskaart op Home
+  // de andere tests niet in de weg zit.
+  if (recentBackup) {
+    settingsRepo.values.putIfAbsent(
+      'last_backup_at',
+      () => testNow.toUtc().toIso8601String(),
+    );
   }
   // Standaard een hoog scherm, zodat het hele formulier zichtbaar is.
   tester.view.physicalSize = screenSize;
@@ -91,6 +101,9 @@ Future<InMemoryProductRepository> pumpApp(
         ),
         settingsRepositoryProvider.overrideWithValue(settingsRepo),
         exportSaverProvider.overrideWithValue(exportSaver ?? FakeExportSaver()),
+        backupFilePickerProvider.overrideWithValue(
+          backupPicker ?? FakeBackupFilePicker(),
+        ),
         appVersionProvider.overrideWith((ref) async => '0.1.0 (1)'),
         clockProvider.overrideWithValue(() => testNow),
         idGeneratorProvider.overrideWithValue(() => 'id-${nextId++}'),

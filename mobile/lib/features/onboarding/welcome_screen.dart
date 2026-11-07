@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_theme.dart';
 import '../../core/widgets/bonvrij_logo.dart';
+import '../data_management/presentation/backup_actions.dart';
 import '../settings/application/settings_providers.dart';
 import '../../l10n/app_strings.dart';
 
@@ -88,6 +89,9 @@ class WelcomeScreen extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
                     child: _Illustration(),
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                   FilledButton(
                     key: const Key('welcome.start'),
                     style: FilledButton.styleFrom(
@@ -100,6 +104,22 @@ class WelcomeScreen extends ConsumerWidget {
                     onPressed: () =>
                         ref.read(onboardingDoneProvider.notifier).complete(),
                     child: Text(S.current.getStarted),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  TextButton(
+                    key: const Key('welcome.restore'),
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    onPressed: () async {
+                      final restored = await runRestore(context, ref);
+                      if (restored) {
+                        await ref.read(onboardingDoneProvider.notifier).complete();
+                      }
+                    },
+                    child: Text(S.current.haveBackup),
+                  ),
+                    ],
                   ),
                 ],
               ),

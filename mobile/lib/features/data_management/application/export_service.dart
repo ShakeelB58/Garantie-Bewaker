@@ -7,6 +7,7 @@ import '../../documents/data/document_file_store.dart';
 import '../../documents/data/document_repository.dart';
 import '../../documents/domain/document.dart';
 import '../../products/data/product_repository.dart';
+import '../domain/backup_manifest.dart';
 import '../domain/products_csv.dart';
 import '../../../l10n/app_strings.dart';
 
@@ -33,6 +34,7 @@ class ExportFile {
 /// - `producten.csv` (te openen in Excel of Numbers)
 /// - `documenten/` met alle aankoopbewijzen
 /// - `LEESMIJ.txt`
+/// - `bonvrij-backup.json` waarmee de app alles kan terugzetten
 ///
 /// In het Engels: `products.csv`, `documents/` en `README.txt`.
 ///
@@ -61,11 +63,13 @@ class ExportService {
     final counts = <String, int>{};
     var documentCount = 0;
     var missing = 0;
+    final backup = <BackupProduct>[];
 
     for (var i = 0; i < products.length; i++) {
       final product = products[i];
       final documents = await _documents.getForProduct(product.id);
       counts[product.id] = documents.length;
+      final backupDocuments = <BackupDocument>[];
       for (var j = 0; j < documents.length; j++) {
         final document = documents[j];
         final Uint8List bytes;
@@ -75,16 +79,15 @@ class ExportService {
           missing++;
           continue;
         }
+        final name = documentName(i + 1, product.name, document, j + 1);
         // Afbeeldingen en PDF's zijn al gecomprimeerd.
-        archive.addFile(
-          ArchiveFile.noCompress(
-            documentName(i + 1, product.name, document, j + 1),
-            bytes.length,
-            bytes,
-          ),
+        archive.addFile(ArchiveFile.noCompress(name, bytes.length, bytes));
+        backupDocuments.add(
+          BackupDocument(document: document, archivePath: name),
         );
         documentCount++;
       }
+      backup.add(BackupProduct(product: product, documents: backupDocuments));
     }
 
     archive
@@ -98,6 +101,12 @@ class ExportService {
         ArchiveFile.string(
           S.current.exportReadmeName,
           S.current.exportReadme(Dates.formatLong(_clock())),
+        ),
+      )
+      ..addFile(
+        ArchiveFile.string(
+          BackupManifest.fileName,
+          BackupManifest.encode(backup, _clock()),
         ),
       );
 

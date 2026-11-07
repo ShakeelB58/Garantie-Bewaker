@@ -93,7 +93,11 @@ void main() {
 
     expect(export.documentCount, 0);
     expect(export.missingDocuments, 1);
-    expect(unzip(export.bytes).keys, ['producten.csv', 'LEESMIJ.txt']);
+    expect(unzip(export.bytes).keys, [
+      'producten.csv',
+      'LEESMIJ.txt',
+      'bonvrij-backup.json',
+    ]);
   });
 
   test('bestandsnamen bevatten alleen veilige tekens', () {

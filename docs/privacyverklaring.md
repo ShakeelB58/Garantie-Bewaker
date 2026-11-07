@@ -1,6 +1,6 @@
 # Privacyverklaring Bonvrij
 
-*Laatst bijgewerkt: 22 oktober 2026*
+*Laatst bijgewerkt: 7 november 2026*
 
 Bonvrij is een app om aankopen, kassabonnen, facturen en garantiedatums te bewaren. Deze
 verklaring legt uit wat er met je gegevens gebeurt. Kort gezegd: **je aankopen en
@@ -74,15 +74,19 @@ De app gebruikt de microfoon niet.
 
 Je telefoon kan de gegevens van Bonvrij meenemen in de eigen back-up van het besturingssysteem:
 iCloud-back-up op de iPhone, Google-back-up op Android. Die back-ups zijn versleuteld en
-worden beheerd door Apple of Google onder jouw account, niet door ons. Zo komen je gegevens
-terug als je een nieuwe telefoon instelt. Je kunt dit uitzetten in de instellingen van je
-telefoon.
+worden beheerd door Apple of Google onder jouw account, niet door ons. Zo kunnen je gegevens
+terugkomen als je een nieuwe telefoon instelt. Op Android heeft de Google-back-up een maximale
+grootte per app; met veel foto's van bonnen past niet alles. Maak daarom ook zelf af en toe een
+export (zie hieronder). Je kunt de back-up uitzetten in de instellingen van je telefoon.
 
 ## Exporteren en verwijderen
 
 - **Exporteren:** via Instellingen → Gegevens exporteren maak je zelf een ZIP-bestand met al je
   gegevens. Jij kiest waar je dat bewaart. Het bestand bevat je aankoopgegevens, dus bewaar het
   veilig.
+- **Herstellen:** via Instellingen → Gegevens herstellen (of "Ik heb een reservekopie" bij de
+  eerste start) zet je zo'n export terug, bijvoorbeeld op een nieuwe telefoon. Het bestand wordt
+  alleen op je telefoon gelezen en nergens heen gestuurd.
 - **Verwijderen:** via Instellingen → Alle lokale gegevens verwijderen wis je alles in één keer.
   Ook het verwijderen van de app wist alle gegevens van je telefoon. Een eerder gemaakte export
   of back-up van je telefoon beheer je zelf.

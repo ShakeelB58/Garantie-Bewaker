@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:garantiebewaker/features/data_management/data/backup_file_picker.dart';
 import 'package:garantiebewaker/features/data_management/data/export_saver.dart';
 
 /// Bewaart de export in het geheugen in plaats van een bewaarvenster.
@@ -22,5 +23,17 @@ class FakeExportSaver implements ExportSaver {
     this.bytes = bytes;
     this.mimeType = mimeType;
     return true;
+  }
+}
+
+/// Geeft een vooraf ingestelde reservekopie terug (of `null` = annuleren).
+class FakeBackupFilePicker implements BackupFilePicker {
+  Uint8List? bytes;
+  int picks = 0;
+
+  @override
+  Future<Uint8List?> pick() async {
+    picks++;
+    return bytes;
   }
 }

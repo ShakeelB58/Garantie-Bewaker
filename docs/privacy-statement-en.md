@@ -1,6 +1,6 @@
 # Bonvrij privacy statement
 
-*Last updated: 5 November 2026*
+*Last updated: 7 November 2026*
 
 Bonvrij is an app for keeping purchases, receipts, invoices and warranty dates. This
 statement explains what happens to your data. In short: **your purchases and proofs of
@@ -71,13 +71,18 @@ The app does not use the microphone.
 
 Your phone can include Bonvrij's data in the operating system's own backup: iCloud Backup on
 iPhone, Google backup on Android. These backups are encrypted and managed by Apple or Google
-under your account, not by us. That way your data comes back when you set up a new phone. You
-can turn this off in your phone's settings.
+under your account, not by us. That way your data can come back when you set up a new phone.
+On Android, Google's backup has a size limit per app; with many photos of receipts not
+everything fits. So also make an export yourself now and then (see below). You can turn the
+backup off in your phone's settings.
 
 ## Export and deletion
 
 - **Export:** in Settings → Export data you create a ZIP file with all your data yourself. You
   choose where to keep it. The file contains your purchase details, so keep it safe.
+- **Restore:** in Settings → Restore data (or "I have a backup" when you first open the app) you
+  put such an export back, for example on a new phone. The file is only read on your phone and
+  is not sent anywhere.
 - **Deletion:** in Settings → Delete all local data you erase everything at once. Deleting the
   app also erases all its data from your phone. You manage any export or phone backup you made
   earlier yourself.

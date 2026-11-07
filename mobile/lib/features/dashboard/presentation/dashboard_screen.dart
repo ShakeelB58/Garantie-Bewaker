@@ -11,6 +11,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../products/application/product_providers.dart';
 import '../../products/domain/product.dart';
 import '../../products/presentation/widgets/category_icon.dart';
+import '../../data_management/presentation/backup_reminder_card.dart';
 import '../application/dashboard_summary.dart';
 import '../../../l10n/app_strings.dart';
 
@@ -136,6 +137,7 @@ class _DashboardContent extends StatelessWidget {
             ],
           ),
         ),
+        const BackupReminderCard(),
         const SizedBox(height: AppSpacing.lg),
         _SectionHeader(
           title: S.current.recentlyAdded,

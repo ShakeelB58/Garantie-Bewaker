@@ -60,7 +60,7 @@ void main() {
       await tester.tap(find.byKey(const Key('settings.export')));
       await tester.pumpAndSettle();
       expect(
-        find.textContaining('Bewaar het op een veilige plek'),
+        find.textContaining('iCloud Drive of Google Drive'),
         findsOneWidget,
       );
       await tester.tap(find.text('Exporteren'));
