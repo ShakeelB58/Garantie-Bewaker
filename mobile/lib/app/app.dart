@@ -149,9 +149,8 @@ class _BonvrijAppState extends ConsumerState<BonvrijApp> {
         // Eigen Navigator, zodat het welkomstscherm vensters kan tonen
         // (bijv. bij "Ik heb een reservekopie").
         AsyncData(value: false) => Navigator(
-          onGenerateRoute: (_) => MaterialPageRoute<void>(
-            builder: (_) => const WelcomeScreen(),
-          ),
+          onGenerateRoute: (_) =>
+              MaterialPageRoute<void>(builder: (_) => const WelcomeScreen()),
         ),
         AsyncLoading() => const ColoredBox(color: AppColors.background),
         _ => child ?? const SizedBox.shrink(),
