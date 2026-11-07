@@ -143,6 +143,22 @@ class InMemoryDocumentFileStore implements DocumentFileStore {
     return relative;
   }
 
+  /// Zet op `true` om een schrijffout (bijv. vol geheugen) na te bootsen.
+  bool failWrites = false;
+
+  @override
+  Future<String> storeBytes(
+    Uint8List bytes, {
+    required String id,
+    required DocumentFormat format,
+  }) async {
+    if (failWrites) throw const FileSystemException('Schijf vol');
+    final relative = 'documents/$id.${format.extension}';
+    stored[relative] = bytes;
+    storedAt[relative] = now;
+    return relative;
+  }
+
   @override
   Future<String> resolve(String relativePath) async {
     if (!LocalDocumentFileStore.isValidRelativePath(relativePath)) {

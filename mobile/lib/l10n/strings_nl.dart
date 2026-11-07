@@ -756,7 +756,65 @@ class StringsNl extends S {
 
   @override
   String get exportDataSubtitle =>
-      'Producten (CSV) en aankoopbewijzen in één ZIP-bestand';
+      'Reservekopie van al je producten en aankoopbewijzen';
+
+  @override
+  String get restoreData => 'Gegevens herstellen';
+
+  @override
+  String get restoreDataSubtitle => 'Zet een reservekopie (export) terug';
+
+  @override
+  String get haveBackup => 'Ik heb een reservekopie';
+
+  @override
+  String get readingBackup => 'Reservekopie lezen…';
+
+  @override
+  String get restoringData => 'Gegevens terugzetten…';
+
+  @override
+  String get restore => 'Herstellen';
+
+  @override
+  String get restoreNotBackup =>
+      'Dit is geen reservekopie van Bonvrij. Kies het ZIP-bestand dat je met "Gegevens exporteren" hebt gemaakt.';
+
+  @override
+  String get restoreOldExport =>
+      'Deze export is gemaakt met een oudere versie van Bonvrij en kan niet worden teruggezet. Je aankoopbewijzen en het overzicht staan wel in het ZIP-bestand.';
+
+  @override
+  String get restoreDamaged =>
+      'De reservekopie is beschadigd of onvolledig. Er is niets teruggezet.';
+
+  @override
+  String get restoreNewer =>
+      'Deze reservekopie is gemaakt met een nieuwere versie van Bonvrij. Werk de app bij en probeer het opnieuw.';
+
+  @override
+  String get restoreFailed =>
+      'Terugzetten is niet helemaal gelukt. Probeer het opnieuw: wat al is teruggezet, wordt niet dubbel toegevoegd.';
+
+  @override
+  String get restoreNothingNew =>
+      'Alles uit deze reservekopie staat al in de app.';
+
+  @override
+  String get noBackupYet => 'Nog geen reservekopie gemaakt';
+
+  @override
+  String get backupReminderTitle => 'Maak een reservekopie';
+
+  @override
+  String get backupReminderBody =>
+      'Je bonnen staan alleen op deze telefoon. Bewaar een export in iCloud Drive of Google Drive, dan ben je ze niet kwijt als je telefoon kapot gaat.';
+
+  @override
+  String get backupNow => 'Nu maken';
+
+  @override
+  String get later => 'Later';
 
   @override
   String get deleteAllLocal => 'Alle lokale gegevens verwijderen';
@@ -809,7 +867,7 @@ class StringsNl extends S {
 
   @override
   String get exportExplanation =>
-      'Je krijgt één ZIP-bestand met al je producten (als CSV, te openen in Excel of Numbers) en al je aankoopbewijzen.\n\nHet bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.';
+      'Je krijgt één ZIP-bestand met al je producten en aankoopbewijzen. Daarmee zet je alles terug op een nieuwe telefoon (Instellingen → Gegevens herstellen). Het overzicht kun je ook openen in Excel of Numbers.\n\nBewaar het bestand niet alleen op deze telefoon, maar bijvoorbeeld in iCloud Drive of Google Drive. Het bevat je aankoopgegevens: deel het alleen met mensen die je vertrouwt.';
 
   @override
   String get export => 'Exporteren';
@@ -833,7 +891,7 @@ class StringsNl extends S {
 
   @override
   String get privacyText =>
-      '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon opgeslagen.\n• Er is geen account nodig. Je aankopen en documenten worden nooit naar ons of naar anderen gestuurd.\n• De app krijgt geen toegang tot je mailbox. Je deelt zelf een factuur met de app.\n• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op Android stuurt de herkenning van Google wel technische gebruiksgegevens naar Google, zoals het toestelmodel en foutcodes. Nooit de inhoud van je bonnen.\n• Meldingen worden door je telefoon zelf getoond, zonder server. Op het vergrendelscherm van Android wordt de productnaam verborgen.\n• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen back-up (iCloud of Google), versleuteld en onder jouw account. Zo komen ze terug op een nieuwe telefoon.\n• Met "Gegevens exporteren" maak je zelf een kopie. Verwijder je de app, dan verdwijnen de gegevens van je telefoon.\n• Met "Alle lokale gegevens verwijderen" wis je alles in één keer.\n\nMeer lezen: bonvrij.nl/privacy';
+      '• Je aankopen en aankoopbewijzen worden alleen op deze telefoon opgeslagen.\n• Er is geen account nodig. Je aankopen en documenten worden nooit naar ons of naar anderen gestuurd.\n• De app krijgt geen toegang tot je mailbox. Je deelt zelf een factuur met de app.\n• Tekstherkenning gebeurt op je telefoon, niet in de cloud. Op Android stuurt de herkenning van Google wel technische gebruiksgegevens naar Google, zoals het toestelmodel en foutcodes. Nooit de inhoud van je bonnen.\n• Meldingen worden door je telefoon zelf getoond, zonder server. Op het vergrendelscherm van Android wordt de productnaam verborgen.\n• Je telefoon kan de gegevens van Bonvrij meenemen in de eigen back-up (iCloud of Google), versleuteld en onder jouw account. Op Android past daar niet altijd alles in: maak daarom ook zelf af en toe een export.\n• Met "Gegevens exporteren" maak je zelf een kopie, en met "Gegevens herstellen" zet je die terug. Verwijder je de app, dan verdwijnen de gegevens van je telefoon.\n• Met "Alle lokale gegevens verwijderen" wis je alles in één keer.\n\nMeer lezen: bonvrij.nl/privacy';
 
   @override
   String get deleteAllQuestion => 'Alle gegevens verwijderen?';
@@ -871,6 +929,22 @@ class StringsNl extends S {
 
   @override
   String get exportDocumentsFolder => 'documenten';
+
+  @override
+  String restoreFound(int products, int documents) =>
+      '${products == 1 ? '1 product' : '$products producten'} en ${documents == 1 ? '1 document' : '$documents documenten'} gevonden.';
+
+  @override
+  String restoreSkipped(int count) => count == 1
+      ? ' 1 product staat al in de app en wordt overgeslagen.'
+      : ' $count producten staan al in de app en worden overgeslagen.';
+
+  @override
+  String restoreDone(int products, int documents) =>
+      'Teruggezet: ${products == 1 ? '1 product' : '$products producten'} en ${documents == 1 ? '1 document' : '$documents documenten'}.';
+
+  @override
+  String lastBackup(String date) => 'Laatste reservekopie: $date';
 
   @override
   String productsRegistered(int count) => count == 1
@@ -940,5 +1014,5 @@ class StringsNl extends S {
 
   @override
   String exportReadme(String date) =>
-      'Export van Bonvrij\r\nGemaakt op $date.\r\n\r\nproducten.csv\r\n  Al je producten. Open dit bestand met Excel, Numbers of Google Spreadsheets.\r\n\r\ndocumenten/\r\n  Je aankoopbewijzen. Het nummer vooraan de bestandsnaam hoort bij de volgorde in producten.csv (product 1 is de eerste regel).\r\n\r\nLet op: dit bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.\r\n\r\nGarantie-einddatums en herinneringen zijn door jou ingevuld. Bonvrij berekent geen garantietermijnen en geeft geen juridisch advies.\r\n';
+      'Export van Bonvrij\r\nGemaakt op $date.\r\n\r\nproducten.csv\r\n  Al je producten. Open dit bestand met Excel, Numbers of Google Spreadsheets.\r\n\r\ndocumenten/\r\n  Je aankoopbewijzen. Het nummer vooraan de bestandsnaam hoort bij de volgorde in producten.csv (product 1 is de eerste regel).\r\n\r\nbonvrij-backup.json\r\n  Hiermee zet Bonvrij alles terug op een (nieuwe) telefoon: Instellingen > Gegevens herstellen. Niet aanpassen.\r\n\r\nLet op: dit bestand bevat je aankoopgegevens. Bewaar het op een veilige plek en deel het alleen met mensen die je vertrouwt.\r\n\r\nGarantie-einddatums en herinneringen zijn door jou ingevuld. Bonvrij berekent geen garantietermijnen en geeft geen juridisch advies.\r\n';
 }

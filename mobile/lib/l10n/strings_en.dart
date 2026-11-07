@@ -751,7 +751,65 @@ class StringsEn extends S {
 
   @override
   String get exportDataSubtitle =>
-      'Products (CSV) and proofs of purchase in one ZIP file';
+      'Backup of all your products and proofs of purchase';
+
+  @override
+  String get restoreData => 'Restore data';
+
+  @override
+  String get restoreDataSubtitle => 'Restore a backup (export)';
+
+  @override
+  String get haveBackup => 'I have a backup';
+
+  @override
+  String get readingBackup => 'Reading backup…';
+
+  @override
+  String get restoringData => 'Restoring data…';
+
+  @override
+  String get restore => 'Restore';
+
+  @override
+  String get restoreNotBackup =>
+      'This is not a Bonvrij backup. Choose the ZIP file you created with "Export data".';
+
+  @override
+  String get restoreOldExport =>
+      'This export was made with an older version of Bonvrij and cannot be restored. Your proofs of purchase and the overview are still in the ZIP file.';
+
+  @override
+  String get restoreDamaged =>
+      'The backup is damaged or incomplete. Nothing has been restored.';
+
+  @override
+  String get restoreNewer =>
+      'This backup was made with a newer version of Bonvrij. Update the app and try again.';
+
+  @override
+  String get restoreFailed =>
+      'Restoring did not fully succeed. Please try again: anything already restored will not be added twice.';
+
+  @override
+  String get restoreNothingNew =>
+      'Everything in this backup is already in the app.';
+
+  @override
+  String get noBackupYet => 'No backup made yet';
+
+  @override
+  String get backupReminderTitle => 'Make a backup';
+
+  @override
+  String get backupReminderBody =>
+      'Your receipts are only on this phone. Keep an export in iCloud Drive or Google Drive, so you won\'t lose them if your phone breaks.';
+
+  @override
+  String get backupNow => 'Back up now';
+
+  @override
+  String get later => 'Later';
 
   @override
   String get deleteAllLocal => 'Delete all local data';
@@ -804,7 +862,7 @@ class StringsEn extends S {
 
   @override
   String get exportExplanation =>
-      'You\'ll get one ZIP file with all your products (as CSV, to open in Excel or Numbers) and all your proofs of purchase.\n\nThe file contains your purchase details. Keep it in a safe place and only share it with people you trust.';
+      'You\'ll get one ZIP file with all your products and proofs of purchase. You can use it to restore everything on a new phone (Settings → Restore data). You can also open the overview in Excel or Numbers.\n\nDon\'t keep the file only on this phone, but for example in iCloud Drive or Google Drive. It contains your purchase details: only share it with people you trust.';
 
   @override
   String get export => 'Export';
@@ -827,7 +885,7 @@ class StringsEn extends S {
 
   @override
   String get privacyText =>
-      '• Your purchases and proofs of purchase are stored only on this phone.\n• No account is needed. Your purchases and documents are never sent to us or anyone else.\n• The app has no access to your mailbox. You share an invoice with the app yourself.\n• Text recognition happens on your phone, not in the cloud. On Android, Google\'s recognition does send technical usage data to Google, such as the device model and error codes. Never the contents of your receipts.\n• Notifications are shown by your phone itself, without a server. On the Android lock screen the product name is hidden.\n• Your phone can include Bonvrij\'s data in its own backup (iCloud or Google), encrypted and under your account. That way it comes back on a new phone.\n• With "Export data" you make your own copy. If you delete the app, the data disappears from your phone.\n• With "Delete all local data" you erase everything at once.\n\nRead more: bonvrij.nl/en/privacy';
+      '• Your purchases and proofs of purchase are stored only on this phone.\n• No account is needed. Your purchases and documents are never sent to us or anyone else.\n• The app has no access to your mailbox. You share an invoice with the app yourself.\n• Text recognition happens on your phone, not in the cloud. On Android, Google\'s recognition does send technical usage data to Google, such as the device model and error codes. Never the contents of your receipts.\n• Notifications are shown by your phone itself, without a server. On the Android lock screen the product name is hidden.\n• Your phone can include Bonvrij\'s data in its own backup (iCloud or Google), encrypted and under your account. On Android not everything always fits: so also make an export yourself now and then.\n• With "Export data" you make your own copy, and with "Restore data" you put it back. If you delete the app, the data disappears from your phone.\n• With "Delete all local data" you erase everything at once.\n\nRead more: bonvrij.nl/en/privacy';
 
   @override
   String get deleteAllQuestion => 'Delete all data?';
@@ -865,6 +923,22 @@ class StringsEn extends S {
 
   @override
   String get exportDocumentsFolder => 'documents';
+
+  @override
+  String restoreFound(int products, int documents) =>
+      '${products == 1 ? '1 product' : '$products products'} and ${documents == 1 ? '1 document' : '$documents documents'} found.';
+
+  @override
+  String restoreSkipped(int count) => count == 1
+      ? ' 1 product is already in the app and will be skipped.'
+      : ' $count products are already in the app and will be skipped.';
+
+  @override
+  String restoreDone(int products, int documents) =>
+      'Restored: ${products == 1 ? '1 product' : '$products products'} and ${documents == 1 ? '1 document' : '$documents documents'}.';
+
+  @override
+  String lastBackup(String date) => 'Last backup: $date';
 
   @override
   String productsRegistered(int count) => count == 1
@@ -933,5 +1007,5 @@ class StringsEn extends S {
 
   @override
   String exportReadme(String date) =>
-      'Bonvrij export\r\nCreated on $date.\r\n\r\nproducts.csv\r\n  All your products. Open this file with Excel, Numbers or Google Sheets.\r\n\r\ndocuments/\r\n  Your proofs of purchase. The number at the start of the file name matches the order in products.csv (product 1 is the first row).\r\n\r\nNote: this file contains your purchase details. Keep it in a safe place and only share it with people you trust.\r\n\r\nWarranty end dates and reminders were entered by you. Bonvrij does not calculate warranty periods and does not give legal advice.\r\n';
+      'Bonvrij export\r\nCreated on $date.\r\n\r\nproducts.csv\r\n  All your products. Open this file with Excel, Numbers or Google Sheets.\r\n\r\ndocuments/\r\n  Your proofs of purchase. The number at the start of the file name matches the order in products.csv (product 1 is the first row).\r\n\r\nbonvrij-backup.json\r\n  Bonvrij uses this to restore everything on a (new) phone: Settings > Restore data. Do not edit.\r\n\r\nNote: this file contains your purchase details. Keep it in a safe place and only share it with people you trust.\r\n\r\nWarranty end dates and reminders were entered by you. Bonvrij does not calculate warranty periods and does not give legal advice.\r\n';
 }

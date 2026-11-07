@@ -26,6 +26,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import '../test/helpers/document_fakes.dart';
 import '../test/helpers/fixtures.dart';
 import '../test/helpers/in_memory_product_repository.dart';
+import '../test/helpers/reminder_fakes.dart';
 import '../test/helpers/test_app.dart';
 
 /// Een toestel waarvoor schermafbeeldingen worden gemaakt.
@@ -122,9 +123,17 @@ Future<InMemoryProductRepository> _startWithDemo(
   WidgetTester tester,
   _Device device, {
   Widget? scannerPreview,
+  bool recentBackup = true,
 }) async {
+  // Recente reservekopie: geen herinneringskaart op de schermafbeeldingen.
+  final settings = InMemorySettingsRepository();
+  if (recentBackup) {
+    settings.values['last_backup_at'] = testNow.toUtc().toIso8601String();
+  }
   final repo = await pumpApp(
     tester,
+    settings: settings,
+    recentBackup: recentBackup,
     repository: InMemoryProductRepository(),
     documents: InMemoryDocumentRepository(),
     scannerPreview: scannerPreview,
@@ -284,6 +293,34 @@ void main() {
         await tester.tap(find.text('Privacy'));
         await _capture(tester, folder, '6-privacy');
       });
+
+      // Voorbeelden voor de reservekopie (alleen ter controle, niet voor
+      // de winkels).
+      if (device.name == 'ios') {
+        final preview = 'preview$language';
+
+        shoot('voorbeeld welkom', (tester) async {
+          await pumpApp(tester, showWelcome: true);
+          await _setDevice(tester, device);
+          await _capture(tester, preview, 'welkom');
+        });
+
+        shoot('voorbeeld home met herinnering', (tester) async {
+          await _startWithDemo(tester, device, recentBackup: false);
+          await _capture(tester, preview, 'home-herinnering');
+        });
+
+        shoot('voorbeeld instellingen', (tester) async {
+          await _startWithDemo(tester, device, recentBackup: false);
+          await tester.tap(find.byKey(const Key('nav.settings')));
+          await tester.pumpAndSettle();
+          await tester.scrollUntilVisible(
+            find.byKey(const Key('settings.restore')),
+            200,
+          );
+          await _capture(tester, preview, 'instellingen');
+        });
+      }
     }
   }
 }

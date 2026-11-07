@@ -29,6 +29,14 @@ abstract interface class DocumentFileStore {
     required DocumentFormat format,
   });
 
+  /// Schrijft [bytes] (bijv. uit een reservekopie) naar de app-private
+  /// opslag. Geeft het relatieve pad terug.
+  Future<String> storeBytes(
+    Uint8List bytes, {
+    required String id,
+    required DocumentFormat format,
+  });
+
   /// Absoluut pad om een opgeslagen document te openen.
   /// Gooit [ArgumentError] bij een ongeldig of onveilig pad.
   Future<String> resolve(String relativePath);
@@ -109,6 +117,30 @@ class LocalDocumentFileStore implements DocumentFileStore {
     final partial = File('${target.path}.part');
     try {
       await File(sourcePath).copy(partial.path);
+      await partial.rename(target.path);
+    } catch (_) {
+      if (await partial.exists()) await partial.delete();
+      rethrow;
+    }
+    return relative;
+  }
+
+  @override
+  Future<String> storeBytes(
+    Uint8List bytes, {
+    required String id,
+    required DocumentFormat format,
+  }) async {
+    final relative = '$folder/$id.${format.extension}';
+    if (!isValidRelativePath(relative)) {
+      throw ArgumentError.value(id, 'id', 'Ongeldig document-id');
+    }
+    final base = await _baseDirectory();
+    await Directory(p.join(base.path, folder)).create(recursive: true);
+    final target = File(p.join(base.path, relative));
+    final partial = File('${target.path}.part');
+    try {
+      await partial.writeAsBytes(bytes, flush: true);
       await partial.rename(target.path);
     } catch (_) {
       if (await partial.exists()) await partial.delete();

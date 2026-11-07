@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_theme.dart';
-import '../../../core/errors/user_message.dart';
+import '../../../core/utils/dates.dart';
+import '../../data_management/application/backup_status.dart';
 import '../../data_management/application/data_management_providers.dart';
+import '../../data_management/presentation/backup_actions.dart';
 import '../../demo/demo_data.dart';
 import '../../reminders/application/reminder_service.dart';
 import '../application/settings_providers.dart';
@@ -22,6 +24,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final lead = ref.watch(reminderLeadProvider);
     final enabled = ref.watch(notificationsEnabledProvider);
+    final lastBackup = ref.watch(lastBackupProvider).value;
     return Scaffold(
       appBar: AppBar(title: Text(S.current.navSettings)),
       body: ListView(
@@ -68,8 +71,19 @@ class SettingsScreen extends ConsumerWidget {
             key: const Key('settings.export'),
             leading: const Icon(Icons.file_download_outlined),
             title: Text(S.current.exportData),
-            subtitle: Text(S.current.exportDataSubtitle),
-            onTap: () => _export(context, ref),
+            subtitle: Text(
+              '${S.current.exportDataSubtitle}\n'
+              '${lastBackup == null ? S.current.noBackupYet : S.current.lastBackup(Dates.formatShort(lastBackup.toLocal()))}',
+            ),
+            isThreeLine: true,
+            onTap: () => runExport(context, ref),
+          ),
+          ListTile(
+            key: const Key('settings.restore'),
+            leading: const Icon(Icons.settings_backup_restore),
+            title: Text(S.current.restoreData),
+            subtitle: Text(S.current.restoreDataSubtitle),
+            onTap: () => runRestore(context, ref),
           ),
           ListTile(
             key: const Key('settings.deleteAll'),
@@ -186,68 +200,6 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
-  Future<void> _export(BuildContext context, WidgetRef ref) async {
-    final go = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        // Bij grote tekst kan het hele venster scrollen.
-        scrollable: true,
-        title: Text(S.current.exportData),
-        content: Text(S.current.exportExplanation),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(S.current.cancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(S.current.export),
-          ),
-        ],
-      ),
-    );
-    if (go != true || !context.mounted) return;
-
-    final navigator = Navigator.of(context);
-    navigator.push<void>(
-      DialogRoute<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => _BusyDialog(S.current.creatingExport),
-      ),
-    );
-    String message;
-    try {
-      final export = await ref.read(exportServiceProvider).build();
-      if (navigator.mounted) navigator.pop();
-      final saved = await ref
-          .read(exportSaverProvider)
-          .save(
-            fileName: export.fileName,
-            bytes: export.bytes,
-            mimeType: 'application/zip',
-          );
-      if (!saved) return;
-      message = S.current.exportSaved(
-        export.productCount,
-        export.documentCount,
-      );
-      if (export.missingDocuments > 0) {
-        message += S.current.exportMissing(export.missingDocuments);
-      }
-    } catch (error) {
-      debugPrint('Exporteren mislukt (${error.runtimeType})');
-      if (navigator.mounted && navigator.canPop()) {
-        // Alleen het voortgangsvenster sluiten als dat nog open is.
-        navigator.popUntil((route) => route is! DialogRoute);
-      }
-      message = error is AppException
-          ? error.userMessage
-          : S.current.exportFailed;
-    }
-    if (context.mounted) _message(context, message);
-  }
-
   Future<void> _confirmDeleteAll(BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -326,34 +278,6 @@ class _SectionHeader extends StatelessWidget {
         style: theme.textTheme.labelLarge?.copyWith(
           color: theme.colorScheme.primary,
           fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _BusyDialog extends StatelessWidget {
-  const _BusyDialog(this.message);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: AlertDialog(
-        // Bij grote tekst kan het hele venster scrollen.
-        scrollable: true,
-        content: Row(
-          children: [
-            const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 3),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(child: Text(message)),
-          ],
         ),
       ),
     );

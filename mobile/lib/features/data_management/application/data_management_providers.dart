@@ -6,9 +6,12 @@ import '../../documents/application/document_service.dart';
 import '../../products/application/product_providers.dart';
 import '../../reminders/application/reminder_service.dart';
 import '../../settings/application/settings_providers.dart';
+import '../data/backup_file_picker.dart';
 import '../data/export_saver.dart';
+import 'backup_status.dart';
 import 'data_wipe_service.dart';
 import 'export_service.dart';
+import 'restore_service.dart';
 
 final exportSaverProvider = Provider<ExportSaver>((ref) => SystemExportSaver());
 
@@ -18,6 +21,19 @@ final exportServiceProvider = Provider<ExportService>(
     documents: ref.watch(documentRepositoryProvider),
     fileStore: ref.watch(documentFileStoreProvider),
     clock: ref.watch(clockProvider),
+  ),
+);
+
+final backupFilePickerProvider = Provider<BackupFilePicker>(
+  (ref) => SystemBackupFilePicker(),
+);
+
+final restoreServiceProvider = Provider<RestoreService>(
+  (ref) => RestoreService(
+    products: ref.watch(productRepositoryProvider),
+    documents: ref.watch(documentRepositoryProvider),
+    fileStore: ref.watch(documentFileStoreProvider),
+    newId: ref.watch(idGeneratorProvider),
   ),
 );
 
@@ -46,5 +62,7 @@ Future<void> wipeAllData(WidgetRef ref) async {
     ..invalidate(documentsForProductProvider)
     ..invalidate(allDocumentsProvider)
     ..invalidate(documentByIdProvider)
-    ..invalidate(notificationsEnabledProvider);
+    ..invalidate(notificationsEnabledProvider)
+    ..invalidate(lastBackupProvider)
+    ..invalidate(backupSnoozeProvider);
 }
