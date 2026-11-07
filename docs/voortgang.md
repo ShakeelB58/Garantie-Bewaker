@@ -385,6 +385,18 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   Niet getest met een echte factuur met modelnummer.
 - Idee voor later: typeplaatje scannen (model- en serienummer met de camera, op het toestel).
 
+## Klaar maar nog niet samengevoegd: reservekopie terugzetten (branch `herstellen`, 1.3.0 (5))
+
+- Export bevat nu `bonvrij-backup.json`; **Gegevens herstellen** in Instellingen en **Ik heb een
+  reservekopie** op het welkomstscherm zetten een export terug (eerst alles controleren, geen
+  dubbelen, kapotte bestanden geweigerd, herinneringen opnieuw ingepland).
+- Kaart "Maak een reservekopie" op Home (na een week, daarna maandelijks; "Later" = een maand).
+- Privacyteksten eerlijker over de Android-back-up (max. 25 MB per app).
+- CI groen, schermafbeeldingen goedgekeurd door de gebruiker (7-11). Op verzoek nog **niet**
+  samengevoegd; eerst 1.2.0 laten goedkeuren. Daarna samenvoegen, website opnieuw publiceren
+  en handmatig testen: export → app verwijderen → "Ik heb een reservekopie".
+- Open idee: e-mailadressen verzamelen (keuze nog niet gemaakt; voorkeur via de website).
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
