@@ -186,6 +186,7 @@ SIMPLE = [
     ("addProduct", "Product toevoegen", "Add product"),
     ("productNameRequired", "Productnaam *", "Product name *"),
     ("productNameHint", "bijv. Wasmachine", "e.g. Washing machine"),
+    ("brandHint", "bijv. Bosch", "e.g. Bosch"),
     ("brandOptional", "Merk", "Brand"),
     ("modelOptional", "Modelnummer", "Model number"),
     ("modelHint", "bijv. SM-S921B", "e.g. SM-S921B"),
@@ -200,8 +201,9 @@ SIMPLE = [
     ("priceHint", "bijv. 1.299,00", "e.g. 1,299.00"),
     ("warrantyAndReminder", "Garantie en herinnering", "Warranty and reminder"),
     ("warrantyEndOptional", "Garantie-einddatum", "Warranty end date"),
-    ("warrantyEndHelper", "Vul zelf in tot wanneer je garantie hebt. De app berekent dit niet.",
-     "Enter how long your warranty lasts. The app does not calculate this."),
+    ("warrantyEndHelper", "Kijk op je bon of bij de winkel hoe lang je garantie hebt.",
+     "Check your receipt or the store for how long your warranty lasts."),
+    ("warrantyQuickPick", "Snel kiezen vanaf de aankoopdatum", "Quick pick from the purchase date"),
     ("setReminder", "Herinnering instellen", "Set reminder"),
     ("setReminderHelper", "Je krijgt rond 9:00 uur een melding op de gekozen datum. Het precieze moment bepaalt je telefoon.",
      "You'll get a notification around 9:00 on the chosen date. Your phone decides the exact moment."),
@@ -215,8 +217,8 @@ SIMPLE = [
     ("recognitionCheck", "Herkenning: controleren", "Recognition: check"),
     ("dataTakenFromDocument", "Gegevens overgenomen uit het document", "Details taken from the document"),
     ("noDataRecognized", "Geen gegevens herkend", "No details recognised"),
-    ("checkBeforeSaving", "Controleer alles voordat je opslaat. Velden met een waarschuwing zijn onzeker herkend.",
-     "Check everything before you save. Fields with a warning were recognised with uncertainty."),
+    ("checkBeforeSaving", "Controleer alles voordat je opslaat, vooral velden met een waarschuwing.",
+     "Check everything before you save, especially fields with a warning."),
     ("fillInYourself", "Vul de gegevens zelf in. Het document wordt wel bij het product bewaard.",
      "Fill in the details yourself. The document is still saved with the product."),
     ("whichProduct", "Welk product wil je bewaren?", "Which product do you want to save?"),
@@ -331,6 +333,7 @@ SIMPLE = [
 
 # (sleutel, parameters, nederlands-expressie, engels-expressie) — Dart-code.
 METHODS = [
+    ("warrantyYears", "int years", "years == 1 ? '1 jaar' : '$years jaar'", "years == 1 ? '1 year' : '$years years'"),
     ("productsRegistered", "int count",
      "count == 1 ? 'Je hebt 1 product geregistreerd.' : 'Je hebt $count producten geregistreerd.'",
      "count == 1 ? 'You have 1 product registered.' : 'You have $count products registered.'"),

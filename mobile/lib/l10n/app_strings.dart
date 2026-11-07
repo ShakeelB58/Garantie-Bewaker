@@ -170,6 +170,7 @@ abstract class S {
   String get addProduct;
   String get productNameRequired;
   String get productNameHint;
+  String get brandHint;
   String get brandOptional;
   String get modelOptional;
   String get modelHint;
@@ -185,6 +186,7 @@ abstract class S {
   String get warrantyAndReminder;
   String get warrantyEndOptional;
   String get warrantyEndHelper;
+  String get warrantyQuickPick;
   String get setReminder;
   String get setReminderHelper;
   String get reminderDate;
@@ -286,6 +288,7 @@ abstract class S {
   String get exportCsvName;
   String get exportReadmeName;
   String get exportDocumentsFolder;
+  String warrantyYears(int years);
   String productsRegistered(int count);
   String maxCharacters(int max);
   String inDays(int days);

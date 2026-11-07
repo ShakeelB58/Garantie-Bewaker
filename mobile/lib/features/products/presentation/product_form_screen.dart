@@ -212,13 +212,13 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
     });
   }
 
-  /// Hulptekst onder een veld dat uit het document is overgenomen.
+  /// Hulptekst onder een overgenomen veld: alleen bij onzekere herkenning.
+  /// Goed herkende velden krijgen alleen het ✨-icoon (rustiger scherm).
   String? _recognitionHint(ProductField field) {
     final confidence = _recognized[field];
     if (confidence == null) return null;
     return switch (confidence) {
-      RecognitionConfidence.high ||
-      RecognitionConfidence.medium => S.current.recognizedHint,
+      RecognitionConfidence.high || RecognitionConfidence.medium => null,
       _ => S.current.uncertainHint,
     };
   }
@@ -244,6 +244,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
         confidence == RecognitionConfidence.unknown;
     return Icon(
       uncertain ? Icons.warning_amber_rounded : Icons.auto_awesome_outlined,
+      // Schermlezers horen wat het icoon betekent.
+      semanticLabel: uncertain
+          ? S.current.uncertainHint
+          : S.current.recognizedHint,
       color: uncertain
           ? AppColors.warning
           : Theme.of(context).colorScheme.primary,
@@ -258,6 +262,20 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
       return S.current.imeiChecksumWarning;
     }
     return _category == ProductCategory.phoneTablet ? S.current.imeiHint : null;
+  }
+
+  /// Aankoopdatum plus [years] jaar. Op 29 februari wordt dat 28 februari.
+  /// De gebruiker kiest zelf de periode; de app berekent geen garantie.
+  DateTime? _plusYears(int years) {
+    final bought = _purchaseDate;
+    if (bought == null) return null;
+    final year = bought.year + years;
+    final lastDay = DateTime(year, bought.month + 1, 0).day;
+    return DateTime(
+      year,
+      bought.month,
+      bought.day > lastDay ? lastDay : bought.day,
+    );
   }
 
   bool get _hasNumbers =>
@@ -539,6 +557,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: S.current.brandOptional,
+                hintText: S.current.brandHint,
                 errorText: _errors[ProductField.brand],
                 border: const OutlineInputBorder(),
               ),
@@ -720,6 +739,30 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                 () => _warrantyEndDate = value,
               ),
             ),
+            if (_purchaseDate != null) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                S.current.warrantyQuickPick,
+                style: theme.textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Wrap(
+                spacing: AppSpacing.sm,
+                runSpacing: AppSpacing.xs,
+                children: [
+                  for (final years in const [1, 2, 3, 5])
+                    ChoiceChip(
+                      key: Key('productForm.warranty${years}y'),
+                      label: Text(S.current.warrantyYears(years)),
+                      selected: _warrantyEndDate == _plusYears(years),
+                      onSelected: (_) => _changed(
+                        ProductField.warrantyEndDate,
+                        () => _warrantyEndDate = _plusYears(years),
+                      ),
+                    ),
+                ],
+              ),
+            ],
             const SizedBox(height: AppSpacing.sm),
             SwitchListTile(
               key: const Key('productForm.reminderEnabled'),
