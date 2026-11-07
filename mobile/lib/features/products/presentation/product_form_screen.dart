@@ -725,22 +725,7 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
             ),
             const SizedBox(height: AppSpacing.lg),
             _SectionTitle(S.current.warrantyAndReminder),
-            DateField(
-              key: const Key('productForm.warrantyEndDate'),
-              label: S.current.warrantyEndOptional,
-              helperText: S.current.warrantyEndHelper,
-              value: _warrantyEndDate,
-              firstDate: firstDate,
-              lastDate: lastFutureDate,
-              allowClear: true,
-              errorText: _errors[ProductField.warrantyEndDate],
-              onChanged: (value) => _changed(
-                ProductField.warrantyEndDate,
-                () => _warrantyEndDate = value,
-              ),
-            ),
             if (_purchaseDate != null) ...[
-              const SizedBox(height: AppSpacing.sm),
               Text(
                 S.current.warrantyQuickPick,
                 style: theme.textTheme.bodySmall,
@@ -762,7 +747,22 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
                     ),
                 ],
               ),
+              const SizedBox(height: AppSpacing.md),
             ],
+            DateField(
+              key: const Key('productForm.warrantyEndDate'),
+              label: S.current.warrantyEndOptional,
+              helperText: S.current.warrantyEndHelper,
+              value: _warrantyEndDate,
+              firstDate: firstDate,
+              lastDate: lastFutureDate,
+              allowClear: true,
+              errorText: _errors[ProductField.warrantyEndDate],
+              onChanged: (value) => _changed(
+                ProductField.warrantyEndDate,
+                () => _warrantyEndDate = value,
+              ),
+            ),
             const SizedBox(height: AppSpacing.sm),
             SwitchListTile(
               key: const Key('productForm.reminderEnabled'),

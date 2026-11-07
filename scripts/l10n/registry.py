@@ -203,7 +203,7 @@ SIMPLE = [
     ("warrantyEndOptional", "Garantie-einddatum", "Warranty end date"),
     ("warrantyEndHelper", "Kijk op je bon of bij de winkel hoe lang je garantie hebt.",
      "Check your receipt or the store for how long your warranty lasts."),
-    ("warrantyQuickPick", "Snel kiezen vanaf de aankoopdatum", "Quick pick from the purchase date"),
+    ("warrantyQuickPick", "Kies het aantal jaar vanaf de aankoopdatum", "Choose the number of years from the purchase date"),
     ("setReminder", "Herinnering instellen", "Set reminder"),
     ("setReminderHelper", "Je krijgt rond 9:00 uur een melding op de gekozen datum. Het precieze moment bepaalt je telefoon.",
      "You'll get a notification around 9:00 on the chosen date. Your phone decides the exact moment."),
