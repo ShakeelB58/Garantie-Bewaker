@@ -195,8 +195,9 @@ abstract final class BackupManifest {
       throw const BackupFormatException(BackupProblem.damaged);
     }
     final format = DocumentFormat.fromMimeType(_requiredText(m['mimeType']));
-    if (format == null)
+    if (format == null) {
       throw const BackupFormatException(BackupProblem.damaged);
+    }
     final file = _requiredText(m['file']);
     return BackupDocument(
       archivePath: file,
@@ -251,8 +252,9 @@ abstract final class BackupManifest {
 
   static DateTime _timestamp(Object? value) {
     final parsed = value is String ? DateTime.tryParse(value) : null;
-    if (parsed == null)
+    if (parsed == null) {
       throw const BackupFormatException(BackupProblem.damaged);
+    }
     return parsed.toUtc();
   }
 }
