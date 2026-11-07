@@ -230,9 +230,7 @@ Totaal 649,00
       expect(find.text('bijv. SM-S921B'), findsOneWidget);
     });
 
-    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (
-      tester,
-    ) async {
+    testWidgets('ingevuld nummer blijft zichtbaar bij kleding', (tester) async {
       await openForm(tester);
       await openNumbers(tester);
       await tester.ensureVisible(model);

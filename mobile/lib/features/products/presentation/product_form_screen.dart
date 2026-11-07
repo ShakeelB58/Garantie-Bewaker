@@ -569,7 +569,10 @@ class _ProductFormState extends ConsumerState<_ProductForm> {
               ListTile(
                 key: const Key('productForm.addNumbers'),
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.add_circle_outline, color: AppColors.teal),
+                leading: const Icon(
+                  Icons.add_circle_outline,
+                  color: AppColors.teal,
+                ),
                 title: Text(S.current.addDeviceNumbers),
                 subtitle: Text(S.current.addDeviceNumbersSubtitle),
                 onTap: () => setState(() => _numbersOpen = true),
