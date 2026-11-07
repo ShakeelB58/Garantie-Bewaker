@@ -309,7 +309,10 @@ void main() {
             300,
             scrollable: find.byType(Scrollable).first,
           );
-          await tester.drag(find.byType(Scrollable).first, const Offset(0, -250));
+          await tester.drag(
+            find.byType(Scrollable).first,
+            const Offset(0, -250),
+          );
           await tester.pumpAndSettle();
           await tester.tap(chip);
           await tester.pumpAndSettle();
