@@ -397,6 +397,15 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   en handmatig testen: export → app verwijderen → "Ik heb een reservekopie".
 - Open idee: e-mailadressen verzamelen (keuze nog niet gemaakt; voorkeur via de website).
 
+## Klaar maar nog niet samengevoegd: rustiger formulier (branch `formulier`)
+
+- Geen "(optioneel)" meer; voorbeelden in de velden (bijv. "bijv. Bosch", "bijv. SM-S921B").
+- Model- en serienummer achter één regel "Model- en serienummer toevoegen" (open als er iets is
+  ingevuld of herkend); IMEI-tip alleen bij Telefoon en tablet.
+- Na scannen: goed herkende velden alleen ✨-icoon, tekst alleen bij onzekere velden.
+- Snelkeuze garantie: 1 / 2 / 3 / 5 jaar vanaf de aankoopdatum (de gebruiker kiest), kortere uitleg.
+- CI groen, schermafbeeldingen goedgekeurd door de gebruiker (7-11). Samen met `herstellen` in 1.3.0.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
