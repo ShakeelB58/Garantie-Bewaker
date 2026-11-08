@@ -405,6 +405,9 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 - Na scannen: goed herkende velden alleen ✨-icoon, tekst alleen bij onzekere velden.
 - Snelkeuze garantie: 1 / 2 / 3 / 5 jaar vanaf de aankoopdatum (de gebruiker kiest), kortere uitleg.
 - CI groen, schermafbeeldingen goedgekeurd door de gebruiker (7-11). Samen met `herstellen` in 1.3.0.
+- Garantie-snelkeuze op verzoek boven het datumveld gezet. Getest door de gebruiker in de
+  iOS-simulator (formulier, export, app verwijderen, terugzetten): werkt.
+- 8-11: 1.3.0 (5) ingediend bij Apple, met nieuwe schermafbeeldingen (NL en EN).
 
 ## MVP: definitie van klaar
 
