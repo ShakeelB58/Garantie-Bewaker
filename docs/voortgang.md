@@ -435,6 +435,14 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 | Bekende beperkingen vermeld | ✅ per fase hierboven |
 | Instructies om te starten en te testen | ✅ README |
 
+## Marketing (2026-11-25)
+
+- Zes promotievideo's (animatie, 1080×1920) in `marketing/video`, met voice-overteksten
+  (stem nog toevoegen via CapCut of ElevenLabs; uploaden volgt).
+- Instagram-account ingericht met profielfoto, hoogtepunten en de eerste zes berichten
+  (`marketing/instagram`).
+- De projectmap op de Mac heet nu `~/Projects/Bonvrij`.
+
 ## Volgende stap (bijgewerkt 2026-11-25)
 
 De punten van oktober (open beslissingen, publicatiechecklist, testen) zijn allemaal afgerond:
