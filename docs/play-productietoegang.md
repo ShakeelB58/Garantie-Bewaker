@@ -1,6 +1,6 @@
 # Google Play: aanvraag productietoegang
 
-*Opgesteld 8-11-2026, ingevuld 25-11-2026 met de echte gegevens van de test (ca. 26 testers: familie en via Fiverr; feedback: "simpel te gebruiken, een goede en handige app"; 0 crashes). Invullen ná minstens 14 dagen gesloten test met 12 of meer aangemelde
+*Opgesteld 8-11-2026, ingevuld 25-11-2026 met de echte gegevens van de test (ca. 26 testers: vooral familie en vrienden; feedback: "simpel te gebruiken, een goede en handige app"; 0 crashes). Invullen ná minstens 14 dagen gesloten test met 12 of meer aangemelde
 testers (Play Console → Dashboard → "Productietoegang aanvragen").*
 
 De antwoorden staan in het Engels; Google beoordeelt aanvragen wereldwijd. Nederlands mag ook.
