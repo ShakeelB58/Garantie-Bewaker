@@ -1,6 +1,6 @@
-# Google Play: aanvraag productietoegang (concept)
+# Google Play: aanvraag productietoegang
 
-*Opgesteld 8-11-2026. Invullen ná minstens 14 dagen gesloten test met 12 of meer aangemelde
+*Opgesteld 8-11-2026, ingevuld 25-11-2026 met de echte gegevens van de test (ca. 26 testers: familie en via Fiverr; feedback: "simpel te gebruiken, een goede en handige app"; 0 crashes). Invullen ná minstens 14 dagen gesloten test met 12 of meer aangemelde
 testers (Play Console → Dashboard → "Productietoegang aanvragen").*
 
 De antwoorden staan in het Engels; Google beoordeelt aanvragen wereldwijd. Nederlands mag ook.
@@ -21,8 +21,8 @@ Kies eerlijk. Het kostte enkele dagen en herinneringen om er 12 te krijgen, dus 
 > [AANTAL] testers (friends, family and acquaintances, invited via WhatsApp and a Google Group)
 > installed Bonvrij on their own Android phones and kept it for the whole test period. They
 > added their own purchases, scanned paper receipts with the camera, imported PDF invoices
-> from their email and set warranty reminders. During the test they received four updates
-> (versions 1.1.0 to 1.3.0) through the Play Store. [EVENTUEEL: X testers scanned receipts
+> from their email and set warranty reminders. During the test they received three updates
+> (versions 1.1.0, 1.2.0 and 1.3.0) through the Play Store. [EVENTUEEL: X testers scanned receipts
 > from stores such as …]
 
 **Provide a summary of the feedback that you received from testers. Include how you
@@ -64,7 +64,7 @@ Kies eerlijk; voor een nieuwe app zonder reclamebudget waarschijnlijk: *0–10K*
 **What changes did you make to your app based on what you learned during your closed
 test?**
 
-> During the test we released four updates:
+> During the test we released three updates:
 > - 1.1.0: English language support and recognition of English receipts and invoices
 >   (pounds and dollars).
 > - 1.2.0: a model number field; model and serial number fields are hidden for categories
