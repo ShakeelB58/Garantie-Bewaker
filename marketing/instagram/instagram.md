@@ -1,24 +1,20 @@
-# Instagram-account Bonvrij inrichten
+# Instagram Bonvrij: wat moet ik doen?
 
-## 1. Account
+Alle afbeeldingen staan in de map `~/Projects/Bonvrij/marketing/instagram`.
+De nummers in de bestandsnamen zijn de volgorde waarin je ze plaatst.
 
-- Gebruik **bonvrij.app@gmail.com**; sterk wachtwoord en tweestapsverificatie.
-- Zet het om naar een **professioneel account** (Instellingen → Account type en tools →
-  Overschakelen naar professioneel account → **Bedrijf** → categorie **App-pagina** of
-  **Software**). Dan krijg je statistieken en een contactknop.
+## Stap 1: Profiel
 
-## 2. Profiel
-
-| Veld | Invullen |
+| Wat | Invullen |
 |---|---|
-| **Gebruikersnaam** | `bonvrij` (bezet? `bonvrij.app` of `bonvrijapp`) |
-| **Naam** | `Bonvrij · Bonnen & garantie` (de naam is doorzoekbaar, dus de zoekwoorden staan erin) |
-| **Profielfoto** | `profiel.png` |
-| **Categorie** | App-pagina |
-| **Contact** | e-mail bonvrij.app@gmail.com (geen telefoonnummer of adres nodig) |
-| **Link** | `https://bonvrij.nl` |
+| Profielfoto | `profielfoto.png` |
+| Gebruikersnaam | `bonvrij` (bezet? `bonvrij.app`) |
+| Naam | `Bonvrij · Bonnen & garantie` |
+| Accounttype | Professioneel → **Bedrijf** → categorie **App-pagina** |
+| E-mail (contact) | bonvrij.app@gmail.com |
+| Link | `https://bonvrij.nl` |
 
-**Bio** (max. 150 tekens):
+**Bio:**
 ```
 🧾 Je bonnen & garanties veilig op je telefoon
 ⏰ Herinnering vóór je garantie afloopt
@@ -26,46 +22,50 @@
 ⬇️ Gratis app 👇
 ```
 
-## 3. Hoogtepunten (highlights)
+## Stap 2: NU plaatsen (in deze volgorde)
 
-Maak per onderwerp een verhaal (story), sla het op als hoogtepunt en kies de omslag:
+Kies bij het plaatsen steeds het staande formaat (4:5), zodat er niets wordt afgesneden.
 
-| Naam | Omslag | Wat erin |
-|---|---|---|
-| Hoe werkt het | `hl_hoe.png` | de video's Black Friday en "In 3 stappen" |
-| Tips | `hl_tips.png` | vervaagde bon, IMEI |
-| Privacy | `hl_privacy.png` | de privacyvideo, link naar bonvrij.nl/privacy |
-| Download | `hl_download.png` | een verhaal met linksticker naar de App Store / Google Play |
-| Nieuw | `hl_nieuw.png` | updates (reservekopie, Engels, enz.) |
-
-## 4. De eerste berichten
-
-Op Instagram staat het nieuwste bericht linksboven. Plaats ze dus **in deze volgorde** (eerst
-p6, als laatste p1), dan staat het raster zo:
-
-| | | |
-|---|---|---|
-| p1 Al je bonnen op één plek | p2 In 3 stappen | p3 Kassabonnen vervagen |
-| p4 IMEI | p5 Geen account | p6 Nieuwe telefoon |
-
-Daarna komen de Reels (video's) erbij, 2 à 3 per week. Begin met **Sam**.
-
-> ⚠️ p6 zegt "iPhone en Android". Plaats die pas als Bonvrij ook in Google Play staat.
-
-### Teksten bij de berichten
-
-**p1 · Al je bonnen op één plek**
+**1. `1-NU-geen-account-geen-reclame.png`**
 ```
-Nooit meer zoeken naar die ene kassabon. 🧾
+Geen account. Geen reclame. 🔒
 
-Met Bonvrij scan je je bon of bewaar je je factuur, en krijg je een herinnering vóór je garantie afloopt. Geen account, geen reclame: alles blijft op je eigen telefoon.
+Je bonnen blijven op je eigen telefoon. Bonvrij heeft geen eigen server en wij krijgen niets te zien.
 
-Gratis te downloaden via de link in mijn bio 👆
-
-#bonvrij #kassabon #garantie #handigeapp #opruimen #besparen
+#privacy #bonvrij #geenreclame #app
 ```
 
-**p2 · In 3 stappen**
+**2. `2-NU-imei-tip.png`**
+```
+Je IMEI-nummer in 3 seconden: bel *#06# 📱
+
+Handig bij diefstal of verlies: met je IMEI kan je telefoon geblokkeerd worden. Bewaar het in Bonvrij, samen met je bon.
+
+#imei #telefoon #tip #bonvrij #diefstal
+```
+
+**3. `3-NU-kassabonnen-vervagen.png`**
+```
+Wist je dat kassabonnen vervagen? 😬
+Het papier verkleurt door warmte en licht. Na een jaar is je bon vaak onleesbaar, en net dan heb je hem nodig voor je garantie.
+
+Tip: scan je bon op dag 1. Dan heb je altijd een scherpe kopie. ✨
+
+#kassabon #garantie #tip #bonvrij #wistjedat
+```
+
+## Stap 3: LATER plaatsen (als Bonvrij in de Play Store staat)
+
+**4. `4-LATER-nieuwe-telefoon.png`**
+```
+Nieuwe telefoon? Alles terug. 📲
+
+Maak een reservekopie en zet die terug met "Ik heb een reservekopie". Producten, bonnen en garanties staan er weer, op iPhone en Android.
+
+#bonvrij #nieuwetelefoon #backup #tip
+```
+
+**5. `5-LATER-in-3-stappen.png`**
 ```
 Zo werkt Bonvrij 👇
 1️⃣ Scan je bon of importeer een PDF-factuur
@@ -77,46 +77,34 @@ Klaar in een halve minuut. ⏱️
 #bonvrij #garantie #kassabon #lifehack #handigeapp
 ```
 
-**p3 · Kassabonnen vervagen**
+**6. `6-LATER-al-je-bonnen-op-een-plek-als-laatste.png`** (als laatste, dan staat hij linksboven)
 ```
-Wist je dat kassabonnen vervagen? 😬
-Het papier verkleurt door warmte en licht. Na een jaar is je bon vaak onleesbaar, en net dan heb je hem nodig voor je garantie.
+Nooit meer zoeken naar die ene kassabon. 🧾
 
-Tip: scan je bon op dag 1. Dan heb je altijd een scherpe kopie. ✨
+Met Bonvrij scan je je bon of bewaar je je factuur, en krijg je een herinnering vóór je garantie afloopt. Geen account, geen reclame: alles blijft op je eigen telefoon.
 
-#kassabon #garantie #tip #bonvrij #wistjedat
-```
+Gratis te downloaden via de link in mijn bio 👆
 
-**p4 · IMEI**
-```
-Je IMEI-nummer in 3 seconden: bel *#06# 📱
-
-Handig bij diefstal of verlies: met je IMEI kan je telefoon geblokkeerd worden. Bewaar het in Bonvrij, samen met je bon.
-
-#imei #telefoon #tip #bonvrij #diefstal
+#bonvrij #kassabon #garantie #handigeapp #opruimen #besparen
 ```
 
-**p5 · Geen account, geen reclame**
-```
-Geen account. Geen reclame. 🔒
+**Daarna:** de video's als Reels (map `marketing/video`). Begin met `bonvrij-sam.mp4`, daarna 2 à 3 per week.
 
-Je bonnen blijven op je eigen telefoon. Bonvrij heeft geen eigen server en wij krijgen niets te zien.
+## Stap 4: Hoogtepunten (omslagen)
 
-#privacy #bonvrij #geenreclame #app
-```
+Plaats een verhaal, tik op **Uitlichten** en geef het een naam. Daarna: houd het hoogtepunt
+ingedrukt → **Hoogtepunt bewerken** → **Omslag bewerken** → kies de afbeelding.
 
-**p6 · Nieuwe telefoon** (pas na de lancering op Google Play)
-```
-Nieuwe telefoon? Alles terug. 📲
+| Naam van het hoogtepunt | Omslag |
+|---|---|
+| Hoe werkt het | `omslag-hoe-werkt-het.png` |
+| Tips | `omslag-tips.png` |
+| Privacy | `omslag-privacy.png` |
+| Download | `omslag-download.png` |
+| Nieuw | `omslag-nieuw.png` |
 
-Maak een reservekopie en zet die terug met "Ik heb een reservekopie". Producten, bonnen en garanties staan er weer, op iPhone en Android.
-
-#bonvrij #nieuwetelefoon #backup #tip
-```
-
-## 5. Tips
+## Tips
 
 - **Hashtags:** 3 à 6 per bericht is genoeg.
-- **Reageren:** reageer binnen een dag op reacties en berichten.
-- **Volgen en meedoen:** volg een paar accounts over besparen, opruimen en handige apps, en reageer daar af en toe (als Bonvrij, behulpzaam, geen reclame).
-- **Persoonlijk account:** deel je eerste berichten ook in je eigen verhaal.
+- **Reageren:** reageer binnen een dag op reacties.
+- **Eigen account:** deel je eerste bericht ook in het verhaal van je persoonlijke account.
