@@ -435,10 +435,20 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 | Bekende beperkingen vermeld | ✅ per fase hierboven |
 | Instructies om te starten en te testen | ✅ README |
 
-## Volgende stap
+## Volgende stap (bijgewerkt 2026-11-25)
 
-De MVP is af. Volgende stappen, wanneer je wilt:
+De punten van oktober (open beslissingen, publicatiechecklist, testen) zijn allemaal afgerond:
+Bonvrij staat in de App Store (174 landen) en de gesloten test van Google Play is klaar.
 
-1. De vier open beslissingen hierboven nemen.
-2. De technische punten uit de [publicatiechecklist](publicatie-checklist.md) laten uitvoeren (app-ID, icoon, meldingsicoon, privacymanifest, ondertekening).
-3. Testen met een paar mensen via TestFlight en de gesloten test van Google Play.
+Nu open:
+
+1. **Google Play:** wachten op het besluit over productietoegang; daarna productierelease
+   (1.3.0) en landen kiezen.
+2. **Apple:** goedkeuring van 1.3.0 afwachten.
+3. **Testen op een echte iPhone** (met kabel): bon scannen met de camera en terugzetten uit
+   iCloud Drive.
+4. **Later, nog te beslissen:**
+   - e-mailadressen verzamelen (voorkeur via de website)
+   - Bonvrij Plus ([plus-plan.md](plus-plan.md))
+   - in de app om een beoordeling vragen
+   - typeplaatje scannen
