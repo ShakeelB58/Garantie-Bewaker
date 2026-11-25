@@ -409,6 +409,13 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   iOS-simulator (formulier, export, app verwijderen, terugzetten): werkt.
 - 8-11: 1.3.0 (5) ingediend bij Apple, met nieuwe schermafbeeldingen (NL en EN).
 
+## Google Play: productietoegang aangevraagd (2026-11-25)
+
+- Gesloten test afgerond: ca. 26 testers (vooral familie en vrienden, aangevuld via een betaalde
+  dienst), 14+ dagen, 0 crashes/ANR's. Feedback: simpel te gebruiken, goed en handig.
+- Vragenlijst ingevuld (Nederlands, max. 300 tekens per antwoord; zie play-productietoegang.md)
+  en ingediend. Wachten op het besluit van Google; daarna productierelease en landen kiezen.
+
 ## MVP: definitie van klaar
 
 | Eis uit het projectplan | Status |
