@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><script src="common.js"></script>
+<style>
+#ic{left:50%;top:720px;margin-left:-230px;font-size:460px;line-height:1}
+.dial{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;padding-top:200px}
+.num{height:110px;font-size:76px;font-weight:500;color:#111;letter-spacing:6px}
+.pad{display:grid;grid-template-columns:repeat(3,130px);gap:26px;margin-top:60px}
+.k{width:130px;height:130px;border-radius:50%;background:#EEF1F4;display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:500;color:#111}
+.pop{position:absolute;left:40px;right:40px;top:420px;padding:40px 30px;text-align:center;border-radius:36px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.pop .a{font-size:34px;color:#555;font-weight:600}.pop .b{font-size:44px;font-weight:700;color:#111;margin-top:12px;letter-spacing:1px}
+#hl{position:absolute;left:44px;top:1503px;width:1232px;height:192px;border:10px solid var(--teal);border-radius:30px;background:rgba(11,122,117,.08)}
+#toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);background:#222;color:#fff;font-size:30px;padding:18px 34px;border-radius:40px;white-space:nowrap}
+</style></head><body><div id="stage">
+<div id="h1" class="abs head"></div><div id="s1" class="abs sub"></div>
+<div id="ic" class="abs">📱</div>
+<div id="ph" class="abs phone"><div class="screen"><div class="island"></div>
+ <div id="dial" class="dial"><div id="num" class="num"></div><div class="pad">
+ <div class="k">1</div><div class="k">2</div><div class="k">3</div><div class="k">4</div><div class="k">5</div><div class="k">6</div><div class="k">7</div><div class="k">8</div><div class="k">9</div><div class="k" id="kstar">*</div><div class="k" id="k0">0</div><div class="k" id="khash">#</div></div>
+ <div id="pop" class="pop"><div class="a">IMEI</div><div class="b">490154203237518</div></div></div>
+ <div id="prod" class="shot"><img src="a/4-product.png"><div id="hl"></div></div>
+ <div id="toast">Serienummer of IMEI gekopieerd</div></div></div>
+</div><script>
+window.SCENES=[[0,3],[3,7.3],[7.3,11],[11,13],[13,15.5]];
+addEnd('Bonnen, garanties en serienummers op één plek');
+const H=[[0,3,'Telefoon gestolen?','Dan heb je je IMEI-nummer nodig'],[3,7.3,'Bel *#06#','Je IMEI staat meteen in beeld'],
+ [7.3,11,'Bewaar het in Bonvrij','Bij je telefoon, samen met de bon'],[11,13,'Altijd bij de hand','Kopiëren met één tik']];
+function render(t){heads(t,H);
+ const i=win(t,0,3,.25,.35);$('ic').style.opacity=i;$('ic').style.transform=`scale(${0.4+0.6*back(lin(t,.1,.7))}) rotate(${Math.sin(t*9)*6*lin(t,.8,1.2)}deg)`;
+ const po=win(t,3,13.2,.35,.35);$('ph').style.opacity=po;$('ph').style.transform=`translateY(${(1-out(lin(t,3,3.6)))*700}px)`;
+ const seq='*#06#';const n=Math.floor(lin(t,3.8,5.6)*5.01);$('num').textContent=seq.slice(0,n);
+ ['kstar','khash','k0'].forEach(k=>$(k).style.background='#EEF1F4');
+ if(n>0&&n<=5&&t<5.8){const c=seq[n-1];const id=c=='*'?'kstar':c=='#'?'khash':'k0';if(c!='6')$(id).style.background='#CDEFEC';}
+ const pp=lin(t,5.9,6.3);$('pop').style.opacity=pp;$('pop').style.transform=`scale(${0.8+0.2*back(pp)})`;
+ $('dial').style.opacity=1-lin(t,7.3,7.6);$('prod').style.opacity=lin(t,7.3,7.6);
+ const h=lin(t,8.3,8.7);$('hl').style.opacity=h*(0.75+0.25*Math.sin(t*6));
+ const z=1+0.35*ease(lin(t,8.0,8.6));const ph=$('ph');ph.style.transformOrigin='300px 0px';ph.style.transform+=` scale(${z})`;
+ const ts=lin(t,11.3,11.6);$('toast').style.opacity=ts*(1-lin(t,12.6,12.9));
+ renderEnd(t,13);}
+window.render=render;render(0);</script></body></html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><script src="common.js"></script>
+<style>
+#old{left:50%;top:640px;margin-left:-230px;width:460px;height:940px;background:#0F2A44;border-radius:70px;padding:16px}
+#old .s{width:100%;height:100%;border-radius:56px;background:linear-gradient(160deg,#263c52,#0b1724);position:relative;overflow:hidden}
+#crack{position:absolute;inset:0}
+#fly{position:absolute;inset:0}
+.mini{position:absolute;width:120px;height:160px;background:#fff;border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.dlg{position:absolute;left:40px;right:40px;top:450px;padding:40px 36px;border-radius:36px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+.dlg .a{font-size:40px;font-weight:700;color:#111}.dlg .b{font-size:30px;color:#444;margin-top:16px;line-height:1.35}
+.dlg .btn{margin-top:34px;margin-left:auto;width:220px;text-align:center;background:var(--teal);color:#fff;font-weight:600;font-size:32px;border-radius:40px;padding:16px 0}
+#ok{left:50%;top:1420px;margin-left:-230px;width:460px;text-align:center;font-weight:700;font-size:52px;color:#fff;background:var(--teal);border-radius:60px;padding:22px 0;box-shadow:0 16px 40px rgba(11,122,117,.4);z-index:30}
+</style></head><body><div id="stage">
+<div id="h1" class="abs head"></div><div id="s1" class="abs sub"></div>
+<div id="old" class="abs"><div class="s"><svg id="crack" viewBox="0 0 428 908"><g stroke="#cfd8e3" stroke-width="5" fill="none" stroke-linecap="round">
+<path d="M250 300 L190 380 L230 450 L150 560 L190 640 L120 760"/><path d="M250 300 L330 250 L400 270"/><path d="M230 450 L320 500 L410 470"/><path d="M190 380 L80 360 L20 400"/><path d="M150 560 L60 600"/><path d="M250 300 L270 180 L240 60"/></g></svg></div></div>
+<div id="fly"></div>
+<div id="ph" class="abs phone"><div class="screen"><div class="island"></div>
+ <div id="w" class="shot"><img src="a/welkom.png"><div id="tap" class="tap" style="left:660px;top:2625px"></div><div id="finger" class="finger" style="left:680px;top:2640px">👆</div></div>
+ <div id="dlg" class="dlg"><div class="a">Gegevens herstellen</div><div class="b">6 producten en 8 documenten gevonden.</div><div class="btn" id="btn">Herstellen</div></div>
+ <div id="home" class="shot"><img src="a/1-home.png"></div></div></div>
+<div id="ok" class="abs">✓ Alles terug</div>
+</div><script>
+window.SCENES=[[0,3.4],[3.4,6.4],[6.4,10.4],[10.4,13],[13,15.5]];
+addEnd('Je bonnen en garanties veilig op je telefoon');
+const H=[[0,3.4,'Telefoon kapot?',''],[3.4,6.4,'Al je bonnen kwijt?','Niet met een reservekopie'],
+ [6.4,10.4,'Nieuwe telefoon?','Tik op "Ik heb een reservekopie"'],[10.4,13,'Alles staat er weer','Producten, bonnen en garanties']];
+const minis=[];for(let i=0;i<9;i++){const m=document.createElement('div');m.className='mini';$('fly').appendChild(m);minis.push({m,a:-1.2+i*0.3,s:600+(i%3)*160});}
+function render(t){heads(t,H);
+ const o=win(t,0,6.4,.3,.35);$('old').style.opacity=o;
+ const shake=Math.sin(lin(t,0.9,1.5)*Math.PI*10)*14*(1-lin(t,1.3,1.6));$('old').style.transform=`translateX(${shake}px) rotate(${shake*0.3}deg)`;
+ const c=lin(t,0.9,1.15);$('crack').style.opacity=c;
+ minis.forEach((q,i)=>{const p=lin(t,3.6+i*0.06,5.6+i*0.06);const r=out(p)*q.s;
+  q.m.style.left=(480+Math.sin(q.a)*r)+'px';q.m.style.top=(1050-Math.cos(q.a)*r*0.9+p*p*500)+'px';q.m.style.opacity=(p>0&&p<1)?1-p:0;q.m.style.transform=`rotate(${p*360*(i%2?1:-1)}deg)`;});
+ const po=win(t,6.4,13.2,.35,.35);$('ph').style.opacity=po;$('ph').style.transform=`translateY(${(1-out(lin(t,6.4,7.0)))*700}px)`;
+ const tapT=8.0;const tp=lin(t,tapT,tapT+.45);$('tap').style.opacity=(t>tapT&&t<tapT+.6)?1-tp:0;$('tap').style.transform=`scale(${0.4+tp*1.4})`;
+ const fg=lin(t,7.3,7.8);$('finger').style.opacity=Math.min(fg,1-lin(t,8.3,8.5));$('finger').style.transform=`translate(${(1-out(fg))*200}px,${(1-out(fg))*300}px)`;
+ const d=lin(t,8.5,8.9);$('dlg').style.opacity=d*(1-lin(t,10.2,10.4));$('dlg').style.transform=`scale(${0.85+0.15*back(d)})`;
+ $('btn').style.background=(t>9.6&&t<10.1)?'#065e5a':'#0B7A75';$('btn').style.transform=`scale(${1-0.08*Math.sin(lin(t,9.6,10)*Math.PI)})`;
+ $('w').style.opacity=1-lin(t,10.2,10.5);$('home').style.opacity=lin(t,10.2,10.5);
+ const k=lin(t,10.8,11.2);$('ok').style.opacity=k*(1-lin(t,12.8,13));$('ok').style.transform=`scale(${0.7+0.3*back(k)})`;
+ renderEnd(t,13);}
+window.render=render;render(0);</script></body></html>

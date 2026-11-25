@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><script src="common.js"></script>
+<style>
+#rc{left:50%;top:620px;width:520px;margin-left:-260px;transform-origin:50% 0}
+#rc .ink{transition:none}
+#cal{left:50%;top:1420px;margin-left:-260px;width:520px;text-align:center;font-weight:700;font-size:64px;color:var(--teal)}
+#q{left:50%;top:880px;margin-left:-120px;width:240px;height:240px;border-radius:50%;background:var(--red);color:#fff;font-size:170px;font-weight:700;text-align:center;line-height:240px}
+</style></head><body><div id="stage">
+<div id="h1" class="abs head"></div><div id="s1" class="abs sub"></div>
+<div id="rc" class="abs receipt"><div class="ink"><div class="t">ELEKTRO NOORD</div><div style="text-align:center;font-size:24px;color:#444;margin-top:8px">19-10-2026 &nbsp; 14:32</div>
+<div class="l"></div><div style="display:flex;justify-content:space-between;font-size:28px;color:#222"><span>Draadloze koptelefoon</span><span>149,00</span></div>
+<div style="font-size:22px;color:#444;margin-top:6px">Model: SN-WH7 · S/N: SNR-7731-4420</div><div class="l" style="width:70%"></div>
+<div class="tot"><span>TOTAAL</span><span>€ 149,00</span></div><div style="text-align:center;font-size:22px;color:#555;margin-top:24px">Bedankt voor je aankoop!</div></div></div>
+<div id="cal" class="abs"></div><div id="q" class="abs">?</div>
+<div id="ph" class="abs phone"><div class="screen"><div class="island"></div><div class="shot"><img src="a/4-product.png"></div></div></div>
+</div><script>
+window.SCENES=[[0,3],[3,6.5],[6.5,9.3],[9.3,13],[13,15.5]];
+addEnd('Je bonnen en garanties veilig op je telefoon');
+const H=[[0,3,'Je bon in een la bewaren?','Lijkt veilig…'],[3,6.5,'Kassabonnen vervagen','Het papier verkleurt door warmte en licht'],
+ [6.5,9.3,'Garantie nodig?','En dan is de bon onleesbaar'],[9.3,13,'Scan hem op dag 1','Bonvrij bewaart een scherpe kopie']];
+function render(t){heads(t,H);
+ const ro=win(t,0,9.3,.35,.35);$('rc').style.opacity=ro;
+ const age=lin(t,3.3,6.6);$('rc').querySelector('.ink').style.opacity=1-age*0.97;
+ $('rc').style.background=`rgb(${255-age*12},${255-age*22},${255-age*60})`;
+ $('rc').style.transform=`translateY(${(1-out(lin(t,0,.6)))*80}px) rotate(${age*-3}deg)`;
+ const labels=['Vandaag','1 maand later','6 maanden later','1 jaar later'];
+ const li=Math.min(3,Math.floor(lin(t,3.0,6.6)*4));$('cal').textContent=t<3?'':labels[li];$('cal').style.opacity=win(t,3,6.5,.3,.3);
+ const q=lin(t,7.0,7.35);$('q').style.opacity=q*(1-lin(t,9.0,9.3));$('q').style.transform=`scale(${back(q)}) rotate(${Math.sin(lin(t,7.4,8.2)*Math.PI*4)*8}deg)`;
+ const po=win(t,9.3,13.2,.35,.35);$('ph').style.opacity=po;$('ph').style.transform=`translateY(${(1-out(lin(t,9.3,10)))*700}px)`;
+ renderEnd(t,13);}
+window.render=render;render(0);</script></body></html>
