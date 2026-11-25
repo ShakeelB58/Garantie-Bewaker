@@ -442,6 +442,8 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 - Instagram-account ingericht met profielfoto, hoogtepunten en de eerste zes berichten
   (`marketing/instagram`).
 - De projectmap op de Mac heet nu `~/Projects/Bonvrij`.
+- bonvrij.nl heeft een downloadknop naar de App Store
+  (https://apps.apple.com/nl/app/bonvrij/id6826378795) en "Android: binnenkort in Google Play".
 
 ## Volgende stap (bijgewerkt 2026-11-25)
 
