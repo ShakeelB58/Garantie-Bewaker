@@ -444,11 +444,11 @@ Nu open:
 
 1. **Google Play:** wachten op het besluit over productietoegang; daarna productierelease
    (1.3.0) en landen kiezen.
-2. **Apple:** goedkeuring van 1.3.0 afwachten.
-3. **Testen op een echte iPhone** (met kabel): bon scannen met de camera en terugzetten uit
-   iCloud Drive.
-4. **Later, nog te beslissen:**
+2. ~~Apple: goedkeuring van 1.3.0~~ ✅ goedgekeurd.
+3. ~~Testen op een echte iPhone~~ ✅ gedaan door de gebruiker.
+4. **Marketing:** eerst meer bekendheid en downloads, zie [marketingplan.md](marketingplan.md).
+5. **Later, nog te beslissen:**
    - e-mailadressen verzamelen (voorkeur via de website)
-   - Bonvrij Plus ([plus-plan.md](plus-plan.md))
+   - Bonvrij Plus ([plus-plan.md](plus-plan.md)): komt er, ná de marketing
    - in de app om een beoordeling vragen
    - typeplaatje scannen
