@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="nl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:P;src:url(a/Poppins-Regular.ttf);font-weight:400}
+@font-face{font-family:P;src:url(a/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:P;src:url(a/Poppins-SemiBold.ttf);font-weight:600}
+@font-face{font-family:P;src:url(a/Poppins-Bold.ttf);font-weight:700}
+:root{--navy:#0F2A44;--teal:#0B7A75;--tc:#CDEFEC;--muted:#4A5B6E;--bg:#F5F7FA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:P,'Noto Color Emoji',sans-serif}
+#stage{position:absolute;inset:0;background:linear-gradient(170deg,#F5F7FA 0%,#E3F4F2 55%,#CDEFEC 100%);overflow:hidden}
+.abs{position:absolute}
+.head{left:70px;right:70px;top:150px;text-align:center;color:var(--navy);font-weight:700;font-size:86px;line-height:1.12;letter-spacing:-1px}
+.sub{left:90px;right:90px;top:372px;text-align:center;color:var(--muted);font-weight:500;font-size:42px;line-height:1.3}
+.dot{position:absolute;width:26px;height:26px;border-radius:50%}
+/* phone */
+#phone{left:50%;top:480px;width:636px;height:1340px;margin-left:-318px;background:#0F2A44;border-radius:96px;padding:18px;box-shadow:0 40px 90px rgba(15,42,68,.28)}
+#screen{position:relative;width:600px;height:1304px;border-radius:74px;overflow:hidden;background:#fff}
+.shot{position:absolute;left:0;top:0;width:1320px;height:2868px;transform-origin:0 0;transform:scale(.454545)}
+.shot img{position:absolute;left:0;top:0;width:1320px;height:2868px}
+.island{position:absolute;left:50%;top:22px;width:190px;height:52px;margin-left:-95px;background:#0F2A44;border-radius:30px;z-index:5}
+/* receipt */
+#receipt{left:50%;top:640px;width:420px;margin-left:-210px;background:#fff;padding:40px 36px 50px;box-shadow:0 20px 50px rgba(0,0,0,.15);border-radius:6px}
+#receipt .t{font-weight:700;font-size:34px;text-align:center;color:#222;letter-spacing:2px}
+#receipt .l{height:14px;background:#d9dde2;border-radius:7px;margin:18px 0}
+#receipt .tot{display:flex;justify-content:space-between;font-weight:700;font-size:30px;color:#222;margin-top:26px}
+#drawer{left:50%;top:1250px;width:760px;height:330px;margin-left:-380px}
+#drawer .front{position:absolute;left:0;right:0;bottom:0;height:250px;background:#9C7A5B;border-radius:22px;box-shadow:inset 0 -18px 0 rgba(0,0,0,.12)}
+#drawer .handle{position:absolute;left:50%;bottom:110px;width:180px;height:30px;margin-left:-90px;background:#6E553F;border-radius:15px}
+#drawer .back{position:absolute;left:30px;right:30px;top:20px;height:110px;background:#7C6049;border-radius:16px 16px 0 0}
+.mess{position:absolute;width:150px;height:190px;background:#fff;border-radius:4px;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+#nope{left:50%;top:1010px;margin-left:-110px;width:220px;height:220px;border-radius:50%;background:#B3261E;color:#fff;font-size:150px;font-weight:700;text-align:center;line-height:212px}
+/* scan line */
+.scan{position:absolute;left:150px;right:150px;height:10px;background:#3FE0D0;box-shadow:0 0 40px 14px rgba(63,224,208,.6);border-radius:5px}
+.tap{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;border:10px solid rgba(11,122,117,.9);background:rgba(11,122,117,.18)}
+.finger{position:absolute;font-size:150px;margin:-10px 0 0 -40px}
+/* overlays on form (native screenshot px) */
+.chipoff{position:absolute;left:283px;top:1314px;width:288px;height:120px;background:#fff;border:3px solid #E1E7EE;border-radius:24px;font-weight:500;font-size:44px;color:#33475B;display:flex;align-items:center;justify-content:center}
+.dateoff{position:absolute;left:92px;top:1540px;width:1160px;height:78px;background:#fff;font-size:50px;color:#7A8796;display:flex;align-items:center}
+/* notification */
+#notif{left:50%;width:600px;margin-left:-300px;top:560px;background:rgba(255,255,255,.97);border-radius:40px;padding:26px 28px;display:flex;gap:22px;box-shadow:0 20px 50px rgba(15,42,68,.25);z-index:20}
+#notif img{width:84px;height:84px;border-radius:20px}
+#notif .nt{font-weight:600;font-size:30px;color:#111}
+#notif .nb{font-size:27px;color:#333;line-height:1.3;margin-top:4px}
+#notif .app{font-size:24px;color:#777;font-weight:500;margin-bottom:4px;display:flex;justify-content:space-between}
+/* end card */
+#end{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#end img{width:300px;height:300px;border-radius:68px;box-shadow:0 30px 70px rgba(11,122,117,.35)}
+#end .name{font-weight:700;font-size:120px;color:var(--navy);margin-top:40px;letter-spacing:-2px}
+#end .name span{color:var(--teal)}
+#end .tag{font-weight:500;font-size:46px;color:var(--muted);margin-top:10px;padding:0 90px;line-height:1.3}
+#end .pills{display:flex;gap:18px;margin-top:50px;flex-wrap:wrap;justify-content:center;padding:0 60px}
+#end .pill{background:#fff;border-radius:40px;padding:16px 30px;font-weight:600;font-size:36px;color:var(--teal);box-shadow:0 8px 24px rgba(15,42,68,.08)}
+#end .url{margin-top:70px;font-weight:700;font-size:56px;color:#fff;background:var(--teal);border-radius:50px;padding:22px 60px}
+</style></head><body>
+<div id="stage">
+  <div id="h1" class="abs head"></div>
+  <div id="s1" class="abs sub"></div>
+  <div id="confetti"></div>
+  <div id="bag" class="abs" style="left:50%;top:760px;margin-left:-230px;font-size:460px;line-height:1">🛍️</div>
+
+  <div id="drawer" class="abs"><div class="back"></div>
+    <div class="mess" style="left:120px;top:-30px;transform:rotate(-14deg)"></div>
+    <div class="mess" style="left:300px;top:-50px;transform:rotate(9deg)"></div>
+    <div class="mess" style="left:470px;top:-20px;transform:rotate(-6deg)"></div>
+    <div class="front"><div class="handle"></div></div></div>
+  <div id="receipt" class="abs"><div class="t">ELEKTRO NOORD</div><div class="l" style="width:70%;margin:22px auto"></div>
+    <div class="l"></div><div class="l" style="width:80%"></div><div class="l" style="width:60%"></div>
+    <div class="tot"><span>TOTAAL</span><span>€ 149,00</span></div></div>
+  <div id="nope" class="abs">✕</div>
+
+  <div id="phone" class="abs"><div id="screen">
+    <div class="island"></div>
+    <div id="sc1" class="shot"><img src="a/2-scannen.png"><div id="scanline" class="scan"></div></div>
+    <div id="sc2" class="shot"><img src="a/3-controleren.png"></div>
+    <div id="sc3" class="shot"><img src="a/formulier-garantie.png"><div id="chipoff" class="chipoff">2 jaar</div><div id="dateoff" class="dateoff">Geen datum gekozen</div>
+      <div id="tap" class="tap" style="left:427px;top:1373px"></div><div id="finger" class="finger" style="left:440px;top:1380px">👆</div></div>
+    <div id="sc4" class="shot"><img src="a/1-home.png"></div>
+  </div></div>
+  <div id="notif" class="abs"><img src="a/icoon-512.png"><div style="flex:1">
+    <div class="app"><span>BONVRIJ</span><span>nu</span></div>
+    <div class="nt">Herinnering: Draadloze koptelefoon</div>
+    <div class="nb">Je garantie-einddatum is 19 oktober 2028. Controleer je aankoopbewijs.</div></div></div>
+
+  <div id="end" class="abs"><img src="a/icoon-512.png"><div class="name">Bon<span>vrij</span></div>
+    <div class="tag">Je bonnen en garanties veilig op je telefoon</div>
+    <div class="pills"><div class="pill">Gratis</div><div class="pill">Geen account</div><div class="pill">Geen reclame</div></div>
+    <div class="url">bonvrij.nl</div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lin=(t,a,b)=>clamp((t-a)/(b-a));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const out=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+function win(t,a,b,fi=.35,fo=.35){ // opacity for a window [a,b]
+  return Math.min(lin(t,a,a+fi), 1-lin(t,b-fo,b));}
+// confetti
+const conf=[];const cols=['#0B7A75','#F2A33A','#E2574C','#3FA9F5','#7C5CFF','#0F2A44'];
+for(let i=0;i<28;i++){const d=document.createElement('div');d.className='dot';d.style.background=cols[i%6];$('confetti').appendChild(d);
+  conf.push({d,x:540+(Math.sin(i*12.9898)*43758.5453%1)*0,ang:(i/28)*Math.PI*2+Math.sin(i)*0.3,sp:520+((i*37)%9)*45});}
+const heads=[
+ [0.0,3.0,'Black Friday-deal gescoord?','En dan…'],
+ [3.0,5.6,'Gooi die bon niet in een la…',''],
+ [5.6,8.9,'…maar scan hem meteen','Bonvrij vult winkel, datum en prijs in'],
+ [8.9,12.0,'Garantie? 2 jaar. Klaar.','Je kiest zelf hoe lang'],
+ [12.0,14.0,'Op tijd een herinnering','Vóór je garantie afloopt'],
+];
+function render(t){
+  // headlines
+  let ht='',st='',ho=0,hy=0;
+  for(const [a,b,h,s] of heads){ if(t>=a&&t<b){ht=h;st=s;ho=win(t,a,b,.3,.3);hy=(1-out(lin(t,a,a+.45)))*40;} }
+  $('h1').textContent=ht;$('s1').textContent=st;
+  $('h1').style.opacity=ho;$('s1').style.opacity=ho*(st?1:0);
+  $('h1').style.transform=`translateY(${hy}px)`;$('s1').style.transform=`translateY(${hy*1.4}px)`;
+  // 0-3 bag + confetti
+  const bo=win(t,0,3.0,.25,.35); const bs=back(lin(t,0.1,0.7));
+  $('bag').style.opacity=bo; $('bag').style.transform=`scale(${0.3+0.7*bs}) rotate(${Math.sin(t*6)*4*lin(t,0.7,1.0)}deg)`;
+  conf.forEach(c=>{const p=lin(t,0.55,2.4);const r=out(p)*c.sp;
+    c.d.style.left=(540+Math.cos(c.ang)*r-13)+'px';c.d.style.top=(990+Math.sin(c.ang)*r*0.8+p*p*260-13)+'px';
+    c.d.style.opacity=(p>0&&p<1)?Math.min(1,(1-p)*2.5):0;c.d.style.transform=`scale(${1-p*0.4})`;});
+  // 3-5.6 receipt into drawer
+  const ro=win(t,3.0,5.6,.3,.3);
+  $('drawer').style.opacity=ro; $('drawer').style.transform=`translateY(${(1-out(lin(t,3.0,3.5)))*120}px)`;
+  const fall=ease(lin(t,3.5,4.4));
+  $('receipt').style.opacity=ro*(1-lin(t,4.3,4.45));
+  $('receipt').style.transform=`translateY(${fall*560}px) rotate(${fall*-18}deg) scale(${1-fall*0.35})`;
+  const np=lin(t,4.5,4.8);
+  $('nope').style.opacity=ro*np; $('nope').style.transform=`scale(${back(np)}) rotate(${Math.sin(lin(t,4.8,5.3)*Math.PI*4)*8}deg)`;
+  // phone 5.6-14
+  const po=win(t,5.6,14.0,.35,.4); const py=(1-out(lin(t,5.6,6.3)))*700;
+  const z=1+0.32*ease(lin(t,9.3,9.9))*(1-ease(lin(t,11.3,11.8)));
+  $('phone').style.opacity=po; $('phone').style.transformOrigin='212px 0px'; $('phone').style.transform=`translateY(${py}px) scale(${z})`;
+  // screens
+  $('sc1').style.opacity=1-lin(t,7.4,7.7);
+  const sl=lin(t,6.3,7.3); $('scanline').style.top=(340+ease(Math.abs(Math.sin(sl*Math.PI)))*1300)+'px';
+  $('scanline').style.opacity=(t>6.25&&t<7.4)?1:0;
+  $('sc2').style.opacity=lin(t,7.4,7.7)*(1-lin(t,8.9,9.2));
+  $('sc3').style.opacity=lin(t,8.9,9.2)*(1-lin(t,12.0,12.3));
+  // scroll form slightly into view
+  const tapT=10.2;
+  const tp=lin(t,tapT,tapT+0.45);
+  $('tap').style.opacity=(t>tapT&&t<tapT+0.6)?(1-tp):0; $('tap').style.transform=`scale(${0.4+tp*1.4})`;
+  const fg=lin(t,9.4,9.9); const press=Math.sin(lin(t,tapT-0.1,tapT+0.2)*Math.PI);
+  $('finger').style.opacity=Math.min(fg,1-lin(t,11.2,11.5));
+  $('finger').style.transform=`translate(${(1-out(fg))*260}px,${(1-out(fg))*360+press*-0}px) scale(${1-press*0.12})`;
+  const on=lin(t,tapT,tapT+0.12);
+  $('chipoff').style.opacity=1-on; $('dateoff').style.opacity=1-lin(t,tapT+0.1,tapT+0.4);
+  $('sc4').style.opacity=lin(t,12.0,12.3);
+  // notification 12.4-14
+  const n=lin(t,12.4,12.9);
+  $('notif').style.opacity=Math.min(n*2,1)*(1-lin(t,13.7,14.0));
+  $('notif').style.transform=`translateY(${(1-back(n))*-260}px)`;
+  // end 14-16
+  const e=lin(t,14.0,14.5);
+  $('end').style.opacity=e;
+  $('end').querySelector('img').style.transform=`scale(${0.5+0.5*back(e)})`;
+  document.querySelectorAll('#end .pill').forEach((p,i)=>{const q=lin(t,14.4+i*0.15,14.8+i*0.15);p.style.opacity=q;p.style.transform=`translateY(${(1-out(q))*30}px)`;});
+  const u=lin(t,15.0,15.4); $('end').querySelector('.url').style.opacity=u;
+  $('end').querySelector('.url').style.transform=`scale(${0.8+0.2*back(u)})`;
+}
+window.render=render; render(0);
+</script></body></html>
