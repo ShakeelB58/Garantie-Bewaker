@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(a/Poppins-Regular.ttf);font-weight:400}
+@font-face{font-family:P;src:url(a/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:P;src:url(a/Poppins-SemiBold.ttf);font-weight:600}
+@font-face{font-family:P;src:url(a/Poppins-Bold.ttf);font-weight:700}
+:root{--navy:#0F2A44;--teal:#0B7A75;--tc:#CDEFEC;--muted:#4A5B6E;--red:#B3261E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:P,'Noto Color Emoji',sans-serif;overflow:hidden}
+.c{position:relative;overflow:hidden;background:linear-gradient(170deg,#F5F7FA 0%,#E3F4F2 55%,#CDEFEC 100%)}
+.abs{position:absolute}
+.kick{font-weight:600;font-size:34px;color:var(--teal);letter-spacing:3px;text-transform:uppercase}
+.h{font-weight:700;color:var(--navy);letter-spacing:-1px;line-height:1.1}
+.p{font-weight:500;color:var(--muted);line-height:1.35}
+.phone{background:#0F2A44;border-radius:70px;padding:14px;box-shadow:0 34px 80px rgba(15,42,68,.28)}
+.screen{position:relative;border-radius:58px;overflow:hidden;background:#fff}
+.screen img{display:block;width:100%}
+.brand{display:flex;align-items:center;gap:18px}
+.brand img{width:70px;height:70px;border-radius:18px}
+.brand b{font-weight:700;font-size:44px;color:var(--navy)}.brand b span{color:var(--teal)}
+.pill{display:inline-block;background:#fff;border-radius:40px;padding:14px 28px;font-weight:600;font-size:32px;color:var(--teal);box-shadow:0 8px 24px rgba(15,42,68,.08)}
+.receipt{background:#fff;padding:36px 34px 44px;box-shadow:0 20px 50px rgba(0,0,0,.15);border-radius:6px}
+.receipt .t{font-weight:700;font-size:32px;text-align:center;color:#222;letter-spacing:2px}
+.receipt .l{height:13px;background:#d9dde2;border-radius:7px;margin:16px 0}
+.receipt .tot{display:flex;justify-content:space-between;font-weight:700;font-size:28px;color:#222;margin-top:22px}
+</style></head><body><div id="root"></div>
+<script>
+const W=1080,H=1350;
+const brand=`<div class="brand"><img src="a/icoon-1024.png"><b>Bon<span>vrij</span></b></div>`;
+const phone=(src,w,crop)=>`<div class="phone" style="width:${w+28}px"><div class="screen" style="width:${w}px;${crop?`height:${crop}px`:''}"><img src="a/${src}"></div></div>`;
+const P={
+profiel:()=>`<div class="c" style="width:1080px;height:1080px;background:#0B7A75"><img src="a/icoon-1024.png" style="position:absolute;left:-10px;top:-10px;width:1100px;height:1100px"></div>`,
+p1:()=>`<div class="c" style="width:${W}px;height:${H}px">
+ <div class="abs" style="left:80px;top:90px">${brand}</div>
+ <div class="abs h" style="left:80px;top:220px;width:560px;font-size:86px">Al je bonnen op één plek.</div>
+ <div class="abs p" style="left:80px;top:640px;width:500px;font-size:38px">Scan je kassabon, bewaar je factuur en krijg een herinnering vóór je garantie afloopt.</div>
+ <div class="abs" style="left:80px;top:1010px;display:flex;flex-direction:column;gap:16px;align-items:flex-start"><div class="pill">Gratis</div><div class="pill">Geen account</div><div class="pill">Geen reclame</div></div>
+ <div class="abs" style="left:650px;top:150px;transform:rotate(4deg)">${phone('1-home.png',390)}</div></div>`,
+p2:()=>{const step=(n,t,s,img)=>`<div style="display:flex;flex-direction:column;align-items:center;width:300px">${phone(img,270,470)}
+ <div style="margin-top:34px;width:76px;height:76px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;font-size:42px;display:flex;align-items:center;justify-content:center">${n}</div>
+ <div class="h" style="font-size:40px;margin-top:18px;text-align:center">${t}</div><div class="p" style="font-size:28px;text-align:center;margin-top:8px">${s}</div></div>`;
+ return `<div class="c" style="width:${W}px;height:${H}px"><div class="abs kick" style="left:0;right:0;top:90px;text-align:center">Zo werkt het</div>
+ <div class="abs h" style="left:60px;right:60px;top:150px;text-align:center;font-size:76px">In 3 stappen geregeld</div>
+ <div class="abs" style="left:40px;right:40px;top:340px;display:flex;justify-content:space-between">
+ ${step(1,'Scan je bon','Of importeer een PDF','2-scannen.png')}${step(2,'Kies je garantie','1, 2, 3 of 5 jaar','formulier-garantie.png')}${step(3,'Herinnering','Op de datum die jij kiest','5-herinneringen.png')}</div></div>`},
+p3:()=>`<div class="c" style="width:${W}px;height:${H}px"><div class="abs kick" style="left:80px;top:90px">Tip</div>
+ <div class="abs h" style="left:80px;top:150px;width:920px;font-size:84px">Kassabonnen vervagen.</div>
+ <div class="abs p" style="left:80px;top:360px;width:900px;font-size:38px">Het papier verkleurt door warmte en licht. Na een jaar is je bon vaak onleesbaar, en net dan heb je hem nodig.</div>
+ <div class="abs" style="left:110px;top:640px;display:flex;gap:60px;align-items:flex-start">
+  ${[0,0.55,0.93].map((a,i)=>`<div style="text-align:center"><div class="receipt" style="width:250px;padding:26px 22px 30px;background:rgb(${255-a*12},${255-a*22},${255-a*60});transform:rotate(${[-3,2,-2][i]}deg)"><div style="opacity:${1-a}"><div class="t" style="font-size:22px">ELEKTRO NOORD</div><div class="l"></div><div class="l" style="width:80%"></div><div class="l" style="width:60%"></div><div class="tot" style="font-size:20px"><span>TOTAAL</span><span>€ 149,00</span></div></div></div><div class="h" style="font-size:32px;margin-top:30px;color:var(--teal)">${['Vandaag','6 maanden','1 jaar'][i]}</div></div>`).join('')}</div>
+ <div class="abs" style="left:80px;right:80px;bottom:90px;display:flex;justify-content:space-between;align-items:center"><div class="h" style="font-size:44px">Scan hem op dag 1. ✨</div>${brand}</div></div>`,
+p4:()=>`<div class="c" style="width:${W}px;height:${H}px"><div class="abs kick" style="left:80px;top:90px">Tip</div>
+ <div class="abs h" style="left:80px;top:150px;width:560px;font-size:80px">Je IMEI in 3 seconden</div>
+ <div class="abs p" style="left:80px;top:500px;width:520px;font-size:36px">Bel dit nummer en je IMEI staat meteen in beeld. Handig bij diefstal of verlies.</div>
+ <div class="abs" style="left:80px;top:770px;background:var(--navy);color:#fff;border-radius:40px;padding:26px 50px;font-weight:700;font-size:96px;letter-spacing:10px">*#06#</div>
+ <div class="abs p" style="left:80px;top:1010px;width:520px;font-size:34px">Bewaar het in Bonvrij, bij je telefoon en je bon.</div>
+ <div class="abs" style="left:80px;bottom:80px">${brand}</div>
+ <div class="abs" style="left:650px;top:170px;transform:rotate(3deg)">${phone('4-product.png',380)}</div></div>`,
+p5:()=>`<div class="c" style="width:${W}px;height:${H}px;background:linear-gradient(170deg,#0F2A44 0%,#0B4F5A 60%,#0B7A75 100%)">
+ <div class="abs" style="left:0;right:0;top:120px;display:flex;justify-content:center"><img src="a/icoon-1024.png" style="width:200px;height:200px;border-radius:46px;box-shadow:0 20px 60px rgba(0,0,0,.3)"></div>
+ <div class="abs h" style="left:60px;right:60px;top:400px;text-align:center;color:#fff;font-size:92px">Geen account.<br>Geen reclame.</div>
+ <div class="abs p" style="left:120px;right:120px;top:660px;text-align:center;color:#CDEFEC;font-size:42px">Je bonnen blijven op je eigen telefoon. Wij krijgen niets te zien.</div>
+ <div class="abs" style="left:0;right:0;top:900px;display:flex;flex-direction:column;align-items:center;gap:20px">
+  <div class="pill">🔒 Geen account nodig</div><div class="pill">🚫 Geen reclame</div><div class="pill">📱 Herkenning op je telefoon</div></div></div>`,
+p6:()=>`<div class="c" style="width:${W}px;height:${H}px"><div class="abs kick" style="left:80px;top:90px">Nieuw</div>
+ <div class="abs h" style="left:80px;top:150px;width:560px;font-size:80px">Nieuwe telefoon? Alles terug.</div>
+ <div class="abs p" style="left:80px;top:520px;width:520px;font-size:36px">Maak een reservekopie en zet die terug met "Ik heb een reservekopie". Producten, bonnen en garanties staan er weer.</div>
+ <div class="abs" style="left:80px;top:900px;display:flex;flex-direction:column;gap:16px;align-items:flex-start"><div class="pill">✓ Zonder account</div><div class="pill">✓ iPhone en Android</div></div>
+ <div class="abs" style="left:80px;bottom:80px">${brand}</div>
+ <div class="abs" style="left:650px;top:170px;transform:rotate(-3deg)">${phone('welkom.png',380)}</div></div>`,
+};
+const hl={hoe:['🧾','#0B7A75'],tips:['💡','#0B7A75'],privacy:['🔒','#0F2A44'],download:['⬇️','#0B7A75'],nieuw:['✨','#0F2A44']};
+for(const k in hl){P['hl_'+k]=()=>`<div class="c" style="width:1080px;height:1920px;background:${hl[k][1]}"><div class="abs" style="left:240px;top:660px;width:600px;height:600px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:300px">${hl[k][0]}</div></div>`;}
+const k=location.hash.slice(1);document.getElementById('root').innerHTML=P[k]();
+</script></body></html>
