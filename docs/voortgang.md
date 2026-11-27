@@ -435,6 +435,12 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 | Bekende beperkingen vermeld | ✅ per fase hierboven |
 | Instructies om te starten en te testen | ✅ README |
 
+## Google Play: productie ingediend (2026-11-27)
+
+- Productietoegang goedgekeurd door Google. Productierelease 5 (1.3.0), 100% uitrol, 177 landen
+  plus "rest van de wereld", ingediend voor beoordeling. Daarna: Play Store-link op de website
+  en lanceerdag.
+
 ## Marketing (2026-11-25)
 
 - Zes promotievideo's (animatie, 1080×1920) in `marketing/video`, met voice-overteksten
