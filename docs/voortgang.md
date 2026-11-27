@@ -435,6 +435,12 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
 | Bekende beperkingen vermeld | ✅ per fase hierboven |
 | Instructies om te starten en te testen | ✅ README |
 
+## 🎉 Bonvrij live in Google Play (2026-11-27)
+
+- Google heeft de productierelease goedgekeurd. Play Store:
+  https://play.google.com/store/apps/details?id=nl.bonvrij.app
+- Website: knoppen naar App Store én Google Play.
+
 ## Google Play: productie ingediend (2026-11-27)
 
 - Productietoegang goedgekeurd door Google. Productierelease 5 (1.3.0), 100% uitrol, 177 landen
