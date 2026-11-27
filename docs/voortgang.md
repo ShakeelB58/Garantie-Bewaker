@@ -441,6 +441,19 @@ Zie de [publicatiechecklist](publicatie-checklist.md).
   https://play.google.com/store/apps/details?id=nl.bonvrij.app
 - Website: knoppen naar App Store én Google Play.
 
+## 🚀 Lanceerdag (2026-11-27)
+
+- Website: officiële App Store- en Google Play-knoppen, groter en naast elkaar (ook op de telefoon).
+- Voice-overs gemaakt met ElevenLabs (Starter, commerciële licentie; eerste maand $1, daarna
+  opzeggen). Alle zes video's hebben nu stem en ondertiteling in de Bonvrij-stijl (Poppins, wit
+  blokje, "Bonvrij" in groen), gemaakt op de originele staande video's: `bonvrij-*-stem.mp4`.
+  De gebruiker bewaart ze op de Mac.
+- Zes omslagen (1080×1920, belangrijke inhoud in het midden voor het 3:4-profielraster).
+- **Sam-video geplaatst op TikTok en Instagram** (27-11), met AI-label en "Je merk" op TikTok.
+- Planning Reels (19:00–21:00): Black Friday (28/29-11), Vervaagde bon (1-12), IMEI (4-12),
+  Nieuwe telefoon (8-12), Privacy (11-12).
+- Nog te doen: WhatsApp-bericht, verhaal op privé-account, testers om een review vragen.
+
 ## Google Play: productie ingediend (2026-11-27)
 
 - Productietoegang goedgekeurd door Google. Productierelease 5 (1.3.0), 100% uitrol, 177 landen
